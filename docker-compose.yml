@@ -1,0 +1,55 @@
+version: '3.8'
+
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: backend
+    restart: unless-stopped
+    tty: true
+    environment:
+      SERVICE_NAME: backend
+      SERVICE_TAGS: dev
+    volumes:
+      - ./backend:/var/www
+    networks:
+      - app-network
+    ports:
+      - "9000:9000"
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: frontend
+    restart: unless-stopped
+    tty: true
+    environment:
+      NODE_ENV: development
+    volumes:
+      - ./frontend:/usr/src/app
+    networks:
+      - app-network
+    ports:
+      - "3500:3500"
+
+  mysql:
+    image: mysql:5.7
+    container_name: mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: Zeev_Jewelry
+      MYSQL_USER: yaakov
+      MYSQL_PASSWORD: Ydavidovici35
+      MYSQL_ROOT_PASSWORD: Ydavidovici35
+    volumes:
+      - mysql-data:/var/lib/mysql
+    networks:
+      - app-network
+    ports:
+      - "3306:3306"
+
+networks:
+  app-network:
+    driver: bridge
