@@ -1,0 +1,19 @@
+{
+  "name": "zeev-jewelry",
+  "version": "1.0.0",
+  "scripts": {
+    "start:frontend": "npm --prefix ./frontend start",
+    "dev:frontend": "npm --prefix ./frontend run dev",
+    "build:frontend": "npm --prefix ./frontend run build",
+    "test:frontend": "npm --prefix ./frontend test",
+    "lint:frontend": "npm --prefix ./frontend lint",
+    "docker:frontend:up": "npm --prefix ./frontend run docker:up",
+    "docker:frontend:down": "npm --prefix ./frontend run docker:down",
+    "start:backend": "npm --prefix ./backend start",
+    "migrate:backend": "npm --prefix ./backend run migrate",
+    "test:backend": "npm --prefix ./backend run test",
+    "docker:backend:up": "npm --prefix ./backend run docker:up",
+    "docker:backend:down": "npm --prefix ./backend run docker:down",
+    "docker:build": "npm --prefix ./backend run docker:build && npm --prefix ./frontend run docker:build"
+  }
+}
