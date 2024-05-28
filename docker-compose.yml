@@ -1,47 +1,32 @@
 version: '3.8'
 
 services:
+  mysql:
+    image: mysql:latest
+    ports:
+      - "3308:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: ydavidovici35
+      MYSQL_DATABASE: zeev-jewelry
+      MYSQL_USER: yaakov
+      MYSQL_PASSWORD: ydavidovici35
+
   backend:
     build:
       context: ./backend
       dockerfile: Dockerfile
-    container_name: zeev_jewelry_backend
-    ports:
-      - "9000:9000"
     volumes:
       - ./backend:/var/www
-    networks:
-      - app-network
+    depends_on:
+      - mysql
+    ports:
+      - "9001:9000"
 
   frontend:
     build:
       context: ./frontend
       dockerfile: Dockerfile
-    container_name: zeev_jewelry_frontend
-    ports:
-      - "3500:3500"
     volumes:
       - ./frontend:/usr/src/app
-    networks:
-      - app-network
-
-  mysql:
-    image: mysql:5.7
-    container_name: zeev_jewelry_mysql
-    restart: unless-stopped
-    environment:
-      MYSQL_DATABASE: zeev_jewelry
-      MYSQL_ROOT_PASSWORD: ydavidovici35
     ports:
-      - "3306:3306"
-    volumes:
-      - mysql-data:/var/lib/mysql
-    networks:
-      - app-network
-
-volumes:
-  mysql-data:
-
-networks:
-  app-network:
-    driver: bridge
+      - "3501:3000"
