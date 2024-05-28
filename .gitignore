@@ -104,3 +104,5 @@ out/
 
 # Misc
 *.sublime-workspace
+/vendor
+/node_modules
