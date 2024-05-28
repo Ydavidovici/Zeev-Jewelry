@@ -13,18 +13,17 @@ COPY cacert.pem /usr/local/share/ca-certificates/cacert.crt
 # Update CA certificates
 RUN update-ca-certificates
 
+# Set the NODE_EXTRA_CA_CERTS environment variable
+ENV NODE_EXTRA_CA_CERTS=/usr/local/share/ca-certificates/cacert.crt
+
+# Configure npm to use the CA certificate
+RUN npm config set cafile /usr/local/share/ca-certificates/cacert.crt
+
 # Copy npm configuration if it exists
 COPY .npmrc /root/.npmrc
 
-# Ensure .npmrc is properly configured
-RUN echo "cafile=/usr/local/share/ca-certificates/cacert.crt" >> /root/.npmrc
-
 # Copy package.json and package-lock.json
 COPY package*.json ./
-
-# Debug step: Verify certificate file and npm config
-RUN cat /usr/local/share/ca-certificates/cacert.crt
-RUN npm config get cafile
 
 # Install dependencies
 RUN npm install

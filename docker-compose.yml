@@ -19,7 +19,7 @@ services:
       dockerfile: Dockerfile
     container_name: zeev_jewelry_frontend
     ports:
-      - "3000:3000"
+      - "3500:3500"
     volumes:
       - ./frontend:/usr/src/app
     networks:
@@ -31,7 +31,7 @@ services:
     restart: unless-stopped
     environment:
       MYSQL_DATABASE: zeev_jewelry
-      MYSQL_ROOT_PASSWORD: yourpassword
+      MYSQL_ROOT_PASSWORD: ydavidovici35
     ports:
       - "3306:3306"
     volumes:
