@@ -1,0 +1,13 @@
+php:
+  preset: laravel
+  risky: false
+  enabled:
+      - align_multiline_comment
+      - array_syntax
+  disabled:
+    - no_unused_imports
+  finder:
+    not-name:
+      - index.php
+js: true
+css: true

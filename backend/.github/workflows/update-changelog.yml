@@ -1,0 +1,23 @@
+name: Update Changelog
+
+on:
+    push:
+        branches:
+            - main
+
+jobs:
+    update_changelog:
+        runs-on: ubuntu-latest
+
+        steps:
+            - uses: actions/checkout@v2
+            - name: Update changelog
+              run: |
+                  git config --global user.name 'github-actions[bot]'
+                  git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+                  git fetch
+                  git checkout main
+                  echo "## [Unreleased]\n\n- New updates" >> changelog.md
+                  git add changelog.md
+                  git commit -m "Update changelog"
+                  git push origin main
