@@ -1,5 +1,6 @@
-// database/migrations/2024_05_29_001_create_users_table.php
 <?php
+
+// database/migrations/2024_05_30_001_create_users_table.php
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -13,7 +14,8 @@ class CreateUsersTable extends Migration
             $table->id('user_id');
             $table->string('username')->unique();
             $table->string('password');
-            $table->foreignId('role_id')->constrained('roles')->onDelete('cascade');
+            $table->unsignedBigInteger('role_id');
+            $table->foreign('role_id')->references('role_id')->on('roles')->onDelete('cascade');
             $table->timestamps();
         });
     }
