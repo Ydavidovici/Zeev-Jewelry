@@ -10,6 +10,11 @@ class CreateOrdersTable extends Migration
 {
     public function up()
     {
+        /**
+         * Run the migrations.
+         *
+         * @return void
+         */
         Schema::create('orders', function (Blueprint $table) {
             $table->id('order_id');
             $table->unsignedBigInteger('customer_id');
@@ -20,11 +25,19 @@ class CreateOrdersTable extends Migration
             $table->timestamps();
 
             $table->foreign('customer_id')->references('customer_id')->on('customers')->onDelete('cascade');
+
+            $table->index('customer_id');
+            $table->index('status');
         });
     }
 
     public function down()
     {
+        /**
+         * Reverse the migrations.
+         *
+         * @return void
+         */
         Schema::dropIfExists('orders');
     }
 }

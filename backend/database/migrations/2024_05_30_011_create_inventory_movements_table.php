@@ -8,6 +8,11 @@ use Illuminate\Support\Facades\Schema;
 
 class CreateInventoryMovementsTable extends Migration
 {
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
     public function up()
     {
         Schema::create('inventory_movements', function (Blueprint $table) {
@@ -19,9 +24,18 @@ class CreateInventoryMovementsTable extends Migration
             $table->timestamps();
 
             $table->foreign('inventory_id')->references('inventory_id')->on('inventory')->onDelete('cascade');
+
+            // Adding indexes to inventory_id and type for faster lookups
+            $table->index('inventory_id');
+            $table->index('type');
         });
     }
 
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
     public function down()
     {
         Schema::dropIfExists('inventory_movements');

@@ -10,19 +10,32 @@ class CreatePaymentsTable extends Migration
 {
     public function up()
     {
+        /**
+         * Run the migrations.
+         *
+         * @return void
+         */
         Schema::create('payments', function (Blueprint $table) {
             $table->id('payment_id');
             $table->unsignedBigInteger('order_id');
-            $table->string('payment_type');
+            $table->string('payment_type',255);
             $table->enum('payment_status', ['processed', 'failed', 'pending'])->default('pending');
             $table->timestamps();
 
             $table->foreign('order_id')->references('order_id')->on('orders')->onDelete('cascade');
+
+            $table->index('order_id');
+            $table->index('payment_status');
         });
     }
 
     public function down()
     {
+        /**
+         * Run the migrations.
+         *
+         * @return void
+         */
         Schema::dropIfExists('payments');
     }
 }
