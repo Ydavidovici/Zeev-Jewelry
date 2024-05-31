@@ -5,9 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class User extends Model
+class Inventory extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['username', 'password', 'role_id'];
+    protected $fillable = ['product_id', 'quantity', 'location'];
+
+    protected $table = 'inventories';
 }

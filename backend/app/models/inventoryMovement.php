@@ -5,9 +5,9 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class User extends Model
+class InventoryMovement extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['username', 'password', 'role_id'];
+    protected $fillable = ['inventory_id', 'type', 'quantity_change', 'movement_date'];
 }
