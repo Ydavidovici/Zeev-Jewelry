@@ -11,11 +11,6 @@ class InventoryMovementsTableSeeder extends Seeder
 {
     public function run()
     {
-        /**
-         * Run the database seeds.
-         *
-         * @return void
-         */
         InventoryMovement::insert([
             [
                 'inventory_id' => 1,
