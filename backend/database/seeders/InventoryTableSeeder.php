@@ -5,13 +5,18 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
+use App\Models\Inventory;
 
 class InventoryTableSeeder extends Seeder
 {
+    /**
+     * Run the database seeds.
+     *
+     * @return void
+     */
     public function run()
     {
-        DB::table('inventory')->insert([
+        Inventory::insert([
             [
                 'product_id' => 1,
                 'quantity' => 50,
