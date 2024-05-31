@@ -5,13 +5,18 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
+use App\Models\Customer;
 
 class CustomersTableSeeder extends Seeder
 {
+    /**
+     * Run the database seeds.
+     *
+     * @return void
+     */
     public function run()
     {
-        DB::table('customers')->insert([
+        Customer::insert([
             [
                 'user_id' => 2,
                 'address' => '123 Main St, Anytown, USA',

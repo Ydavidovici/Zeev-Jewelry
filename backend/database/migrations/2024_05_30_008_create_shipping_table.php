@@ -21,6 +21,12 @@ class CreateShippingTable extends Migration
             $table->string('shipping_type',255);
             $table->decimal('shipping_cost', 10, 2);
             $table->enum('shipping_status', ['shipped', 'pending', 'delivered'])->default('pending');
+            $table->string('tracking_number')->nullable();
+            $table->string('shipping_address', 255);
+            $table->string('shipping_carrier', 255)->nullable();
+            $table->string('recipient_name', 255);
+            $table->date('estimated_delivery_date')->nullable();
+            $table->text('additional_notes')->nullable();
             $table->timestamps();
 
             $table->foreign('order_id')->references('order_id')->on('orders')->onDelete('cascade');

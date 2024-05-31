@@ -5,13 +5,18 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
+use App\Models\Payment;
 
 class PaymentsTableSeeder extends Seeder
 {
     public function run()
     {
-        DB::table('payments')->insert([
+        /**
+         * Run the database seeds.
+         *
+         * @return void
+         */
+        Payment::insert([
             [
                 'order_id' => 1,
                 'payment_type' => 'Credit Card',

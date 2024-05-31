@@ -5,13 +5,18 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
+use App\Models\InventoryMovement;
 
 class InventoryMovementsTableSeeder extends Seeder
 {
     public function run()
     {
-        DB::table('inventory_movements')->insert([
+        /**
+         * Run the database seeds.
+         *
+         * @return void
+         */
+        InventoryMovement::insert([
             [
                 'inventory_id' => 1,
                 'type' => 'addition',

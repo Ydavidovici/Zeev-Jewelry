@@ -5,13 +5,18 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
+use App\Models\OrderDetail;
 
 class OrderDetailsTableSeeder extends Seeder
 {
     public function run()
     {
-        DB::table('order_details')->insert([
+        /**
+         * Run the database seeds.
+         *
+         * @return void
+         */
+        OrderDetail::insert([
             [
                 'order_id' => 1,
                 'product_id' => 2,
