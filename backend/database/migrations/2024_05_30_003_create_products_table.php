@@ -10,21 +10,33 @@ class CreateProductsTable extends Migration
 {
     public function up()
     {
+        /**
+         * Run the migrations.
+         *
+         * @return void
+         */
         Schema::create('products', function (Blueprint $table) {
             $table->id('product_id');
-            $table->string('product_name');
+            $table->string('product_name',255);
             $table->text('description')->nullable();
             $table->decimal('price', 10, 2);
             $table->unsignedBigInteger('category_id');
-            $table->string('image_url')->nullable();
+            $table->string('image_url',255)->nullable();
             $table->timestamps();
 
             $table->foreign('category_id')->references('category_id')->on('categories')->onDelete('cascade');
+
+            $table->index('product_name');
         });
     }
 
     public function down()
     {
+        /**
+         * Reverse the migrations.
+         *
+         * @return void
+         */
         Schema::dropIfExists('products');
     }
 }
