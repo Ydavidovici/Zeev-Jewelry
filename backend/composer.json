@@ -1,7 +1,7 @@
 {
-    "name": "laravel/laravel",
+    "name": "Zeev-Jewelry",
     "type": "project",
-    "description": "The skeleton application for the Laravel framework.",
+    "description": "The Code for Zeev-Jewelry",
     "keywords": ["laravel", "framework"],
     "license": "MIT",
     "require": {
