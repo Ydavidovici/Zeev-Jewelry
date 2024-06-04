@@ -143,3 +143,5 @@ next-env.d.ts
 frontend/.npmrc
 frontend/cacert.pem
 frontend/node_modules
+identifier.sqlite
+*.sqlite
