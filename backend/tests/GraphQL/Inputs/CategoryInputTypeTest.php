@@ -1,6 +1,6 @@
 <?php
 
-namespace tests\GraphQL\Inputs;
+namespace Tests\GraphQL\Inputs;
 
 use Tests\TestCase;
 
@@ -9,23 +9,21 @@ class CategoryInputTypeTest extends TestCase
     public function testCategoryInputType()
     {
         $response = $this->graphql('
-            mutation($input: CategoryInput!) {
-                createCategory(input: $input) {
+            mutation {
+                createCategory(input: {
+                    name: "Test Category"
+                }) {
                     id
-                    category_name
+                    name
                 }
             }
-        ', [
-            'input' => [
-                'category_name' => 'Necklaces'
-            ],
-        ]);
+        ');
 
         $response->assertJsonStructure([
             'data' => [
                 'createCategory' => [
                     'id',
-                    'category_name'
+                    'name'
                 ]
             ]
         ]);

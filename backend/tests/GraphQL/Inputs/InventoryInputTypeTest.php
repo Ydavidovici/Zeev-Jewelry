@@ -1,6 +1,6 @@
 <?php
 
-namespace tests\GraphQL\Inputs;
+namespace Tests\GraphQL\Inputs;
 
 use Tests\TestCase;
 
@@ -8,36 +8,30 @@ class InventoryInputTypeTest extends TestCase
 {
     public function testInventoryInputType()
     {
-        $response = $this->graphql('
-            mutation($input: InventoryInput!) {
-                createInventory(input: $input) {
-                    id
-                    product {
-                        id
-                    }
+        $query = '
+            mutation {
+                createInventory(input: {
+                    product_id: 1,
+                    quantity: 100,
+                    location: "Warehouse 1"
+                }) {
+                    product_id
                     quantity
                     location
                 }
             }
-        ', [
-            'input' => [
-                'product_id' => 1,
-                'quantity' => 50,
-                'location' => 'Warehouse 1'
-            ],
-        ]);
+        ';
+
+        $response = $this->graphql($query);
 
         $response->assertJsonStructure([
             'data' => [
                 'createInventory' => [
-                    'id',
-                    'product' => [
-                        'id'
-                    ],
+                    'product_id',
                     'quantity',
-                    'location'
-                ]
-            ]
+                    'location',
+                ],
+            ],
         ]);
     }
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace tests\GraphQL\Inputs;
+namespace Tests\GraphQL\Inputs;
 
 use Tests\TestCase;
 

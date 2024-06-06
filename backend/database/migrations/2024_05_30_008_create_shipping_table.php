@@ -1,15 +1,15 @@
 <?php
 
-// database/migrations/2024_05_30_008_create_shippings_table.php
+
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateShippingsTable extends Migration
+class CreateShippingTable extends Migration
 {
     public function up()
     {
-        Schema::create('shippings', function (Blueprint $table) {
+        Schema::create('shipping', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('order_id');
             $table->string('shipping_type');
@@ -29,6 +29,6 @@ class CreateShippingsTable extends Migration
 
     public function down()
     {
-        Schema::dropIfExists('shippings');
+        Schema::dropIfExists('shipping');
     }
 }

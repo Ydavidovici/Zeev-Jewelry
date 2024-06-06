@@ -1,7 +1,5 @@
 <?php
 
-// database/seeders/InventoryTableSeeder.php
-
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
@@ -12,21 +10,9 @@ class InventoryTableSeeder extends Seeder
     public function run()
     {
         Inventory::insert([
-            [
-                'product_id' => 1,
-                'quantity' => 50,
-                'location' => 'Warehouse 1'
-            ],
-            [
-                'product_id' => 2,
-                'quantity' => 30,
-                'location' => 'Warehouse 1'
-            ],
-            [
-                'product_id' => 3,
-                'quantity' => 20,
-                'location' => 'Warehouse 2'
-            ],
+            ['location' => 'Warehouse 1', 'product_id' => 1, 'quantity' => 100],
+            ['location' => 'Warehouse 2', 'product_id' => 2, 'quantity' => 50],
+            ['location' => 'Warehouse 3', 'product_id' => 3, 'quantity' => 200],
         ]);
     }
 }
