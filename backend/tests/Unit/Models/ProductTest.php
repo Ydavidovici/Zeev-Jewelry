@@ -1,9 +1,10 @@
 <?php
 
-namespace Tests\Unit\Models;
+namespace backend\tests\Unit\Models;
 
-use Tests\TestCase;
+use App\Models\Category;
 use App\Models\Product;
+use backend\tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class ProductTest extends TestCase
@@ -13,11 +14,12 @@ class ProductTest extends TestCase
     /** @test */
     public function it_creates_a_product()
     {
+        $category = Category::factory()->create(); // Create a category first
         $product = Product::factory()->create([
             'product_name' => 'Gold Necklace',
             'description' => 'A beautiful gold necklace',
             'price' => 499.99,
-            'category_id' => 1,
+            'category_id' => $category->id,
         ]);
 
         $this->assertDatabaseHas('products', ['product_name' => 'Gold Necklace']);

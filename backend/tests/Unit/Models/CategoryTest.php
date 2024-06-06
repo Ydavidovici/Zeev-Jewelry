@@ -1,9 +1,9 @@
 <?php
 
-namespace Tests\Unit\Models;
+namespace backend\tests\Unit\Models;
 
-use Tests\TestCase;
 use App\Models\Category;
+use backend\tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class CategoryTest extends TestCase

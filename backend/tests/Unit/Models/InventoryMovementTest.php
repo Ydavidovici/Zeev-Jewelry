@@ -1,9 +1,10 @@
 <?php
 
-namespace Tests\Unit\Models;
+namespace backend\tests\Unit\Models;
 
-use Tests\TestCase;
+use App\Models\Inventory;
 use App\Models\InventoryMovement;
+use backend\tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class InventoryMovementTest extends TestCase
@@ -13,8 +14,9 @@ class InventoryMovementTest extends TestCase
     /** @test */
     public function it_creates_an_inventory_movement()
     {
+        $inventory = Inventory::factory()->create(); // Create an inventory first
         $inventoryMovement = InventoryMovement::factory()->create([
-            'inventory_id' => 1,
+            'inventory_id' => $inventory->id,
             'type' => 'addition',
             'quantity_change' => 10,
         ]);

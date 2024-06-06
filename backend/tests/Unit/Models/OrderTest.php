@@ -1,9 +1,10 @@
 <?php
 
-namespace Tests\Unit\Models;
+namespace backend\tests\Unit\Models;
 
-use Tests\TestCase;
+use App\Models\Customer;
 use App\Models\Order;
+use backend\tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class OrderTest extends TestCase
@@ -13,8 +14,9 @@ class OrderTest extends TestCase
     /** @test */
     public function it_creates_an_order()
     {
+        $customer = Customer::factory()->create(); // Create a customer first
         $order = Order::factory()->create([
-            'customer_id' => 1,
+            'customer_id' => $customer->id,
             'order_date' => now(),
             'total_amount' => 100.00,
             'is_guest' => false,
