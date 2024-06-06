@@ -1,9 +1,11 @@
 <?php
 
-namespace Tests\Unit\Models;
+namespace backend\tests\Unit\Models;
 
-use Tests\TestCase;
+use App\Models\Product;
+use App\Models\Customer;
 use App\Models\Review;
+use backend\tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class ReviewTest extends TestCase
@@ -13,9 +15,11 @@ class ReviewTest extends TestCase
     /** @test */
     public function it_creates_a_review()
     {
+        $product = Product::factory()->create(); // Create a product first
+        $customer = Customer::factory()->create(); // Create a customer first
         $review = Review::factory()->create([
-            'product_id' => 1,
-            'customer_id' => 1,
+            'product_id' => $product->id,
+            'customer_id' => $customer->id,
             'review_text' => 'Great product!',
             'rating' => 5,
         ]);

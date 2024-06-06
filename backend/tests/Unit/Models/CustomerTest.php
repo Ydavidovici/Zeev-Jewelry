@@ -1,9 +1,10 @@
 <?php
 
-namespace Tests\Unit\Models;
+namespace backend\tests\Unit\Models;
 
-use Tests\TestCase;
+use App\Models\User;
 use App\Models\Customer;
+use backend\tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class CustomerTest extends TestCase
@@ -13,8 +14,9 @@ class CustomerTest extends TestCase
     /** @test */
     public function it_creates_a_customer()
     {
+        $user = User::factory()->create(); // Create a user first
         $customer = Customer::factory()->create([
-            'user_id' => 1,
+            'user_id' => $user->id,
             'address' => '123 Main St',
             'phone_number' => '123-456-7890',
             'email' => 'customer@example.com',
