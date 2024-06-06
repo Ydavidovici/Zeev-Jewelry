@@ -1,6 +1,6 @@
 <?php
 
-namespace tests\GraphQL\Mutations;
+namespace Tests\GraphQL\Mutations;
 
 use App\Models\Order;
 use Tests\TestCase;

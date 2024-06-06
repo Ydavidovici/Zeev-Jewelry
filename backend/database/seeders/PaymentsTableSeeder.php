@@ -1,7 +1,6 @@
 <?php
 
 // database/seeders/PaymentsTableSeeder.php
-
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
@@ -11,22 +10,9 @@ class PaymentsTableSeeder extends Seeder
 {
     public function run()
     {
-        /**
-         * Run the database seeds.
-         *
-         * @return void
-         */
         Payment::insert([
-            [
-                'order_id' => 1,
-                'payment_type' => 'Credit Card',
-                'payment_status' => 'processed'
-            ],
-            [
-                'order_id' => 2,
-                'payment_type' => 'PayPal',
-                'payment_status' => 'pending'
-            ],
+            ['order_id' => 1, 'payment_type' => 'Credit Card', 'payment_status' => 'processed'],
+            ['order_id' => 2, 'payment_type' => 'PayPal', 'payment_status' => 'pending'],
         ]);
     }
 }

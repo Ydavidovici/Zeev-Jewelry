@@ -16,6 +16,7 @@ class UserFactory extends Factory
             'username' => $this->faker->unique()->userName,
             'password' => bcrypt('password'), // password
             'role_id' => Role::factory(),
+            'email' => $this->faker->unique()->safeEmail,
         ];
     }
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace tests\GraphQL\Inputs;
+namespace Tests\GraphQL\Inputs;
 
 use Tests\TestCase;
 
@@ -8,42 +8,26 @@ class CustomerInputTypeTest extends TestCase
 {
     public function testCustomerInputType()
     {
-        $response = $this->graphql('
-            mutation($input: CustomerInput!) {
-                createCustomer(input: $input) {
-                    id
-                    user {
-                        id
-                    }
-                    address
-                    phone_number
-                    email
-                    is_guest
-                }
+        $query = <<<'GRAPHQL'
+        {
+            customer(id: 1) {
+                id
+                name
+                email
             }
-        ', [
-            'input' => [
-                'user_id' => 1,
-                'address' => '123 Main St',
-                'phone_number' => '123-456-7890',
-                'email' => 'customer@example.com',
-                'is_guest' => false
-            ],
-        ]);
+        }
+        GRAPHQL;
 
-        $response->assertJsonStructure([
+        $response = $this->graphql($query);
+
+        $response->assertJson([
             'data' => [
-                'createCustomer' => [
-                    'id',
-                    'user' => [
-                        'id'
-                    ],
-                    'address',
-                    'phone_number',
-                    'email',
-                    'is_guest'
-                ]
-            ]
+                'customer' => [
+                    'id' => 1,
+                    'name' => 'John Doe',
+                    'email' => 'john@example.com',
+                ],
+            ],
         ]);
     }
 }

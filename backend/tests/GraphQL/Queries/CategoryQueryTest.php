@@ -1,6 +1,6 @@
 <?php
 
-namespace tests\GraphQL\Queries;
+namespace Tests\GraphQL\Queries;
 
 use Tests\TestCase;
 

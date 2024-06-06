@@ -1,17 +1,18 @@
 <?php
 
+
 // database/seeders/ShippingTableSeeder.php
 
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
+use App\Models\Shipping;
 
 class ShippingTableSeeder extends Seeder
 {
     public function run()
     {
-        DB::table('shipping')->insert([
+        Shipping::insert([
             [
                 'order_id' => 1,
                 'shipping_type' => 'Standard',
@@ -21,7 +22,7 @@ class ShippingTableSeeder extends Seeder
                 'shipping_address' => '123 Main St, Anytown, USA',
                 'shipping_carrier' => 'UPS',
                 'recipient_name' => 'John Doe',
-                'estimated_delivery_date' => '2024-06-05',
+                'estimated_delivery_date' => now(),
                 'additional_notes' => 'Leave at the front door.'
             ],
             [
@@ -33,7 +34,7 @@ class ShippingTableSeeder extends Seeder
                 'shipping_address' => '456 Elm St, Othertown, USA',
                 'shipping_carrier' => 'FedEx',
                 'recipient_name' => 'Jane Smith',
-                'estimated_delivery_date' => '2024-06-03',
+                'estimated_delivery_date' => now(),
                 'additional_notes' => 'Handle with care.'
             ],
         ]);

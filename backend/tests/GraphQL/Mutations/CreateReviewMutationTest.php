@@ -1,9 +1,9 @@
 <?php
 
-namespace tests\GraphQL\Mutations;
+namespace Tests\GraphQL\Mutations;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use function Tests\Feature\GraphQL\Mutations\now;
 
 class CreateReviewMutationTest extends TestCase
