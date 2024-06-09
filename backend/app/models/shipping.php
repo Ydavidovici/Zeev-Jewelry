@@ -1,27 +1,29 @@
 <?php
 
-
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Shipping extends Model
 {
-    use HasFactory;
-
     protected $table = 'shipping';
 
     protected $fillable = [
         'order_id',
-        'shipping_type',
-        'shipping_cost',
-        'shipping_status',
+        'address',
+        'city',
+        'state',
+        'postal_code',
+        'country',
+        'shipping_method',
         'tracking_number',
-        'shipping_address',
-        'shipping_carrier',
-        'recipient_name',
-        'estimated_delivery_date',
-        'additional_notes',
+        'status',
+        'created_at',
+        'updated_at'
     ];
+
+    public function order()
+    {
+        return $this->belongsTo(Order::class);
+    }
 }
