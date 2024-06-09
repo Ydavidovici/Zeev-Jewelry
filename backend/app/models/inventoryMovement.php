@@ -2,12 +2,22 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class InventoryMovement extends Model
 {
-    use HasFactory;
+    protected $table = 'inventory_movements';
 
-    protected $fillable = ['inventory_id', 'type', 'quantity_change', 'movement_date'];
+    protected $fillable = [
+        'inventory_id',
+        'quantity',
+        'movement_type',
+        'created_at',
+        'updated_at'
+    ];
+
+    public function inventory()
+    {
+        return $this->belongsTo(Inventory::class);
+    }
 }
