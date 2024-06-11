@@ -1,9 +1,53 @@
 <?php
 
-use App\GraphQL\Queries\{CategoryQuery, CustomerQuery, InventoryQuery, OrderQuery, PaymentQuery, ProductQuery, ReviewQuery, RoleQuery, ShippingQuery, UserQuery};
-use App\GraphQL\Mutations\{CreateCategoryMutation, CreateCustomerMutation, CreateInventoryMutation, CreateOrderMutation, CreatePaymentMutation, CreateProductMutation, CreateReviewMutation, CreateRoleMutation, CreateShippingMutation, CreateUserMutation};
-use App\GraphQL\Types\{CategoryType, CustomerType, InventoryType, InventoryMovementType, OrderDetailType, OrderType, PaymentType, ProductType, ReviewType, RoleType, ShippingType, UserType};
-use App\GraphQL\Inputs\{CategoryInputType, CustomerInputType, InventoryInputType, InventoryMovementInputType, OrderDetailInputType, OrderInputType, PaymentInputType, ProductInputType, ReviewInputType, RoleInputType, ShippingInputType, UserInputType};
+use App\GraphQL\Queries\CategoryQuery;
+use App\GraphQL\Queries\CustomerQuery;
+use App\GraphQL\Queries\InventoryQuery;
+use App\GraphQL\Queries\OrderQuery;
+use App\GraphQL\Queries\PaymentQuery;
+use App\GraphQL\Queries\ProductQuery;
+use App\GraphQL\Queries\ReviewQuery;
+use App\GraphQL\Queries\RoleQuery;
+use App\GraphQL\Queries\ShippingQuery;
+use App\GraphQL\Queries\SimpleQuery; // For testing purposes
+use App\GraphQL\Queries\UserQuery;
+
+use App\GraphQL\Mutations\CreateCategoryMutation;
+use App\GraphQL\Mutations\CreateCustomerMutation;
+use App\GraphQL\Mutations\CreateInventoryMutation;
+use App\GraphQL\Mutations\CreateOrderMutation;
+use App\GraphQL\Mutations\CreatePaymentMutation;
+use App\GraphQL\Mutations\CreateProductMutation;
+use App\GraphQL\Mutations\CreateReviewMutation;
+use App\GraphQL\Mutations\CreateRoleMutation;
+use App\GraphQL\Mutations\CreateShippingMutation;
+use App\GraphQL\Mutations\CreateUserMutation;
+
+use App\GraphQL\Types\CategoryType;
+use App\GraphQL\Types\CustomerType;
+use App\GraphQL\Types\InventoryType;
+use App\GraphQL\Types\InventoryMovementType;
+use App\GraphQL\Types\OrderDetailType;
+use App\GraphQL\Types\OrderType;
+use App\GraphQL\Types\PaymentType;
+use App\GraphQL\Types\ProductType;
+use App\GraphQL\Types\ReviewType;
+use App\GraphQL\Types\RoleType;
+use App\GraphQL\Types\ShippingType;
+use App\GraphQL\Types\UserType;
+
+use App\GraphQL\Inputs\CategoryInputType;
+use App\GraphQL\Inputs\CustomerInputType;
+use App\GraphQL\Inputs\InventoryInputType;
+use App\GraphQL\Inputs\InventoryMovementInputType;
+use App\GraphQL\Inputs\OrderDetailInputType;
+use App\GraphQL\Inputs\OrderInputType;
+use App\GraphQL\Inputs\PaymentInputType;
+use App\GraphQL\Inputs\ProductInputType;
+use App\GraphQL\Inputs\ReviewInputType;
+use App\GraphQL\Inputs\RoleInputType;
+use App\GraphQL\Inputs\ShippingInputType;
+use App\GraphQL\Inputs\UserInputType;
 
 return [
     'prefix' => 'graphql',
@@ -14,6 +58,7 @@ return [
     'schemas' => [
         'default' => [
             'query' => [
+                'simpleQuery' => SimpleQuery::class,
                 'category' => CategoryQuery::class,
                 'customer' => CustomerQuery::class,
                 'inventory' => InventoryQuery::class,
