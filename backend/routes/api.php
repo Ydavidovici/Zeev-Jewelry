@@ -1,7 +1,7 @@
 <?php
 
-use Rebing\GraphQL\Support\GraphQLController;
+use Illuminate\Support\Facades\Route;
+use Rebing\GraphQL\GraphQLController;
 
-Route::group(['prefix' => 'graphql', 'middleware' => ['api']], function () {
-    Route::post('/', [GraphQLController::class, 'query']);
-});
+// Define the route for the GraphQL endpoint
+Route::post('/graphql', [GraphQLController::class, 'query'])->middleware('api');

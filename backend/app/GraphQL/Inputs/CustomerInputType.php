@@ -3,13 +3,13 @@
 namespace App\GraphQL\Inputs;
 
 use GraphQL\Type\Definition\Type;
-use Rebing\GraphQL\Support\InputType;
+use Rebing\GraphQL\Support\InputType as GraphQLInputType;
 
-class CustomerInputType extends InputType
+class CustomerInputType extends GraphQLInputType
 {
     protected $attributes = [
         'name' => 'CustomerInput',
-        'description' => 'Input type for customer',
+        'description' => 'An input type for customer',
     ];
 
     public function fields(): array
@@ -17,7 +17,7 @@ class CustomerInputType extends InputType
         return [
             'user_id' => [
                 'type' => Type::nonNull(Type::id()),
-                'description' => 'The ID of the associated user',
+                'description' => 'The ID of the user associated with the customer',
             ],
             'address' => [
                 'type' => Type::nonNull(Type::string()),

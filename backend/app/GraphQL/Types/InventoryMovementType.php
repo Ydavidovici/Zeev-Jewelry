@@ -24,15 +24,15 @@ class InventoryMovementType extends GraphQLType
             ],
             'inventory' => [
                 'type' => GraphQL::type('Inventory'),
-                'description' => 'The inventory record associated with the movement',
+                'description' => 'The inventory related to the movement',
             ],
-            'type' => [
-                'type' => Type::nonNull(Type::string()),
-                'description' => 'The type of movement (addition or subtraction)',
-            ],
-            'quantity_change' => [
+            'quantity' => [
                 'type' => Type::nonNull(Type::int()),
-                'description' => 'The change in quantity',
+                'description' => 'The quantity moved',
+            ],
+            'movement_type' => [
+                'type' => Type::nonNull(Type::string()),
+                'description' => 'The type of movement (e.g., IN, OUT)',
             ],
             'movement_date' => [
                 'type' => Type::nonNull(Type::string()),

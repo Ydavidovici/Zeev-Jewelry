@@ -2,10 +2,10 @@
 
 namespace App\GraphQL\Types;
 
-use App\GraphQL\Types\GraphQL;
 use App\Models\Shipping;
 use GraphQL\Type\Definition\Type;
 use Rebing\GraphQL\Support\Type as GraphQLType;
+use Rebing\GraphQL\Support\Facades\GraphQL;
 
 class ShippingType extends GraphQLType
 {

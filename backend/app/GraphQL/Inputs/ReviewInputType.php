@@ -3,13 +3,13 @@
 namespace App\GraphQL\Inputs;
 
 use GraphQL\Type\Definition\Type;
-use Rebing\GraphQL\Support\InputType;
+use Rebing\GraphQL\Support\InputType as GraphQLInputType;
 
-class ReviewInputType extends InputType
+class ReviewInputType extends GraphQLInputType
 {
     protected $attributes = [
         'name' => 'ReviewInput',
-        'description' => 'Input type for review',
+        'description' => 'An input type for reviews',
     ];
 
     public function fields(): array
@@ -21,7 +21,7 @@ class ReviewInputType extends InputType
             ],
             'customer_id' => [
                 'type' => Type::nonNull(Type::id()),
-                'description' => 'The ID of the customer writing the review',
+                'description' => 'The ID of the customer who wrote the review',
             ],
             'review_text' => [
                 'type' => Type::string(),
@@ -30,6 +30,10 @@ class ReviewInputType extends InputType
             'rating' => [
                 'type' => Type::nonNull(Type::int()),
                 'description' => 'The rating given by the customer',
+            ],
+            'review_date' => [
+                'type' => Type::nonNull(Type::string()),
+                'description' => 'The date the review was written',
             ],
         ];
     }

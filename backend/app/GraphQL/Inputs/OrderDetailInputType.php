@@ -3,13 +3,13 @@
 namespace App\GraphQL\Inputs;
 
 use GraphQL\Type\Definition\Type;
-use Rebing\GraphQL\Support\InputType;
+use Rebing\GraphQL\Support\InputType as GraphQLInputType;
 
-class OrderDetailInputType extends InputType
+class OrderDetailInputType extends GraphQLInputType
 {
     protected $attributes = [
         'name' => 'OrderDetailInput',
-        'description' => 'Input type for order detail',
+        'description' => 'An input type for order details',
     ];
 
     public function fields(): array
@@ -17,11 +17,11 @@ class OrderDetailInputType extends InputType
         return [
             'order_id' => [
                 'type' => Type::nonNull(Type::id()),
-                'description' => 'The ID of the order',
+                'description' => 'The ID of the order associated with the detail',
             ],
             'product_id' => [
                 'type' => Type::nonNull(Type::id()),
-                'description' => 'The ID of the product',
+                'description' => 'The ID of the product in the order detail',
             ],
             'quantity' => [
                 'type' => Type::nonNull(Type::int()),

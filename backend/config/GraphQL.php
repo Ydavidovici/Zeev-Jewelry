@@ -1,79 +1,95 @@
 <?php
 
-use App\GraphQL\Queries\CategoryQuery;
-use App\GraphQL\Queries\CustomerQuery;
-use App\GraphQL\Queries\InventoryQuery;
-use App\GraphQL\Queries\OrderQuery;
-use App\GraphQL\Queries\PaymentQuery;
-use App\GraphQL\Queries\ProductQuery;
-use App\GraphQL\Queries\ReviewQuery;
-use App\GraphQL\Queries\RoleQuery;
-use App\GraphQL\Queries\ShippingQuery;
-use App\GraphQL\Queries\SimpleQuery; // For testing purposes
-use App\GraphQL\Queries\UserQuery;
+use App\GraphQL\Queries\{
+    CategoryQuery,
+    CustomerQuery,
+    InventoryMovementQuery,
+    InventoryQuery,
+    OrderDetailQuery,
+    OrderQuery,
+    PaymentQuery,
+    ProductQuery,
+    ReviewQuery,
+    RoleQuery,
+    ShippingQuery,
+    SimpleQuery,
+    UserQuery
+};
 
-use App\GraphQL\Mutations\CreateCategoryMutation;
-use App\GraphQL\Mutations\CreateCustomerMutation;
-use App\GraphQL\Mutations\CreateInventoryMutation;
-use App\GraphQL\Mutations\CreateOrderMutation;
-use App\GraphQL\Mutations\CreatePaymentMutation;
-use App\GraphQL\Mutations\CreateProductMutation;
-use App\GraphQL\Mutations\CreateReviewMutation;
-use App\GraphQL\Mutations\CreateRoleMutation;
-use App\GraphQL\Mutations\CreateShippingMutation;
-use App\GraphQL\Mutations\CreateUserMutation;
+use App\GraphQL\Mutations\{
+    CreateCategoryMutation,
+    CreateCustomerMutation,
+    CreateInventoryMovementMutation,
+    CreateInventoryMutation,
+    CreateOrderDetailMutation,
+    CreateOrderMutation,
+    CreatePaymentMutation,
+    CreateProductMutation,
+    CreateReviewMutation,
+    CreateRoleMutation,
+    CreateShippingMutation,
+    CreateUserMutation
+};
 
-use App\GraphQL\Types\CategoryType;
-use App\GraphQL\Types\CustomerType;
-use App\GraphQL\Types\InventoryType;
-use App\GraphQL\Types\InventoryMovementType;
-use App\GraphQL\Types\OrderDetailType;
-use App\GraphQL\Types\OrderType;
-use App\GraphQL\Types\PaymentType;
-use App\GraphQL\Types\ProductType;
-use App\GraphQL\Types\ReviewType;
-use App\GraphQL\Types\RoleType;
-use App\GraphQL\Types\ShippingType;
-use App\GraphQL\Types\UserType;
+use App\GraphQL\Types\{
+    CategoryType,
+    CustomerType,
+    InventoryMovementType,
+    InventoryType,
+    OrderDetailType,
+    OrderType,
+    PaymentType,
+    ProductType,
+    ReviewType,
+    RoleType,
+    ShippingType,
+    UserType
+};
 
-use App\GraphQL\Inputs\CategoryInputType;
-use App\GraphQL\Inputs\CustomerInputType;
-use App\GraphQL\Inputs\InventoryInputType;
-use App\GraphQL\Inputs\InventoryMovementInputType;
-use App\GraphQL\Inputs\OrderDetailInputType;
-use App\GraphQL\Inputs\OrderInputType;
-use App\GraphQL\Inputs\PaymentInputType;
-use App\GraphQL\Inputs\ProductInputType;
-use App\GraphQL\Inputs\ReviewInputType;
-use App\GraphQL\Inputs\RoleInputType;
-use App\GraphQL\Inputs\ShippingInputType;
-use App\GraphQL\Inputs\UserInputType;
+use App\GraphQL\Inputs\{
+    CategoryInputType,
+    CustomerInputType,
+    InventoryInputType,
+    InventoryMovementInputType,
+    OrderDetailInputType,
+    OrderInputType,
+    PaymentInputType,
+    ProductInputType,
+    ReviewInputType,
+    RoleInputType,
+    ShippingInputType,
+    UserInputType
+};
 
 return [
     'prefix' => 'graphql',
     'routes' => '{graphql_schema?}',
     'controllers' => \Rebing\GraphQL\GraphQLController::class . '@query',
-    'middleware' => [],
+    'middleware' => [], // Add necessary middleware here
     'default_schema' => 'default',
     'schemas' => [
         'default' => [
             'query' => [
+                'categoryQuery' => CategoryQuery::class,
+                'customerQuery' => CustomerQuery::class,
+                'inventoryMovementQuery' => InventoryMovementQuery::class,
+                'inventoryQuery' => InventoryQuery::class,
+                'orderDetailQuery' => OrderDetailQuery::class,
+                'orderQuery' => OrderQuery::class,
+                'paymentQuery' => PaymentQuery::class,
+                'productQuery' => ProductQuery::class,
+                'reviewQuery' => ReviewQuery::class,
+                'roleQuery' => RoleQuery::class,
+                'shippingQuery' => ShippingQuery::class,
                 'simpleQuery' => SimpleQuery::class,
-                'category' => CategoryQuery::class,
-                'customer' => CustomerQuery::class,
-                'inventory' => InventoryQuery::class,
-                'order' => OrderQuery::class,
-                'payment' => PaymentQuery::class,
-                'product' => ProductQuery::class,
-                'review' => ReviewQuery::class,
-                'role' => RoleQuery::class,
-                'shipping' => ShippingQuery::class,
-                'user' => UserQuery::class,
+                'userQuery' => UserQuery::class,
             ],
             'mutation' => [
                 'createCategory' => CreateCategoryMutation::class,
                 'createCustomer' => CreateCustomerMutation::class,
+                'createInventoryMovement' => CreateInventoryMovementMutation::class,
                 'createInventory' => CreateInventoryMutation::class,
+                'createOrderDetail' => CreateOrderDetailMutation::class,
                 'createOrder' => CreateOrderMutation::class,
                 'createPayment' => CreatePaymentMutation::class,
                 'createProduct' => CreateProductMutation::class,
@@ -83,36 +99,34 @@ return [
                 'createUser' => CreateUserMutation::class,
             ],
             'types' => [
-                'Category' => CategoryType::class,
-                'Customer' => CustomerType::class,
-                'Inventory' => InventoryType::class,
-                'InventoryMovement' => InventoryMovementType::class,
-                'OrderDetail' => OrderDetailType::class,
-                'Order' => OrderType::class,
-                'Payment' => PaymentType::class,
-                'Product' => ProductType::class,
-                'Review' => ReviewType::class,
-                'Role' => RoleType::class,
-                'Shipping' => ShippingType::class,
-                'User' => UserType::class,
-            ],
-            'inputs' => [
-                'CategoryInput' => CategoryInputType::class,
-                'CustomerInput' => CustomerInputType::class,
-                'InventoryInput' => InventoryInputType::class,
-                'InventoryMovementInput' => InventoryMovementInputType::class,
-                'OrderDetailInput' => OrderDetailInputType::class,
-                'OrderInput' => OrderInputType::class,
-                'PaymentInput' => PaymentInputType::class,
-                'ProductInput' => ProductInputType::class,
-                'ReviewInput' => ReviewInputType::class,
-                'RoleInput' => RoleInputType::class,
-                'ShippingInput' => ShippingInputType::class,
-                'UserInput' => UserInputType::class,
+                CategoryType::class,
+                CustomerType::class,
+                InventoryMovementType::class,
+                InventoryType::class,
+                OrderDetailType::class,
+                OrderType::class,
+                PaymentType::class,
+                ProductType::class,
+                ReviewType::class,
+                RoleType::class,
+                ShippingType::class,
+                UserType::class,
+                CategoryInputType::class,
+                CustomerInputType::class,
+                InventoryInputType::class,
+                InventoryMovementInputType::class,
+                OrderDetailInputType::class,
+                OrderInputType::class,
+                PaymentInputType::class,
+                ProductInputType::class,
+                ReviewInputType::class,
+                RoleInputType::class,
+                ShippingInputType::class,
+                UserInputType::class,
             ],
         ],
     ],
-    'types' => [],
+    'types' => [], // Define global types here if needed
     'error_formatter' => ['\Rebing\GraphQL\GraphQL', 'formatError'],
     'errors_handler' => ['\Rebing\GraphQL\GraphQL', 'handleErrors'],
     'params_key' => 'params',
@@ -122,6 +136,6 @@ return [
     'graphiql' => [
         'enabled' => true,
         'route' => '/graphiql',
-        'middleware' => [],
+        'middleware' => [], // Add necessary middleware here
     ],
 ];

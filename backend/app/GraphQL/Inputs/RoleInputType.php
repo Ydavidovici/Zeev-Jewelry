@@ -3,13 +3,13 @@
 namespace App\GraphQL\Inputs;
 
 use GraphQL\Type\Definition\Type;
-use Rebing\GraphQL\Support\InputType;
+use Rebing\GraphQL\Support\InputType as GraphQLInputType;
 
-class RoleInputType extends InputType
+class RoleInputType extends GraphQLInputType
 {
     protected $attributes = [
         'name' => 'RoleInput',
-        'description' => 'Input type for role',
+        'description' => 'An input type for roles',
     ];
 
     public function fields(): array

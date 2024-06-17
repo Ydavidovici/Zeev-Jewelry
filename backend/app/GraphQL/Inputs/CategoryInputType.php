@@ -3,13 +3,13 @@
 namespace App\GraphQL\Inputs;
 
 use GraphQL\Type\Definition\Type;
-use Rebing\GraphQL\Support\InputType;
+use Rebing\GraphQL\Support\InputType as GraphQLInputType;
 
-class CategoryInputType extends InputType
+class CategoryInputType extends GraphQLInputType
 {
     protected $attributes = [
         'name' => 'CategoryInput',
-        'description' => 'Input type for category',
+        'description' => 'An input type for category',
     ];
 
     public function fields(): array

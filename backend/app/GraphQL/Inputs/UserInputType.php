@@ -3,13 +3,13 @@
 namespace App\GraphQL\Inputs;
 
 use GraphQL\Type\Definition\Type;
-use Rebing\GraphQL\Support\InputType;
+use Rebing\GraphQL\Support\InputType as GraphQLInputType;
 
-class UserInputType extends InputType
+class UserInputType extends GraphQLInputType
 {
     protected $attributes = [
         'name' => 'UserInput',
-        'description' => 'Input type for user',
+        'description' => 'An input type for users',
     ];
 
     public function fields(): array
@@ -20,16 +20,12 @@ class UserInputType extends InputType
                 'description' => 'The username of the user',
             ],
             'email' => [
-                'type' => Type::nonNull(Type::string()),
+                'type' => Type::string(),
                 'description' => 'The email of the user',
-            ],
-            'password' => [
-                'type' => Type::nonNull(Type::string()),
-                'description' => 'The password of the user',
             ],
             'role_id' => [
                 'type' => Type::nonNull(Type::id()),
-                'description' => 'The role ID of the user',
+                'description' => 'The ID of the role of the user',
             ],
         ];
     }

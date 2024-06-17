@@ -2,16 +2,16 @@
 
 namespace App\GraphQL\Mutations;
 
-use App\Models\Category;
+use Rebing\GraphQL\Support\Mutation;
 use GraphQL\Type\Definition\Type;
 use Rebing\GraphQL\Support\Facades\GraphQL;
-use Rebing\GraphQL\Support\Mutation;
+use App\Models\Category;
 
 class CreateCategoryMutation extends Mutation
 {
     protected $attributes = [
         'name' => 'createCategory',
-        'description' => 'Create a new category',
+        'description' => 'Create a new category'
     ];
 
     public function type(): Type
@@ -23,17 +23,15 @@ class CreateCategoryMutation extends Mutation
     {
         return [
             'input' => [
-                'type' => GraphQL::type('CategoryInput'),
-                'description' => 'Input for category',
+                'type' => GraphQL::type('CategoryInput')
             ],
         ];
     }
 
     public function resolve($root, $args)
     {
-        $input = $args['input'];
         $category = new Category();
-        $category->category_name = $input['category_name'];
+        $category->category_name = $args['input']['category_name'];
         $category->save();
 
         return $category;
