@@ -3,13 +3,13 @@
 namespace App\GraphQL\Inputs;
 
 use GraphQL\Type\Definition\Type;
-use Rebing\GraphQL\Support\InputType;
+use Rebing\GraphQL\Support\InputType as GraphQLInputType;
 
-class InventoryInputType extends InputType
+class InventoryInputType extends GraphQLInputType
 {
     protected $attributes = [
         'name' => 'InventoryInput',
-        'description' => 'Input type for inventory',
+        'description' => 'An input type for inventory',
     ];
 
     public function fields(): array
@@ -17,11 +17,11 @@ class InventoryInputType extends InputType
         return [
             'product_id' => [
                 'type' => Type::nonNull(Type::id()),
-                'description' => 'The product ID of the inventory',
+                'description' => 'The ID of the product in the inventory',
             ],
             'quantity' => [
                 'type' => Type::nonNull(Type::int()),
-                'description' => 'The quantity of the product in inventory',
+                'description' => 'The quantity of the product',
             ],
             'location' => [
                 'type' => Type::nonNull(Type::string()),

@@ -1,8 +1,12 @@
 <?php
 
+
+// app/GraphQL/Queries/CategoryQuery.php
 namespace App\GraphQL\Queries;
 
 use App\Models\Category;
+use Closure;
+use GraphQL\Type\Definition\ResolveInfo;
 use GraphQL\Type\Definition\Type;
 use Rebing\GraphQL\Support\Facades\GraphQL;
 use Rebing\GraphQL\Support\Query;
@@ -28,8 +32,10 @@ class CategoryQuery extends Query
         ];
     }
 
-    public function resolve($root, $args)
+
+    public function resolve($root, array $args, $context, ResolveInfo $resolveInfo, Closure $getSelectFields)
     {
+        \Log::info('Resolving Category with ID: ' . $args['id']);
         return Category::find($args['id']);
     }
 }

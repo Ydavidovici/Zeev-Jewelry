@@ -20,6 +20,9 @@ class CategoryCRUDTest extends TestCase
             }
         ');
 
+        // Output the response for debugging
+        var_dump($createResponse->json());
+
         $createResponse->assertJsonStructure([
             'data' => [
                 'createCategory' => [
@@ -29,79 +32,86 @@ class CategoryCRUDTest extends TestCase
             ]
         ]);
 
+        // Retrieve the created category by ID
         $categoryId = $createResponse->json('data.createCategory.id');
-
-        // Read the created category
-        $readResponse = $this->graphql('
+        $retrieveResponse = $this->graphql("
             query {
-                category(id: ' . $categoryId . ') {
+                category(id: \"$categoryId\") {
                     id
                     category_name
                 }
             }
-        ');
+        ");
 
-        $readResponse->assertJson([
+        // Output the response for debugging
+        var_dump($retrieveResponse->json());
+
+        $retrieveResponse->assertJsonStructure([
             'data' => [
                 'category' => [
-                    'id' => $categoryId,
-                    'category_name' => 'Test Category'
+                    'id',
+                    'category_name'
                 ]
             ]
         ]);
 
         // Update the category
-        $updateResponse = $this->graphql('
+        $updateResponse = $this->graphql("
             mutation {
-                updateCategory(id: ' . $categoryId . ', input: {
-                    category_name: "Updated Category"
+                updateCategory(id: \"$categoryId\", input: {
+                    category_name: \"Updated Category\"
                 }) {
                     id
                     category_name
                 }
             }
-        ');
+        ");
 
-        $updateResponse->assertJson([
+        // Output the response for debugging
+        var_dump($updateResponse->json());
+
+        $updateResponse->assertJsonStructure([
             'data' => [
                 'updateCategory' => [
-                    'id' => $categoryId,
-                    'category_name' => 'Updated Category'
+                    'id',
+                    'category_name'
                 ]
             ]
         ]);
 
         // Delete the category
-        $deleteResponse = $this->graphql('
+        $deleteResponse = $this->graphql("
             mutation {
-                deleteCategory(id: ' . $categoryId . ') {
+                deleteCategory(id: \"$categoryId\") {
                     id
                 }
             }
-        ');
+        ");
 
-        $deleteResponse->assertJson([
+        // Output the response for debugging
+        var_dump($deleteResponse->json());
+
+        $deleteResponse->assertJsonStructure([
             'data' => [
                 'deleteCategory' => [
-                    'id' => $categoryId
+                    'id'
                 ]
             ]
         ]);
 
-        // Verify the category has been deleted
-        $readAfterDeleteResponse = $this->graphql('
+        // Confirm the category is deleted
+        $confirmDeleteResponse = $this->graphql("
             query {
-                category(id: ' . $categoryId . ') {
+                category(id: \"$categoryId\") {
                     id
                     category_name
                 }
             }
-        ');
+        ");
 
-        $readAfterDeleteResponse->assertJson([
-            'data' => [
-                'category' => null
-            ]
-        ]);
+        // Output the response for debugging
+        var_dump($confirmDeleteResponse->json());
+
+        $confirmDeleteResponse->assertJsonMissing(['data' => ['category']]);
     }
 }

@@ -3,13 +3,13 @@
 namespace App\GraphQL\Inputs;
 
 use GraphQL\Type\Definition\Type;
-use Rebing\GraphQL\Support\InputType;
+use Rebing\GraphQL\Support\InputType as GraphQLInputType;
 
-class InventoryMovementInputType extends InputType
+class InventoryMovementInputType extends GraphQLInputType
 {
     protected $attributes = [
         'name' => 'InventoryMovementInput',
-        'description' => 'Input type for inventory movement',
+        'description' => 'An input type for inventory movement',
     ];
 
     public function fields(): array
@@ -17,15 +17,15 @@ class InventoryMovementInputType extends InputType
         return [
             'inventory_id' => [
                 'type' => Type::nonNull(Type::id()),
-                'description' => 'The inventory ID of the movement',
+                'description' => 'The ID of the inventory related to the movement',
             ],
-            'type' => [
-                'type' => Type::nonNull(Type::string()),
-                'description' => 'The type of movement (addition or subtraction)',
-            ],
-            'quantity_change' => [
+            'quantity' => [
                 'type' => Type::nonNull(Type::int()),
-                'description' => 'The change in quantity',
+                'description' => 'The quantity moved',
+            ],
+            'movement_type' => [
+                'type' => Type::nonNull(Type::string()),
+                'description' => 'The type of movement (e.g., IN, OUT)',
             ],
             'movement_date' => [
                 'type' => Type::nonNull(Type::string()),

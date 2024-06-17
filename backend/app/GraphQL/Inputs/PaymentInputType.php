@@ -3,13 +3,13 @@
 namespace App\GraphQL\Inputs;
 
 use GraphQL\Type\Definition\Type;
-use Rebing\GraphQL\Support\InputType;
+use Rebing\GraphQL\Support\InputType as GraphQLInputType;
 
-class PaymentInputType extends InputType
+class PaymentInputType extends GraphQLInputType
 {
     protected $attributes = [
         'name' => 'PaymentInput',
-        'description' => 'Input type for payment',
+        'description' => 'An input type for payments',
     ];
 
     public function fields(): array
@@ -17,7 +17,7 @@ class PaymentInputType extends InputType
         return [
             'order_id' => [
                 'type' => Type::nonNull(Type::id()),
-                'description' => 'The order ID associated with the payment',
+                'description' => 'The ID of the order associated with the payment',
             ],
             'payment_type' => [
                 'type' => Type::nonNull(Type::string()),
