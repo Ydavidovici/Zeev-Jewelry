@@ -65,7 +65,7 @@ return [
     'prefix' => 'graphql',
     'routes' => '{graphql_schema?}',
     'controllers' => \Rebing\GraphQL\GraphQLController::class . '@query',
-    'middleware' => [], // Add necessary middleware here
+    'middleware' => [],
     'default_schema' => 'default',
     'schemas' => [
         'default' => [
@@ -126,7 +126,7 @@ return [
             ],
         ],
     ],
-    'types' => [], // Define global types here if needed
+    'types' => [],
     'error_formatter' => ['\Rebing\GraphQL\GraphQL', 'formatError'],
     'errors_handler' => ['\Rebing\GraphQL\GraphQL', 'handleErrors'],
     'params_key' => 'params',
@@ -136,6 +136,6 @@ return [
     'graphiql' => [
         'enabled' => true,
         'route' => '/graphiql',
-        'middleware' => [], // Add necessary middleware here
+        'middleware' => [],
     ],
 ];
