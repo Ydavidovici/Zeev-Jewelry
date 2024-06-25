@@ -1,6 +1,6 @@
 <?php
 
-namespace backend\tests\Unit\Models;
+namespace Tests\Unit\Models;
 
 use App\Models\Role;
 use backend\tests\TestCase;
