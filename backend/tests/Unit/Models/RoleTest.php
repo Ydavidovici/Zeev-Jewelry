@@ -3,7 +3,7 @@
 namespace Tests\Unit\Models;
 
 use App\Models\Role;
-use backend\tests\TestCase;
+use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class RoleTest extends TestCase

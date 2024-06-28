@@ -31,7 +31,7 @@ class CustomerType extends GraphQLType
                 'description' => 'The address of the customer',
             ],
             'phone_number' => [
-                'type' => Type::string(),
+                'type' => Type::nonNull(Type::string()),
                 'description' => 'The phone number of the customer',
             ],
             'email' => [
@@ -39,7 +39,7 @@ class CustomerType extends GraphQLType
                 'description' => 'The email of the customer',
             ],
             'is_guest' => [
-                'type' => Type::boolean(),
+                'type' => Type::nonNull(Type::boolean()),
                 'description' => 'Whether the customer is a guest',
             ],
         ];

@@ -18,17 +18,41 @@ use App\GraphQL\Queries\{
 
 use App\GraphQL\Mutations\{
     CreateCategoryMutation,
+    UpdateCategoryMutation,
+    DeleteCategoryMutation,
     CreateCustomerMutation,
+    UpdateCustomerMutation,
+    DeleteCustomerMutation,
     CreateInventoryMovementMutation,
+    UpdateInventoryMovementMutation,
+    DeleteInventoryMovementMutation,
     CreateInventoryMutation,
+    UpdateInventoryMutation,
+    DeleteInventoryMutation,
     CreateOrderDetailMutation,
+    UpdateOrderDetailMutation,
+    DeleteOrderDetailMutation,
     CreateOrderMutation,
+    UpdateOrderMutation,
+    DeleteOrderMutation,
     CreatePaymentMutation,
+    UpdatePaymentMutation,
+    DeletePaymentMutation,
     CreateProductMutation,
+    UpdateProductMutation,
+    DeleteProductMutation,
     CreateReviewMutation,
+    UpdateReviewMutation,
+    DeleteReviewMutation,
     CreateRoleMutation,
+    UpdateRoleMutation,
+    DeleteRoleMutation,
     CreateShippingMutation,
-    CreateUserMutation
+    UpdateShippingMutation,
+    DeleteShippingMutation,
+    CreateUserMutation,
+    UpdateUserMutation,
+    DeleteUserMutation
 };
 
 use App\GraphQL\Types\{
@@ -86,17 +110,41 @@ return [
             ],
             'mutation' => [
                 'createCategory' => CreateCategoryMutation::class,
+                'updateCategory' => UpdateCategoryMutation::class,
+                'deleteCategory' => DeleteCategoryMutation::class,
                 'createCustomer' => CreateCustomerMutation::class,
+                'updateCustomer' => UpdateCustomerMutation::class,
+                'deleteCustomer' => DeleteCustomerMutation::class,
                 'createInventoryMovement' => CreateInventoryMovementMutation::class,
+                'updateInventoryMovement' => UpdateInventoryMovementMutation::class,
+                'deleteInventoryMovement' => DeleteInventoryMovementMutation::class,
                 'createInventory' => CreateInventoryMutation::class,
+                'updateInventory' => UpdateInventoryMutation::class,
+                'deleteInventory' => DeleteInventoryMutation::class,
                 'createOrderDetail' => CreateOrderDetailMutation::class,
+                'updateOrderDetail' => UpdateOrderDetailMutation::class,
+                'deleteOrderDetail' => DeleteOrderDetailMutation::class,
                 'createOrder' => CreateOrderMutation::class,
+                'updateOrder' => UpdateOrderMutation::class,
+                'deleteOrder' => DeleteOrderMutation::class,
                 'createPayment' => CreatePaymentMutation::class,
+                'updatePayment' => UpdatePaymentMutation::class,
+                'deletePayment' => DeletePaymentMutation::class,
                 'createProduct' => CreateProductMutation::class,
+                'updateProduct' => UpdateProductMutation::class,
+                'deleteProduct' => DeleteProductMutation::class,
                 'createReview' => CreateReviewMutation::class,
+                'updateReview' => UpdateReviewMutation::class,
+                'deleteReview' => DeleteReviewMutation::class,
                 'createRole' => CreateRoleMutation::class,
+                'updateRole' => UpdateRoleMutation::class,
+                'deleteRole' => DeleteRoleMutation::class,
                 'createShipping' => CreateShippingMutation::class,
+                'updateShipping' => UpdateShippingMutation::class,
+                'deleteShipping' => DeleteShippingMutation::class,
                 'createUser' => CreateUserMutation::class,
+                'updateUser' => UpdateUserMutation::class,
+                'deleteUser' => DeleteUserMutation::class,
             ],
             'types' => [
                 CategoryType::class,
@@ -127,7 +175,31 @@ return [
         ],
     ],
     'types' => [],
-    'error_formatter' => ['\Rebing\GraphQL\GraphQL', 'formatError'],
+    'error_formatter' => function (\GraphQL\Error\Error $e) {
+        $debug = config('app.debug');
+        $message = $e->getMessage();
+        $previous = $e->getPrevious();
+
+        if ($previous) {
+            $message = $previous->getMessage();
+        }
+
+        $error = [
+            'message' => $message,
+            'locations' => $e->getLocations(),
+            'path' => $e->getPath(),
+        ];
+
+        if ($debug) {
+            $error['extensions'] = [
+                'trace' => $e->getTrace(),
+                'file' => $e->getFile(),
+                'line' => $e->getLine(),
+            ];
+        }
+
+        return $error;
+    },
     'errors_handler' => ['\Rebing\GraphQL\GraphQL', 'handleErrors'],
     'params_key' => 'params',
     'batching' => [

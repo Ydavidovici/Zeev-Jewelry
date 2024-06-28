@@ -15,4 +15,9 @@ abstract class TestCase extends BaseTestCase
             'variables' => $variables,
         ]);
     }
+
+    protected function postGraphQL(array $data)
+    {
+        return $this->postJson('/graphql', $data);
+    }
 }

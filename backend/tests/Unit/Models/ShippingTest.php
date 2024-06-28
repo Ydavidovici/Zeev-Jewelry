@@ -4,7 +4,7 @@ namespace Tests\Unit\Models;
 
 use App\Models\Order;
 use App\Models\Shipping;
-use backend\tests\TestCase;
+use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class ShippingTest extends TestCase

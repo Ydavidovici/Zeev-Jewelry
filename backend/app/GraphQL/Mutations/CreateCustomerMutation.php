@@ -60,7 +60,7 @@ class CreateCustomerMutation extends Mutation
         $input['address'] = $purifier->purify($input['address']);
         $input['phone_number'] = $purifier->purify($input['phone_number']);
         $input['email'] = $purifier->purify($input['email']);
-        $input['is_guest'] = $purifier->purify($input['is_guest']);
+        $input['is_guest'] = filter_var($input['is_guest'], FILTER_VALIDATE_BOOLEAN);
 
         // Validate input data
         $validator = Validator::make($input, [
@@ -83,6 +83,9 @@ class CreateCustomerMutation extends Mutation
         $customer->email = $input['email'];
         $customer->is_guest = $input['is_guest'];
         $customer->save();
+
+        // Eager load the user relationship
+        $customer->load('user');
 
         // Logging
         Log::info('Customer created', ['user_id' => $user->id, 'customer_id' => $customer->id]);

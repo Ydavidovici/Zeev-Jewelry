@@ -4,7 +4,7 @@ namespace Tests\Unit\Models;
 
 use App\Models\Inventory;
 use App\Models\InventoryMovement;
-use backend\tests\TestCase;
+use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class InventoryMovementTest extends TestCase

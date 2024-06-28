@@ -1,6 +1,5 @@
 <?php
 
-
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -12,8 +11,8 @@ class CreateInventoryMovementsTable extends Migration
         Schema::create('inventory_movements', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('inventory_id');
-            $table->string('type');
-            $table->integer('quantity_change');
+            $table->string('movement_type');
+            $table->integer('quantity');
             $table->timestamp('movement_date');
             $table->timestamps();
 

@@ -4,7 +4,7 @@ namespace Tests\Unit\Models;
 
 use App\Models\Product;
 use App\Models\Inventory;
-use backend\tests\TestCase;
+use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class InventoryTest extends TestCase
