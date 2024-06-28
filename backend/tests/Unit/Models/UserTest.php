@@ -3,7 +3,7 @@
 namespace Tests\Unit\Models;
 
 use App\Models\User;
-use backend\tests\TestCase;
+use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class UserTest extends TestCase

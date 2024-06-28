@@ -5,7 +5,7 @@ namespace Tests\Unit\Models;
 use App\Models\Order;
 use App\Models\Product;
 use App\Models\OrderDetail;
-use backend\tests\TestCase;
+use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class OrderDetailTest extends TestCase

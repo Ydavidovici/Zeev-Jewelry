@@ -1,5 +1,7 @@
 <?php
 
+// File: app/Models/Category.php
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;

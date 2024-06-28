@@ -42,14 +42,26 @@ class CreateRoleMutation extends Mutation
 
         // Rate limiting
         if (RateLimiter::tooManyAttempts($key, 5)) {
-            throw new \Exception('Too many attempts. Please try again later.');
+            return [
+                'errors' => [
+                    [
+                        'message' => 'Too many attempts. Please try again later.',
+                    ]
+                ],
+            ];
         }
 
         RateLimiter::hit($key, 60);
 
         // Authorization
         if (Gate::denies('create-role', $user)) {
-            throw new \Exception('Unauthorized');
+            return [
+                'errors' => [
+                    [
+                        'message' => 'Unauthorized',
+                    ]
+                ],
+            ];
         }
 
         // Sanitize input data
@@ -64,7 +76,13 @@ class CreateRoleMutation extends Mutation
         ]);
 
         if ($validator->fails()) {
-            throw new \Exception($validator->errors()->first());
+            return [
+                'errors' => [
+                    [
+                        'message' => $validator->errors()->first(),
+                    ]
+                ],
+            ];
         }
 
         // Create the role
@@ -73,7 +91,7 @@ class CreateRoleMutation extends Mutation
         $role->save();
 
         // Logging
-        Log::info('Role created', ['user_id' => $user->id, 'role_id' => $role->id]);
+        Log::info('Role created', ['user_id' => $user->id, 'role_id' => $role->role_id]);
 
         return $role;
     }

@@ -4,7 +4,7 @@ namespace Tests\Unit\Models;
 
 use App\Models\User;
 use App\Models\Customer;
-use backend\tests\TestCase;
+use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class CustomerTest extends TestCase

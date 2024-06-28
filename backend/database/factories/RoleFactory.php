@@ -12,7 +12,7 @@ class RoleFactory extends Factory
     public function definition()
     {
         return [
-            'role_name' => $this->faker->word,
+            'name' => $this->faker->word,
         ];
     }
 }

@@ -57,15 +57,15 @@ class CreateInventoryMovementMutation extends Mutation
         $purifier = new HTMLPurifier($config);
         $input = $args['input'];
         $input['inventory_id'] = $purifier->purify($input['inventory_id']);
-        $input['type'] = $purifier->purify($input['type']);
-        $input['quantity_change'] = $purifier->purify($input['quantity_change']);
+        $input['movement_type'] = $purifier->purify($input['movement_type']);
+        $input['quantity'] = $purifier->purify($input['quantity']);
         $input['movement_date'] = $purifier->purify($input['movement_date']);
 
         // Validate input data
         $validator = Validator::make($input, [
-            'inventory_id' => 'required|integer|exists:inventories,id',
-            'type' => 'required|string|max:255',
-            'quantity_change' => 'required|integer',
+            'inventory_id' => 'required|integer|exists:inventory,id',
+            'movement_type' => 'required|string|max:255',
+            'quantity' => 'required|integer',
             'movement_date' => 'required|date',
         ]);
 
@@ -76,8 +76,8 @@ class CreateInventoryMovementMutation extends Mutation
         // Create the inventory movement
         $inventoryMovement = new InventoryMovement();
         $inventoryMovement->inventory_id = $input['inventory_id'];
-        $inventoryMovement->type = $input['type'];
-        $inventoryMovement->quantity_change = $input['quantity_change'];
+        $inventoryMovement->movement_type = $input['movement_type'];
+        $inventoryMovement->quantity = $input['quantity'];
         $inventoryMovement->movement_date = $input['movement_date'];
         $inventoryMovement->save();
 

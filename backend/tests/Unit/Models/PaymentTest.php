@@ -4,7 +4,7 @@ namespace Tests\Unit\Models;
 
 use App\Models\Order;
 use App\Models\Payment;
-use backend\tests\TestCase;
+use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class PaymentTest extends TestCase
