@@ -21,6 +21,7 @@ class DatabaseSeeder extends Seeder
             ShippingTableSeeder::class,
             ReviewsTableSeeder::class,
             InventoryTableSeeder::class,
+            RolesAndPermissionsSeeder::class
         ]);
     }
 }
