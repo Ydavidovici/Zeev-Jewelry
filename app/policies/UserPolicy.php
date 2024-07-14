@@ -3,10 +3,9 @@
 namespace App\Policies;
 
 use App\Models\User;
-use App\Models\Role;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
-class RolePolicy
+class UserPolicy
 {
     use HandlesAuthorization;
 
@@ -15,7 +14,7 @@ class RolePolicy
         return $user->hasRole('admin');
     }
 
-    public function view(User $user, Role $role)
+    public function view(User $user, User $model)
     {
         return $user->hasRole('admin');
     }
@@ -25,12 +24,12 @@ class RolePolicy
         return $user->hasRole('admin');
     }
 
-    public function update(User $user, Role $role)
+    public function update(User $user, User $model)
     {
         return $user->hasRole('admin');
     }
 
-    public function delete(User $user, Role $role)
+    public function delete(User $user, User $model)
     {
         return $user->hasRole('admin');
     }
