@@ -3,10 +3,9 @@
 namespace App\Http\Middleware;
 
 use Illuminate\Http\Middleware\TrustProxies as Middleware;
-use Fideloper\Proxy\TrustProxies as TrustedProxies;
-use Symfony\Component\HttpFoundation\Request;
+use Fideloper\Proxy\TrustProxies as BaseTrustProxies;
 
-class TrustProxies extends Middleware
+class TrustProxies extends BaseTrustProxies
 {
     protected $proxies;
 
