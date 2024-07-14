@@ -66,5 +66,5 @@ COPY .. /var/www
 RUN chown -R www-data:www-data /var/www
 
 # Expose port 9000 and start php-fpm server
-EXPOSE 9000
+EXPOSE 8000
 CMD ["php-fpm"]
