@@ -14,6 +14,7 @@ use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\ShippingController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\AdminController;
 
 Route::resource('categories', CategoryController::class);
 Route::resource('customers', CustomerController::class);
@@ -58,4 +59,12 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('users', UserController::class);
 
     Route::post('upload', [FileUploadController::class, 'store'])->name('file.upload');
+});
+
+Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->group(function() {
+    Route::get('/', [AdminController::class, 'index'])->name('dashboard');
+    Route::resource('users', UserController::class);
+    Route::resource('categories', CategoryController::class);
+    Route::resource('products', ProductController::class);
+    Route::resource('orders', OrderController::class);
 });

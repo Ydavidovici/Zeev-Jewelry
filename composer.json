@@ -6,6 +6,7 @@
     "license": "MIT",
     "require": {
         "php": "^8.2",
+        "consoletvs/charts": "^6.7",
         "ezyang/htmlpurifier": "^4.17",
         "laravel/framework": "^11.9",
         "laravel/tinker": "^2.9",
