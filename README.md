@@ -30,50 +30,50 @@ cd Zeev-Jewelry
 
 ### Install dependencies:
 ```bash
-- composer install
+composer install
 ```
 ### Create a copy of your .env file:
 ```bash
 cp .env.example .env
 ```
-- ### Generate an application key:
+### Generate an application key:
 ```bash
 php artisan key:generate
 ```
-- ### Configure your database:
-- Update the .env file with your database information. For development, you can use SQLite:
+### Configure your database:
+Update the .env file with your database information. For development, you can use SQLite:
 ```env
 DB_CONNECTION=sqlite
 DB_DATABASE=/absolute/path/to/your/project/database/database.sqlite
 ```
-- ### Run migrations and seeders:
+### Run migrations and seeders:
 ```bash
-- php artisan migrate
-- php artisan db:seed --class=RolesAndPermissionsSeeder
+php artisan migrate
+php artisan db:seed
 ```
-- ### Set up storage link:
+### Set up storage link:
 ```bash
-- php artisan storage:link
+php artisan storage:link
 ```
 
 ## Usage
-- ### Start the local development server:
+### Start the local development server:
 ```bash
-- php artisan serve
+php artisan serve
 ```
-- ### Access the application:
-- Open your browser and go to http://localhost:8000.
+### Access the application:
+Open your browser and go to http://localhost:8000.
 
 ## Testing
-- ### Run the tests to ensure everything is working correctly:
+### Run the tests to ensure everything is working correctly:
 ```bash
-- php artisan test
+php artisan test
 ```
-- ## Deployment
+## Deployment
 - For production, make sure to set up your .env file with the appropriate settings and use a production-ready database like MySQL or PostgreSQL. Additionally, ensure proper web server configuration and security measures are in place.
 
-- ## Contributing
-- Contributions are welcome! Please fork the repository and create a pull request with your changes.
+## Contributing
+Contributions are welcome! Please fork the repository and create a pull request with your changes.
 
-- ## License
+## License
 This project is open-source and available under the MIT License.
