@@ -30,7 +30,7 @@ cd Zeev-Jewelry
 
 ### Install dependencies:
 ```bash
-- composer install
+composer install
 ```
 ### Create a copy of your .env file:
 ```bash
