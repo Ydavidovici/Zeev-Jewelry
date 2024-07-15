@@ -20,6 +20,7 @@ use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Auth\ChangePasswordController;
+use App\Http\Controllers\Seller\SellerController;
 
 // Authentication Routes
 Route::get('login', [LoginController::class, 'showLoginForm'])->name('login');
@@ -66,18 +67,92 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('shippings', ShippingController::class);
     Route::resource('users', UserController::class);
 
-    // Password Change Routes
-    Route::get('password/change', [ChangePasswordController::class, 'showChangePasswordForm'])->name('password.change');
-    Route::post('password/change', [ChangePasswordController::class, 'changePassword'])->name('password.update');
-
     Route::post('upload', [FileUploadController::class, 'store'])->name('file.upload');
 });
+
 
 // Admin routes
 Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->group(function() {
     Route::get('/', [AdminController::class, 'index'])->name('dashboard');
-    Route::resource('users', UserController::class);
-    Route::resource('categories', CategoryController::class);
+
+    // User routes
+    Route::get('users', [AdminController::class, 'users'])->name('users.index');
+    Route::get('users/create', [AdminController::class, 'createUser'])->name('users.create');
+    Route::post('users', [AdminController::class, 'storeUser'])->name('users.store');
+    Route::get('users/{id}/edit', [AdminController::class, 'editUser'])->name('users.edit');
+    Route::put('users/{id}', [AdminController::class, 'updateUser'])->name('users.update');
+    Route::delete('users/{id}', [AdminController::class, 'deleteUser'])->name('users.destroy');
+
+    // Role routes
+    Route::get('roles', [AdminController::class, 'roles'])->name('roles.index');
+    Route::get('roles/create', [AdminController::class, 'createRole'])->name('roles.create');
+    Route::post('roles', [AdminController::class, 'storeRole'])->name('roles.store');
+    Route::get('roles/{id}/edit', [AdminController::class, 'editRole'])->name('roles.edit');
+    Route::put('roles/{id}', [AdminController::class, 'updateRole'])->name('roles.update');
+    Route::delete('roles/{id}', [AdminController::class, 'deleteRole'])->name('roles.destroy');
+
+    // Permission routes
+    Route::get('permissions', [AdminController::class, 'permissions'])->name('permissions.index');
+    Route::get('permissions/create', [AdminController::class, 'createPermission'])->name('permissions.create');
+    Route::post('permissions', [AdminController::class, 'storePermission'])->name('permissions.store');
+    Route::get('permissions/{id}/edit', [AdminController::class, 'editPermission'])->name('permissions.edit');
+    Route::put('permissions/{id}', [AdminController::class, 'updatePermission'])->name('permissions.update');
+    Route::delete('permissions/{id}', [AdminController::class, 'deletePermission'])->name('permissions.destroy');
+
+    // Existing seller functionalities
     Route::resource('products', ProductController::class);
     Route::resource('orders', OrderController::class);
+    Route::resource('inventory', InventoryController::class);
+    Route::resource('shipping', ShippingController::class);
+    Route::resource('payments', PaymentController::class);
+});
+
+
+
+// Seller routes
+Route::middleware(['auth', 'role:seller'])->prefix('seller')->name('seller.')->group(function() {
+    Route::get('/', [SellerController::class, 'index'])->name('dashboard');
+
+    // Product Routes
+    Route::get('products', [SellerController::class, 'products'])->name('products.index');
+    Route::get('products/create', [SellerController::class, 'createProduct'])->name('products.create');
+    Route::post('products', [SellerController::class, 'storeProduct'])->name('products.store');
+    Route::get('products/{id}/edit', [SellerController::class, 'editProduct'])->name('products.edit');
+    Route::put('products/{id}', [SellerController::class, 'updateProduct'])->name('products.update');
+    Route::delete('products/{id}', [SellerController::class, 'deleteProduct'])->name('products.destroy');
+
+    // Order Routes
+    Route::get('orders', [SellerController::class, 'orders'])->name('orders.index');
+    Route::get('orders/{id}', [SellerController::class, 'showOrder'])->name('orders.show');
+
+    // Inventory Routes
+    Route::get('inventory', [SellerController::class, 'inventory'])->name('inventory.index');
+    Route::get('inventory/create', [SellerController::class, 'addToInventory'])->name('inventory.add');
+    Route::post('inventory', [SellerController::class, 'storeInventory'])->name('inventory.store');
+    Route::get('inventory/{id}/edit', [SellerController::class, 'editInventory'])->name('inventory.edit');
+    Route::put('inventory/{id}', [SellerController::class, 'updateInventory'])->name('inventory.update');
+    Route::delete('inventory/{id}', [SellerController::class, 'deleteInventory'])->name('inventory.destroy');
+
+    // Shipping Routes
+    Route::get('shippings', [SellerController::class, 'shippings'])->name('shippings.index');
+    Route::get('shippings/create', [SellerController::class, 'createShipping'])->name('shippings.create');
+    Route::post('shippings', [SellerController::class, 'storeShipping'])->name('shippings.store');
+    Route::get('shippings/{id}/edit', [SellerController::class, 'editShipping'])->name('shippings.edit');
+    Route::put('shippings/{id}', [SellerController::class, 'updateShipping'])->name('shippings.update');
+    Route::delete('shippings/{id}', [SellerController::class, 'deleteShipping'])->name('shippings.destroy');
+
+    // Payment Routes
+    Route::get('payments', [SellerController::class, 'payments'])->name('payments.index');
+    Route::get('payments/create', [SellerController::class, 'createPayment'])->name('payments.create');
+    Route::post('payments', [SellerController::class, 'storePayment'])->name('payments.store');
+    Route::get('payments/{id}/edit', [SellerController::class, 'editPayment'])->name('payments.edit');
+    Route::put('payments/{id}', [SellerController::class, 'updatePayment'])->name('payments.update');
+    Route::delete('payments/{id}', [SellerController::class, 'deletePayment'])->name('payments.destroy');
+});
+
+
+// Password Change Routes
+Route::middleware('auth')->group(function () {
+    Route::get('password/change', [ChangePasswordController::class, 'showChangePasswordForm'])->name('password.change');
+    Route::post('password/change', [ChangePasswordController::class, 'changePassword'])->name('password.update');
 });
