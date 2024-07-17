@@ -21,6 +21,10 @@ use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Auth\ChangePasswordController;
 use App\Http\Controllers\Seller\SellerController;
+use App\Http\Controllers\CartController;
+use App\Http\Controllers\CheckoutController;
+
+
 
 // Authentication Routes
 Route::get('login', [LoginController::class, 'showLoginForm'])->name('login');
@@ -155,4 +159,15 @@ Route::middleware(['auth', 'role:seller'])->prefix('seller')->name('seller.')->g
 Route::middleware('auth')->group(function () {
     Route::get('password/change', [ChangePasswordController::class, 'showChangePasswordForm'])->name('password.change');
     Route::post('password/change', [ChangePasswordController::class, 'changePassword'])->name('password.update');
+});
+
+// Cart and checkout routes
+Route::middleware(['auth'])->group(function () {
+    Route::get('cart', [CartController::class, 'index'])->name('cart.index');
+    Route::post('cart', [CartController::class, 'store'])->name('cart.store');
+    Route::put('cart/{product}', [CartController::class, 'update'])->name('cart.update');
+    Route::delete('cart/{product}', [CartController::class, 'destroy'])->name('cart.destroy');
+
+    Route::get('checkout', [CheckoutController::class, 'index'])->name('checkout.index');
+    Route::post('checkout', [CheckoutController::class, 'store'])->name('checkout.store');
 });

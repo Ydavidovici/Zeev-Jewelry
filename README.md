@@ -34,7 +34,7 @@ composer install
 ```
 ### Create a copy of your .env file:
 ```bash
-cp .env.example .env
+cp ..env.example ..env
 ```
 ### Generate an application key:
 ```bash
