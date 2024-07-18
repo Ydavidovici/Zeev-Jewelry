@@ -10,7 +10,7 @@ class SettingsController extends Controller
     public function index()
     {
         $settings = Setting::all();
-        return view('admin.settings.index', compact('settings'));
+        return view('admin-page.settings.index', compact('settings'));
     }
 
     public function update(Request $request)
@@ -19,6 +19,6 @@ class SettingsController extends Controller
             Setting::updateOrCreate(['key' => $key], ['value' => $value]);
         }
 
-        return redirect()->route('admin.settings.index')->with('success', 'Settings updated successfully.');
+        return redirect()->route('admin-page.settings.index')->with('success', 'Settings updated successfully.');
     }
 }

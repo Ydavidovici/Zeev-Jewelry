@@ -11,26 +11,26 @@ class UserPolicy
 
     public function viewAny(User $user)
     {
-        return $user->hasRole('admin');
+        return $user->hasRole('admin-page');
     }
 
     public function view(User $user, User $model)
     {
-        return $user->hasRole('admin');
+        return $user->hasRole('admin-page');
     }
 
     public function create(User $user)
     {
-        return $user->hasRole('admin');
+        return $user->hasRole('admin-page');
     }
 
     public function update(User $user, User $model)
     {
-        return $user->hasRole('admin');
+        return $user->hasRole('admin-page');
     }
 
     public function delete(User $user, User $model)
     {
-        return $user->hasRole('admin');
+        return $user->hasRole('admin-page');
     }
 }

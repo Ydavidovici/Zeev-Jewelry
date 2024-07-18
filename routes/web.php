@@ -23,7 +23,7 @@ use App\Http\Controllers\Auth\ChangePasswordController;
 use App\Http\Controllers\Seller\SellerController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CheckoutController;
-
+use App\Http\Controllers\HomeController;
 
 
 // Authentication Routes
@@ -42,9 +42,7 @@ Route::get('password/reset/{token}', [ResetPasswordController::class, 'showReset
 Route::post('password/reset', [ResetPasswordController::class, 'reset']);
 
 // Public routes
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', [HomeController::class, 'index'])->name('home');
 
 Route::get('/test', function () {
     return 'Test route is working';
@@ -76,7 +74,7 @@ Route::middleware(['auth'])->group(function () {
 
 
 // Admin routes
-Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->group(function() {
+Route::middleware(['auth', 'role:admin-page'])->prefix('admin-page')->name('admin-page.')->group(function() {
     Route::get('/', [AdminController::class, 'index'])->name('dashboard');
 
     // User routes
@@ -103,7 +101,7 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
     Route::put('permissions/{id}', [AdminController::class, 'updatePermission'])->name('permissions.update');
     Route::delete('permissions/{id}', [AdminController::class, 'deletePermission'])->name('permissions.destroy');
 
-    // Existing seller functionalities
+    // Existing seller-page functionalities
     Route::resource('products', ProductController::class);
     Route::resource('orders', OrderController::class);
     Route::resource('inventory', InventoryController::class);
@@ -114,7 +112,7 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
 
 
 // Seller routes
-Route::middleware(['auth', 'role:seller'])->prefix('seller')->name('seller.')->group(function() {
+Route::middleware(['auth', 'role:seller-page'])->prefix('seller-page')->name('seller-page.')->group(function() {
     Route::get('/', [SellerController::class, 'index'])->name('dashboard');
 
     // Product Routes

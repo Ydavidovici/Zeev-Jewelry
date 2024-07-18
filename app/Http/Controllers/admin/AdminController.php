@@ -15,7 +15,7 @@ use App\Models\Payment;
 
 class AdminController extends Controller
 {
-    // Show the admin dashboard
+    // Show the admin-page dashboard
     public function index()
     {
         $users = User::all();
@@ -23,20 +23,20 @@ class AdminController extends Controller
         $permissions = Permission::all();
         $products = Product::all();
         $orders = Order::all();
-        return view('admin.dashboard', compact('users', 'roles', 'permissions', 'products', 'orders'));
+        return view('admin-page.dashboard', compact('users', 'roles', 'permissions', 'products', 'orders'));
     }
 
     // Manage Users
     public function users()
     {
         $users = User::all();
-        return view('admin.users.index', compact('users'));
+        return view('admin-page.users.index', compact('users'));
     }
 
     public function createUser()
     {
         $roles = Role::all();
-        return view('admin.users.create', compact('roles'));
+        return view('admin-page.users.create', compact('roles'));
     }
 
     public function storeUser(Request $request)
@@ -56,14 +56,14 @@ class AdminController extends Controller
 
         $user->assignRole($validatedData['role_id']);
 
-        return redirect()->route('admin.users.index')->with('success', 'User created successfully.');
+        return redirect()->route('admin-page.users.index')->with('success', 'User created successfully.');
     }
 
     public function editUser($id)
     {
         $user = User::findOrFail($id);
         $roles = Role::all();
-        return view('admin.users.edit', compact('user', 'roles'));
+        return view('admin-page.users.edit', compact('user', 'roles'));
     }
 
     public function updateUser(Request $request, $id)
@@ -79,7 +79,7 @@ class AdminController extends Controller
 
         $user->syncRoles($validatedData['role_id']);
 
-        return redirect()->route('admin.users.index')->with('success', 'User updated successfully.');
+        return redirect()->route('admin-page.users.index')->with('success', 'User updated successfully.');
     }
 
     public function deleteUser($id)
@@ -87,19 +87,19 @@ class AdminController extends Controller
         $user = User::findOrFail($id);
         $user->delete();
 
-        return redirect()->route('admin.users.index')->with('success', 'User deleted successfully.');
+        return redirect()->route('admin-page.users.index')->with('success', 'User deleted successfully.');
     }
 
     // Manage Roles
     public function roles()
     {
         $roles = Role::all();
-        return view('admin.roles.index', compact('roles'));
+        return view('admin-page.roles.index', compact('roles'));
     }
 
     public function createRole()
     {
-        return view('admin.roles.create');
+        return view('admin-page.roles.create');
     }
 
     public function storeRole(Request $request)
@@ -110,13 +110,13 @@ class AdminController extends Controller
 
         Role::create($validatedData);
 
-        return redirect()->route('admin.roles.index')->with('success', 'Role created successfully.');
+        return redirect()->route('admin-page.roles.index')->with('success', 'Role created successfully.');
     }
 
     public function editRole($id)
     {
         $role = Role::findOrFail($id);
-        return view('admin.roles.edit', compact('role'));
+        return view('admin-page.roles.edit', compact('role'));
     }
 
     public function updateRole(Request $request, $id)
@@ -128,7 +128,7 @@ class AdminController extends Controller
         $role = Role::findOrFail($id);
         $role->update($validatedData);
 
-        return redirect()->route('admin.roles.index')->with('success', 'Role updated successfully.');
+        return redirect()->route('admin-page.roles.index')->with('success', 'Role updated successfully.');
     }
 
     public function deleteRole($id)
@@ -136,19 +136,19 @@ class AdminController extends Controller
         $role = Role::findOrFail($id);
         $role->delete();
 
-        return redirect()->route('admin.roles.index')->with('success', 'Role deleted successfully.');
+        return redirect()->route('admin-page.roles.index')->with('success', 'Role deleted successfully.');
     }
 
     // Manage Permissions
     public function permissions()
     {
         $permissions = Permission::all();
-        return view('admin.permissions.index', compact('permissions'));
+        return view('admin-page.permissions.index', compact('permissions'));
     }
 
     public function createPermission()
     {
-        return view('admin.permissions.create');
+        return view('admin-page.permissions.create');
     }
 
     public function storePermission(Request $request)
@@ -159,13 +159,13 @@ class AdminController extends Controller
 
         Permission::create($validatedData);
 
-        return redirect()->route('admin.permissions.index')->with('success', 'Permission created successfully.');
+        return redirect()->route('admin-page.permissions.index')->with('success', 'Permission created successfully.');
     }
 
     public function editPermission($id)
     {
         $permission = Permission::findOrFail($id);
-        return view('admin.permissions.edit', compact('permission'));
+        return view('admin-page.permissions.edit', compact('permission'));
     }
 
     public function updatePermission(Request $request, $id)
@@ -177,7 +177,7 @@ class AdminController extends Controller
         $permission = Permission::findOrFail($id);
         $permission->update($validatedData);
 
-        return redirect()->route('admin.permissions.index')->with('success', 'Permission updated successfully.');
+        return redirect()->route('admin-page.permissions.index')->with('success', 'Permission updated successfully.');
     }
 
     public function deletePermission($id)
@@ -185,19 +185,19 @@ class AdminController extends Controller
         $permission = Permission::findOrFail($id);
         $permission->delete();
 
-        return redirect()->route('admin.permissions.index')->with('success', 'Permission deleted successfully.');
+        return redirect()->route('admin-page.permissions.index')->with('success', 'Permission deleted successfully.');
     }
 
-    // Seller functionalities extended to admin
+    // Seller functionalities extended to admin-page
     public function products()
     {
         $products = Product::all();
-        return view('admin.products.index', compact('products'));
+        return view('admin-page.products.index', compact('products'));
     }
 
     public function createProduct()
     {
-        return view('admin.products.create');
+        return view('admin-page.products.create');
     }
 
     public function storeProduct(Request $request)
@@ -219,13 +219,13 @@ class AdminController extends Controller
             'quantity' => $validatedData['stock_quantity'],
         ]);
 
-        return redirect()->route('admin.products.index')->with('success', 'Product created successfully.');
+        return redirect()->route('admin-page.products.index')->with('success', 'Product created successfully.');
     }
 
     public function editProduct($id)
     {
         $product = Product::findOrFail($id);
-        return view('admin.products.edit', compact('product'));
+        return view('admin-page.products.edit', compact('product'));
     }
 
     public function updateProduct(Request $request, $id)
@@ -252,7 +252,7 @@ class AdminController extends Controller
             ]);
         }
 
-        return redirect()->route('admin.products.index')->with('success', 'Product updated successfully.');
+        return redirect()->route('admin-page.products.index')->with('success', 'Product updated successfully.');
     }
 
     public function deleteProduct($id)
@@ -263,33 +263,33 @@ class AdminController extends Controller
         // Delete from inventory as well
         Inventory::where('product_id', $product->id)->delete();
 
-        return redirect()->route('admin.products.index')->with('success', 'Product deleted successfully.');
+        return redirect()->route('admin-page.products.index')->with('success', 'Product deleted successfully.');
     }
 
     // Manage orders
     public function orders()
     {
         $orders = Order::all();
-        return view('admin.orders.index', compact('orders'));
+        return view('admin-page.orders.index', compact('orders'));
     }
 
     public function showOrder($id)
     {
         $order = Order::findOrFail($id);
-        return view('admin.orders.show', compact('order'));
+        return view('admin-page.orders.show', compact('order'));
     }
 
     // Manage inventory
     public function inventory()
     {
         $inventory = Inventory::all();
-        return view('admin.inventory.index', compact('inventory'));
+        return view('admin-page.inventory.index', compact('inventory'));
     }
 
     public function addToInventory()
     {
         $products = Product::all();
-        return view('admin.inventory.create', compact('products'));
+        return view('admin-page.inventory.create', compact('products'));
     }
 
     public function storeInventory(Request $request)
@@ -305,14 +305,14 @@ class AdminController extends Controller
             ['quantity' => $validatedData['quantity'], 'location' => $validatedData['location']]
         );
 
-        return redirect()->route('admin.inventory.index')->with('success', 'Inventory added/updated successfully.');
+        return redirect()->route('admin-page.inventory.index')->with('success', 'Inventory added/updated successfully.');
     }
 
     public function editInventory($id)
     {
         $inventory = Inventory::findOrFail($id);
         $products = Product::all();
-        return view('admin.inventory.edit', compact('inventory', 'products'));
+        return view('admin-page.inventory.edit', compact('inventory', 'products'));
     }
 
     public function updateInventory(Request $request, $id)
@@ -326,7 +326,7 @@ class AdminController extends Controller
         $inventory = Inventory::findOrFail($id);
         $inventory->update($validatedData);
 
-        return redirect()->route('admin.inventory.index')->with('success', 'Inventory updated successfully.');
+        return redirect()->route('admin-page.inventory.index')->with('success', 'Inventory updated successfully.');
     }
 
     public function deleteInventory($id)
@@ -334,19 +334,19 @@ class AdminController extends Controller
         $inventory = Inventory::findOrFail($id);
         $inventory->delete();
 
-        return redirect()->route('admin.inventory.index')->with('success', 'Inventory deleted successfully.');
+        return redirect()->route('admin-page.inventory.index')->with('success', 'Inventory deleted successfully.');
     }
 
     // Manage shipping
     public function shipping()
     {
         $shipping = Shipping::all();
-        return view('admin.shipping.index', compact('shipping'));
+        return view('admin-page.shipping.index', compact('shipping'));
     }
 
     public function createShipping()
     {
-        return view('admin.shipping.create');
+        return view('admin-page.shipping.create');
     }
 
     public function storeShipping(Request $request)
@@ -360,13 +360,13 @@ class AdminController extends Controller
         $shipping = new Shipping($validatedData);
         $shipping->save();
 
-        return redirect()->route('admin.shipping.index')->with('success', 'Shipping created successfully.');
+        return redirect()->route('admin-page.shipping.index')->with('success', 'Shipping created successfully.');
     }
 
     public function editShipping($id)
     {
         $shipping = Shipping::findOrFail($id);
-        return view('admin.shipping.edit', compact('shipping'));
+        return view('admin-page.shipping.edit', compact('shipping'));
     }
 
     public function updateShipping(Request $request, $id)
@@ -380,7 +380,7 @@ class AdminController extends Controller
         $shipping = Shipping::findOrFail($id);
         $shipping->update($validatedData);
 
-        return redirect()->route('admin.shipping.index')->with('success', 'Shipping updated successfully.');
+        return redirect()->route('admin-page.shipping.index')->with('success', 'Shipping updated successfully.');
     }
 
     public function deleteShipping($id)
@@ -388,19 +388,19 @@ class AdminController extends Controller
         $shipping = Shipping::findOrFail($id);
         $shipping->delete();
 
-        return redirect()->route('admin.shipping.index')->with('success', 'Shipping deleted successfully.');
+        return redirect()->route('admin-page.shipping.index')->with('success', 'Shipping deleted successfully.');
     }
 
     // Manage payments
     public function payments()
     {
         $payments = Payment::all();
-        return view('admin.payments.index', compact('payments'));
+        return view('admin-page.payments.index', compact('payments'));
     }
 
     public function createPayment()
     {
-        return view('admin.payments.create');
+        return view('admin-page.payments.create');
     }
 
     public function storePayment(Request $request)
@@ -414,13 +414,13 @@ class AdminController extends Controller
         $payment = new Payment($validatedData);
         $payment->save();
 
-        return redirect()->route('admin.payments.index')->with('success', 'Payment record created successfully.');
+        return redirect()->route('admin-page.payments.index')->with('success', 'Payment record created successfully.');
     }
 
     public function editPayment($id)
     {
         $payment = Payment::findOrFail($id);
-        return view('admin.payments.edit', compact('payment'));
+        return view('admin-page.payments.edit', compact('payment'));
     }
 
     public function updatePayment(Request $request, $id)
@@ -434,7 +434,7 @@ class AdminController extends Controller
         $payment = Payment::findOrFail($id);
         $payment->update($validatedData);
 
-        return redirect()->route('admin.payments.index')->with('success', 'Payment record updated successfully.');
+        return redirect()->route('admin-page.payments.index')->with('success', 'Payment record updated successfully.');
     }
 
     public function deletePayment($id)
@@ -442,6 +442,6 @@ class AdminController extends Controller
         $payment = Payment::findOrFail($id);
         $payment->delete();
 
-        return redirect()->route('admin.payments.index')->with('success', 'Payment record deleted successfully.');
+        return redirect()->route('admin-page.payments.index')->with('success', 'Payment record deleted successfully.');
     }
 }

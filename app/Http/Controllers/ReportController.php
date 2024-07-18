@@ -17,6 +17,6 @@ class ReportController extends Controller
             ->responsive(false)
             ->groupByMonth(date('Y'), true);
 
-        return view('admin.reports.index', compact('chart'));
+        return view('admin-page.reports.index', compact('chart'));
     }
 }

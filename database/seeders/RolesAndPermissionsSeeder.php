@@ -37,7 +37,7 @@ class RolesAndPermissionsSeeder extends Seeder
 
         // Create roles if they do not already exist
         $roles = [
-            'admin', 'seller', 'customer'
+            'admin-page', 'seller-page', 'customer'
         ];
 
         foreach ($roles as $role) {
@@ -47,10 +47,10 @@ class RolesAndPermissionsSeeder extends Seeder
         }
 
         // Assign permissions to roles
-        $admin = Role::findByName('admin');
+        $admin = Role::findByName('admin-page');
         $admin->syncPermissions(Permission::all());
 
-        $seller = Role::findByName('seller');
+        $seller = Role::findByName('seller-page');
         $sellerPermissions = [
             'create-category', 'view-category', 'update-category', 'delete-category',
             'create-customer', 'view-customer', 'update-customer', 'delete-customer',
