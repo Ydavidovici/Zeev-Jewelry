@@ -12,26 +12,26 @@ class InventoryMovementPolicy
 
     public function viewAny(User $user)
     {
-        return $user->hasRole('admin') || $user->hasRole('seller');
+        return $user->hasRole('admin-page') || $user->hasRole('seller-page');
     }
 
     public function view(User $user, InventoryMovement $inventoryMovement)
     {
-        return $user->hasRole('admin') || $user->hasRole('seller');
+        return $user->hasRole('admin-page') || $user->hasRole('seller-page');
     }
 
     public function create(User $user)
     {
-        return $user->hasRole('admin') || $user->hasRole('seller');
+        return $user->hasRole('admin-page') || $user->hasRole('seller-page');
     }
 
     public function update(User $user, InventoryMovement $inventoryMovement)
     {
-        return $user->hasRole('admin') || $user->hasRole('seller');
+        return $user->hasRole('admin-page') || $user->hasRole('seller-page');
     }
 
     public function delete(User $user, InventoryMovement $inventoryMovement)
     {
-        return $user->hasRole('admin');
+        return $user->hasRole('admin-page');
     }
 }
