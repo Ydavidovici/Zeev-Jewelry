@@ -1,70 +1,46 @@
-# Use an official PHP runtime as a parent image
-FROM php:8.3-fpm
+# Use the official PHP image as the base image
+FROM php:7.4-apache
 
 # Set working directory
 WORKDIR /var/www
 
-# Install dependencies
-RUN apt-get update && apt-get install -y \
-    build-essential \
-    libpng-dev \
-    libjpeg62-turbo-dev \
-    libfreetype6-dev \
-    libonig-dev \
-    locales \
-    zip \
-    jpegoptim optipng pngquant gifsicle \
-    vim \
-    unzip \
-    git \
-    curl \
-    ca-certificates \
-    && apt-get clean && rm -rf /var/lib/apt/lists/*
+# Replace the default Debian repository mirror and clean apt cache
+RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 
-# Update CA certificates
-RUN update-ca-certificates
+# Install dependencies with retry mechanism
+RUN set -eux; \
+    for i in $(seq 1 5); do \
+      apt-get update && \
+      apt-get install -y --fix-missing \
+        libpng-dev \
+        libjpeg62-turbo-dev \
+        libfreetype6-dev \
+        zip \
+        unzip \
+        git \
+        curl \
+        libonig-dev \
+        libxml2-dev \
+        libzip-dev && \
+      docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd zip && \
+      break || sleep 5; \
+    done && \
+    apt-get clean
 
-# Install PHP extensions
-RUN docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd
+# Enable Apache Rewrite Module
+RUN a2enmod rewrite
 
 # Install Composer
-COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
-# Create a non-root user
-RUN useradd -m composer_user
+# Copy existing application directory permissions
+COPY --chown=www-data:www-data . /var/www
 
-# Create the vendor directory and set permissions as root
-RUN mkdir -p /var/www/vendor && chown -R composer_user:composer_user /var/www/vendor
+# Change current user to www-data
+USER www-data
 
-# Switch to the non-root user
-USER composer_user
+# Expose port 80
+EXPOSE 80
 
-# Set Composer home environment variable for the non-root user
-ENV COMPOSER_HOME="/home/composer_user/.composer"
-ENV PATH="${COMPOSER_HOME}/vendor/bin:${PATH}"
-
-# Set the CAfile environment variable for composer
-ENV SSL_CERT_FILE="/etc/ssl/certs/ca-certificates.crt"
-
-# Set the CAfile configuration for git
-RUN git config --global http.sslCAInfo /etc/ssl/certs/ca-certificates.crt
-
-# Copy composer files and install dependencies
-COPY --chown=composer_user:composer_user composer.json /var/www/
-COPY --chown=composer_user:composer_user composer.lock /var/www/
-
-# Install PHP dependencies
-RUN composer install --no-interaction --no-plugins --no-scripts
-
-# Switch back to root to copy the rest of the application code
-USER root
-
-# Copy application code
-COPY .. /var/www
-
-# Change ownership of application files
-RUN chown -R www-data:www-data /var/www
-
-# Expose port 9000 and start php-fpm server
-EXPOSE 8000
-CMD ["php-fpm"]
+# Start Apache server
+CMD ["apache2-foreground"]
