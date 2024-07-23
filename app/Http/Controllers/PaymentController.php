@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Payment;
+use App\Models\Order;
 use Illuminate\Http\Request;
 use Stripe\Stripe;
 use Stripe\PaymentIntent;
@@ -56,17 +57,23 @@ class PaymentController extends Controller
         $intent = PaymentIntent::retrieve($request->payment_intent_id);
 
         if ($intent->status == 'succeeded') {
+            // Update order status to 'Paid'
+            $order = Order::findOrFail($request->order_id);
+            $order->status = 'Paid';
+            $order->save();
+
+            // Record the payment in the database
             Payment::create([
-                'order_id' => $request->order_id,
+                'order_id' => $order->id,
                 'payment_type' => 'stripe',
                 'payment_status' => 'succeeded',
                 'amount' => $intent->amount / 100,
             ]);
 
-            return redirect()->route('payments.index')->with('success', 'Payment successful.');
+            return redirect()->route('checkout.success')->with('success', 'Payment successful.');
         }
 
-        return redirect()->route('payments.index')->with('error', 'Payment failed.');
+        return redirect()->route('checkout.failure')->with('error', 'Payment failed.');
     }
 
     public function show(Payment $payment)

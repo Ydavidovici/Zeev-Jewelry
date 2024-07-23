@@ -15,7 +15,8 @@ class FileUploadController extends Controller
 
     public function store(Request $request)
     {
-        $this->authorize('upload', File::class); // Uncomment this if you have a policy in place
+        // Uncomment the following line if you have a policy in place
+        // $this->authorize('upload', File::class);
 
         // Validate the uploaded file
         $request->validate([
@@ -34,5 +35,32 @@ class FileUploadController extends Controller
 
         // Return the file URL
         return response()->json(['path' => Storage::url($path)], 200);
+    }
+
+    public function index()
+    {
+        $files = Storage::files('public/uploads');
+        $fileUrls = array_map(function ($file) {
+            return Storage::url($file);
+        }, $files);
+
+        return view('uploads.index', compact('fileUrls'));
+    }
+
+    public function destroy(Request $request, $filename)
+    {
+        // Uncomment the following line if you have a policy in place
+        // $this->authorize('delete', File::class);
+
+        // Validate the file name
+        $safeName = preg_replace('/[^a-zA-Z0-9-_\.]/', '_', $filename);
+
+        // Delete the file
+        if (Storage::exists('public/uploads/' . $safeName)) {
+            Storage::delete('public/uploads/' . $safeName);
+            return redirect()->back()->with('success', 'File deleted successfully.');
+        }
+
+        return redirect()->back()->with('error', 'File not found.');
     }
 }
