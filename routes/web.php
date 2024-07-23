@@ -42,7 +42,6 @@ Route::get('password/reset/{token}', [ResetPasswordController::class, 'showReset
 Route::post('password/reset', [ResetPasswordController::class, 'reset']);
 
 // Public routes
-Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/test', function () {
     return 'Test route is working';
 });
@@ -52,6 +51,7 @@ Route::get('upload', function () {
 Route::post('upload', [FileUploadController::class, 'store'])->name('file.upload');
 
 // Pages
+Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('products', [ProductController::class, 'index'])->name('products.index');
 
 // Cart routes (accessible to guests and authenticated users)
