@@ -1,9 +1,19 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\FileUploadController;
+use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\Admin\RoleController;
+use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Auth\ChangePasswordController;
+use App\Http\Controllers\Auth\ForgotPasswordController;
+use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\Auth\ResetPasswordController;
+use App\Http\Controllers\CartController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\FileUploadController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\InventoryController;
 use App\Http\Controllers\InventoryMovementController;
 use App\Http\Controllers\OrderController;
@@ -11,20 +21,10 @@ use App\Http\Controllers\OrderDetailController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ReviewController;
-use App\Http\Controllers\RoleController;
-use App\Http\Controllers\ShippingController;
-use App\Http\Controllers\UserController;
-use App\Http\Controllers\Auth\LoginController;
-use App\Http\Controllers\Auth\RegisterController;
-use App\Http\Controllers\Auth\ForgotPasswordController;
-use App\Http\Controllers\Auth\ResetPasswordController;
-use App\Http\Controllers\Admin\AdminController;
-use App\Http\Controllers\Auth\ChangePasswordController;
 use App\Http\Controllers\Seller\SellerController;
-use App\Http\Controllers\CartController;
-use App\Http\Controllers\CheckoutController;
-use App\Http\Controllers\HomeController;
+use App\Http\Controllers\ShippingController;
 use App\Http\Controllers\WebhookController;
+use Illuminate\Support\Facades\Route;
 
 // Authentication Routes
 Route::get('login', [LoginController::class, 'showLoginForm'])->name('login');
@@ -51,6 +51,12 @@ Route::get('upload', function () {
 });
 Route::post('upload', [FileUploadController::class, 'store'])->name('file.upload');
 
+// Cart routes (accessible to guests and authenticated users)
+Route::get('cart', [CartController::class, 'index'])->name('cart.index');
+Route::post('cart', [CartController::class, 'store'])->name('cart.store');
+Route::put('cart/{product}', [CartController::class, 'update'])->name('cart.update');
+Route::delete('cart/{product}', [CartController::class, 'destroy'])->name('cart.destroy');
+
 // Authenticated routes
 Route::middleware(['auth'])->group(function () {
     Route::resource('categories', CategoryController::class);
@@ -65,6 +71,12 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('roles', RoleController::class);
     Route::resource('shipping', ShippingController::class);
     Route::resource('users', UserController::class);
+
+    // Checkout routes
+    Route::get('checkout', [CheckoutController::class, 'index'])->name('checkout.index');
+    Route::post('checkout', [CheckoutController::class, 'store'])->name('checkout.store');
+    Route::get('checkout/success', [CheckoutController::class, 'success'])->name('checkout.success');
+    Route::get('checkout/cancel', [CheckoutController::class, 'cancel'])->name('checkout.cancel');
 });
 
 // Admin routes
@@ -148,19 +160,6 @@ Route::middleware(['auth', 'role:seller-page'])->prefix('seller-page')->name('se
 Route::middleware('auth')->group(function () {
     Route::get('password/change', [ChangePasswordController::class, 'showChangePasswordForm'])->name('password.change');
     Route::post('password/change', [ChangePasswordController::class, 'changePassword'])->name('password.update');
-});
-
-// Cart and checkout routes
-Route::middleware(['auth'])->group(function () {
-    Route::get('cart', [CartController::class, 'index'])->name('cart.index');
-    Route::post('cart', [CartController::class, 'store'])->name('cart.store');
-    Route::put('cart/{product}', [CartController::class, 'update'])->name('cart.update');
-    Route::delete('cart/{product}', [CartController::class, 'destroy'])->name('cart.destroy');
-
-    Route::get('checkout', [CheckoutController::class, 'index'])->name('checkout.index');
-    Route::post('checkout', [CheckoutController::class, 'store'])->name('checkout.store');
-    Route::get('checkout/success', [CheckoutController::class, 'success'])->name('checkout.success');
-    Route::get('checkout/cancel', [CheckoutController::class, 'cancel'])->name('checkout.cancel');
 });
 
 // Stripe Payment Routes
