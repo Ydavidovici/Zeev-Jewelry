@@ -39,41 +39,49 @@ class PaymentController extends Controller
 
         Stripe::setApiKey(env('STRIPE_SECRET'));
 
-        $paymentIntent = PaymentIntent::create([
-            'amount' => $request->amount * 100, // Amount in cents
-            'currency' => 'usd',
-            'payment_method_types' => ['card'],
-        ]);
+        try {
+            $paymentIntent = PaymentIntent::create([
+                'amount' => $request->amount * 100, // Amount in cents
+                'currency' => 'usd',
+                'payment_method_types' => ['card'],
+            ]);
 
-        return response()->json([
-            'clientSecret' => $paymentIntent->client_secret,
-        ]);
+            return response()->json([
+                'clientSecret' => $paymentIntent->client_secret,
+            ]);
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
     }
 
     public function confirm(Request $request)
     {
         Stripe::setApiKey(env('STRIPE_SECRET'));
 
-        $intent = PaymentIntent::retrieve($request->payment_intent_id);
+        try {
+            $intent = PaymentIntent::retrieve($request->payment_intent_id);
 
-        if ($intent->status == 'succeeded') {
-            // Update order status to 'Paid'
-            $order = Order::findOrFail($request->order_id);
-            $order->status = 'Paid';
-            $order->save();
+            if ($intent->status == 'succeeded') {
+                // Update order status to 'Paid'
+                $order = Order::findOrFail($request->order_id);
+                $order->status = 'Paid';
+                $order->save();
 
-            // Record the payment in the database
-            Payment::create([
-                'order_id' => $order->id,
-                'payment_type' => 'stripe',
-                'payment_status' => 'succeeded',
-                'amount' => $intent->amount / 100,
-            ]);
+                // Record the payment in the database
+                Payment::create([
+                    'order_id' => $order->id,
+                    'payment_type' => 'stripe',
+                    'payment_status' => 'succeeded',
+                    'amount' => $intent->amount / 100,
+                ]);
 
-            return redirect()->route('checkout.success')->with('success', 'Payment successful.');
+                return redirect()->route('checkout.success')->with('success', 'Payment successful.');
+            }
+
+            return redirect()->route('checkout.failure')->with('error', 'Payment failed.');
+        } catch (\Exception $e) {
+            return redirect()->route('checkout.failure')->with('error', 'Payment failed: ' . $e->getMessage());
         }
-
-        return redirect()->route('checkout.failure')->with('error', 'Payment failed.');
     }
 
     public function show(Payment $payment)
