@@ -53,9 +53,19 @@ class CheckoutController extends Controller
             }
 
             Session::forget('cart');
-            return redirect()->route('orders.show', $order->id)->with('success', 'Order placed successfully.');
+            return redirect()->route('checkout.success')->with('success', 'Order placed successfully.');
         } catch (\Exception $e) {
-            return redirect()->route('checkout.index')->with('error', 'An error occurred while placing the order. Please try again.');
+            return redirect()->route('checkout.failure')->with('error', 'An error occurred while placing the order. Please try again.');
         }
+    }
+
+    public function success()
+    {
+        return view('checkout.success');
+    }
+
+    public function failure()
+    {
+        return view('checkout.failure');
     }
 }
