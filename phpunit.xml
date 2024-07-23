@@ -7,8 +7,11 @@
         <testsuite name="Unit">
             <directory>./tests/Unit</directory>
         </testsuite>
-        <testsuite name="GraphQL">
-            <directory>./tests/GraphQL</directory>
+        <testsuite name="Feature">
+            <directory>./tests/Feature</directory>
+        </testsuite>
+        <testsuite name="Database">
+        <directory>./tests/Database</directory>
         </testsuite>
     </testsuites>
     <source>
@@ -22,7 +25,7 @@
         <env name="BCRYPT_ROUNDS" value="4"/>
         <env name="CACHE_STORE" value="array"/>
         <env name="DB_CONNECTION" value="sqlite"/>
-        <env name="DB_DATABASE" value="/mnt/c/Users/Ydavi/Coding/websites/zeev-jewelry/backend/database/database.sqlite"/>
+        <env name="DB_DATABASE" value="/Users/yaakovdavidovici/Coding/Websites/Zeev-Jewelry/database/database.sqlite"/>
         <env name="MAIL_MAILER" value="array"/>
         <env name="PULSE_ENABLED" value="false"/>
         <env name="QUEUE_CONNECTION" value="sync"/>

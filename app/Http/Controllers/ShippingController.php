@@ -49,7 +49,7 @@ class ShippingController extends Controller
     public function show(Shipping $shipping)
     {
         $this->authorize('view', $shipping);
-        return view('shippings.show', compact('shipping'));
+        return view('shipping.show', compact('shipping'));
     }
 
     public function edit(Shipping $shipping)

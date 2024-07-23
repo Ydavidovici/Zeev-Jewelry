@@ -24,7 +24,7 @@ use App\Http\Controllers\Seller\SellerController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\HomeController;
-
+use App\Http\Controllers\WebhookController;
 
 // Authentication Routes
 Route::get('login', [LoginController::class, 'showLoginForm'])->name('login');
@@ -43,15 +43,12 @@ Route::post('password/reset', [ResetPasswordController::class, 'reset']);
 
 // Public routes
 Route::get('/', [HomeController::class, 'index'])->name('home');
-
 Route::get('/test', function () {
     return 'Test route is working';
 });
-
 Route::get('upload', function () {
     return view('upload');
 });
-
 Route::post('upload', [FileUploadController::class, 'store'])->name('file.upload');
 
 // Authenticated routes
@@ -66,12 +63,9 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('products', ProductController::class);
     Route::resource('reviews', ReviewController::class);
     Route::resource('roles', RoleController::class);
-    Route::resource('shippings', ShippingController::class);
+    Route::resource('shipping', ShippingController::class);
     Route::resource('users', UserController::class);
-
-    Route::post('upload', [FileUploadController::class, 'store'])->name('file.upload');
 });
-
 
 // Admin routes
 Route::middleware(['auth', 'role:admin-page'])->prefix('admin-page')->name('admin-page.')->group(function() {
@@ -109,8 +103,6 @@ Route::middleware(['auth', 'role:admin-page'])->prefix('admin-page')->name('admi
     Route::resource('payments', PaymentController::class);
 });
 
-
-
 // Seller routes
 Route::middleware(['auth', 'role:seller-page'])->prefix('seller-page')->name('seller-page.')->group(function() {
     Route::get('/', [SellerController::class, 'index'])->name('dashboard');
@@ -136,12 +128,12 @@ Route::middleware(['auth', 'role:seller-page'])->prefix('seller-page')->name('se
     Route::delete('inventory/{id}', [SellerController::class, 'deleteInventory'])->name('inventory.destroy');
 
     // Shipping Routes
-    Route::get('shippings', [SellerController::class, 'shippings'])->name('shippings.index');
-    Route::get('shippings/create', [SellerController::class, 'createShipping'])->name('shippings.create');
-    Route::post('shippings', [SellerController::class, 'storeShipping'])->name('shippings.store');
-    Route::get('shippings/{id}/edit', [SellerController::class, 'editShipping'])->name('shippings.edit');
-    Route::put('shippings/{id}', [SellerController::class, 'updateShipping'])->name('shippings.update');
-    Route::delete('shippings/{id}', [SellerController::class, 'deleteShipping'])->name('shippings.destroy');
+    Route::get('shipping', [SellerController::class, 'shipping'])->name('shipping.index');
+    Route::get('shipping/create', [SellerController::class, 'createShipping'])->name('shipping.create');
+    Route::post('shipping', [SellerController::class, 'storeShipping'])->name('shipping.store');
+    Route::get('shipping/{id}/edit', [SellerController::class, 'editShipping'])->name('shipping.edit');
+    Route::put('shipping/{id}', [SellerController::class, 'updateShipping'])->name('shipping.update');
+    Route::delete('shipping/{id}', [SellerController::class, 'deleteShipping'])->name('shipping.destroy');
 
     // Payment Routes
     Route::get('payments', [SellerController::class, 'payments'])->name('payments.index');
@@ -151,7 +143,6 @@ Route::middleware(['auth', 'role:seller-page'])->prefix('seller-page')->name('se
     Route::put('payments/{id}', [SellerController::class, 'updatePayment'])->name('payments.update');
     Route::delete('payments/{id}', [SellerController::class, 'deletePayment'])->name('payments.destroy');
 });
-
 
 // Password Change Routes
 Route::middleware('auth')->group(function () {
@@ -168,4 +159,21 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('checkout', [CheckoutController::class, 'index'])->name('checkout.index');
     Route::post('checkout', [CheckoutController::class, 'store'])->name('checkout.store');
+    Route::get('checkout/success', [CheckoutController::class, 'success'])->name('checkout.success');
+    Route::get('checkout/cancel', [CheckoutController::class, 'cancel'])->name('checkout.cancel');
 });
+
+// Stripe Payment Routes
+Route::middleware(['auth'])->group(function () {
+    Route::get('payments', [PaymentController::class, 'index'])->name('payments.index');
+    Route::get('payments/create', [PaymentController::class, 'create'])->name('payments.create');
+    Route::post('payments', [PaymentController::class, 'store'])->name('payments.store');
+    Route::post('payments/confirm', [PaymentController::class, 'confirm'])->name('payments.confirm');
+    Route::get('payments/{payment}', [PaymentController::class, 'show'])->name('payments.show');
+    Route::get('payments/{payment}/edit', [PaymentController::class, 'edit'])->name('payments.edit');
+    Route::put('payments/{payment}', [PaymentController::class, 'update'])->name('payments.update');
+    Route::delete('payments/{payment}', [PaymentController::class, 'destroy'])->name('payments.destroy');
+});
+
+// Stripe Webhook
+Route::post('stripe/webhook', [WebhookController::class, 'handle']);
