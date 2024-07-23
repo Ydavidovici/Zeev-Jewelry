@@ -16,6 +16,11 @@ class CartController extends Controller
 
     public function store(Request $request)
     {
+        $request->validate([
+            'product_id' => 'required|exists:products,id',
+            'quantity' => 'required|integer|min:1',
+        ]);
+
         $product = Product::findOrFail($request->input('product_id'));
         $quantity = $request->input('quantity', 1);
 
@@ -35,6 +40,10 @@ class CartController extends Controller
 
     public function update(Request $request, $productId)
     {
+        $request->validate([
+            'quantity' => 'required|integer|min:1',
+        ]);
+
         $quantity = $request->input('quantity');
         $cart = Session::get('cart', []);
 
