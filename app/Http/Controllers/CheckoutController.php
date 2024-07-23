@@ -6,9 +6,15 @@ use Illuminate\Http\Request;
 use App\Models\Order;
 use App\Models\OrderDetail;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Auth;
 
 class CheckoutController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     public function index()
     {
         $cart = Session::get('cart', []);
@@ -28,24 +34,28 @@ class CheckoutController extends Controller
             return redirect()->route('cart.index')->with('error', 'Your cart is empty.');
         }
 
-        $order = new Order();
-        $order->user_id = auth()->id();
-        $order->address = $validatedData['address'];
-        $order->city = $validatedData['city'];
-        $order->postal_code = $validatedData['postal_code'];
-        $order->status = 'Pending';
-        $order->save();
+        try {
+            $order = new Order();
+            $order->user_id = Auth::id();
+            $order->address = $validatedData['address'];
+            $order->city = $validatedData['city'];
+            $order->postal_code = $validatedData['postal_code'];
+            $order->status = 'Pending';
+            $order->save();
 
-        foreach ($cart as $item) {
-            OrderDetail::create([
-                'order_id' => $order->id,
-                'product_id' => $item['product']->id,
-                'quantity' => $item['quantity'],
-                'price' => $item['product']->price,
-            ]);
+            foreach ($cart as $item) {
+                OrderDetail::create([
+                    'order_id' => $order->id,
+                    'product_id' => $item['product']->id,
+                    'quantity' => $item['quantity'],
+                    'price' => $item['product']->price,
+                ]);
+            }
+
+            Session::forget('cart');
+            return redirect()->route('orders.show', $order->id)->with('success', 'Order placed successfully.');
+        } catch (\Exception $e) {
+            return redirect()->route('checkout.index')->with('error', 'An error occurred while placing the order. Please try again.');
         }
-
-        Session::forget('cart');
-        return redirect()->route('orders.show', $order->id)->with('success', 'Order placed successfully.');
     }
 }
