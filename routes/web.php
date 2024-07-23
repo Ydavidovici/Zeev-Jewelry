@@ -71,12 +71,6 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('roles', RoleController::class);
     Route::resource('shipping', ShippingController::class);
     Route::resource('users', UserController::class);
-
-    // Checkout routes
-    Route::get('checkout', [CheckoutController::class, 'index'])->name('checkout.index');
-    Route::post('checkout', [CheckoutController::class, 'store'])->name('checkout.store');
-    Route::get('checkout/success', [CheckoutController::class, 'success'])->name('checkout.success');
-    Route::get('checkout/cancel', [CheckoutController::class, 'cancel'])->name('checkout.cancel');
 });
 
 // Admin routes
@@ -176,3 +170,9 @@ Route::middleware(['auth'])->group(function () {
 
 // Stripe Webhook
 Route::post('stripe/webhook', [WebhookController::class, 'handle']);
+
+// Checkout routes (accessible to guests and authenticated users)
+Route::get('checkout', [CheckoutController::class, 'index'])->name('checkout.index');
+Route::post('checkout', [CheckoutController::class, 'store'])->name('checkout.store');
+Route::get('checkout/success', [CheckoutController::class, 'success'])->name('checkout.success');
+Route::get('checkout/failure', [CheckoutController::class, 'failure'])->name('checkout.failure');
