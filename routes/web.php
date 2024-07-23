@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Admin\PermissionsController;
 use App\Http\Controllers\Auth\ChangePasswordController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Auth\LoginController;
@@ -89,35 +90,35 @@ Route::middleware(['auth', 'check.role:admin-page'])->prefix('admin-page')->name
     Route::get('/', [AdminController::class, 'index'])->name('dashboard');
 
     // User routes
-    Route::get('users', [AdminController::class, 'users'])->name('users.index');
-    Route::get('users/create', [AdminController::class, 'createUser'])->name('users.create');
-    Route::post('users', [AdminController::class, 'storeUser'])->name('users.store');
-    Route::get('users/{id}/edit', [AdminController::class, 'editUser'])->name('users.edit');
-    Route::put('users/{id}', [AdminController::class, 'updateUser'])->name('users.update');
-    Route::delete('users/{id}', [AdminController::class, 'deleteUser'])->name('users.destroy');
+    Route::get('users', [UserController::class, 'index'])->name('users.index');
+    Route::get('users/create', [UserController::class, 'create'])->name('users.create');
+    Route::post('users', [UserController::class, 'store'])->name('users.store');
+    Route::get('users/{id}/edit', [UserController::class, 'edit'])->name('users.edit');
+    Route::put('users/{id}', [UserController::class, 'update'])->name('users.update');
+    Route::delete('users/{id}', [UserController::class, 'destroy'])->name('users.destroy');
 
     // Role routes
-    Route::get('roles', [AdminController::class, 'roles'])->name('roles.index');
-    Route::get('roles/create', [AdminController::class, 'createRole'])->name('roles.create');
-    Route::post('roles', [AdminController::class, 'storeRole'])->name('roles.store');
-    Route::get('roles/{id}/edit', [AdminController::class, 'editRole'])->name('roles.edit');
-    Route::put('roles/{id}', [AdminController::class, 'updateRole'])->name('roles.update');
-    Route::delete('roles/{id}', [AdminController::class, 'deleteRole'])->name('roles.destroy');
+    Route::get('roles', [RoleController::class, 'index'])->name('roles.index');
+    Route::get('roles/create', [RoleController::class, 'create'])->name('roles.create');
+    Route::post('roles', [RoleController::class, 'store'])->name('roles.store');
+    Route::get('roles/{id}/edit', [RoleController::class, 'edit'])->name('roles.edit');
+    Route::put('roles/{id}', [RoleController::class, 'update'])->name('roles.update');
+    Route::delete('roles/{id}', [RoleController::class, 'destroy'])->name('roles.destroy');
 
     // Permission routes
-    Route::get('permissions', [AdminController::class, 'permissions'])->name('permissions.index');
-    Route::get('permissions/create', [AdminController::class, 'createPermission'])->name('permissions.create');
-    Route::post('permissions', [AdminController::class, 'storePermission'])->name('permissions.store');
-    Route::get('permissions/{id}/edit', [AdminController::class, 'editPermission'])->name('permissions.edit');
-    Route::put('permissions/{id}', [AdminController::class, 'updatePermission'])->name('permissions.update');
-    Route::delete('permissions/{id}', [AdminController::class, 'deletePermission'])->name('permissions.destroy');
+    Route::get('permissions', [PermissionsController::class, 'index'])->name('permissions.index');
+    Route::get('permissions/create', [PermissionsController::class, 'create'])->name('permissions.create');
+    Route::post('permissions', [PermissionsController::class, 'store'])->name('permissions.store');
+    Route::get('permissions/{id}/edit', [PermissionsController::class, 'edit'])->name('permissions.edit');
+    Route::put('permissions/{id}', [PermissionsController::class, 'update'])->name('permissions.update');
+    Route::delete('permissions/{id}', [PermissionsController::class, 'destroy'])->name('permissions.destroy');
 
     // Existing seller-page functionalities
-    Route::resource('products', ProductController::class);
-    Route::resource('orders', OrderController::class);
+    Route::resource('products', ProductsController::class);
+    Route::resource('orders', OrdersController::class);
     Route::resource('inventory', InventoryController::class);
     Route::resource('shipping', ShippingController::class);
-    Route::resource('payments', PaymentController::class);
+    Route::resource('payments', PaymentsController::class);
 });
 
 // Seller routes
