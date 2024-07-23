@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Admin\PermissionsController;
 use App\Http\Controllers\Auth\ChangePasswordController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Auth\LoginController;
@@ -22,6 +23,7 @@ use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\Seller\SellerController;
+use App\Http\Controllers\Seller\ReportController;
 use App\Http\Controllers\ShippingController;
 use App\Http\Controllers\WebhookController;
 use Illuminate\Support\Facades\Route;
@@ -89,12 +91,12 @@ Route::middleware(['auth', 'check.role:admin-page'])->prefix('admin-page')->name
     Route::get('/', [AdminController::class, 'index'])->name('dashboard');
 
     // User routes
-    Route::get('users', [AdminController::class, 'users'])->name('users.index');
-    Route::get('users/create', [AdminController::class, 'createUser'])->name('users.create');
-    Route::post('users', [AdminController::class, 'storeUser'])->name('users.store');
-    Route::get('users/{id}/edit', [AdminController::class, 'editUser'])->name('users.edit');
-    Route::put('users/{id}', [AdminController::class, 'updateUser'])->name('users.update');
-    Route::delete('users/{id}', [AdminController::class, 'deleteUser'])->name('users.destroy');
+    Route::get('users', [UserController::class, 'index'])->name('users.index');
+    Route::get('users/create', [UserController::class, 'create'])->name('users.create');
+    Route::post('users', [UserController::class, 'store'])->name('users.store');
+    Route::get('users/{id}/edit', [UserController::class, 'edit'])->name('users.edit');
+    Route::put('users/{id}', [UserController::class, 'update'])->name('users.update');
+    Route::delete('users/{id}', [UserController::class, 'destroy'])->name('users.destroy');
 
     // Role routes
     Route::get('roles', [RoleController::class, 'index'])->name('roles.index');
@@ -105,12 +107,12 @@ Route::middleware(['auth', 'check.role:admin-page'])->prefix('admin-page')->name
     Route::delete('roles/{id}', [RoleController::class, 'destroy'])->name('roles.destroy');
 
     // Permission routes
-    Route::get('permissions', [PermissionController::class, 'index'])->name('permissions.index');
-    Route::get('permissions/create', [PermissionController::class, 'create'])->name('permissions.create');
-    Route::post('permissions', [PermissionController::class, 'store'])->name('permissions.store');
-    Route::get('permissions/{id}/edit', [PermissionController::class, 'edit'])->name('permissions.edit');
-    Route::put('permissions/{id}', [PermissionController::class, 'update'])->name('permissions.update');
-    Route::delete('permissions/{id}', [PermissionController::class, 'destroy'])->name('permissions.destroy');
+    Route::get('permissions', [PermissionsController::class, 'index'])->name('permissions.index');
+    Route::get('permissions/create', [PermissionsController::class, 'create'])->name('permissions.create');
+    Route::post('permissions', [PermissionsController::class, 'store'])->name('permissions.store');
+    Route::get('permissions/{id}/edit', [PermissionsController::class, 'edit'])->name('permissions.edit');
+    Route::put('permissions/{id}', [PermissionsController::class, 'update'])->name('permissions.update');
+    Route::delete('permissions/{id}', [PermissionsController::class, 'destroy'])->name('permissions.destroy');
 });
 
 // Seller routes
