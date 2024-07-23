@@ -6,7 +6,7 @@
         <form action="{{ route('shippings.update', $shipping->id) }}" method="POST">
             @csrf
             @method('PUT')
-            @include('shippings.form')
+            @include('seller.shippings.form')
             <button type="submit" class="btn btn-primary">Update</button>
         </form>
     </div>
