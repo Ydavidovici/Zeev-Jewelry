@@ -43,13 +43,13 @@ class ShippingController extends Controller
 
         Shipping::create($request->all());
 
-        return redirect()->route('shippings.index');
+        return redirect()->route('shippings.index')->with('success', 'Shipping created successfully.');
     }
 
     public function show(Shipping $shipping)
     {
         $this->authorize('view', $shipping);
-        return view('shipping.show', compact('shipping'));
+        return view('shippings.show', compact('shipping'));
     }
 
     public function edit(Shipping $shipping)
@@ -76,7 +76,7 @@ class ShippingController extends Controller
 
         $shipping->update($request->all());
 
-        return redirect()->route('shippings.index');
+        return redirect()->route('shippings.index')->with('success', 'Shipping updated successfully.');
     }
 
     public function destroy(Shipping $shipping)
@@ -84,6 +84,6 @@ class ShippingController extends Controller
         $this->authorize('delete', $shipping);
         $shipping->delete();
 
-        return redirect()->route('shippings.index');
+        return redirect()->route('shippings.index')->with('success', 'Shipping deleted successfully.');
     }
 }
