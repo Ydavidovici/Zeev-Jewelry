@@ -1,5 +1,7 @@
 <?php
 
+// app/Http/Middleware/CheckRole.php
+
 namespace App\Http\Middleware;
 
 use Closure;
@@ -16,7 +18,7 @@ class CheckRole
 
         $user = Auth::user();
         if ($user->role !== $role) {
-            return redirect('/login');
+            return response()->view('errors.403', [], 403);
         }
 
         return $next($request);

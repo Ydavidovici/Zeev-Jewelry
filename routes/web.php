@@ -54,7 +54,6 @@ Route::post('upload', [FileUploadController::class, 'store'])->name('file.upload
 // Pages
 Route::get('products', [ProductController::class, 'index'])->name('products.index');
 
-
 // Cart routes (accessible to guests and authenticated users)
 Route::get('cart', [CartController::class, 'index'])->name('cart.index');
 Route::post('cart', [CartController::class, 'store'])->name('cart.store');
@@ -67,7 +66,6 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('customers', CustomerController::class);
     Route::resource('inventories', InventoryController::class);
     Route::resource('inventory-movements', InventoryMovementController::class);
-    Route::resource('orders', OrderController::class);
     Route::resource('order-details', OrderDetailController::class);
     Route::resource('payments', PaymentController::class);
     Route::resource('products', ProductController::class);
@@ -75,10 +73,19 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('roles', RoleController::class);
     Route::resource('shipping', ShippingController::class);
     Route::resource('users', UserController::class);
+
+    // Orders routes
+    Route::get('orders', [OrderController::class, 'index'])->name('orders.index');
+    Route::get('orders/create', [OrderController::class, 'create'])->name('orders.create');
+    Route::post('orders', [OrderController::class, 'store'])->name('orders.store');
+    Route::get('orders/{order}', [OrderController::class, 'show'])->name('orders.show');
+    Route::get('orders/{order}/edit', [OrderController::class, 'edit'])->name('orders.edit');
+    Route::put('orders/{order}', [OrderController::class, 'update'])->name('orders.update');
+    Route::delete('orders/{order}', [OrderController::class, 'destroy'])->name('orders.destroy');
 });
 
 // Admin routes
-Route::middleware(['auth', 'role:admin-page'])->prefix('admin-page')->name('admin-page.')->group(function() {
+Route::middleware(['auth', 'check.role:admin-page'])->prefix('admin-page')->name('admin-page.')->group(function() {
     Route::get('/', [AdminController::class, 'index'])->name('dashboard');
 
     // User routes
@@ -114,7 +121,7 @@ Route::middleware(['auth', 'role:admin-page'])->prefix('admin-page')->name('admi
 });
 
 // Seller routes
-Route::middleware(['auth', 'role:seller-page'])->prefix('seller-page')->name('seller-page.')->group(function() {
+Route::middleware(['auth', 'check.role:seller-page'])->prefix('seller-page')->name('seller-page.')->group(function() {
     Route::get('/', [SellerController::class, 'index'])->name('dashboard');
 
     // Product Routes
