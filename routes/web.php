@@ -51,6 +51,10 @@ Route::get('upload', function () {
 });
 Route::post('upload', [FileUploadController::class, 'store'])->name('file.upload');
 
+// Pages
+Route::get('products', [ProductController::class, 'index'])->name('products.index');
+
+
 // Cart routes (accessible to guests and authenticated users)
 Route::get('cart', [CartController::class, 'index'])->name('cart.index');
 Route::post('cart', [CartController::class, 'store'])->name('cart.store');
@@ -176,3 +180,4 @@ Route::get('checkout', [CheckoutController::class, 'index'])->name('checkout.ind
 Route::post('checkout', [CheckoutController::class, 'store'])->name('checkout.store');
 Route::get('checkout/success', [CheckoutController::class, 'success'])->name('checkout.success');
 Route::get('checkout/failure', [CheckoutController::class, 'failure'])->name('checkout.failure');
+
