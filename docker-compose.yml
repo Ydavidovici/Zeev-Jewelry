@@ -20,7 +20,7 @@ services:
       - "80:80"
     depends_on:
       - db
-    command: /bin/bash -c "composer install && php artisan key:generate && php artisan migrate --force && php artisan db:seed --force && php artisan storage:link && apache2-foreground"
+    command: /bin/bash -c "composer install && npm install && npm run dev && php artisan key:generate && php artisan migrate --force && php artisan db:seed --force && php artisan storage:link && apache2-foreground"
 
   db:
     image: mariadb:10.5
