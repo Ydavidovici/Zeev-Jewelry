@@ -33,8 +33,15 @@ RUN a2enmod rewrite
 # Install Composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
+# Install Node.js and npm
+RUN curl -sL https://deb.nodesource.com/setup_14.x | bash - && \
+    apt-get install -y nodejs
+
 # Copy existing application directory permissions
 COPY --chown=www-data:www-data . /var/www
+
+# Install npm dependencies and build assets
+RUN npm install && npm run dev
 
 # Change current user to www-data
 USER www-data
