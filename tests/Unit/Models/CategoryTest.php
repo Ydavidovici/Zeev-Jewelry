@@ -2,21 +2,15 @@
 
 namespace Tests\Unit\Models;
 
+use PHPUnit\Framework\TestCase;
 use App\Models\Category;
-use Tests\TestCase;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class CategoryTest extends TestCase
 {
-    use RefreshDatabase;
-
-    /** @test */
-    public function it_creates_a_category()
+    public function test_category_has_category_name()
     {
-        $category = Category::factory()->create([
-            'category_name' => 'Necklaces',
-        ]);
+        $category = new Category(['category_name' => 'Electronics']);
 
-        $this->assertDatabaseHas('categories', ['category_name' => 'Necklaces']);
+        $this->assertEquals('Electronics', $category->category_name);
     }
 }

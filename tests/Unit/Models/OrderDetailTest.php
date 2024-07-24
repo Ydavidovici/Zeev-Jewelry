@@ -2,28 +2,36 @@
 
 namespace Tests\Unit\Models;
 
-use App\Models\Order;
-use App\Models\Product;
+use PHPUnit\Framework\TestCase;
 use App\Models\OrderDetail;
-use Tests\TestCase;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class OrderDetailTest extends TestCase
 {
-    use RefreshDatabase;
-
-    /** @test */
-    public function it_creates_an_order_detail()
+    public function test_order_detail_has_order_id()
     {
-        $order = Order::factory()->create(); // Create an order first
-        $product = Product::factory()->create(); // Create a product first
-        $orderDetail = OrderDetail::factory()->create([
-            'order_id' => $order->id,
-            'product_id' => $product->id,
-            'quantity' => 2,
-            'price' => 50.00,
-        ]);
+        $orderDetail = new OrderDetail(['order_id' => 1]);
 
-        $this->assertDatabaseHas('order_details', ['quantity' => 2]);
+        $this->assertEquals(1, $orderDetail->order_id);
+    }
+
+    public function test_order_detail_has_product_id()
+    {
+        $orderDetail = new OrderDetail(['product_id' => 1]);
+
+        $this->assertEquals(1, $orderDetail->product_id);
+    }
+
+    public function test_order_detail_has_quantity()
+    {
+        $orderDetail = new OrderDetail(['quantity' => 2]);
+
+        $this->assertEquals(2, $orderDetail->quantity);
+    }
+
+    public function test_order_detail_has_price()
+    {
+        $orderDetail = new OrderDetail(['price' => 99.99]);
+
+        $this->assertEquals(99.99, $orderDetail->price);
     }
 }

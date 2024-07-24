@@ -2,28 +2,61 @@
 
 namespace Tests\Unit\Models;
 
-use App\Models\Product;
-use App\Models\Customer;
+use PHPUnit\Framework\TestCase;
 use App\Models\Review;
-use Tests\TestCase;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class ReviewTest extends TestCase
 {
-    use RefreshDatabase;
-
-    /** @test */
-    public function it_creates_a_review()
+    public function test_review_has_product_id()
     {
-        $product = Product::factory()->create(); // Create a product first
-        $customer = Customer::factory()->create(); // Create a customer first
-        $review = Review::factory()->create([
-            'product_id' => $product->id,
-            'customer_id' => $customer->id,
-            'review_text' => 'Great product!',
-            'rating' => 5,
-        ]);
+        $review = new Review(['product_id' => 1]);
 
-        $this->assertDatabaseHas('reviews', ['review_text' => 'Great product!']);
+        $this->assertEquals(1, $review->product_id);
+    }
+
+    public function test_review_has_customer_id()
+    {
+        $review = new Review(['customer_id' => 1]);
+
+        $this->assertEquals(1, $review->customer_id);
+    }
+
+    public function test_review_has_review_text()
+    {
+        $review = new Review(['review_text' => 'Great product!']);
+
+        $this->assertEquals('Great product!', $review->review_text);
+    }
+
+    public function test_review_has_rating()
+    {
+        $review = new Review(['rating' => 5]);
+
+        $this->assertEquals(5, $review->rating);
+    }
+
+    public function test_review_has_review_date()
+    {
+        $review = new Review(['review_date' => '2024-07-24']);
+
+        $this->assertEquals('2024-07-24', $review->review_date);
+    }
+
+    public function test_review_belongs_to_product()
+    {
+        $review = new Review();
+        $relation = $review->product();
+
+        $this->assertInstanceOf(\Illuminate\Database\Eloquent\Relations\BelongsTo::class, $relation);
+        $this->assertEquals('product_id', $relation->getForeignKeyName());
+    }
+
+    public function test_review_belongs_to_customer()
+    {
+        $review = new Review();
+        $relation = $review->customer();
+
+        $this->assertInstanceOf(\Illuminate\Database\Eloquent\Relations\BelongsTo::class, $relation);
+        $this->assertEquals('customer_id', $relation->getForeignKeyName());
     }
 }

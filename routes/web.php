@@ -27,6 +27,7 @@ use App\Http\Controllers\Seller\ReportController;
 use App\Http\Controllers\ShippingController;
 use App\Http\Controllers\WebhookController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\CartItemController;
 
 // Authentication Routes
 Route::get('login', [LoginController::class, 'showLoginForm'])->name('login');
@@ -61,6 +62,7 @@ Route::get('cart', [CartController::class, 'index'])->name('cart.index');
 Route::post('cart', [CartController::class, 'store'])->name('cart.store');
 Route::put('cart/{product}', [CartController::class, 'update'])->name('cart.update');
 Route::delete('cart/{product}', [CartController::class, 'destroy'])->name('cart.destroy');
+Route::resource('cart_items', CartItemController::class);
 
 // Authenticated routes
 Route::middleware(['auth'])->group(function () {
@@ -185,3 +187,4 @@ Route::get('checkout', [CheckoutController::class, 'index'])->name('checkout.ind
 Route::post('checkout', [CheckoutController::class, 'store'])->name('checkout.store');
 Route::get('checkout/success', [CheckoutController::class, 'success'])->name('checkout.success');
 Route::get('checkout/failure', [CheckoutController::class, 'failure'])->name('checkout.failure');
+
