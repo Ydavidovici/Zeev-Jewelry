@@ -4,41 +4,23 @@
          bootstrap="vendor/autoload.php"
          colors="true">
     <testsuites>
-        <testsuite name="Unit">
-            <directory>./tests/Unit</directory>
-        </testsuite>
-        <testsuite name="Feature">
-            <directory>./tests/Feature</directory>
-        </testsuite>
         <testsuite name="Database">
             <directory>./tests/Database</directory>
         </testsuite>
         <testsuite name="Controllers">
             <directory>./tests/Feature/Controllers</directory>
         </testsuite>
-        <testsuite name="Models">
+        <testsuite name="Feature/Models">
+            <directory>./tests/Feature/Models</directory>
+        </testsuite>
+        <testsuite name="Unit/Models">
             <directory>./tests/Unit/Models</directory>
         </testsuite>
         <testsuite name="Policies">
             <directory>./tests/Unit/Policies</directory>
         </testsuite>
-        <testsuite name="Requests">
-            <directory>./tests/Feature/Requests</directory>
-        </testsuite>
-        <testsuite name="Commands">
-            <directory>./tests/Unit/Commands</directory>
-        </testsuite>
-        <testsuite name="Services">
-            <directory>./tests/Unit/Services</directory>
-        </testsuite>
-        <testsuite name="Events">
-            <directory>./tests/Unit/Events</directory>
-        </testsuite>
-        <testsuite name="Listeners">
-            <directory>./tests/Unit/Listeners</directory>
-        </testsuite>
-        <testsuite name="Jobs">
-            <directory>./tests/Unit/Jobs</directory>
+        <testsuite name="Routes">
+            <directory>./tests/Feature/Routes</directory>
         </testsuite>
     </testsuites>
     <source>
