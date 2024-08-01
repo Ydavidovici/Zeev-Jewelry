@@ -1,32 +1,33 @@
 <?php
 
-namespace Tests\Unit\Factories;
+namespace Tests\Database;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 use App\Models\User;
 use App\Models\Product;
 use App\Models\Order;
+use PHPUnit\Framework\Attributes\Test;
 
-class FactoryTest extends TestCase
+class FactoriesTest extends TestCase
 {
     use RefreshDatabase;
 
-    /** @test */
+    #[Test]
     public function it_can_create_user()
     {
         $user = User::factory()->create();
         $this->assertDatabaseHas('users', ['id' => $user->id]);
     }
 
-    /** @test */
+    #[Test]
     public function it_can_create_product()
     {
         $product = Product::factory()->create();
         $this->assertDatabaseHas('products', ['id' => $product->id]);
     }
 
-    /** @test */
+    #[Test]
     public function it_can_create_order()
     {
         $order = Order::factory()->create();

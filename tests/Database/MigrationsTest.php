@@ -1,13 +1,14 @@
 <?php
 
-namespace Tests\Unit\Migrations;
+namespace Tests\Database;
 
 use Illuminate\Support\Facades\Schema;
 use Tests\TestCase;
+use PHPUnit\Framework\Attributes\Test;
 
-class MigrationTest extends TestCase
+class MigrationsTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function users_table_has_expected_columns()
     {
         $this->assertTrue(
@@ -17,7 +18,7 @@ class MigrationTest extends TestCase
         );
     }
 
-    /** @test */
+    #[Test]
     public function products_table_has_expected_columns()
     {
         $this->assertTrue(
@@ -27,7 +28,7 @@ class MigrationTest extends TestCase
         );
     }
 
-    /** @test */
+    #[Test]
     public function orders_table_has_expected_columns()
     {
         $this->assertTrue(
