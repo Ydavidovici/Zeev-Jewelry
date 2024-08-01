@@ -13,7 +13,7 @@ class MigrationsTest extends TestCase
     {
         $this->assertTrue(
             Schema::hasColumns('users', [
-                'id', 'username', 'email', 'password', 'role_id'
+                'id', 'username', 'email', 'password', 'role_id', 'created_at', 'updated_at'
             ])
         );
     }
@@ -23,7 +23,7 @@ class MigrationsTest extends TestCase
     {
         $this->assertTrue(
             Schema::hasColumns('products', [
-                'id', 'category_id', 'name', 'description', 'price', 'stock_quantity', 'is_featured'
+                'id', 'category_id', 'product_name', 'description', 'price', 'image_url', 'created_at', 'updated_at'
             ])
         );
     }
@@ -33,7 +33,7 @@ class MigrationsTest extends TestCase
     {
         $this->assertTrue(
             Schema::hasColumns('orders', [
-                'id', 'customer_id', 'order_date', 'total_amount', 'is_guest', 'status'
+                'id', 'customer_id', 'order_date', 'total_amount', 'is_guest', 'status', 'created_at', 'updated_at'
             ])
         );
     }
