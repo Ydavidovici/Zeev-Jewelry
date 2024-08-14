@@ -7,6 +7,7 @@ use Stripe\Webhook;
 use Stripe\Exception\SignatureVerificationException;
 use Illuminate\Support\Facades\Log;
 use App\Models\Order;
+use App\Models\Payment;
 use Illuminate\Http\JsonResponse;
 
 class WebhookController extends Controller
@@ -30,12 +31,20 @@ class WebhookController extends Controller
         switch ($event->type) {
             case 'payment_intent.succeeded':
                 $paymentIntent = $event->data->object;
+
                 Log::info('PaymentIntent was successful!');
 
                 $order = Order::where('payment_intent_id', $paymentIntent->id)->first();
                 if ($order) {
                     $order->status = 'Paid';
                     $order->save();
+
+                    $payment = Payment::where('payment_intent_id', $paymentIntent->id)->first();
+                    if ($payment) {
+                        $payment->update([
+                            'payment_status' => 'succeeded',
+                        ]);
+                    }
                 }
                 break;
 

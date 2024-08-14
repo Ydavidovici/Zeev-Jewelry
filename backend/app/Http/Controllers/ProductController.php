@@ -8,56 +8,27 @@ use Illuminate\Http\JsonResponse;
 
 class ProductController extends Controller
 {
-    public function index(): JsonResponse
+    public function show(Request $request, $id): JsonResponse
     {
-        $products = Product::all();
-        return response()->json($products);
+        $product = Product::findOrFail($id);
+
+        // Track recently viewed products
+        $viewedProducts = json_decode($request->cookie('viewed_products', '[]'), true);
+
+        if (!in_array($id, $viewedProducts)) {
+            $viewedProducts[] = $id;
+            cookie()->queue(cookie('viewed_products', json_encode($viewedProducts), 60 * 24 * 7)); // 7 days
+        }
+
+        return response()->json(['product' => $product]);
     }
 
-    public function store(Request $request): JsonResponse
+    public function showRecentlyViewed(Request $request): JsonResponse
     {
-        $this->authorize('create', Product::class);
+        $viewedProducts = json_decode($request->cookie('viewed_products', '[]'), true);
 
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'description' => 'required|string',
-            'price' => 'required|numeric',
-            'stock_quantity' => 'required|integer',
-            'is_featured' => 'sometimes|boolean',
-        ]);
+        $products = Product::whereIn('id', $viewedProducts)->get();
 
-        $product = Product::create($request->all());
-
-        return response()->json($product, 201);
-    }
-
-    public function show(Product $product): JsonResponse
-    {
-        return response()->json($product);
-    }
-
-    public function update(Request $request, Product $product): JsonResponse
-    {
-        $this->authorize('update', $product);
-
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'description' => 'required|string',
-            'price' => 'required|numeric',
-            'stock_quantity' => 'required|integer',
-            'is_featured' => 'sometimes|boolean',
-        ]);
-
-        $product->update($request->all());
-
-        return response()->json($product);
-    }
-
-    public function destroy(Product $product): JsonResponse
-    {
-        $this->authorize('delete', $product);
-        $product->delete();
-
-        return response()->json(null, 204);
+        return response()->json(['recently_viewed' => $products]);
     }
 }

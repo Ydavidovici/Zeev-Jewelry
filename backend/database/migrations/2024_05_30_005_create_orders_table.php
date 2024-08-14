@@ -17,6 +17,7 @@ class CreateOrdersTable extends Migration
             $table->decimal('total_amount', 8, 2);
             $table->boolean('is_guest');
             $table->string('status');
+            $table->string('payment_intent_id')->nullable();
             $table->timestamps();
 
             $table->foreign('customer_id')->references('id')->on('customers')->onDelete('cascade');

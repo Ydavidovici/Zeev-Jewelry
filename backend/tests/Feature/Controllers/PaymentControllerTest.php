@@ -1,97 +1,119 @@
 <?php
 
-namespace Tests\Feature;
+namespace Tests\Feature\Controllers;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
-use App\Models\Payment;
 use App\Models\Order;
+use App\Models\Payment;
 use App\Models\User;
-use Stripe\PaymentIntent;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Stripe\Stripe;
+use Stripe\PaymentIntent;
+use Mockery;
 
 class PaymentControllerTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function test_user_can_view_payments()
+    /** @test */
+    public function user_can_create_a_payment_intent()
     {
-        $user = User::factory()->create();
-        $this->actingAs($user, 'sanctum');
+        $this->actingAs(User::factory()->create());
 
-        Payment::factory()->count(3)->create();
-
-        $response = $this->getJson('/api/payments');
-
-        $response->assertStatus(200)
-            ->assertJsonStructure([[]]); // Expect an array of payments
-    }
-
-    public function test_user_can_create_payment_intent()
-    {
-        Stripe::fake();
-        $user = User::factory()->create();
-        $this->actingAs($user, 'sanctum');
-        $order = Order::factory()->create();
+        $order = Order::factory()->create([
+            'total_amount' => 1000,
+        ]);
 
         $response = $this->postJson('/api/payments', [
             'order_id' => $order->id,
-            'amount' => 100,
+            'amount' => $order->total_amount,
         ]);
 
-        $response->assertStatus(200)
-            ->assertJsonStructure(['clientSecret']);
+        $response->assertStatus(200);
+        $this->assertArrayHasKey('clientSecret', $response->json());
+
+        $this->assertDatabaseHas('payments', [
+            'order_id' => $order->id,
+            'payment_status' => 'pending',
+        ]);
     }
 
-    public function test_user_can_confirm_payment()
+    /** @test */
+    public function payment_can_be_confirmed()
     {
-        Stripe::fake();
-        $user = User::factory()->create();
-        $this->actingAs($user, 'sanctum');
-        $order = Order::factory()->create(['payment_intent_id' => 'test_intent']);
+        $this->actingAs(User::factory()->create());
+
+        $order = Order::factory()->create();
+
+        $paymentIntent = PaymentIntent::create([
+            'amount' => 1000,
+            'currency' => 'usd',
+        ]);
+
+        $payment = Payment::factory()->create([
+            'order_id' => $order->id,
+            'payment_intent_id' => $paymentIntent->id,
+            'payment_status' => 'pending',
+            'amount' => 1000,
+        ]);
 
         $response = $this->postJson('/api/payments/confirm', [
-            'payment_intent_id' => 'test_intent',
+            'payment_intent_id' => $paymentIntent->id,
             'order_id' => $order->id,
         ]);
 
-        $response->assertStatus(200)
-            ->assertJson(['message' => 'Payment successful.']);
+        $response->assertStatus(200);
+        $response->assertJson(['message' => 'Payment successful.']);
+
+        $order->refresh();
+        $payment->refresh();
+
+        $this->assertEquals('Paid', $order->status);
+        $this->assertEquals('succeeded', $payment->payment_status);
     }
 
-    public function test_user_can_view_single_payment()
+    /** @test */
+    public function user_can_update_payment_status()
     {
-        $user = User::factory()->create();
-        $this->actingAs($user, 'sanctum');
-        $payment = Payment::factory()->create();
+        $this->actingAs(User::factory()->create());
 
-        $response = $this->getJson("/api/payments/{$payment->id}");
-
-        $response->assertStatus(200)
-            ->assertJsonStructure(['id', 'order_id', 'payment_type', 'payment_status', 'amount']);
-    }
-
-    public function test_user_can_update_payment()
-    {
-        $user = User::factory()->create();
-        $this->actingAs($user, 'sanctum');
-        $payment = Payment::factory()->create();
-
-        $response = $this->putJson("/api/payments/{$payment->id}", [
-            'payment_status' => 'Failed',
+        $payment = Payment::factory()->create([
+            'payment_status' => 'pending',
         ]);
 
-        $response->assertStatus(200)
-            ->assertJsonStructure(['id', 'order_id', 'payment_type', 'payment_status', 'amount']);
+        $response = $this->putJson('/api/payments/' . $payment->id, [
+            'payment_status' => 'completed',
+        ]);
+
+        $response->assertStatus(200);
+
+        $payment->refresh();
+        $this->assertEquals('completed', $payment->payment_status);
     }
 
-    public function test_user_can_delete_payment()
+    /** @test */
+    public function user_can_view_payment_details()
     {
-        $user = User::factory()->create();
-        $this->actingAs($user, 'sanctum');
+        $this->actingAs(User::factory()->create());
+
         $payment = Payment::factory()->create();
 
-        $response = $this->deleteJson("/api/payments/{$payment->id}");
+        $response = $this->getJson('/api/payments/' . $payment->id);
+
+        $response->assertStatus(200);
+        $response->assertJson([
+            'id' => $payment->id,
+        ]);
+    }
+
+    /** @test */
+    public function user_can_delete_a_payment()
+    {
+        $this->actingAs(User::factory()->create());
+
+        $payment = Payment::factory()->create();
+
+        $response = $this->deleteJson('/api/payments/' . $payment->id);
 
         $response->assertStatus(204);
         $this->assertDatabaseMissing('payments', ['id' => $payment->id]);

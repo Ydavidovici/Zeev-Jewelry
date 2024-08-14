@@ -1,11 +1,13 @@
 <?php
 
-namespace App\Http\Controllers\Auth;
+namespace App\Http\Controllers\auth;
 
 use App\Http\Controllers\Controller;
+use App\Mail\WelcomeMail;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 
@@ -36,6 +38,9 @@ class RegisterController extends Controller
             'password' => Hash::make($request->password),
             'role' => 'customer',
         ]);
+
+        // Send welcome email
+        Mail::to($user->email)->send(new WelcomeMail($user));
 
         $token = $user->createToken('auth_token')->plainTextToken;
 

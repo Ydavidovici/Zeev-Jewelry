@@ -1,75 +1,64 @@
 <?php
 
-namespace Tests\Feature;
+namespace Tests\Feature\Controllers;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 use App\Models\Product;
-use App\Models\User;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class CartControllerTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function test_user_can_view_cart()
+    public function test_can_add_product_to_cart()
     {
-        $user = User::factory()->create();
-        $this->actingAs($user, 'sanctum');
-
-        $response = $this->getJson('/api/cart');
-
-        $response->assertStatus(200)
-            ->assertJsonStructure(['cart']);
-    }
-
-    public function test_user_can_add_product_to_cart()
-    {
-        $user = User::factory()->create();
         $product = Product::factory()->create();
-        $this->actingAs($user, 'sanctum');
 
-        $response = $this->postJson('/api/cart', [
+        $response = $this->postJson('/cart', [
             'product_id' => $product->id,
             'quantity' => 1,
         ]);
 
         $response->assertStatus(200)
             ->assertJson(['message' => 'Product added to cart.']);
+
+        $this->assertNotNull($response->headers->getCookies());
+        $this->assertArrayHasKey($product->id, session("cart_" . $this->getCookie('cart_id')));
     }
 
-    public function test_user_can_update_cart()
+    public function test_can_update_cart_item()
     {
-        $user = User::factory()->create();
         $product = Product::factory()->create();
-        $this->actingAs($user, 'sanctum');
 
-        $this->postJson('/api/cart', [
+        $this->postJson('/cart', [
             'product_id' => $product->id,
             'quantity' => 1,
         ]);
 
-        $response = $this->putJson("/api/cart/{$product->id}", [
-            'quantity' => 2,
+        $response = $this->putJson("/cart/{$product->id}", [
+            'quantity' => 5,
         ]);
 
         $response->assertStatus(200)
             ->assertJson(['message' => 'Cart updated.']);
+
+        $this->assertEquals(5, session("cart_" . $this->getCookie('cart_id'))[$product->id]['quantity']);
     }
 
-    public function test_user_can_remove_product_from_cart()
+    public function test_can_remove_product_from_cart()
     {
-        $user = User::factory()->create();
         $product = Product::factory()->create();
-        $this->actingAs($user, 'sanctum');
 
-        $this->postJson('/api/cart', [
+        $this->postJson('/cart', [
             'product_id' => $product->id,
             'quantity' => 1,
         ]);
 
-        $response = $this->deleteJson("/api/cart/{$product->id}");
+        $response = $this->deleteJson("/cart/{$product->id}");
 
         $response->assertStatus(200)
             ->assertJson(['message' => 'Product removed from cart.']);
+
+        $this->assertArrayNotHasKey($product->id, session("cart_" . $this->getCookie('cart_id')));
     }
 }

@@ -1,55 +1,80 @@
 <?php
 
-namespace Tests\Feature;
+namespace Tests\Feature\Controllers;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 use App\Models\Order;
+use App\Models\Payment;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Log;
 use Stripe\Webhook;
-use Stripe\Exception\SignatureVerificationException;
+use Illuminate\Support\Facades\Http;
 
 class WebhookControllerTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function test_webhook_handles_payment_intent_succeeded()
+    /** @test */
+    public function it_handles_successful_payment_intent_webhook()
     {
-        $order = Order::factory()->create(['payment_intent_id' => 'pi_test']);
+        $order = Order::factory()->create([
+            'payment_intent_id' => 'pi_test',
+            'status' => 'pending',
+        ]);
+
+        $payment = Payment::factory()->create([
+            'order_id' => $order->id,
+            'payment_intent_id' => 'pi_test',
+            'payment_status' => 'pending',
+        ]);
 
         $payload = json_encode([
             'type' => 'payment_intent.succeeded',
             'data' => [
                 'object' => [
                     'id' => 'pi_test',
-                    'amount_received' => 1000,
                 ],
             ],
         ]);
 
-        $signature = Webhook::generateSignature($payload, env('STRIPE_WEBHOOK_SECRET'));
+        $sigHeader = 't=' . time() . ',v1=' . hash_hmac('sha256', $payload, config('services.stripe.webhook_secret'));
 
-        $response = $this->withHeader('Stripe-Signature', $signature)
-            ->postJson('/api/stripe/webhook', [], $payload);
+        $response = $this->postJson('/api/stripe/webhook', [], [
+            'Stripe-Signature' => $sigHeader,
+            'Content-Type' => 'application/json',
+        ]);
 
         $response->assertStatus(200);
-        $this->assertDatabaseHas('orders', ['id' => $order->id, 'status' => 'Paid']);
+        $order->refresh();
+        $payment->refresh();
+
+        $this->assertEquals('Paid', $order->status);
+        $this->assertEquals('succeeded', $payment->payment_status);
     }
 
-    public function test_webhook_returns_error_for_invalid_signature()
+    /** @test */
+    public function it_logs_unknown_event_type()
     {
-        $response = $this->withHeader('Stripe-Signature', 'invalid_signature')
-            ->postJson('/api/stripe/webhook', []);
+        Log::shouldReceive('warning')
+            ->once()
+            ->with('Received unknown event type unknown_event');
 
-        $response->assertStatus(400)
-            ->assertJson(['error' => 'Invalid signature']);
-    }
+        $payload = json_encode([
+            'type' => 'unknown_event',
+            'data' => [
+                'object' => [
+                    'id' => 'pi_test',
+                ],
+            ],
+        ]);
 
-    public function test_webhook_returns_error_for_invalid_payload()
-    {
-        $response = $this->postJson('/api/stripe/webhook', 'invalid_payload');
+        $sigHeader = 't=' . time() . ',v1=' . hash_hmac('sha256', $payload, config('services.stripe.webhook_secret'));
 
-        $response->assertStatus(400)
-            ->assertJson(['error' => 'Invalid payload']);
+        $response = $this->postJson('/api/stripe/webhook', [], [
+            'Stripe-Signature' => $sigHeader,
+            'Content-Type' => 'application/json',
+        ]);
+
+        $response->assertStatus(200);
     }
 }

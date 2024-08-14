@@ -1,9 +1,11 @@
 <?php
 
-namespace Tests\Feature\Auth;
+namespace Tests\Feature\Controllers\auth;
 
+use App\Mail\WelcomeMail;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Mail;
 use Tests\TestCase;
 
 class RegisterControllerTest extends TestCase
@@ -12,6 +14,8 @@ class RegisterControllerTest extends TestCase
 
     public function test_user_can_register()
     {
+        Mail::fake();
+
         $response = $this->postJson('/api/register', [
             'username' => 'johndoe',
             'name' => 'John Doe',
@@ -26,6 +30,12 @@ class RegisterControllerTest extends TestCase
         $this->assertDatabaseHas('users', [
             'email' => 'johndoe@example.com',
         ]);
+
+        $user = User::where('email', 'johndoe@example.com')->first();
+
+        Mail::assertSent(WelcomeMail::class, function ($mail) use ($user) {
+            return $mail->hasTo($user->email) && $mail->user->is($user);
+        });
     }
 
     public function test_user_cannot_register_with_existing_email()

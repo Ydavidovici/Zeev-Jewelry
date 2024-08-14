@@ -61,6 +61,7 @@ class MigrationsTest extends TestCase
                 'total_amount',
                 'is_guest',
                 'status',
+                'payment_intent_id', // New column
                 'created_at',
                 'updated_at'
             ])

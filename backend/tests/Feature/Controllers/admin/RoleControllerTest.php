@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature;
+namespace Tests\Feature\Controllers\admin;
 
 use Spatie\Permission\Models\Role;
 use Illuminate\Foundation\Testing\RefreshDatabase;

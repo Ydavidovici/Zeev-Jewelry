@@ -3,9 +3,11 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Mail\PasswordChangeConfirmationMail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Http\JsonResponse;
 
 class ChangePasswordController extends Controller
@@ -30,6 +32,9 @@ class ChangePasswordController extends Controller
 
         $user->password = Hash::make($request->new_password);
         $user->save();
+
+        // Send password change confirmation email
+        Mail::to($user->email)->send(new PasswordChangeConfirmationMail($user));
 
         return response()->json(['message' => 'Password changed successfully.']);
     }

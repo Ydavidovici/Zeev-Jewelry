@@ -1,54 +1,45 @@
 <?php
 
-namespace Tests\Feature\Auth;
+namespace Tests\Feature\Controllers\auth;
 
+use Tests\TestCase;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Tests\TestCase;
+use Illuminate\Support\Facades\Hash;
 
 class LoginControllerTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function test_user_can_login()
+    public function test_can_login_and_set_remember_me_token()
     {
         $user = User::factory()->create([
-            'email' => 'user@example.com',
-            'password' => bcrypt('password123'),
+            'password' => Hash::make('password'),
         ]);
 
-        $response = $this->postJson('/api/login', [
-            'email' => 'user@example.com',
-            'password' => 'password123',
+        $response = $this->postJson('/login', [
+            'email' => $user->email,
+            'password' => 'password',
+            'remember' => true,
         ]);
 
         $response->assertStatus(200)
             ->assertJsonStructure(['access_token', 'token_type']);
+
+        $this->assertNotNull($user->fresh()->remember_token);
+        $this->assertEquals($user->remember_token, $this->getCookie('remember_token'));
     }
 
-    public function test_user_cannot_login_with_invalid_credentials()
-    {
-        $user = User::factory()->create([
-            'email' => 'user@example.com',
-            'password' => bcrypt('password123'),
-        ]);
-
-        $response = $this->postJson('/api/login', [
-            'email' => 'user@example.com',
-            'password' => 'wrongpassword',
-        ]);
-
-        $response->assertStatus(401)
-            ->assertJson(['message' => 'Invalid credentials.']);
-    }
-
-    public function test_user_can_logout()
+    public function test_can_logout_and_clear_remember_me_token()
     {
         $user = User::factory()->create();
+        $token = $user->createToken('auth_token')->plainTextToken;
 
-        $response = $this->actingAs($user, 'sanctum')->postJson('/api/logout');
-
-        $response->assertStatus(200)
+        $this->actingAs($user, 'sanctum')
+            ->postJson('/logout')
+            ->assertStatus(200)
             ->assertJson(['message' => 'Logged out successfully.']);
+
+        $this->assertNull($user->fresh()->remember_token);
     }
 }

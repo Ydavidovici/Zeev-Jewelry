@@ -1,43 +1,42 @@
 <?php
+namespace Tests\Feature\Controllers\admin;
 
-namespace Tests\Feature;
-
+use Tests\TestCase;
 use App\Models\Setting;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Tests\TestCase;
 
 class SettingsControllerTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function test_admin_can_view_settings()
+    public function test_can_retrieve_settings_with_theme()
     {
-        $admin = User::factory()->create();
-        $this->actingAs($admin);
-
-        $response = $this->getJson('/api/admin/settings');
+        $response = $this->withCookie('theme', 'dark')
+            ->getJson('/admin/settings');
 
         $response->assertStatus(200)
-            ->assertJsonStructure([
-                'settings'
-            ]);
+            ->assertJson(['theme' => 'dark']);
     }
 
-    public function test_admin_can_update_settings()
+    public function test_can_update_settings_and_theme()
     {
-        $admin = User::factory()->create();
-        $this->actingAs($admin);
+        $settings = [
+            'site_name' => 'My Site',
+        ];
 
-        $response = $this->putJson('/api/admin/settings', [
-            'settings' => [
-                'site_name' => 'My Site',
-                'site_description' => 'A description'
-            ]
+        $response = $this->putJson('/admin/settings', [
+            'settings' => $settings,
+            'theme' => 'dark',
         ]);
 
         $response->assertStatus(200)
-            ->assertJsonFragment([
-                'message' => 'Settings updated successfully.'
-            ]);
+            ->assertJson(['message' => 'Settings updated successfully.']);
+
+        $this->assertDatabaseHas('settings', [
+            'key' => 'site_name',
+            'value' => 'My Site',
+        ]);
+
+        $this->assertEquals('dark', $this->getCookie('theme'));
     }
 }

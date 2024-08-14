@@ -9,5 +9,24 @@ class Order extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['customer_id', 'order_date', 'total_amount', 'is_guest', 'status'];
+    protected $fillable = [
+        'customer_id',
+        'order_date',
+        'total_amount',
+        'is_guest',
+        'status',
+        'payment_intent_id'
+    ];
+
+    // Relationship with Payment
+    public function payments()
+    {
+        return $this->hasMany(Payment::class);
+    }
+
+    // Relationship with Customer
+    public function customer()
+    {
+        return $this->belongsTo(Customer::class);
+    }
 }

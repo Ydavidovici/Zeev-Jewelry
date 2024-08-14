@@ -38,8 +38,7 @@ class Kernel extends HttpKernel
 
     protected $routeMiddleware = [
         'auth' => \App\Http\Middleware\Authenticate::class,
-        // Removed custom role middleware
-        // 'check.role' => \App\Http\Middleware\CheckRole::class,
+        'auth.jwt' => \Tymon\JWTAuth\Http\Middleware\Authenticate::class,
         'role' => \Spatie\Permission\Middlewares\RoleMiddleware::class,
         'auth.basic' => \Illuminate\Auth\Middleware\AuthenticateWithBasicAuth::class,
         'cache.headers' => \Illuminate\Http\Middleware\SetCacheHeaders::class,

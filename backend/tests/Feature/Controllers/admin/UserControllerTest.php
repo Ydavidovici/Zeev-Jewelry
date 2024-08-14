@@ -1,9 +1,11 @@
 <?php
 
-namespace Tests\Feature;
+namespace Tests\Feature\Controllers\admin;
 
+use App\Mail\WelcomeMail;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Mail;
 use Tests\TestCase;
 
 class UserControllerTest extends TestCase
@@ -25,6 +27,8 @@ class UserControllerTest extends TestCase
 
     public function test_admin_can_create_user()
     {
+        Mail::fake();
+
         $admin = User::factory()->create();
         $this->actingAs($admin);
 
@@ -39,6 +43,12 @@ class UserControllerTest extends TestCase
             ->assertJsonFragment([
                 'username' => 'johndoe'
             ]);
+
+        $user = User::where('email', 'john@example.com')->first();
+
+        Mail::assertSent(WelcomeMail::class, function ($mail) use ($user) {
+            return $mail->hasTo($user->email) && $mail->user->is($user);
+        });
     }
 
     public function test_admin_can_update_user()

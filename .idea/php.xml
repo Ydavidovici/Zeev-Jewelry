@@ -5,6 +5,11 @@
       <LaravelPintConfiguration tool_path="$PROJECT_DIR$/backend/vendor/bin/pint" />
     </laravel_pint_settings>
   </component>
+  <component name="MessDetector">
+    <phpmd_settings>
+      <MessDetectorConfiguration tool_path="$PROJECT_DIR$/backend/vendor/bin/phpmd" />
+    </phpmd_settings>
+  </component>
   <component name="MessDetectorOptionsConfiguration">
     <option name="transferred" value="true" />
   </component>
@@ -14,6 +19,11 @@
   <component name="PHPCodeSnifferOptionsConfiguration">
     <option name="highlightLevel" value="WARNING" />
     <option name="transferred" value="true" />
+  </component>
+  <component name="PhpCodeSniffer">
+    <phpcs_settings>
+      <PhpCSConfiguration beautifier_path="$PROJECT_DIR$/backend/vendor/bin/phpcbf" tool_path="$PROJECT_DIR$/backend/vendor/bin/phpcs" />
+    </phpcs_settings>
   </component>
   <component name="PhpIncludePathManager">
     <include_path>
@@ -31,22 +41,17 @@
       <path value="$PROJECT_DIR$/backend/vendor/nette/schema" />
       <path value="$PROJECT_DIR$/backend/vendor/nette/utils" />
       <path value="$PROJECT_DIR$/backend/vendor/nikic/php-parser" />
-      <path value="$PROJECT_DIR$/backend/vendor/league/commonmark" />
       <path value="$PROJECT_DIR$/backend/vendor/league/config" />
       <path value="$PROJECT_DIR$/backend/vendor/league/flysystem" />
       <path value="$PROJECT_DIR$/backend/vendor/league/mime-type-detection" />
       <path value="$PROJECT_DIR$/backend/vendor/nesbot/carbon" />
       <path value="$PROJECT_DIR$/backend/vendor/ramsey/collection" />
       <path value="$PROJECT_DIR$/backend/vendor/ramsey/uuid" />
-      <path value="$PROJECT_DIR$/backend/vendor/rebing/graphql-laravel" />
-      <path value="$PROJECT_DIR$/backend/vendor/vlucas/phpdotenv" />
-      <path value="$PROJECT_DIR$/backend/vendor/dflydev/dot-access-data" />
       <path value="$PROJECT_DIR$/backend/vendor/egulias/email-validator" />
       <path value="$PROJECT_DIR$/backend/vendor/laravel/framework" />
       <path value="$PROJECT_DIR$/backend/vendor/laravel/pint" />
       <path value="$PROJECT_DIR$/backend/vendor/laravel/prompts" />
       <path value="$PROJECT_DIR$/backend/vendor/laravel/sail" />
-      <path value="$PROJECT_DIR$/backend/vendor/laravel/serializable-closure" />
       <path value="$PROJECT_DIR$/backend/vendor/laravel/tinker" />
       <path value="$PROJECT_DIR$/backend/vendor/mockery/mockery" />
       <path value="$PROJECT_DIR$/backend/vendor/monolog/monolog" />
@@ -89,8 +94,6 @@
       <path value="$PROJECT_DIR$/backend/vendor/hamcrest/hamcrest-php" />
       <path value="$PROJECT_DIR$/backend/vendor/carbonphp/carbon-doctrine-types" />
       <path value="$PROJECT_DIR$/backend/vendor/fruitcake/php-cors" />
-      <path value="$PROJECT_DIR$/backend/vendor/laragraph/utils" />
-      <path value="$PROJECT_DIR$/backend/vendor/phpoption/phpoption" />
       <path value="$PROJECT_DIR$/backend/vendor/ralouphie/getallheaders" />
       <path value="$PROJECT_DIR$/backend/vendor/sebastian/cli-parser" />
       <path value="$PROJECT_DIR$/backend/vendor/sebastian/code-unit" />
@@ -110,14 +113,11 @@
       <path value="$PROJECT_DIR$/backend/vendor/webmozart/assert" />
       <path value="$PROJECT_DIR$/backend/vendor/guzzlehttp/guzzle" />
       <path value="$PROJECT_DIR$/backend/vendor/guzzlehttp/promises" />
-      <path value="$PROJECT_DIR$/backend/vendor/guzzlehttp/psr7" />
       <path value="$PROJECT_DIR$/backend/vendor/guzzlehttp/uri-template" />
       <path value="$PROJECT_DIR$/backend/vendor/nunomaduro/collision" />
       <path value="$PROJECT_DIR$/backend/vendor/nunomaduro/termwind" />
       <path value="$PROJECT_DIR$/backend/vendor/tijsverkoyen/css-to-inline-styles" />
       <path value="$PROJECT_DIR$/backend/vendor/dragonmantank/cron-expression" />
-      <path value="$PROJECT_DIR$/backend/vendor/graham-campbell/result-type" />
-      <path value="$PROJECT_DIR$/backend/vendor/thecodingmachine/safe" />
       <path value="$PROJECT_DIR$/backend/vendor/composer" />
       <path value="$PROJECT_DIR$/backend/vendor/league/flysystem-local" />
       <path value="$PROJECT_DIR$/backend/vendor/ezyang/htmlpurifier" />
@@ -252,12 +252,12 @@
       <path value="$PROJECT_DIR$/vendor/phpmyadmin/sql-parser" />
       <path value="$PROJECT_DIR$/backend/vendor/phpstan/phpstan" />
       <path value="$PROJECT_DIR$/backend/vendor/balping/json-raw-encoder" />
-      <path value="$PROJECT_DIR$/backend/vendor/phpmyadmin/sql-parser" />
       <path value="$PROJECT_DIR$/backend/vendor/Charts-6.7.0/.github" />
       <path value="$PROJECT_DIR$/backend/vendor/Charts-6.7.0/src" />
-      <path value="$PROJECT_DIR$/backend/vendor/larastan/larastan" />
       <path value="$PROJECT_DIR$/backend/vendor/consoletvs/charts" />
+      <path value="$PROJECT_DIR$/backend/vendor/phpmyadmin/sql-parser" />
       <path value="$PROJECT_DIR$/backend/vendor/phpmd/phpmd" />
+      <path value="$PROJECT_DIR$/backend/vendor/larastan/larastan" />
       <path value="$PROJECT_DIR$/backend/vendor/pdepend/pdepend" />
       <path value="$PROJECT_DIR$/backend/vendor/laravel/sanctum" />
       <path value="$PROJECT_DIR$/backend/vendor/symfony/dependency-injection" />
@@ -266,10 +266,26 @@
       <path value="$PROJECT_DIR$/backend/vendor/symfony/var-exporter" />
       <path value="$PROJECT_DIR$/backend/vendor/stripe/stripe-php" />
       <path value="$PROJECT_DIR$/backend/vendor/squizlabs/php_codesniffer" />
+      <path value="$PROJECT_DIR$/backend/vendor/league/commonmark" />
+      <path value="$PROJECT_DIR$/backend/vendor/phpoption/phpoption" />
+      <path value="$PROJECT_DIR$/backend/vendor/vlucas/phpdotenv" />
+      <path value="$PROJECT_DIR$/backend/vendor/graham-campbell/result-type" />
+      <path value="$PROJECT_DIR$/backend/vendor/dflydev/dot-access-data" />
+      <path value="$PROJECT_DIR$/backend/vendor/guzzlehttp/psr7" />
+      <path value="$PROJECT_DIR$/backend/vendor/laravel/serializable-closure" />
+      <path value="$PROJECT_DIR$/backend/vendor/tymon/jwt-auth" />
+      <path value="$PROJECT_DIR$/backend/vendor/stella-maris/clock" />
+      <path value="$PROJECT_DIR$/backend/vendor/lcobucci/clock" />
+      <path value="$PROJECT_DIR$/backend/vendor/lcobucci/jwt" />
     </include_path>
   </component>
   <component name="PhpProjectSharedConfiguration" php_language_level="8.2">
     <option name="suggestChangeDefaultLanguageLevel" value="false" />
+  </component>
+  <component name="PhpStan">
+    <PhpStan_settings>
+      <PhpStanConfiguration tool_path="$PROJECT_DIR$/backend/vendor/bin/phpstan" />
+    </PhpStan_settings>
   </component>
   <component name="PhpStanOptionsConfiguration">
     <option name="transferred" value="true" />

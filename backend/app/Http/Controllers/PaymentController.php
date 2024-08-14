@@ -27,13 +27,25 @@ class PaymentController extends Controller
             'amount' => 'required|numeric|min:1',
         ]);
 
-        Stripe::setApiKey(env('STRIPE_SECRET'));
+        Stripe::setApiKey(config('services.stripe.secret'));
 
         try {
             $paymentIntent = PaymentIntent::create([
-                'amount' => $request->amount * 100,
+                'amount' => $request->amount * 100, // Convert to cents
                 'currency' => 'usd',
                 'payment_method_types' => ['card'],
+                'metadata' => [
+                    'order_id' => $request->order_id,
+                ],
+            ]);
+
+            // Store payment details
+            Payment::create([
+                'order_id' => $request->order_id,
+                'payment_intent_id' => $paymentIntent->id,
+                'payment_type' => 'stripe',
+                'payment_status' => 'pending',
+                'amount' => $request->amount,
             ]);
 
             return response()->json([
@@ -46,7 +58,12 @@ class PaymentController extends Controller
 
     public function confirm(Request $request): JsonResponse
     {
-        Stripe::setApiKey(env('STRIPE_SECRET'));
+        $request->validate([
+            'payment_intent_id' => 'required|string',
+            'order_id' => 'required|exists:orders,id',
+        ]);
+
+        Stripe::setApiKey(config('services.stripe.secret'));
 
         try {
             $intent = PaymentIntent::retrieve($request->payment_intent_id);
@@ -54,13 +71,12 @@ class PaymentController extends Controller
             if ($intent->status == 'succeeded') {
                 $order = Order::findOrFail($request->order_id);
                 $order->status = 'Paid';
+                $order->payment_intent_id = $intent->id;
                 $order->save();
 
-                Payment::create([
-                    'order_id' => $order->id,
-                    'payment_type' => 'stripe',
+                $payment = Payment::where('payment_intent_id', $intent->id)->first();
+                $payment->update([
                     'payment_status' => 'succeeded',
-                    'amount' => $intent->amount / 100,
                 ]);
 
                 return response()->json(['message' => 'Payment successful.']);
@@ -83,11 +99,10 @@ class PaymentController extends Controller
         $this->authorize('update', $payment);
 
         $request->validate([
-            'order_id' => 'required|exists:orders,id',
             'payment_status' => 'required|string|max:255',
         ]);
 
-        $payment->update($request->all());
+        $payment->update($request->only('payment_status'));
 
         return response()->json($payment);
     }

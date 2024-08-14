@@ -20,7 +20,6 @@
       <sourceFolder url="file://$MODULE_DIR$/backend/app/Traits" isTestSource="false" packagePrefix="App\Traits\" />
       <sourceFolder url="file://$MODULE_DIR$/backend/database/factories" isTestSource="false" packagePrefix="Database\Factories\" />
       <sourceFolder url="file://$MODULE_DIR$/backend/database/seeders" isTestSource="false" packagePrefix="Database\Seeders\" />
-      <sourceFolder url="file://$MODULE_DIR$/backend/spec" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/backend/tests" isTestSource="false" packagePrefix="Tests\" />
       <sourceFolder url="file://$MODULE_DIR$/backend/tests/Database" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/backend/tests/Feature/Controllers" isTestSource="true" />
@@ -50,6 +49,17 @@
       <excludeFolder url="file://$MODULE_DIR$/backend/vendor/symfony/dependency-injection" />
       <excludeFolder url="file://$MODULE_DIR$/backend/vendor/symfony/filesystem" />
       <excludeFolder url="file://$MODULE_DIR$/backend/vendor/symfony/var-exporter" />
+      <excludeFolder url="file://$MODULE_DIR$/backend/vendor/dflydev/dot-access-data" />
+      <excludeFolder url="file://$MODULE_DIR$/backend/vendor/graham-campbell/result-type" />
+      <excludeFolder url="file://$MODULE_DIR$/backend/vendor/guzzlehttp/psr7" />
+      <excludeFolder url="file://$MODULE_DIR$/backend/vendor/laravel/serializable-closure" />
+      <excludeFolder url="file://$MODULE_DIR$/backend/vendor/league/commonmark" />
+      <excludeFolder url="file://$MODULE_DIR$/backend/vendor/phpoption/phpoption" />
+      <excludeFolder url="file://$MODULE_DIR$/backend/vendor/vlucas/phpdotenv" />
+      <excludeFolder url="file://$MODULE_DIR$/backend/vendor/lcobucci/clock" />
+      <excludeFolder url="file://$MODULE_DIR$/backend/vendor/lcobucci/jwt" />
+      <excludeFolder url="file://$MODULE_DIR$/backend/vendor/stella-maris/clock" />
+      <excludeFolder url="file://$MODULE_DIR$/backend/vendor/tymon/jwt-auth" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

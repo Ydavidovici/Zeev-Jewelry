@@ -2,29 +2,30 @@
 
 namespace Tests\Unit\Models;
 
-use PHPUnit\Framework\TestCase;
+use Tests\TestCase;
+use App\Models\Order;
 use App\Models\Payment;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class PaymentTest extends TestCase
 {
-    public function test_payment_has_order_id()
-    {
-        $payment = new Payment(['order_id' => 1]);
+    use RefreshDatabase;
 
-        $this->assertEquals(1, $payment->order_id);
+    /** @test */
+    public function payment_belongs_to_order()
+    {
+        $order = Order::factory()->create();
+        $payment = Payment::factory()->create(['order_id' => $order->id]);
+
+        $this->assertInstanceOf(Order::class, $payment->order);
+        $this->assertEquals($order->id, $payment->order->id);
     }
 
-    public function test_payment_has_payment_type()
+    /** @test */
+    public function it_has_fillable_attributes()
     {
-        $payment = new Payment(['payment_type' => 'credit_card']);
+        $fillable = ['order_id', 'seller_id', 'payment_intent_id', 'payment_type', 'payment_status', 'amount'];
 
-        $this->assertEquals('credit_card', $payment->payment_type);
-    }
-
-    public function test_payment_has_payment_status()
-    {
-        $payment = new Payment(['payment_status' => 'completed']);
-
-        $this->assertEquals('completed', $payment->payment_status);
+        $this->assertEquals($fillable, (new Payment)->getFillable());
     }
 }

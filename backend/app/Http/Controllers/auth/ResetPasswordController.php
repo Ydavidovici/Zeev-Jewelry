@@ -31,6 +31,14 @@ class ResetPasswordController extends Controller
             }
         );
 
+        if ($response == Password::PASSWORD_RESET) {
+            $user = User::where('email', $request->email)->first();
+            if ($user) {
+                // Send password change confirmation email
+                Mail::to($user->email)->send(new PasswordChangeConfirmationMail($user));
+            }
+        }
+
         return $response == Password::PASSWORD_RESET
             ? response()->json(['message' => 'Password reset successfully.'])
             : response()->json(['message' => 'Failed to reset password.'], 400);

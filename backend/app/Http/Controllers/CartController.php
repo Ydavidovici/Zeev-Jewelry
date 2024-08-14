@@ -5,14 +5,24 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Product;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Str;
 use Illuminate\Http\JsonResponse;
 
 class CartController extends Controller
 {
-    public function index(): JsonResponse
+    public function index(Request $request): JsonResponse
     {
         $this->authorize('viewAny', Product::class);
-        $cart = Session::get('cart', []);
+
+        $cartId = $request->cookie('cart_id');
+
+        if (!$cartId) {
+            $cartId = Str::uuid();
+            cookie()->queue(cookie('cart_id', $cartId, 60 * 24 * 30)); // 30 days
+        }
+
+        $cart = Session::get("cart_{$cartId}", []);
+
         return response()->json(['cart' => $cart]);
     }
 
@@ -28,7 +38,15 @@ class CartController extends Controller
         $product = Product::findOrFail($request->input('product_id'));
         $quantity = $request->input('quantity', 1);
 
-        $cart = Session::get('cart', []);
+        $cartId = $request->cookie('cart_id');
+
+        if (!$cartId) {
+            $cartId = Str::uuid();
+            cookie()->queue(cookie('cart_id', $cartId, 60 * 24 * 30)); // 30 days
+        }
+
+        $cart = Session::get("cart_{$cartId}", []);
+
         if (isset($cart[$product->id])) {
             $cart[$product->id]['quantity'] += $quantity;
         } else {
@@ -38,7 +56,8 @@ class CartController extends Controller
             ];
         }
 
-        Session::put('cart', $cart);
+        Session::put("cart_{$cartId}", $cart);
+
         return response()->json(['message' => 'Product added to cart.']);
     }
 
@@ -50,24 +69,26 @@ class CartController extends Controller
             'quantity' => 'required|integer|min:1',
         ]);
 
-        $quantity = $request->input('quantity');
-        $cart = Session::get('cart', []);
+        $cartId = $request->cookie('cart_id');
+        $cart = Session::get("cart_{$cartId}", []);
 
         if (isset($cart[$productId])) {
-            $cart[$productId]['quantity'] = $quantity;
-            Session::put('cart', $cart);
+            $cart[$productId]['quantity'] = $request->input('quantity');
+            Session::put("cart_{$cartId}", $cart);
         }
 
         return response()->json(['message' => 'Cart updated.']);
     }
 
-    public function destroy($productId): JsonResponse
+    public function destroy(Request $request, $productId): JsonResponse
     {
         $this->authorize('delete', Product::class);
 
-        $cart = Session::get('cart', []);
+        $cartId = $request->cookie('cart_id');
+        $cart = Session::get("cart_{$cartId}", []);
+
         unset($cart[$productId]);
-        Session::put('cart', $cart);
+        Session::put("cart_{$cartId}", $cart);
 
         return response()->json(['message' => 'Product removed from cart.']);
     }

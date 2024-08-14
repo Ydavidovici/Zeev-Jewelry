@@ -1,9 +1,11 @@
 <?php
 
-namespace Tests\Feature\Auth;
+namespace Tests\Feature\Controllers\auth;
 
+use App\Mail\PasswordResetMail;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Password;
 use Tests\TestCase;
 
@@ -13,6 +15,8 @@ class ForgotPasswordControllerTest extends TestCase
 
     public function test_user_can_request_password_reset_link()
     {
+        Mail::fake();
+
         $user = User::factory()->create(['email' => 'user@example.com']);
 
         $response = $this->postJson('/api/password/email', [
@@ -22,7 +26,9 @@ class ForgotPasswordControllerTest extends TestCase
         $response->assertStatus(200)
             ->assertJson(['message' => 'Reset link sent to your email.']);
 
-        $this->assertNotNull(Password::broker()->createToken($user));
+        Mail::assertSent(PasswordResetMail::class, function ($mail) use ($user) {
+            return $mail->hasTo($user->email) && $mail->user->is($user);
+        });
     }
 
     public function test_user_cannot_request_password_reset_link_with_invalid_email()

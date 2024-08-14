@@ -1,88 +1,116 @@
 <?php
 
-namespace Tests\Feature;
+namespace Tests\Feature\Controllers;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use App\Mail\OrderConfirmationMail;
+use App\Mail\ShippingConfirmationMail;
 use Tests\TestCase;
 use App\Models\Order;
-use App\Models\User;
 use App\Models\Customer;
+use App\Models\User;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Mail;
 
 class OrderControllerTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function test_user_can_view_orders()
+    public function test_user_can_view_all_orders()
     {
-        $user = User::factory()->create();
-        $this->actingAs($user, 'sanctum');
+        $this->actingAs(User::factory()->create());
 
-        Order::factory()->count(3)->create();
+        $order = Order::factory()->create();
 
         $response = $this->getJson('/api/orders');
 
         $response->assertStatus(200)
-            ->assertJsonStructure([[]]); // Expect an array of orders
+            ->assertJsonFragment(['id' => $order->id]);
     }
 
-    public function test_user_can_create_order()
+    public function test_user_can_create_an_order()
     {
-        $user = User::factory()->create();
-        $this->actingAs($user, 'sanctum');
-        $customer = Customer::factory()->create();
+        Mail::fake();
 
-        $response = $this->postJson('/api/orders', [
-            'customer_id' => $customer->id,
+        $this->actingAs(User::factory()->create());
+
+        $orderData = [
+            'customer_id' => Customer::factory()->create()->id,
             'order_date' => now()->toDateString(),
-            'total_amount' => 100,
+            'total_amount' => 150.00,
             'is_guest' => false,
-            'status' => 'Pending',
-        ]);
+            'status' => 'pending',
+            'payment_intent_id' => 'pi_123456789',
+        ];
+
+        $response = $this->postJson('/api/orders', $orderData);
 
         $response->assertStatus(201)
-            ->assertJsonStructure(['id', 'customer_id', 'order_date', 'total_amount', 'is_guest', 'status']);
+            ->assertJsonFragment([
+                'payment_intent_id' => 'pi_123456789',
+            ]);
+
+        $this->assertDatabaseHas('orders', $orderData);
+
+        $order = Order::first();
+
+        Mail::assertSent(OrderConfirmationMail::class, function ($mail) use ($order) {
+            return $mail->hasTo($order->customer->email) && $mail->order->is($order);
+        });
     }
 
-    public function test_user_can_view_single_order()
+    public function test_user_can_view_a_single_order()
     {
-        $user = User::factory()->create();
-        $this->actingAs($user, 'sanctum');
+        $this->actingAs(User::factory()->create());
+
         $order = Order::factory()->create();
 
-        $response = $this->getJson("/api/orders/{$order->id}");
+        $response = $this->getJson('/api/orders/' . $order->id);
 
         $response->assertStatus(200)
-            ->assertJsonStructure(['id', 'customer_id', 'order_date', 'total_amount', 'is_guest', 'status']);
+            ->assertJsonFragment(['id' => $order->id]);
     }
 
-    public function test_user_can_update_order()
+    public function test_user_can_update_an_order()
     {
-        $user = User::factory()->create();
-        $this->actingAs($user, 'sanctum');
-        $order = Order::factory()->create();
-        $customer = Customer::factory()->create();
+        Mail::fake();
 
-        $response = $this->putJson("/api/orders/{$order->id}", [
-            'customer_id' => $customer->id,
+        $this->actingAs(User::factory()->create());
+
+        $order = Order::factory()->create();
+
+        $updateData = [
+            'customer_id' => Customer::factory()->create()->id,
             'order_date' => now()->toDateString(),
-            'total_amount' => 200,
-            'is_guest' => false,
-            'status' => 'Completed',
-        ]);
+            'total_amount' => 200.00,
+            'is_guest' => true,
+            'status' => 'shipped', // We change status to shipped here
+            'payment_intent_id' => 'pi_987654321',
+        ];
+
+        $response = $this->putJson('/api/orders/' . $order->id, $updateData);
 
         $response->assertStatus(200)
-            ->assertJsonStructure(['id', 'customer_id', 'order_date', 'total_amount', 'is_guest', 'status']);
+            ->assertJsonFragment([
+                'payment_intent_id' => 'pi_987654321',
+            ]);
+
+        $this->assertDatabaseHas('orders', $updateData);
+
+        Mail::assertSent(ShippingConfirmationMail::class, function ($mail) use ($order) {
+            return $mail->hasTo($order->customer->email) && $mail->order->is($order);
+        });
     }
 
-    public function test_user_can_delete_order()
+    public function test_user_can_delete_an_order()
     {
-        $user = User::factory()->create();
-        $this->actingAs($user, 'sanctum');
+        $this->actingAs(User::factory()->create());
+
         $order = Order::factory()->create();
 
-        $response = $this->deleteJson("/api/orders/{$order->id}");
+        $response = $this->deleteJson('/api/orders/' . $order->id);
 
         $response->assertStatus(204);
+
         $this->assertDatabaseMissing('orders', ['id' => $order->id]);
     }
 }

@@ -2,43 +2,41 @@
 
 namespace Tests\Unit\Models;
 
-use PHPUnit\Framework\TestCase;
+use Tests\TestCase;
 use App\Models\Order;
+use App\Models\Payment;
+use App\Models\Customer;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class OrderTest extends TestCase
 {
-    public function test_order_has_customer_id()
-    {
-        $order = new Order(['customer_id' => 1]);
+    use RefreshDatabase;
 
-        $this->assertEquals(1, $order->customer_id);
+    /** @test */
+    public function order_has_many_payments()
+    {
+        $order = Order::factory()->create();
+        $payment = Payment::factory()->create(['order_id' => $order->id]);
+
+        $this->assertTrue($order->payments->contains($payment));
+        $this->assertEquals(1, $order->payments()->count());
     }
 
-    public function test_order_has_order_date()
+    /** @test */
+    public function order_belongs_to_customer()
     {
-        $order = new Order(['order_date' => '2024-07-24']);
+        $customer = Customer::factory()->create();
+        $order = Order::factory()->create(['customer_id' => $customer->id]);
 
-        $this->assertEquals('2024-07-24', $order->order_date);
+        $this->assertInstanceOf(Customer::class, $order->customer);
+        $this->assertEquals($customer->id, $order->customer->id);
     }
 
-    public function test_order_has_total_amount()
+    /** @test */
+    public function it_has_fillable_attributes()
     {
-        $order = new Order(['total_amount' => 100.50]);
+        $fillable = ['customer_id', 'order_date', 'total_amount', 'is_guest', 'status', 'payment_intent_id'];
 
-        $this->assertEquals(100.50, $order->total_amount);
-    }
-
-    public function test_order_is_guest()
-    {
-        $order = new Order(['is_guest' => true]);
-
-        $this->assertTrue($order->is_guest);
-    }
-
-    public function test_order_has_status()
-    {
-        $order = new Order(['status' => 'pending']);
-
-        $this->assertEquals('pending', $order->status);
+        $this->assertEquals($fillable, (new Order)->getFillable());
     }
 }
