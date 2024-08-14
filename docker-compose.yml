@@ -3,7 +3,7 @@ services:
   app:
     build:
       context: .
-      dockerfile: Dockerfile
+      dockerfile: backend/Dockerfile
     container_name: Zeev-Jewelry
     restart: unless-stopped
     tty: true
@@ -41,7 +41,7 @@ services:
   linter:
     build:
       context: .
-      dockerfile: Dockerfile
+      dockerfile: backend/Dockerfile
     container_name: linter
     working_dir: /var/www
     volumes:

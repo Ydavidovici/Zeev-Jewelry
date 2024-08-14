@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="PHPUnit">
+    <option name="directories">
+      <list>
+        <option value="$PROJECT_DIR$/backend/tests/GraphQL" />
+        <option value="$PROJECT_DIR$/tests/Database" />
+        <option value="$PROJECT_DIR$/tests/Traits" />
+        <option value="$PROJECT_DIR$/tests/Feature/Controllers" />
+        <option value="$PROJECT_DIR$/tests/Feature/Controllers/auth" />
+        <option value="$PROJECT_DIR$/tests/Feature/Controllers/admin" />
+        <option value="$PROJECT_DIR$/tests/Feature/Controllers/seller" />
+        <option value="$PROJECT_DIR$/tests/Feature/Models" />
+        <option value="$PROJECT_DIR$/tests/Unit/Models" />
+        <option value="$PROJECT_DIR$/tests/Unit/policies" />
+        <option value="$PROJECT_DIR$/tests/Feature/Routes" />
+        <option value="$PROJECT_DIR$/backend/tests/Database" />
+        <option value="$PROJECT_DIR$/backend/tests/Traits" />
+        <option value="$PROJECT_DIR$/backend/tests/Feature/Controllers" />
+        <option value="$PROJECT_DIR$/backend/tests/Feature/Controllers/auth" />
+        <option value="$PROJECT_DIR$/backend/tests/Feature/Controllers/admin" />
+        <option value="$PROJECT_DIR$/backend/tests/Feature/Controllers/seller" />
+        <option value="$PROJECT_DIR$/backend/tests/Feature/Models" />
+        <option value="$PROJECT_DIR$/backend/tests/Unit/Models" />
+        <option value="$PROJECT_DIR$/backend/tests/Unit/policies" />
+        <option value="$PROJECT_DIR$/backend/tests/Feature/Routes" />
+      </list>
+    </option>
+  </component>
+</project>

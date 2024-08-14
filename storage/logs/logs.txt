@@ -1,4 +1,0 @@
-[2024-08-08 14:22:39] testing.INFO: Setting up ReportControllerTest  
-[2024-08-08 14:22:39] testing.INFO: Testing seller can view reports index {"user":{"username":"dorris.fadel","password":"$2y$04$Kbx1AXwgJnao.wxAkHrBCeZHCy.n/8oGDGVaL.Y940ncx5iKxnhfK","role":"customer","email":"camryn22@example.net","updated_at":"2024-08-08T14:22:39.000000Z","created_at":"2024-08-08T14:22:39.000000Z","id":1}} 
-[2024-08-08 14:22:40] testing.INFO: Setting up SellerControllerTest  
-[2024-08-08 14:22:40] testing.INFO: Testing seller can view dashboard {"user":{"username":"haskell33","password":"$2y$04$ffSw23laHmgW/i7EMCpMzu5uNyj/QexYjdCqXS7U7tfCfU/r2epfy","role":"customer","email":"mariane90@example.org","updated_at":"2024-08-08T14:22:40.000000Z","created_at":"2024-08-08T14:22:40.000000Z","id":1}} 
