@@ -3,6 +3,18 @@
 ## Overview
 Zeev-Jewelry is a robust e-commerce application built with Laravel. This application allows users to browse and purchase products, manage orders, and handle inventory, customers, and shipping. It also includes roles and permissions management to ensure secure and efficient handling of tasks.
 
+
+## API Documentation
+Detailed API documentation is available, outlining all the routes and their respective functionalities.
+
+- [API Routes Documentation](./docs/API_Routes.md)
+
+## Database Schema
+The database schema is thoroughly documented, detailing all tables, columns, and relationships.
+
+- [Database Schema Documentation](./docs/DB_Schema.md)
+
+
 ## Features
 - **User Management**: Admins can manage users, including assigning roles and permissions.
 - **Product Management**: Admins and sellers can add, update, and delete products.
