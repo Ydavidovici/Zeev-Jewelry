@@ -12,26 +12,26 @@ class RolePolicy
 
     public function viewAny(User $user)
     {
-        return $user->hasRole('admin-page');
+        return $user->hasRole('admin');
     }
 
     public function view(User $user, SpatieRole $role)
     {
-        return $user->hasRole('admin-page');
+        return $user->hasRole('admin');
     }
 
     public function create(User $user)
     {
-        return $user->hasRole('admin-page');
+        return $user->hasRole('admin');
     }
 
     public function update(User $user, SpatieRole $role)
     {
-        return $user->hasRole('admin-page');
+        return $user->hasRole('admin');
     }
 
     public function delete(User $user, SpatieRole $role)
     {
-        return $user->hasRole('admin-page');
+        return $user->hasRole('admin');
     }
 }

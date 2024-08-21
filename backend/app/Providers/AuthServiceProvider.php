@@ -6,36 +6,53 @@ use App\Models\Customer;
 use App\Models\User;
 use App\Policies\AdminPolicy;
 use App\Policies\CustomerPolicy;
-use App\Policies\SellerPolicy;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Gate;
 
 class AuthServiceProvider extends ServiceProvider
 {
     protected $policies = [
-        User::class => AdminPolicy::class,
         Customer::class => CustomerPolicy::class,
-        User::class => SellerPolicy::class,
+        User::class => AdminPolicy::class,
+        \Spatie\Permission\Models\Permission::class => \App\Policies\AdminPolicy::class,
+        \Spatie\Permission\Models\Role::class => \App\Policies\RolePolicy::class,
     ];
 
     public function boot()
     {
         $this->registerPolicies();
 
-        // Define Gates
-        Gate::define('access-admin-dashboard', [AdminPolicy::class, 'accessDashboard']);
+        // Define Gates for Admin actions, considering using policies
         Gate::define('manage-users', [AdminPolicy::class, 'manageUsers']);
         Gate::define('manage-roles', [AdminPolicy::class, 'manageRoles']);
-        Gate::define('manage-permissions', [AdminPolicy::class, 'managePermissions']);
         Gate::define('manage-settings', [AdminPolicy::class, 'manageSettings']);
 
-        Gate::define('view-seller-dashboard', [SellerPolicy::class, 'viewDashboard']);
-        Gate::define('manage-products', [SellerPolicy::class, 'manageProducts']);
-        Gate::define('manage-orders', [SellerPolicy::class, 'manageOrders']);
-        Gate::define('manage-inventory', [SellerPolicy::class, 'manageInventory']);
-        Gate::define('manage-shipping', [SellerPolicy::class, 'manageShipping']);
-        Gate::define('manage-payments', [SellerPolicy::class, 'managePayments']);
+        // Define Gates for Seller actions
+        Gate::define('view-seller-dashboard', function (User $user) {
+            return $user->hasRole('seller');
+        });
 
+        Gate::define('manage-products', function (User $user) {
+            return $user->hasRole('seller');
+        });
+
+        Gate::define('manage-orders', function (User $user) {
+            return $user->hasRole('seller');
+        });
+
+        Gate::define('manage-inventory', function (User $user) {
+            return $user->hasRole('seller');
+        });
+
+        Gate::define('manage-shipping', function (User $user) {
+            return $user->hasRole('seller');
+        });
+
+        Gate::define('manage-payments', function (User $user) {
+            return $user->hasRole('seller');
+        });
+
+        // Define Gates for Customer actions, delegating to CustomerPolicy
         Gate::define('view-any-customer', [CustomerPolicy::class, 'viewAny']);
         Gate::define('view-customer', [CustomerPolicy::class, 'view']);
         Gate::define('create-customer', [CustomerPolicy::class, 'create']);
@@ -43,4 +60,3 @@ class AuthServiceProvider extends ServiceProvider
         Gate::define('delete-customer', [CustomerPolicy::class, 'delete']);
     }
 }
-

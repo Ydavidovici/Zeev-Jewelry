@@ -5,16 +5,11 @@ namespace App\Policies;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
-class UserPolicy
+class PermissionsPolicy
 {
     use HandlesAuthorization;
 
     public function viewAny(User $user)
-    {
-        return $user->hasRole('admin');
-    }
-
-    public function view(User $user, User $model)
     {
         return $user->hasRole('admin');
     }
@@ -24,12 +19,12 @@ class UserPolicy
         return $user->hasRole('admin');
     }
 
-    public function update(User $user, User $model)
+    public function update(User $user)
     {
         return $user->hasRole('admin');
     }
 
-    public function delete(User $user, User $model)
+    public function delete(User $user)
     {
         return $user->hasRole('admin');
     }

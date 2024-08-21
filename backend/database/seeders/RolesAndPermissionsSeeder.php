@@ -15,18 +15,44 @@ class RolesAndPermissionsSeeder extends Seeder
 
         // Create permissions if they do not already exist
         $permissions = [
+            // Categories
             'create-category', 'view-category', 'update-category', 'delete-category',
+
+            // Customers
             'create-customer', 'view-customer', 'update-customer', 'delete-customer',
+
+            // Inventories
             'create-inventory', 'view-inventory', 'update-inventory', 'delete-inventory',
+
+            // Inventory Movements
             'create-inventory-movement', 'view-inventory-movement', 'update-inventory-movement', 'delete-inventory-movement',
+
+            // Orders
             'create-order', 'view-order', 'update-order', 'delete-order',
+
+            // Order Details
             'create-order-detail', 'view-order-detail', 'update-order-detail', 'delete-order-detail',
+
+            // Payments
             'create-payment', 'view-payment', 'update-payment', 'delete-payment',
+
+            // Products
             'create-product', 'view-product', 'update-product', 'delete-product',
+
+            // Reviews
             'create-review', 'view-review', 'update-review', 'delete-review',
+
+            // Roles
             'create-role', 'view-role', 'update-role', 'delete-role',
+
+            // Shipping
             'create-shipping', 'view-shipping', 'update-shipping', 'delete-shipping',
-            'create-user', 'view-user', 'update-user', 'delete-user'
+
+            // Users
+            'create-user', 'view-user', 'update-user', 'delete-user',
+
+            // Permissions (add these)
+            'create-permission', 'view-permission', 'update-permission', 'delete-permission',
         ];
 
         foreach ($permissions as $permission) {
@@ -50,6 +76,7 @@ class RolesAndPermissionsSeeder extends Seeder
         $admin = Role::findByName('admin');
         $admin->syncPermissions(Permission::all());
 
+        // Assign relevant permissions to seller role
         $seller = Role::findByName('seller');
         $sellerPermissions = [
             'create-category', 'view-category', 'update-category', 'delete-category',
@@ -65,6 +92,7 @@ class RolesAndPermissionsSeeder extends Seeder
         ];
         $seller->syncPermissions($sellerPermissions);
 
+        // Assign relevant permissions to customer role
         $customer = Role::findByName('customer');
         $customerPermissions = [
             'view-category', 'view-product', 'create-order', 'view-order', 'create-review', 'view-review'

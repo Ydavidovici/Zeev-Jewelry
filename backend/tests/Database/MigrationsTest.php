@@ -13,18 +13,20 @@ class MigrationsTest extends TestCase
     {
         $this->assertTrue(Schema::hasTable('users'));
 
-        $this->assertTrue(
-            Schema::hasColumns('users', [
-                'id',
-                'username',
-                'email',
-                'password',
-                'role',
-                'remember_token',
-                'created_at',
-                'updated_at'
-            ])
-        );
+        $expectedColumns = [
+            'id',
+            'username',
+            'email',
+            'password',
+            'role',
+            'remember_token',
+            'created_at',
+            'updated_at'
+        ];
+
+        foreach ($expectedColumns as $column) {
+            $this->assertTrue(Schema::hasColumn('users', $column), "Missing column: {$column}");
+        }
     }
 
     #[Test]
@@ -61,7 +63,7 @@ class MigrationsTest extends TestCase
                 'total_amount',
                 'is_guest',
                 'status',
-                'payment_intent_id', // New column
+                'payment_intent_id',
                 'created_at',
                 'updated_at'
             ])

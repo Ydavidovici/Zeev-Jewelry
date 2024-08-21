@@ -7,16 +7,39 @@ use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Mail;
 use Tests\TestCase;
+use Spatie\Permission\Models\Role;
+use Spatie\Permission\Models\Permission;
 
 class UserControllerTest extends TestCase
 {
     use RefreshDatabase;
 
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        // Ensure the necessary permissions exist
+        $viewUsersPermission = Permission::firstOrCreate(['name' => 'view-users', 'guard_name' => 'web']);
+        $manageUsersPermission = Permission::firstOrCreate(['name' => 'manage-users', 'guard_name' => 'web']);
+
+        // Create the admin role and assign the necessary permissions
+        $adminRole = Role::firstOrCreate(['name' => 'admin', 'guard_name' => 'web']);
+        $adminRole->syncPermissions([$viewUsersPermission, $manageUsersPermission]);
+
+        // Create an admin user and assign the role
+        $admin = User::factory()->create();
+        $admin->assignRole($adminRole);
+
+        // Authenticate the admin user
+        $this->actingAs($admin);
+    }
+
     public function test_admin_can_view_users()
     {
-        $admin = User::factory()->create();
-        $this->actingAs($admin);
+        // Ensure there is a user to view
+        $user = User::factory()->create();
 
+        // Perform the request
         $response = $this->getJson('/api/admin/users');
 
         $response->assertStatus(200)
@@ -28,9 +51,6 @@ class UserControllerTest extends TestCase
     public function test_admin_can_create_user()
     {
         Mail::fake();
-
-        $admin = User::factory()->create();
-        $this->actingAs($admin);
 
         $response = $this->postJson('/api/admin/users', [
             'username' => 'johndoe',
@@ -53,9 +73,7 @@ class UserControllerTest extends TestCase
 
     public function test_admin_can_update_user()
     {
-        $admin = User::factory()->create();
         $user = User::factory()->create();
-        $this->actingAs($admin);
 
         $response = $this->putJson("/api/admin/users/{$user->id}", [
             'username' => 'johnupdated',
@@ -71,9 +89,7 @@ class UserControllerTest extends TestCase
 
     public function test_admin_can_delete_user()
     {
-        $admin = User::factory()->create();
         $user = User::factory()->create();
-        $this->actingAs($admin);
 
         $response = $this->deleteJson("/api/admin/users/{$user->id}");
 

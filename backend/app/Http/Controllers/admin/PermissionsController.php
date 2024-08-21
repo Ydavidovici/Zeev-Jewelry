@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Permission;
 use Illuminate\Support\Facades\Log;
@@ -10,15 +11,26 @@ use Illuminate\Http\JsonResponse;
 
 class PermissionsController extends Controller
 {
+    /**
+     * @throws AuthorizationException
+     */
     public function index(): JsonResponse
     {
+        Log::channel('custom')->info('Attempting to access permissions index', [
+            'user_id' => auth()->id(),
+        ]);
+
         $this->authorize('viewAny', Permission::class);
 
-        Log::channel('custom')->info('Admin accessing permissions index');
+        Log::channel('custom')->info('Admin accessing permissions index', [
+            'user_id' => auth()->id(),
+        ]);
 
         $permissions = Permission::all();
 
-        Log::channel('custom')->info('Permissions data retrieved', compact('permissions'));
+        Log::channel('custom')->info('Permissions data retrieved', [
+            'permissions' => $permissions->pluck('name')->toArray(),
+        ]);
 
         return response()->json(['permissions' => $permissions]);
     }

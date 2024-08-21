@@ -4,6 +4,7 @@ namespace App\Policies;
 
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
+use Illuminate\Support\Facades\Log;
 
 class AdminPolicy
 {
@@ -31,6 +32,23 @@ class AdminPolicy
     public function manageRoles(User $user)
     {
         return $user->hasRole('admin');
+    }
+
+    /**
+     * Determine whether the user can view any permissions.
+     */
+    public function viewAny(User $user)
+    {
+        $hasRole = $user->hasRole('admin');
+        $permissions = $user->getAllPermissions()->pluck('name')->toArray();
+
+        Log::channel('custom')->info('Executing viewAny in AdminPolicy', [
+            'user_id' => $user->id,
+            'has_admin_role' => $hasRole,
+            'permissions' => $permissions,
+        ]);
+
+        return true;
     }
 
     /**
