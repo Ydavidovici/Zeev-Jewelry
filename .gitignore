@@ -19,3 +19,7 @@ yarn-error.log
 /.idea
 /.vscode
 .DS_Store
+/storage/logs/*
+phpcs.xml
+phpunit.xml
+database/*.sqlite
