@@ -11,10 +11,16 @@ use Illuminate\Http\JsonResponse;
 
 class UserController extends Controller
 {
+    public function __construct()
+    {
+        // Apply authentication middleware to all methods
+        $this->middleware('auth:sanctum');
+        // Apply admin permissions middleware to all methods
+        $this->middleware('can:manageUsers,App\Models\User');
+    }
+
     public function index(): JsonResponse
     {
-        $this->authorize('viewAny', User::class);
-
         Log::channel('custom')->info('Admin accessing users index');
 
         $users = User::all();
@@ -26,17 +32,25 @@ class UserController extends Controller
 
     public function store(Request $request): JsonResponse
     {
-        $this->authorize('create', User::class);
-
         $validatedData = $request->validate([
             'username' => 'required|string|max:255',
             'password' => 'required|string|min:8',
-            'role_id' => 'required|exists:roles,id',
+            'role_name' => 'required|string|exists:roles,name',
             'email' => 'required|email|max:255',
         ]);
 
-        $user = User::create($validatedData);
-        $user->assignRole($request->role_id);
+        $user = User::create([
+            'username' => $validatedData['username'],
+            'password' => bcrypt($validatedData['password']),
+            'email' => $validatedData['email'],
+        ]);
+
+        // Assign role using the 'api' guard role
+        $role = Role::where('name', $validatedData['role_name'])
+            ->where('guard_name', 'api')
+            ->firstOrFail();
+
+        $user->assignRole($role);
 
         Log::channel('custom')->info('User created', ['user' => $user]);
 
@@ -45,21 +59,27 @@ class UserController extends Controller
 
     public function update(Request $request, User $user): JsonResponse
     {
-        $this->authorize('update', $user);
-
         $validatedData = $request->validate([
             'username' => 'required|string|max:255',
             'password' => 'nullable|string|min:8',
-            'role_id' => 'required|exists:roles,id',
+            'role_name' => 'required|string|exists:roles,name',
             'email' => 'required|email|max:255',
         ]);
 
-        if (empty($validatedData['password'])) {
+        if (!empty($validatedData['password'])) {
+            $validatedData['password'] = bcrypt($validatedData['password']);
+        } else {
             unset($validatedData['password']);
         }
 
         $user->update($validatedData);
-        $user->syncRoles($request->role_id);
+
+        // Sync roles using the 'api' guard role
+        $role = Role::where('name', $validatedData['role_name'])
+            ->where('guard_name', 'api')
+            ->firstOrFail();
+
+        $user->syncRoles([$role]);
 
         Log::channel('custom')->info('User updated', ['user' => $user]);
 
@@ -68,8 +88,6 @@ class UserController extends Controller
 
     public function destroy(User $user): JsonResponse
     {
-        $this->authorize('delete', $user);
-
         Log::channel('custom')->info('User deleted', ['user' => $user]);
 
         $user->delete();

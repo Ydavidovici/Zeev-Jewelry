@@ -1,81 +1,139 @@
 <?php
 
-namespace Tests\Feature\Controllers\Admin;
+namespace Tests\Feature\Controllers;
 
-use Tests\TestCase;
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use App\Models\Settings;
 use App\Models\User;
-use Spatie\Permission\Models\Role;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\TestCase;
 
 class SettingsControllerTest extends TestCase
 {
     use RefreshDatabase;
 
-    protected $admin;
+    private $adminUser;
+    private $normalUser;
 
     protected function setUp(): void
     {
         parent::setUp();
 
-        // Ensure the 'admin' role exists without using firstOrCreate
-        $role = Role::where('name', 'admin')->first();
-        if (!$role) {
-            $role = Role::create(['name' => 'admin', 'guard_name' => 'api']);
-        }
+        // Seed the roles
+        $this->artisan('db:seed', ['--class' => 'RolesTableSeeder']);
 
-        // Create an admin user and authenticate
-        $this->admin = User::factory()->create();
-        $this->admin->assignRole('admin');
+        // Create an admin user and a normal user
+        $this->adminUser = User::factory()->create();
+        $this->adminUser->assignRole('admin');
+
+        $this->normalUser = User::factory()->create();
+        $this->normalUser->assignRole('customer');
     }
 
-    public function test_can_access_test_settings_route(): void
+    /**
+     * Test public access to current settings.
+     *
+     * @return void
+     */
+    public function test_public_can_get_current_settings()
     {
-        // Authenticate before the request
-        $response = $this->actingAs($this->admin, 'api')
-            ->getJson('/test-settings');
+        Settings::factory()->create(['key' => 'theme', 'value' => 'dark']);
+
+        $response = $this->getJson('/current-settings');
 
         $response->assertStatus(200)
-            ->assertJson(['message' => 'SettingsController is working!']);
+            ->assertJsonFragment(['key' => 'theme'])
+            ->assertJsonFragment(['value' => 'dark']);
     }
 
-    public function test_can_retrieve_settings_with_theme(): void
+    /**
+     * Test admin can store settings.
+     *
+     * @return void
+     */
+    public function test_admin_can_store_settings()
     {
-        // Authenticate before the request
-        $response = $this->actingAs($this->admin, 'api')
-            ->withCookie('theme', 'dark')
-            ->getJson('/admin/settings');
+        $response = $this->actingAs($this->adminUser, 'sanctum')
+            ->postJson('/admin/settings', ['key' => 'theme', 'value' => 'dark']);
 
-        $response->assertStatus(200)
-            ->assertJson([
-                'settings' => [
-                    'site_name' => 'Zeev Jewelry',
-                    'currency' => 'USD',
-                    'theme_options' => ['light', 'dark'],
-                    'default_language' => 'en',
-                ],
-                'theme' => 'dark',
-            ]);
+        $response->assertStatus(201)
+            ->assertJsonFragment(['key' => 'theme'])
+            ->assertJsonFragment(['value' => 'dark']);
     }
 
-    public function test_can_update_settings_and_theme(): void
+    /**
+     * Test normal user cannot store settings.
+     *
+     * @return void
+     */
+    public function test_normal_user_cannot_store_settings()
     {
-        $settings = [
-            'site_name' => 'Updated Site',
-            'currency' => 'EUR',
-        ];
+        $response = $this->actingAs($this->normalUser, 'sanctum')
+            ->postJson('/admin/settings', ['key' => 'theme', 'value' => 'dark']);
 
-        // Authenticate before the request
-        $response = $this->actingAs($this->admin, 'api')
-            ->putJson('/admin/settings', [
-                'settings' => $settings,
-                'theme' => 'dark',
-            ]);
+        $response->assertStatus(403);
+    }
+
+    /**
+     * Test admin can update settings.
+     *
+     * @return void
+     */
+    public function test_admin_can_update_settings()
+    {
+        $setting = Settings::factory()->create(['key' => 'theme', 'value' => 'light']);
+
+        $response = $this->actingAs($this->adminUser, 'sanctum')
+            ->putJson('/admin/settings/' . $setting->key, ['value' => 'dark']);
 
         $response->assertStatus(200)
-            ->assertJson(['message' => 'Settings updated successfully.']);
+            ->assertJsonFragment(['key' => 'theme'])
+            ->assertJsonFragment(['value' => 'dark']);
+    }
 
-        $this->assertEquals('Updated Site', $settings['site_name']);
-        $this->assertEquals('EUR', $settings['currency']);
-        $response->assertCookie('theme', 'dark');
+    /**
+     * Test normal user cannot update settings.
+     *
+     * @return void
+     */
+    public function test_normal_user_cannot_update_settings()
+    {
+        $setting = Settings::factory()->create(['key' => 'theme', 'value' => 'light']);
+
+        $response = $this->actingAs($this->normalUser, 'sanctum')
+            ->putJson('/admin/settings/' . $setting->id, ['value' => 'dark']);
+
+        $response->assertStatus(403);
+    }
+
+    /**
+     * Test admin can delete settings.
+     *
+     * @return void
+     */
+    public function test_admin_can_delete_settings()
+    {
+        $setting = Settings::factory()->create(['key' => 'theme', 'value' => 'dark']);
+
+        $response = $this->actingAs($this->adminUser, 'sanctum')
+            ->deleteJson('/admin/settings/' . $setting->key);
+
+        $response->assertStatus(200)
+            ->assertJson(['message' => 'Setting deleted successfully.']);
+        $this->assertDatabaseMissing('settings', ['key' => 'theme']);
+    }
+
+    /**
+     * Test normal user cannot delete settings.
+     *
+     * @return void
+     */
+    public function test_normal_user_cannot_delete_settings()
+    {
+        $setting = Settings::factory()->create(['key' => 'theme', 'value' => 'dark']);
+
+        $response = $this->actingAs($this->normalUser, 'sanctum')
+            ->deleteJson('/admin/settings/' . $setting->id);
+
+        $response->assertStatus(403);
     }
 }

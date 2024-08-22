@@ -8,6 +8,13 @@ use Illuminate\Notifications\Notifiable;
 use Spatie\Permission\Traits\HasRoles;
 use Laravel\Sanctum\HasApiTokens;
 
+/**
+ * @property string $username
+ * @property string $email
+ * @property string $password
+ * @property string $remember_token
+ * @property string $email_verified_at
+ */
 class User extends Authenticatable
 {
     use HasFactory, Notifiable, HasRoles, HasApiTokens;
@@ -15,7 +22,7 @@ class User extends Authenticatable
     /**
      * The attributes that are mass assignable.
      *
-     * @var array
+     * @var array<string>
      */
     protected $fillable = [
         'username',
@@ -26,7 +33,7 @@ class User extends Authenticatable
     /**
      * The attributes that should be hidden for arrays.
      *
-     * @var array
+     * @var array<string>
      */
     protected $hidden = [
         'password',
@@ -36,29 +43,18 @@ class User extends Authenticatable
     /**
      * The attributes that should be cast to native types.
      *
-     * @var array
+     * @var array<string, string>
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
 
     /**
-     * Assign a role to the user.
-     *
-     * @param string $role
-     * @return void
-     */
-    public function assignUserRole(string $role)
-    {
-        $this->assignRole($role);
-    }
-
-    /**
      * Determine if the user has the admin role.
      *
      * @return bool
      */
-    public function isAdmin()
+    public function isAdmin(): bool
     {
         return $this->hasRole('admin');
     }
@@ -68,7 +64,7 @@ class User extends Authenticatable
      *
      * @return bool
      */
-    public function isCustomer()
+    public function isCustomer(): bool
     {
         return $this->hasRole('customer');
     }
@@ -78,7 +74,7 @@ class User extends Authenticatable
      *
      * @return bool
      */
-    public function isSeller()
+    public function isSeller(): bool
     {
         return $this->hasRole('seller');
     }

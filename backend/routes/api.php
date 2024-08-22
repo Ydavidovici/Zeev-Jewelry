@@ -48,6 +48,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
 // Public routes
 Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::get('/current-settings', [SettingsController::class, 'getCurrentSettings'])->name('current.settings');
 
 // Product routes
 Route::get('products', [ProductController::class, 'index'])->name('products.index');
@@ -74,7 +75,6 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::apiResource('reviews', ReviewController::class)->names('reviews');
     Route::apiResource('roles', RoleController::class)->names('roles');
     Route::apiResource('shipping', ShippingController::class)->names('shipping');
-    Route::apiResource('users', UserController::class)->names('users');
 
     // Orders routes
     Route::get('orders', [OrderController::class, 'index'])->name('orders.index');
@@ -85,49 +85,27 @@ Route::middleware(['auth:sanctum'])->group(function () {
 });
 
 // Admin routes
-Route::middleware(['auth:sanctum'])->prefix('admin')->name('admin.')->group(function () {
-    Route::get('/', [AdminController::class, 'index'])->name('dashboard');
+Route::middleware(['auth:sanctum', 'can:manageSettings,App\Models\User'])->prefix('admin')->name('admin.')->group(function () {
+    // Permissions Routes
+    Route::get('permissions', [PermissionsController::class, 'index'])->name('permissions.index');
+    Route::post('permissions', [PermissionsController::class, 'store'])->name('permissions.store');
+    Route::get('permissions/{permission}', [PermissionsController::class, 'show'])->name('permissions.show');
+    Route::put('permissions/{permission}', [PermissionsController::class, 'update'])->name('permissions.update');
+    Route::delete('permissions/{permission}', [PermissionsController::class, 'destroy'])->name('permissions.destroy');
 
-    Route::apiResource('users', UserController::class)->names('admin.users');
-    Route::apiResource('roles', RoleController::class)->names('admin.roles');
-    Route::apiResource('permissions', PermissionsController::class)->names('admin.permissions');
+    // Roles Routes
+    Route::get('roles', [RoleController::class, 'index'])->name('roles.index');
+    Route::post('roles', [RoleController::class, 'store'])->name('roles.store');
+    Route::get('roles/{role}', [RoleController::class, 'show'])->name('roles.show');
+    Route::put('roles/{role}', [RoleController::class, 'update'])->name('roles.update');
+    Route::delete('roles/{role}', [RoleController::class, 'destroy'])->name('roles.destroy');
+
+    // Users management
+    Route::apiResource('users', UserController::class)->names('users');
+
+    // Settings management
     Route::get('settings', [SettingsController::class, 'index'])->name('settings.index');
-    Route::post('settings', [SettingsController::class, 'update'])->name('settings.update');
-});
-
-// Seller routes
-Route::middleware(['auth:sanctum'])->prefix('seller')->name('seller.')->group(function () {
-    Route::get('/', [SellerController::class, 'index'])->name('dashboard');
-
-    Route::apiResource('products', ProductController::class)->names('seller.products');
-    Route::get('orders', [OrderController::class, 'index'])->name('orders.index');
-    Route::get('orders/{id}', [OrderController::class, 'show'])->name('orders.show');
-    Route::apiResource('inventory', InventoryController::class)->names('seller.inventory');
-    Route::apiResource('shipping', ShippingController::class)->names('seller.shipping');
-    Route::apiResource('payments', PaymentController::class)->names('seller.payments');
-    Route::get('reports', [ReportController::class, 'index'])->name('reports.index');
-});
-
-// Customer routes
-Route::middleware(['auth:sanctum'])->prefix('customer-page')->name('customer.')->group(function () {
-    Route::get('/', [CustomerController::class, 'index'])->name('dashboard');
-    // other customer routes
-});
-
-// Stripe Webhook
-Route::post('stripe/webhook', [WebhookController::class, 'handle'])->name('stripe.webhook');
-
-// Checkout routes (accessible to guests and authenticated users)
-Route::middleware('auth:sanctum')->group(function () {
-    Route::get('checkout', [CheckoutController::class, 'index'])->name('checkout.index');
-    Route::post('checkout', [CheckoutController::class, 'store'])->name('checkout.store');
-    Route::get('checkout/success', [CheckoutController::class, 'success'])->name('checkout.success');
-    Route::get('checkout/failure', [CheckoutController::class, 'failure'])->name('checkout.failure');
-});
-
-// Test routes (to be removed or protected)
-
-// For testing in a development environment
-Route::get('/admin-test', function () {
-    return 'This is a test route!';
+    Route::post('settings', [SettingsController::class, 'store'])->name('settings.store');
+    Route::put('settings/{key}', [SettingsController::class, 'update'])->name('settings.update');
+    Route::delete('settings/{key}', [SettingsController::class, 'destroy'])->name('settings.destroy');
 });

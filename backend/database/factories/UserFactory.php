@@ -19,21 +19,21 @@ class UserFactory extends Factory
         ];
     }
 
-    public function admin()
+    public function admin(): self
     {
         return $this->afterCreating(function (User $user) {
             $user->assignRole('admin');
         });
     }
 
-    public function seller()
+    public function seller(): self
     {
         return $this->afterCreating(function (User $user) {
             $user->assignRole('seller');
         });
     }
 
-    public function customer()
+    public function customer(): self
     {
         return $this->afterCreating(function (User $user) {
             $user->assignRole('customer');

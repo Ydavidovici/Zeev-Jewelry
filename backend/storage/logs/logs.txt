@@ -757,3 +757,2529 @@
 === New Log: 2024-08-21 16:24:17 ===
 [2024-08-21T16:24:17.339922+00:00] testing.INFO: Executing viewAny in AdminPolicy {"user_id":1,"has_admin_role":true,"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
 [2024-08-21T16:24:17.341479+00:00] testing.INFO: Executing viewAny in AdminPolicy {"user_id":1,"has_admin_role":true,"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+
+
+
+=== New Log: 2024-08-22 13:49:23 ===
+[2024-08-22T13:49:23.504484+00:00] testing.INFO: Test log entry: Logging is working. [] []
+
+
+
+=== New Log: 2024-08-22 13:49:23 ===
+[2024-08-22T13:49:23.578287+00:00] testing.INFO: Executing viewAny in AdminPolicy {"user_id":1,"has_admin_role":true,"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+[2024-08-22T13:49:23.581047+00:00] testing.INFO: Executing viewAny in AdminPolicy {"user_id":1,"has_admin_role":true,"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+[2024-08-22T13:49:23.589699+00:00] testing.INFO: Attempting to access permissions index {"user_id":1} []
+[2024-08-22T13:49:23.590090+00:00] testing.INFO: Executing viewAny in AdminPolicy {"user_id":1,"has_admin_role":true,"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+[2024-08-22T13:49:23.590166+00:00] testing.INFO: Admin accessing permissions index {"user_id":1} []
+[2024-08-22T13:49:23.590588+00:00] testing.INFO: Permissions data retrieved {"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+
+
+
+=== New Log: 2024-08-22 13:50:52 ===
+[2024-08-22T13:50:52.634218+00:00] testing.INFO: Test log entry: Logging is working. [] []
+
+
+
+=== New Log: 2024-08-22 13:50:52 ===
+[2024-08-22T13:50:52.684265+00:00] testing.INFO: Executing viewAny in AdminPolicy {"user_id":1,"has_admin_role":true,"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+[2024-08-22T13:50:52.685842+00:00] testing.INFO: Executing viewAny in AdminPolicy {"user_id":1,"has_admin_role":true,"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+[2024-08-22T13:50:52.691263+00:00] testing.INFO: Attempting to access permissions index {"user_id":1} []
+[2024-08-22T13:50:52.691728+00:00] testing.INFO: Executing viewAny in AdminPolicy {"user_id":1,"has_admin_role":true,"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+[2024-08-22T13:50:52.691813+00:00] testing.INFO: Admin accessing permissions index {"user_id":1} []
+[2024-08-22T13:50:52.692264+00:00] testing.INFO: Permissions data retrieved {"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+
+
+
+=== New Log: 2024-08-22 13:58:06 ===
+[2024-08-22T13:58:06.312462+00:00] testing.INFO: Test log entry: Logging is working. [] []
+
+
+
+=== New Log: 2024-08-22 13:58:06 ===
+[2024-08-22T13:58:06.368827+00:00] testing.INFO: Executing viewAny in AdminPolicy {"user_id":1,"has_admin_role":true,"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+[2024-08-22T13:58:06.371613+00:00] testing.INFO: Executing viewAny in AdminPolicy {"user_id":1,"has_admin_role":true,"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+[2024-08-22T13:58:06.378802+00:00] testing.INFO: Attempting to access permissions index {"user_id":1} []
+[2024-08-22T13:58:06.379249+00:00] testing.INFO: Executing viewAny in AdminPolicy {"user_id":1,"has_admin_role":true,"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+[2024-08-22T13:58:06.379338+00:00] testing.INFO: Admin accessing permissions index {"user_id":1} []
+[2024-08-22T13:58:06.379701+00:00] testing.INFO: Permissions data retrieved {"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+
+
+
+=== New Log: 2024-08-22 13:58:06 ===
+[2024-08-22T13:58:06.444009+00:00] testing.INFO: Admin accessing roles index [] []
+[2024-08-22T13:58:06.444851+00:00] testing.INFO: Roles data retrieved {"roles":{"Illuminate\\Database\\Eloquent\\Collection":[{"id":1,"name":"admin","guard_name":"api","created_at":"2024-08-22T13:58:06.000000Z","updated_at":"2024-08-22T13:58:06.000000Z"}]}} []
+
+
+
+=== New Log: 2024-08-22 13:59:35 ===
+[2024-08-22T13:59:35.028169+00:00] testing.INFO: Test log entry: Logging is working. [] []
+
+
+
+=== New Log: 2024-08-22 13:59:35 ===
+[2024-08-22T13:59:35.088930+00:00] testing.INFO: Executing viewAny in AdminPolicy {"user_id":1,"has_admin_role":true,"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+[2024-08-22T13:59:35.090626+00:00] testing.INFO: Executing viewAny in AdminPolicy {"user_id":1,"has_admin_role":true,"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+[2024-08-22T13:59:35.095954+00:00] testing.INFO: Attempting to access permissions index {"user_id":1} []
+[2024-08-22T13:59:35.096407+00:00] testing.INFO: Executing viewAny in AdminPolicy {"user_id":1,"has_admin_role":true,"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+[2024-08-22T13:59:35.096491+00:00] testing.INFO: Admin accessing permissions index {"user_id":1} []
+[2024-08-22T13:59:35.096827+00:00] testing.INFO: Permissions data retrieved {"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+
+
+
+=== New Log: 2024-08-22 13:59:35 ===
+[2024-08-22T13:59:35.144228+00:00] testing.INFO: Admin accessing roles index [] []
+[2024-08-22T13:59:35.144966+00:00] testing.INFO: Roles data retrieved {"roles":{"Illuminate\\Database\\Eloquent\\Collection":[{"id":1,"name":"admin","guard_name":"api","created_at":"2024-08-22T13:59:35.000000Z","updated_at":"2024-08-22T13:59:35.000000Z"}]}} []
+
+
+
+=== New Log: 2024-08-22 13:59:35 ===
+[2024-08-22T13:59:35.195118+00:00] testing.INFO: Role created {"role":{"Spatie\\Permission\\Models\\Role":{"guard_name":"sanctum","name":"new-role","updated_at":"2024-08-22T13:59:35.000000Z","created_at":"2024-08-22T13:59:35.000000Z","id":2}}} []
+
+
+
+=== New Log: 2024-08-22 14:00:42 ===
+[2024-08-22T14:00:42.827387+00:00] testing.INFO: Test log entry: Logging is working. [] []
+
+
+
+=== New Log: 2024-08-22 14:00:42 ===
+[2024-08-22T14:00:42.876013+00:00] testing.INFO: Executing viewAny in AdminPolicy {"user_id":1,"has_admin_role":true,"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+[2024-08-22T14:00:42.877862+00:00] testing.INFO: Executing viewAny in AdminPolicy {"user_id":1,"has_admin_role":true,"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+[2024-08-22T14:00:42.882759+00:00] testing.INFO: Attempting to access permissions index {"user_id":1} []
+[2024-08-22T14:00:42.883154+00:00] testing.INFO: Executing viewAny in AdminPolicy {"user_id":1,"has_admin_role":true,"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+[2024-08-22T14:00:42.883235+00:00] testing.INFO: Admin accessing permissions index {"user_id":1} []
+[2024-08-22T14:00:42.883573+00:00] testing.INFO: Permissions data retrieved {"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+
+
+
+=== New Log: 2024-08-22 14:00:42 ===
+[2024-08-22T14:00:42.935418+00:00] testing.INFO: Admin accessing roles index [] []
+[2024-08-22T14:00:42.936133+00:00] testing.INFO: Roles data retrieved {"roles":{"Illuminate\\Database\\Eloquent\\Collection":[{"id":1,"name":"admin","guard_name":"api","created_at":"2024-08-22T14:00:42.000000Z","updated_at":"2024-08-22T14:00:42.000000Z"}]}} []
+
+
+
+=== New Log: 2024-08-22 14:00:42 ===
+[2024-08-22T14:00:42.992201+00:00] testing.INFO: Role created {"role":{"Spatie\\Permission\\Models\\Role":{"guard_name":"sanctum","name":"new-role","updated_at":"2024-08-22T14:00:42.000000Z","created_at":"2024-08-22T14:00:42.000000Z","id":2}}} []
+
+
+
+=== New Log: 2024-08-22 14:00:43 ===
+[2024-08-22T14:00:43.032903+00:00] testing.INFO: Role updated {"role":{"Spatie\\Permission\\Models\\Role":{"id":2,"name":"updated-role","guard_name":"api","created_at":"2024-08-22T14:00:43.000000Z","updated_at":"2024-08-22T14:00:43.000000Z"}}} []
+
+
+
+=== New Log: 2024-08-22 14:01:47 ===
+[2024-08-22T14:01:47.533443+00:00] testing.INFO: Test log entry: Logging is working. [] []
+
+
+
+=== New Log: 2024-08-22 14:01:47 ===
+[2024-08-22T14:01:47.589619+00:00] testing.INFO: Executing viewAny in AdminPolicy {"user_id":1,"has_admin_role":true,"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+[2024-08-22T14:01:47.591418+00:00] testing.INFO: Executing viewAny in AdminPolicy {"user_id":1,"has_admin_role":true,"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+[2024-08-22T14:01:47.596487+00:00] testing.INFO: Attempting to access permissions index {"user_id":1} []
+[2024-08-22T14:01:47.596922+00:00] testing.INFO: Executing viewAny in AdminPolicy {"user_id":1,"has_admin_role":true,"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+[2024-08-22T14:01:47.597039+00:00] testing.INFO: Admin accessing permissions index {"user_id":1} []
+[2024-08-22T14:01:47.597517+00:00] testing.INFO: Permissions data retrieved {"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+
+
+
+=== New Log: 2024-08-22 14:01:47 ===
+[2024-08-22T14:01:47.638099+00:00] testing.INFO: Admin accessing roles index [] []
+[2024-08-22T14:01:47.638919+00:00] testing.INFO: Roles data retrieved {"roles":{"Illuminate\\Database\\Eloquent\\Collection":[{"id":1,"name":"admin","guard_name":"api","created_at":"2024-08-22T14:01:47.000000Z","updated_at":"2024-08-22T14:01:47.000000Z"}]}} []
+
+
+
+=== New Log: 2024-08-22 14:01:47 ===
+[2024-08-22T14:01:47.684254+00:00] testing.INFO: Role created {"role":{"Spatie\\Permission\\Models\\Role":{"guard_name":"sanctum","name":"new-role","updated_at":"2024-08-22T14:01:47.000000Z","created_at":"2024-08-22T14:01:47.000000Z","id":2}}} []
+
+
+
+=== New Log: 2024-08-22 14:01:47 ===
+[2024-08-22T14:01:47.716438+00:00] testing.INFO: Role updated {"role":{"Spatie\\Permission\\Models\\Role":{"id":2,"name":"updated-role","guard_name":"api","created_at":"2024-08-22T14:01:47.000000Z","updated_at":"2024-08-22T14:01:47.000000Z"}}} []
+
+
+
+=== New Log: 2024-08-22 14:01:47 ===
+[2024-08-22T14:01:47.746024+00:00] testing.INFO: Role deleted {"role":{"Spatie\\Permission\\Models\\Role":{"id":2,"name":"deletable-role","guard_name":"api","created_at":"2024-08-22T14:01:47.000000Z","updated_at":"2024-08-22T14:01:47.000000Z"}}} []
+
+
+
+=== New Log: 2024-08-22 14:04:19 ===
+[2024-08-22T14:04:19.604752+00:00] testing.INFO: Test log entry: Logging is working. [] []
+
+
+
+=== New Log: 2024-08-22 14:04:19 ===
+[2024-08-22T14:04:19.655431+00:00] testing.INFO: Executing viewAny in AdminPolicy {"user_id":1,"has_admin_role":true,"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+[2024-08-22T14:04:19.656961+00:00] testing.INFO: Executing viewAny in AdminPolicy {"user_id":1,"has_admin_role":true,"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+[2024-08-22T14:04:19.663138+00:00] testing.INFO: Attempting to access permissions index {"user_id":1} []
+[2024-08-22T14:04:19.663575+00:00] testing.INFO: Executing viewAny in AdminPolicy {"user_id":1,"has_admin_role":true,"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+[2024-08-22T14:04:19.663670+00:00] testing.INFO: Admin accessing permissions index {"user_id":1} []
+[2024-08-22T14:04:19.664015+00:00] testing.INFO: Permissions data retrieved {"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+
+
+
+=== New Log: 2024-08-22 14:04:19 ===
+[2024-08-22T14:04:19.701203+00:00] testing.INFO: Admin accessing roles index [] []
+[2024-08-22T14:04:19.701841+00:00] testing.INFO: Roles data retrieved {"roles":{"Illuminate\\Database\\Eloquent\\Collection":[{"id":1,"name":"admin","guard_name":"api","created_at":"2024-08-22T14:04:19.000000Z","updated_at":"2024-08-22T14:04:19.000000Z"}]}} []
+
+
+
+=== New Log: 2024-08-22 14:04:19 ===
+[2024-08-22T14:04:19.744715+00:00] testing.INFO: Role created {"role":{"Spatie\\Permission\\Models\\Role":{"guard_name":"sanctum","name":"new-role","updated_at":"2024-08-22T14:04:19.000000Z","created_at":"2024-08-22T14:04:19.000000Z","id":2}}} []
+
+
+
+=== New Log: 2024-08-22 14:04:19 ===
+[2024-08-22T14:04:19.774508+00:00] testing.INFO: Role updated {"role":{"Spatie\\Permission\\Models\\Role":{"id":2,"name":"updated-role","guard_name":"api","created_at":"2024-08-22T14:04:19.000000Z","updated_at":"2024-08-22T14:04:19.000000Z"}}} []
+
+
+
+=== New Log: 2024-08-22 14:04:19 ===
+[2024-08-22T14:04:19.802985+00:00] testing.INFO: Role deleted {"role":{"Spatie\\Permission\\Models\\Role":{"id":2,"name":"deletable-role","guard_name":"api","created_at":"2024-08-22T14:04:19.000000Z","updated_at":"2024-08-22T14:04:19.000000Z"}}} []
+
+
+
+=== New Log: 2024-08-22 14:04:19 ===
+[2024-08-22T14:04:19.877484+00:00] testing.INFO: Admin accessing settings index [] []
+[2024-08-22T14:04:19.877961+00:00] testing.INFO: Settings data retrieved {"settings":{"site_name":"Zeev Jewelry","currency":"USD","theme_options":["light","dark"],"default_language":"en"}} []
+
+
+
+=== New Log: 2024-08-22 14:06:31 ===
+[2024-08-22T14:06:31.161672+00:00] testing.INFO: Test log entry: Logging is working. [] []
+
+
+
+=== New Log: 2024-08-22 14:06:31 ===
+[2024-08-22T14:06:31.217206+00:00] testing.INFO: Executing viewAny in AdminPolicy {"user_id":1,"has_admin_role":true,"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+[2024-08-22T14:06:31.218856+00:00] testing.INFO: Executing viewAny in AdminPolicy {"user_id":1,"has_admin_role":true,"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+[2024-08-22T14:06:31.225089+00:00] testing.INFO: Attempting to access permissions index {"user_id":1} []
+[2024-08-22T14:06:31.225483+00:00] testing.INFO: Executing viewAny in AdminPolicy {"user_id":1,"has_admin_role":true,"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+[2024-08-22T14:06:31.225614+00:00] testing.INFO: Admin accessing permissions index {"user_id":1} []
+[2024-08-22T14:06:31.225951+00:00] testing.INFO: Permissions data retrieved {"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+
+
+
+=== New Log: 2024-08-22 14:06:31 ===
+[2024-08-22T14:06:31.266971+00:00] testing.INFO: Admin accessing roles index [] []
+[2024-08-22T14:06:31.267601+00:00] testing.INFO: Roles data retrieved {"roles":{"Illuminate\\Database\\Eloquent\\Collection":[{"id":1,"name":"admin","guard_name":"api","created_at":"2024-08-22T14:06:31.000000Z","updated_at":"2024-08-22T14:06:31.000000Z"}]}} []
+
+
+
+=== New Log: 2024-08-22 14:06:31 ===
+[2024-08-22T14:06:31.316080+00:00] testing.INFO: Role created {"role":{"Spatie\\Permission\\Models\\Role":{"guard_name":"sanctum","name":"new-role","updated_at":"2024-08-22T14:06:31.000000Z","created_at":"2024-08-22T14:06:31.000000Z","id":2}}} []
+
+
+
+=== New Log: 2024-08-22 14:06:31 ===
+[2024-08-22T14:06:31.347231+00:00] testing.INFO: Role updated {"role":{"Spatie\\Permission\\Models\\Role":{"id":2,"name":"updated-role","guard_name":"api","created_at":"2024-08-22T14:06:31.000000Z","updated_at":"2024-08-22T14:06:31.000000Z"}}} []
+
+
+
+=== New Log: 2024-08-22 14:06:31 ===
+[2024-08-22T14:06:31.376651+00:00] testing.INFO: Role deleted {"role":{"Spatie\\Permission\\Models\\Role":{"id":2,"name":"deletable-role","guard_name":"api","created_at":"2024-08-22T14:06:31.000000Z","updated_at":"2024-08-22T14:06:31.000000Z"}}} []
+
+
+
+=== New Log: 2024-08-22 14:06:31 ===
+[2024-08-22T14:06:31.454762+00:00] testing.INFO: Admin accessing settings index [] []
+[2024-08-22T14:06:31.455307+00:00] testing.INFO: Settings data retrieved {"settings":{"site_name":"Zeev Jewelry","currency":"USD","theme_options":["light","dark"],"default_language":"en"}} []
+
+
+
+=== New Log: 2024-08-22 14:07:37 ===
+[2024-08-22T14:07:37.700255+00:00] testing.INFO: Test log entry: Logging is working. [] []
+
+
+
+=== New Log: 2024-08-22 14:07:37 ===
+[2024-08-22T14:07:37.753312+00:00] testing.INFO: Executing viewAny in AdminPolicy {"user_id":1,"has_admin_role":true,"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+[2024-08-22T14:07:37.754920+00:00] testing.INFO: Executing viewAny in AdminPolicy {"user_id":1,"has_admin_role":true,"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+[2024-08-22T14:07:37.760366+00:00] testing.INFO: Attempting to access permissions index {"user_id":1} []
+[2024-08-22T14:07:37.760752+00:00] testing.INFO: Executing viewAny in AdminPolicy {"user_id":1,"has_admin_role":true,"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+[2024-08-22T14:07:37.760832+00:00] testing.INFO: Admin accessing permissions index {"user_id":1} []
+[2024-08-22T14:07:37.761173+00:00] testing.INFO: Permissions data retrieved {"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+
+
+
+=== New Log: 2024-08-22 14:07:37 ===
+[2024-08-22T14:07:37.800354+00:00] testing.INFO: Admin accessing roles index [] []
+[2024-08-22T14:07:37.800971+00:00] testing.INFO: Roles data retrieved {"roles":{"Illuminate\\Database\\Eloquent\\Collection":[{"id":1,"name":"admin","guard_name":"api","created_at":"2024-08-22T14:07:37.000000Z","updated_at":"2024-08-22T14:07:37.000000Z"}]}} []
+
+
+
+=== New Log: 2024-08-22 14:07:37 ===
+[2024-08-22T14:07:37.847282+00:00] testing.INFO: Role created {"role":{"Spatie\\Permission\\Models\\Role":{"guard_name":"sanctum","name":"new-role","updated_at":"2024-08-22T14:07:37.000000Z","created_at":"2024-08-22T14:07:37.000000Z","id":2}}} []
+
+
+
+=== New Log: 2024-08-22 14:07:37 ===
+[2024-08-22T14:07:37.879175+00:00] testing.INFO: Role updated {"role":{"Spatie\\Permission\\Models\\Role":{"id":2,"name":"updated-role","guard_name":"api","created_at":"2024-08-22T14:07:37.000000Z","updated_at":"2024-08-22T14:07:37.000000Z"}}} []
+
+
+
+=== New Log: 2024-08-22 14:07:37 ===
+[2024-08-22T14:07:37.907845+00:00] testing.INFO: Role deleted {"role":{"Spatie\\Permission\\Models\\Role":{"id":2,"name":"deletable-role","guard_name":"api","created_at":"2024-08-22T14:07:37.000000Z","updated_at":"2024-08-22T14:07:37.000000Z"}}} []
+
+
+
+=== New Log: 2024-08-22 14:07:37 ===
+[2024-08-22T14:07:37.966099+00:00] testing.INFO: Admin accessing settings index [] []
+[2024-08-22T14:07:37.966576+00:00] testing.INFO: Settings data retrieved {"settings":{"site_name":"Zeev Jewelry","currency":"USD","theme_options":["light","dark"],"default_language":"en"}} []
+
+
+
+=== New Log: 2024-08-22 14:10:20 ===
+[2024-08-22T14:10:20.018589+00:00] testing.INFO: Test log entry: Logging is working. [] []
+
+
+
+=== New Log: 2024-08-22 14:10:20 ===
+[2024-08-22T14:10:20.071655+00:00] testing.INFO: Executing viewAny in AdminPolicy {"user_id":1,"has_admin_role":true,"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+[2024-08-22T14:10:20.073423+00:00] testing.INFO: Executing viewAny in AdminPolicy {"user_id":1,"has_admin_role":true,"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+[2024-08-22T14:10:20.078927+00:00] testing.INFO: Attempting to access permissions index {"user_id":1} []
+[2024-08-22T14:10:20.079312+00:00] testing.INFO: Executing viewAny in AdminPolicy {"user_id":1,"has_admin_role":true,"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+[2024-08-22T14:10:20.079394+00:00] testing.INFO: Admin accessing permissions index {"user_id":1} []
+[2024-08-22T14:10:20.079749+00:00] testing.INFO: Permissions data retrieved {"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+
+
+
+=== New Log: 2024-08-22 14:10:20 ===
+[2024-08-22T14:10:20.116162+00:00] testing.INFO: Admin accessing roles index [] []
+[2024-08-22T14:10:20.116747+00:00] testing.INFO: Roles data retrieved {"roles":{"Illuminate\\Database\\Eloquent\\Collection":[{"id":1,"name":"admin","guard_name":"api","created_at":"2024-08-22T14:10:20.000000Z","updated_at":"2024-08-22T14:10:20.000000Z"}]}} []
+
+
+
+=== New Log: 2024-08-22 14:10:20 ===
+[2024-08-22T14:10:20.159755+00:00] testing.INFO: Role created {"role":{"Spatie\\Permission\\Models\\Role":{"guard_name":"sanctum","name":"new-role","updated_at":"2024-08-22T14:10:20.000000Z","created_at":"2024-08-22T14:10:20.000000Z","id":2}}} []
+
+
+
+=== New Log: 2024-08-22 14:10:20 ===
+[2024-08-22T14:10:20.191476+00:00] testing.INFO: Role updated {"role":{"Spatie\\Permission\\Models\\Role":{"id":2,"name":"updated-role","guard_name":"api","created_at":"2024-08-22T14:10:20.000000Z","updated_at":"2024-08-22T14:10:20.000000Z"}}} []
+
+
+
+=== New Log: 2024-08-22 14:10:20 ===
+[2024-08-22T14:10:20.221830+00:00] testing.INFO: Role deleted {"role":{"Spatie\\Permission\\Models\\Role":{"id":2,"name":"deletable-role","guard_name":"api","created_at":"2024-08-22T14:10:20.000000Z","updated_at":"2024-08-22T14:10:20.000000Z"}}} []
+
+
+
+=== New Log: 2024-08-22 14:10:20 ===
+[2024-08-22T14:10:20.280800+00:00] testing.INFO: Admin accessing settings index [] []
+[2024-08-22T14:10:20.281275+00:00] testing.INFO: Settings data retrieved {"settings":{"site_name":"Zeev Jewelry","currency":"USD","theme_options":["light","dark"],"default_language":"en"}} []
+
+
+
+=== New Log: 2024-08-22 14:14:17 ===
+[2024-08-22T14:14:17.288235+00:00] testing.INFO: Test log entry: Logging is working. [] []
+
+
+
+=== New Log: 2024-08-22 14:14:17 ===
+[2024-08-22T14:14:17.336562+00:00] testing.INFO: Executing viewAny in AdminPolicy {"user_id":1,"has_admin_role":true,"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+[2024-08-22T14:14:17.338114+00:00] testing.INFO: Executing viewAny in AdminPolicy {"user_id":1,"has_admin_role":true,"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+[2024-08-22T14:14:17.343142+00:00] testing.INFO: Attempting to access permissions index {"user_id":1} []
+[2024-08-22T14:14:17.343574+00:00] testing.INFO: Executing viewAny in AdminPolicy {"user_id":1,"has_admin_role":true,"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+[2024-08-22T14:14:17.343656+00:00] testing.INFO: Admin accessing permissions index {"user_id":1} []
+[2024-08-22T14:14:17.343995+00:00] testing.INFO: Permissions data retrieved {"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+
+
+
+=== New Log: 2024-08-22 14:14:17 ===
+[2024-08-22T14:14:17.379664+00:00] testing.INFO: Admin accessing roles index [] []
+[2024-08-22T14:14:17.380249+00:00] testing.INFO: Roles data retrieved {"roles":{"Illuminate\\Database\\Eloquent\\Collection":[{"id":1,"name":"admin","guard_name":"api","created_at":"2024-08-22T14:14:17.000000Z","updated_at":"2024-08-22T14:14:17.000000Z"}]}} []
+
+
+
+=== New Log: 2024-08-22 14:14:17 ===
+[2024-08-22T14:14:17.422920+00:00] testing.INFO: Role created {"role":{"Spatie\\Permission\\Models\\Role":{"guard_name":"sanctum","name":"new-role","updated_at":"2024-08-22T14:14:17.000000Z","created_at":"2024-08-22T14:14:17.000000Z","id":2}}} []
+
+
+
+=== New Log: 2024-08-22 14:14:17 ===
+[2024-08-22T14:14:17.452236+00:00] testing.INFO: Role updated {"role":{"Spatie\\Permission\\Models\\Role":{"id":2,"name":"updated-role","guard_name":"api","created_at":"2024-08-22T14:14:17.000000Z","updated_at":"2024-08-22T14:14:17.000000Z"}}} []
+
+
+
+=== New Log: 2024-08-22 14:14:17 ===
+[2024-08-22T14:14:17.480337+00:00] testing.INFO: Role deleted {"role":{"Spatie\\Permission\\Models\\Role":{"id":2,"name":"deletable-role","guard_name":"api","created_at":"2024-08-22T14:14:17.000000Z","updated_at":"2024-08-22T14:14:17.000000Z"}}} []
+
+
+
+=== New Log: 2024-08-22 14:14:17 ===
+[2024-08-22T14:14:17.537982+00:00] testing.INFO: Admin accessing settings index [] []
+[2024-08-22T14:14:17.538458+00:00] testing.INFO: Settings data retrieved {"settings":{"site_name":"Zeev Jewelry","currency":"USD","theme_options":["light","dark"],"default_language":"en"},"theme":"light"} []
+
+
+
+=== New Log: 2024-08-22 14:20:10 ===
+[2024-08-22T14:20:10.101224+00:00] testing.INFO: Test log entry: Logging is working. [] []
+
+
+
+=== New Log: 2024-08-22 14:20:10 ===
+[2024-08-22T14:20:10.154278+00:00] testing.INFO: Executing viewAny in AdminPolicy {"user_id":1,"has_admin_role":true,"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+[2024-08-22T14:20:10.155782+00:00] testing.INFO: Executing viewAny in AdminPolicy {"user_id":1,"has_admin_role":true,"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+[2024-08-22T14:20:10.161188+00:00] testing.INFO: Attempting to access permissions index {"user_id":1} []
+[2024-08-22T14:20:10.161583+00:00] testing.INFO: Executing viewAny in AdminPolicy {"user_id":1,"has_admin_role":true,"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+[2024-08-22T14:20:10.161662+00:00] testing.INFO: Admin accessing permissions index {"user_id":1} []
+[2024-08-22T14:20:10.162001+00:00] testing.INFO: Permissions data retrieved {"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+
+
+
+=== New Log: 2024-08-22 14:20:10 ===
+[2024-08-22T14:20:10.200596+00:00] testing.INFO: Admin accessing roles index [] []
+[2024-08-22T14:20:10.201243+00:00] testing.INFO: Roles data retrieved {"roles":{"Illuminate\\Database\\Eloquent\\Collection":[{"id":1,"name":"admin","guard_name":"api","created_at":"2024-08-22T14:20:10.000000Z","updated_at":"2024-08-22T14:20:10.000000Z"}]}} []
+
+
+
+=== New Log: 2024-08-22 14:20:10 ===
+[2024-08-22T14:20:10.246511+00:00] testing.INFO: Role created {"role":{"Spatie\\Permission\\Models\\Role":{"guard_name":"sanctum","name":"new-role","updated_at":"2024-08-22T14:20:10.000000Z","created_at":"2024-08-22T14:20:10.000000Z","id":2}}} []
+
+
+
+=== New Log: 2024-08-22 14:20:10 ===
+[2024-08-22T14:20:10.278411+00:00] testing.INFO: Role updated {"role":{"Spatie\\Permission\\Models\\Role":{"id":2,"name":"updated-role","guard_name":"api","created_at":"2024-08-22T14:20:10.000000Z","updated_at":"2024-08-22T14:20:10.000000Z"}}} []
+
+
+
+=== New Log: 2024-08-22 14:20:10 ===
+[2024-08-22T14:20:10.307026+00:00] testing.INFO: Role deleted {"role":{"Spatie\\Permission\\Models\\Role":{"id":2,"name":"deletable-role","guard_name":"api","created_at":"2024-08-22T14:20:10.000000Z","updated_at":"2024-08-22T14:20:10.000000Z"}}} []
+
+
+
+=== New Log: 2024-08-22 14:20:10 ===
+[2024-08-22T14:20:10.365281+00:00] testing.INFO: Admin accessing settings index [] []
+[2024-08-22T14:20:10.365759+00:00] testing.INFO: Settings data retrieved {"settings":{"site_name":"Zeev Jewelry","currency":"USD","theme_options":["light","dark"],"default_language":"en"},"theme":"light"} []
+
+
+
+=== New Log: 2024-08-22 14:21:18 ===
+[2024-08-22T14:21:18.561199+00:00] testing.INFO: Test log entry: Logging is working. [] []
+
+
+
+=== New Log: 2024-08-22 14:21:18 ===
+[2024-08-22T14:21:18.612391+00:00] testing.INFO: Executing viewAny in AdminPolicy {"user_id":1,"has_admin_role":true,"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+[2024-08-22T14:21:18.614166+00:00] testing.INFO: Executing viewAny in AdminPolicy {"user_id":1,"has_admin_role":true,"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+[2024-08-22T14:21:18.620987+00:00] testing.INFO: Attempting to access permissions index {"user_id":1} []
+[2024-08-22T14:21:18.621579+00:00] testing.INFO: Executing viewAny in AdminPolicy {"user_id":1,"has_admin_role":true,"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+[2024-08-22T14:21:18.621758+00:00] testing.INFO: Admin accessing permissions index {"user_id":1} []
+[2024-08-22T14:21:18.622290+00:00] testing.INFO: Permissions data retrieved {"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+
+
+
+=== New Log: 2024-08-22 14:21:18 ===
+[2024-08-22T14:21:18.664330+00:00] testing.INFO: Admin accessing roles index [] []
+[2024-08-22T14:21:18.664960+00:00] testing.INFO: Roles data retrieved {"roles":{"Illuminate\\Database\\Eloquent\\Collection":[{"id":1,"name":"admin","guard_name":"api","created_at":"2024-08-22T14:21:18.000000Z","updated_at":"2024-08-22T14:21:18.000000Z"}]}} []
+
+
+
+=== New Log: 2024-08-22 14:21:18 ===
+[2024-08-22T14:21:18.714988+00:00] testing.INFO: Role created {"role":{"Spatie\\Permission\\Models\\Role":{"guard_name":"sanctum","name":"new-role","updated_at":"2024-08-22T14:21:18.000000Z","created_at":"2024-08-22T14:21:18.000000Z","id":2}}} []
+
+
+
+=== New Log: 2024-08-22 14:21:18 ===
+[2024-08-22T14:21:18.748063+00:00] testing.INFO: Role updated {"role":{"Spatie\\Permission\\Models\\Role":{"id":2,"name":"updated-role","guard_name":"api","created_at":"2024-08-22T14:21:18.000000Z","updated_at":"2024-08-22T14:21:18.000000Z"}}} []
+
+
+
+=== New Log: 2024-08-22 14:21:18 ===
+[2024-08-22T14:21:18.778538+00:00] testing.INFO: Role deleted {"role":{"Spatie\\Permission\\Models\\Role":{"id":2,"name":"deletable-role","guard_name":"api","created_at":"2024-08-22T14:21:18.000000Z","updated_at":"2024-08-22T14:21:18.000000Z"}}} []
+
+
+
+=== New Log: 2024-08-22 14:21:18 ===
+[2024-08-22T14:21:18.837050+00:00] testing.INFO: Admin accessing settings index [] []
+[2024-08-22T14:21:18.837517+00:00] testing.INFO: Settings data retrieved {"settings":{"site_name":"Zeev Jewelry","currency":"USD","theme_options":["light","dark"],"default_language":"en"},"theme":"light"} []
+
+
+
+=== New Log: 2024-08-22 14:26:19 ===
+[2024-08-22T14:26:19.670349+00:00] testing.INFO: Test log entry: Logging is working. [] []
+
+
+
+=== New Log: 2024-08-22 14:26:19 ===
+[2024-08-22T14:26:19.723796+00:00] testing.INFO: Executing viewAny in AdminPolicy {"user_id":1,"has_admin_role":true,"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+[2024-08-22T14:26:19.725252+00:00] testing.INFO: Executing viewAny in AdminPolicy {"user_id":1,"has_admin_role":true,"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+[2024-08-22T14:26:19.730259+00:00] testing.INFO: Attempting to access permissions index {"user_id":1} []
+[2024-08-22T14:26:19.730661+00:00] testing.INFO: Executing viewAny in AdminPolicy {"user_id":1,"has_admin_role":true,"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+[2024-08-22T14:26:19.730740+00:00] testing.INFO: Admin accessing permissions index {"user_id":1} []
+[2024-08-22T14:26:19.731076+00:00] testing.INFO: Permissions data retrieved {"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+
+
+
+=== New Log: 2024-08-22 14:26:19 ===
+[2024-08-22T14:26:19.768938+00:00] testing.INFO: Admin accessing roles index [] []
+[2024-08-22T14:26:19.769615+00:00] testing.INFO: Roles data retrieved {"roles":{"Illuminate\\Database\\Eloquent\\Collection":[{"id":1,"name":"admin","guard_name":"api","created_at":"2024-08-22T14:26:19.000000Z","updated_at":"2024-08-22T14:26:19.000000Z"}]}} []
+
+
+
+=== New Log: 2024-08-22 14:26:19 ===
+[2024-08-22T14:26:19.813028+00:00] testing.INFO: Role created {"role":{"Spatie\\Permission\\Models\\Role":{"guard_name":"sanctum","name":"new-role","updated_at":"2024-08-22T14:26:19.000000Z","created_at":"2024-08-22T14:26:19.000000Z","id":2}}} []
+
+
+
+=== New Log: 2024-08-22 14:26:19 ===
+[2024-08-22T14:26:19.844379+00:00] testing.INFO: Role updated {"role":{"Spatie\\Permission\\Models\\Role":{"id":2,"name":"updated-role","guard_name":"api","created_at":"2024-08-22T14:26:19.000000Z","updated_at":"2024-08-22T14:26:19.000000Z"}}} []
+
+
+
+=== New Log: 2024-08-22 14:26:19 ===
+[2024-08-22T14:26:19.874458+00:00] testing.INFO: Role deleted {"role":{"Spatie\\Permission\\Models\\Role":{"id":2,"name":"deletable-role","guard_name":"api","created_at":"2024-08-22T14:26:19.000000Z","updated_at":"2024-08-22T14:26:19.000000Z"}}} []
+
+
+
+=== New Log: 2024-08-22 14:27:33 ===
+[2024-08-22T14:27:33.553182+00:00] testing.INFO: Test log entry: Logging is working. [] []
+
+
+
+=== New Log: 2024-08-22 14:27:33 ===
+[2024-08-22T14:27:33.601248+00:00] testing.INFO: Executing viewAny in AdminPolicy {"user_id":1,"has_admin_role":true,"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+[2024-08-22T14:27:33.602740+00:00] testing.INFO: Executing viewAny in AdminPolicy {"user_id":1,"has_admin_role":true,"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+[2024-08-22T14:27:33.607418+00:00] testing.INFO: Attempting to access permissions index {"user_id":1} []
+[2024-08-22T14:27:33.607791+00:00] testing.INFO: Executing viewAny in AdminPolicy {"user_id":1,"has_admin_role":true,"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+[2024-08-22T14:27:33.607870+00:00] testing.INFO: Admin accessing permissions index {"user_id":1} []
+[2024-08-22T14:27:33.608209+00:00] testing.INFO: Permissions data retrieved {"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+
+
+
+=== New Log: 2024-08-22 14:27:33 ===
+[2024-08-22T14:27:33.644040+00:00] testing.INFO: Admin accessing roles index [] []
+[2024-08-22T14:27:33.644788+00:00] testing.INFO: Roles data retrieved {"roles":{"Illuminate\\Database\\Eloquent\\Collection":[{"id":1,"name":"admin","guard_name":"api","created_at":"2024-08-22T14:27:33.000000Z","updated_at":"2024-08-22T14:27:33.000000Z"}]}} []
+
+
+
+=== New Log: 2024-08-22 14:27:33 ===
+[2024-08-22T14:27:33.688760+00:00] testing.INFO: Role created {"role":{"Spatie\\Permission\\Models\\Role":{"guard_name":"sanctum","name":"new-role","updated_at":"2024-08-22T14:27:33.000000Z","created_at":"2024-08-22T14:27:33.000000Z","id":2}}} []
+
+
+
+=== New Log: 2024-08-22 14:27:33 ===
+[2024-08-22T14:27:33.718406+00:00] testing.INFO: Role updated {"role":{"Spatie\\Permission\\Models\\Role":{"id":2,"name":"updated-role","guard_name":"api","created_at":"2024-08-22T14:27:33.000000Z","updated_at":"2024-08-22T14:27:33.000000Z"}}} []
+
+
+
+=== New Log: 2024-08-22 14:27:33 ===
+[2024-08-22T14:27:33.746742+00:00] testing.INFO: Role deleted {"role":{"Spatie\\Permission\\Models\\Role":{"id":2,"name":"deletable-role","guard_name":"api","created_at":"2024-08-22T14:27:33.000000Z","updated_at":"2024-08-22T14:27:33.000000Z"}}} []
+
+
+
+=== New Log: 2024-08-22 14:27:33 ===
+[2024-08-22T14:27:33.804299+00:00] testing.INFO: Admin accessing settings index [] []
+[2024-08-22T14:27:33.804779+00:00] testing.INFO: Settings data retrieved {"settings":{"site_name":"Zeev Jewelry","currency":"USD","theme_options":["light","dark"],"default_language":"en"},"theme":"light"} []
+
+
+
+=== New Log: 2024-08-22 14:29:10 ===
+[2024-08-22T14:29:10.160474+00:00] testing.INFO: Test log entry: Logging is working. [] []
+
+
+
+=== New Log: 2024-08-22 14:29:10 ===
+[2024-08-22T14:29:10.224725+00:00] testing.INFO: Executing viewAny in AdminPolicy {"user_id":1,"has_admin_role":true,"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+[2024-08-22T14:29:10.226535+00:00] testing.INFO: Executing viewAny in AdminPolicy {"user_id":1,"has_admin_role":true,"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+[2024-08-22T14:29:10.232584+00:00] testing.INFO: Attempting to access permissions index {"user_id":1} []
+[2024-08-22T14:29:10.233045+00:00] testing.INFO: Executing viewAny in AdminPolicy {"user_id":1,"has_admin_role":true,"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+[2024-08-22T14:29:10.233135+00:00] testing.INFO: Admin accessing permissions index {"user_id":1} []
+[2024-08-22T14:29:10.233493+00:00] testing.INFO: Permissions data retrieved {"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+
+
+
+=== New Log: 2024-08-22 14:29:10 ===
+[2024-08-22T14:29:10.273785+00:00] testing.INFO: Admin accessing roles index [] []
+[2024-08-22T14:29:10.274418+00:00] testing.INFO: Roles data retrieved {"roles":{"Illuminate\\Database\\Eloquent\\Collection":[{"id":1,"name":"admin","guard_name":"api","created_at":"2024-08-22T14:29:10.000000Z","updated_at":"2024-08-22T14:29:10.000000Z"}]}} []
+
+
+
+=== New Log: 2024-08-22 14:29:10 ===
+[2024-08-22T14:29:10.328177+00:00] testing.INFO: Role created {"role":{"Spatie\\Permission\\Models\\Role":{"guard_name":"sanctum","name":"new-role","updated_at":"2024-08-22T14:29:10.000000Z","created_at":"2024-08-22T14:29:10.000000Z","id":2}}} []
+
+
+
+=== New Log: 2024-08-22 14:29:10 ===
+[2024-08-22T14:29:10.361445+00:00] testing.INFO: Role updated {"role":{"Spatie\\Permission\\Models\\Role":{"id":2,"name":"updated-role","guard_name":"api","created_at":"2024-08-22T14:29:10.000000Z","updated_at":"2024-08-22T14:29:10.000000Z"}}} []
+
+
+
+=== New Log: 2024-08-22 14:29:10 ===
+[2024-08-22T14:29:10.396008+00:00] testing.INFO: Role deleted {"role":{"Spatie\\Permission\\Models\\Role":{"id":2,"name":"deletable-role","guard_name":"api","created_at":"2024-08-22T14:29:10.000000Z","updated_at":"2024-08-22T14:29:10.000000Z"}}} []
+
+
+
+=== New Log: 2024-08-22 14:29:10 ===
+[2024-08-22T14:29:10.456678+00:00] testing.INFO: Admin accessing settings index [] []
+[2024-08-22T14:29:10.457178+00:00] testing.INFO: Settings data retrieved {"settings":{"site_name":"Zeev Jewelry","currency":"USD","theme_options":["light","dark"],"default_language":"en"},"theme":"light"} []
+
+
+
+=== New Log: 2024-08-22 14:30:40 ===
+[2024-08-22T14:30:40.457709+00:00] testing.INFO: Test log entry: Logging is working. [] []
+
+
+
+=== New Log: 2024-08-22 14:30:40 ===
+[2024-08-22T14:30:40.505839+00:00] testing.INFO: Executing viewAny in AdminPolicy {"user_id":1,"has_admin_role":true,"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+[2024-08-22T14:30:40.507362+00:00] testing.INFO: Executing viewAny in AdminPolicy {"user_id":1,"has_admin_role":true,"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+[2024-08-22T14:30:40.512408+00:00] testing.INFO: Attempting to access permissions index {"user_id":1} []
+[2024-08-22T14:30:40.512805+00:00] testing.INFO: Executing viewAny in AdminPolicy {"user_id":1,"has_admin_role":true,"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+[2024-08-22T14:30:40.512885+00:00] testing.INFO: Admin accessing permissions index {"user_id":1} []
+[2024-08-22T14:30:40.513221+00:00] testing.INFO: Permissions data retrieved {"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+
+
+
+=== New Log: 2024-08-22 14:30:40 ===
+[2024-08-22T14:30:40.548911+00:00] testing.INFO: Admin accessing roles index [] []
+[2024-08-22T14:30:40.549512+00:00] testing.INFO: Roles data retrieved {"roles":{"Illuminate\\Database\\Eloquent\\Collection":[{"id":1,"name":"admin","guard_name":"api","created_at":"2024-08-22T14:30:40.000000Z","updated_at":"2024-08-22T14:30:40.000000Z"}]}} []
+
+
+
+=== New Log: 2024-08-22 14:30:40 ===
+[2024-08-22T14:30:40.593723+00:00] testing.INFO: Role created {"role":{"Spatie\\Permission\\Models\\Role":{"guard_name":"sanctum","name":"new-role","updated_at":"2024-08-22T14:30:40.000000Z","created_at":"2024-08-22T14:30:40.000000Z","id":2}}} []
+
+
+
+=== New Log: 2024-08-22 14:30:40 ===
+[2024-08-22T14:30:40.626424+00:00] testing.INFO: Role updated {"role":{"Spatie\\Permission\\Models\\Role":{"id":2,"name":"updated-role","guard_name":"api","created_at":"2024-08-22T14:30:40.000000Z","updated_at":"2024-08-22T14:30:40.000000Z"}}} []
+
+
+
+=== New Log: 2024-08-22 14:30:40 ===
+[2024-08-22T14:30:40.655041+00:00] testing.INFO: Role deleted {"role":{"Spatie\\Permission\\Models\\Role":{"id":2,"name":"deletable-role","guard_name":"api","created_at":"2024-08-22T14:30:40.000000Z","updated_at":"2024-08-22T14:30:40.000000Z"}}} []
+
+
+
+=== New Log: 2024-08-22 14:30:40 ===
+[2024-08-22T14:30:40.713529+00:00] testing.INFO: Admin accessing settings index [] []
+[2024-08-22T14:30:40.714043+00:00] testing.INFO: Settings data retrieved {"settings":{"site_name":"Zeev Jewelry","currency":"USD","theme_options":["light","dark"],"default_language":"en"},"theme":"dark"} []
+
+
+
+=== New Log: 2024-08-22 14:51:28 ===
+[2024-08-22T14:51:28.940697+00:00] testing.INFO: Test log entry: Logging is working. [] []
+
+
+
+=== New Log: 2024-08-22 14:51:28 ===
+[2024-08-22T14:51:28.989983+00:00] testing.INFO: Executing viewAny in AdminPolicy {"user_id":1,"has_admin_role":true,"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+[2024-08-22T14:51:28.991624+00:00] testing.INFO: Executing viewAny in AdminPolicy {"user_id":1,"has_admin_role":true,"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+[2024-08-22T14:51:28.998862+00:00] testing.INFO: Attempting to access permissions index {"user_id":1} []
+[2024-08-22T14:51:28.999162+00:00] testing.INFO: Executing viewAny in AdminPolicy {"user_id":1,"has_admin_role":true,"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+[2024-08-22T14:51:28.999246+00:00] testing.INFO: Admin accessing permissions index {"user_id":1} []
+[2024-08-22T14:51:28.999593+00:00] testing.INFO: Permissions data retrieved {"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+
+
+
+=== New Log: 2024-08-22 14:51:29 ===
+[2024-08-22T14:51:29.040849+00:00] testing.INFO: Admin accessing roles index [] []
+[2024-08-22T14:51:29.041604+00:00] testing.INFO: Roles data retrieved {"roles":{"Illuminate\\Database\\Eloquent\\Collection":[{"id":1,"name":"admin","guard_name":"api","created_at":"2024-08-22T14:51:29.000000Z","updated_at":"2024-08-22T14:51:29.000000Z"}]}} []
+
+
+
+=== New Log: 2024-08-22 14:51:29 ===
+[2024-08-22T14:51:29.095111+00:00] testing.INFO: Role created {"role":{"Spatie\\Permission\\Models\\Role":{"guard_name":"sanctum","name":"new-role","updated_at":"2024-08-22T14:51:29.000000Z","created_at":"2024-08-22T14:51:29.000000Z","id":2}}} []
+
+
+
+=== New Log: 2024-08-22 14:51:29 ===
+[2024-08-22T14:51:29.135700+00:00] testing.INFO: Role updated {"role":{"Spatie\\Permission\\Models\\Role":{"id":2,"name":"updated-role","guard_name":"api","created_at":"2024-08-22T14:51:29.000000Z","updated_at":"2024-08-22T14:51:29.000000Z"}}} []
+
+
+
+=== New Log: 2024-08-22 14:51:29 ===
+[2024-08-22T14:51:29.169420+00:00] testing.INFO: Role deleted {"role":{"Spatie\\Permission\\Models\\Role":{"id":2,"name":"deletable-role","guard_name":"api","created_at":"2024-08-22T14:51:29.000000Z","updated_at":"2024-08-22T14:51:29.000000Z"}}} []
+
+
+
+=== New Log: 2024-08-22 14:57:23 ===
+[2024-08-22T14:57:23.237418+00:00] testing.INFO: Test log entry: Logging is working. [] []
+
+
+
+=== New Log: 2024-08-22 14:57:23 ===
+[2024-08-22T14:57:23.286360+00:00] testing.INFO: Executing viewAny in AdminPolicy {"user_id":1,"has_admin_role":true,"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+[2024-08-22T14:57:23.287876+00:00] testing.INFO: Executing viewAny in AdminPolicy {"user_id":1,"has_admin_role":true,"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+[2024-08-22T14:57:23.293503+00:00] testing.INFO: Attempting to access permissions index {"user_id":1} []
+[2024-08-22T14:57:23.293795+00:00] testing.INFO: Executing viewAny in AdminPolicy {"user_id":1,"has_admin_role":true,"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+[2024-08-22T14:57:23.293865+00:00] testing.INFO: Admin accessing permissions index {"user_id":1} []
+[2024-08-22T14:57:23.294222+00:00] testing.INFO: Permissions data retrieved {"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+
+
+
+=== New Log: 2024-08-22 14:57:23 ===
+[2024-08-22T14:57:23.330537+00:00] testing.INFO: Admin accessing roles index [] []
+[2024-08-22T14:57:23.331105+00:00] testing.INFO: Roles data retrieved {"roles":{"Illuminate\\Database\\Eloquent\\Collection":[{"id":1,"name":"admin","guard_name":"api","created_at":"2024-08-22T14:57:23.000000Z","updated_at":"2024-08-22T14:57:23.000000Z"}]}} []
+
+
+
+=== New Log: 2024-08-22 14:57:23 ===
+[2024-08-22T14:57:23.374339+00:00] testing.INFO: Role created {"role":{"Spatie\\Permission\\Models\\Role":{"guard_name":"sanctum","name":"new-role","updated_at":"2024-08-22T14:57:23.000000Z","created_at":"2024-08-22T14:57:23.000000Z","id":2}}} []
+
+
+
+=== New Log: 2024-08-22 14:57:23 ===
+[2024-08-22T14:57:23.404942+00:00] testing.INFO: Role updated {"role":{"Spatie\\Permission\\Models\\Role":{"id":2,"name":"updated-role","guard_name":"api","created_at":"2024-08-22T14:57:23.000000Z","updated_at":"2024-08-22T14:57:23.000000Z"}}} []
+
+
+
+=== New Log: 2024-08-22 14:57:23 ===
+[2024-08-22T14:57:23.435711+00:00] testing.INFO: Role deleted {"role":{"Spatie\\Permission\\Models\\Role":{"id":2,"name":"deletable-role","guard_name":"api","created_at":"2024-08-22T14:57:23.000000Z","updated_at":"2024-08-22T14:57:23.000000Z"}}} []
+
+
+
+=== New Log: 2024-08-22 15:01:17 ===
+[2024-08-22T15:01:17.558056+00:00] testing.INFO: Test log entry: Logging is working. [] []
+
+
+
+=== New Log: 2024-08-22 15:01:17 ===
+[2024-08-22T15:01:17.613205+00:00] testing.INFO: Executing viewAny in AdminPolicy {"user_id":1,"has_admin_role":true,"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+[2024-08-22T15:01:17.614870+00:00] testing.INFO: Executing viewAny in AdminPolicy {"user_id":1,"has_admin_role":true,"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+[2024-08-22T15:01:17.620336+00:00] testing.INFO: Attempting to access permissions index {"user_id":1} []
+[2024-08-22T15:01:17.620626+00:00] testing.INFO: Executing viewAny in AdminPolicy {"user_id":1,"has_admin_role":true,"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+[2024-08-22T15:01:17.620696+00:00] testing.INFO: Admin accessing permissions index {"user_id":1} []
+[2024-08-22T15:01:17.621077+00:00] testing.INFO: Permissions data retrieved {"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+
+
+
+=== New Log: 2024-08-22 15:01:17 ===
+[2024-08-22T15:01:17.657023+00:00] testing.INFO: Admin accessing roles index [] []
+[2024-08-22T15:01:17.657575+00:00] testing.INFO: Roles data retrieved {"roles":{"Illuminate\\Database\\Eloquent\\Collection":[{"id":1,"name":"admin","guard_name":"api","created_at":"2024-08-22T15:01:17.000000Z","updated_at":"2024-08-22T15:01:17.000000Z"}]}} []
+
+
+
+=== New Log: 2024-08-22 15:01:17 ===
+[2024-08-22T15:01:17.704206+00:00] testing.INFO: Role created {"role":{"Spatie\\Permission\\Models\\Role":{"guard_name":"sanctum","name":"new-role","updated_at":"2024-08-22T15:01:17.000000Z","created_at":"2024-08-22T15:01:17.000000Z","id":2}}} []
+
+
+
+=== New Log: 2024-08-22 15:01:17 ===
+[2024-08-22T15:01:17.734584+00:00] testing.INFO: Role updated {"role":{"Spatie\\Permission\\Models\\Role":{"id":2,"name":"updated-role","guard_name":"api","created_at":"2024-08-22T15:01:17.000000Z","updated_at":"2024-08-22T15:01:17.000000Z"}}} []
+
+
+
+=== New Log: 2024-08-22 15:01:17 ===
+[2024-08-22T15:01:17.763000+00:00] testing.INFO: Role deleted {"role":{"Spatie\\Permission\\Models\\Role":{"id":2,"name":"deletable-role","guard_name":"api","created_at":"2024-08-22T15:01:17.000000Z","updated_at":"2024-08-22T15:01:17.000000Z"}}} []
+
+
+
+=== New Log: 2024-08-22 15:11:16 ===
+[2024-08-22T15:11:16.357631+00:00] testing.INFO: Test log entry: Logging is working. [] []
+
+
+
+=== New Log: 2024-08-22 15:11:16 ===
+[2024-08-22T15:11:16.410318+00:00] testing.INFO: Executing viewAny in AdminPolicy {"user_id":1,"has_admin_role":true,"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+[2024-08-22T15:11:16.412402+00:00] testing.INFO: Executing viewAny in AdminPolicy {"user_id":1,"has_admin_role":true,"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+[2024-08-22T15:11:16.417895+00:00] testing.INFO: Attempting to access permissions index {"user_id":1} []
+[2024-08-22T15:11:16.418182+00:00] testing.INFO: Executing viewAny in AdminPolicy {"user_id":1,"has_admin_role":true,"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+[2024-08-22T15:11:16.418251+00:00] testing.INFO: Admin accessing permissions index {"user_id":1} []
+[2024-08-22T15:11:16.418582+00:00] testing.INFO: Permissions data retrieved {"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+
+
+
+=== New Log: 2024-08-22 15:11:16 ===
+[2024-08-22T15:11:16.456014+00:00] testing.INFO: Admin accessing roles index [] []
+[2024-08-22T15:11:16.456586+00:00] testing.INFO: Roles data retrieved {"roles":{"Illuminate\\Database\\Eloquent\\Collection":[{"id":1,"name":"admin","guard_name":"api","created_at":"2024-08-22T15:11:16.000000Z","updated_at":"2024-08-22T15:11:16.000000Z"}]}} []
+
+
+
+=== New Log: 2024-08-22 15:11:16 ===
+[2024-08-22T15:11:16.500929+00:00] testing.INFO: Role created {"role":{"Spatie\\Permission\\Models\\Role":{"guard_name":"sanctum","name":"new-role","updated_at":"2024-08-22T15:11:16.000000Z","created_at":"2024-08-22T15:11:16.000000Z","id":2}}} []
+
+
+
+=== New Log: 2024-08-22 15:11:16 ===
+[2024-08-22T15:11:16.532682+00:00] testing.INFO: Role updated {"role":{"Spatie\\Permission\\Models\\Role":{"id":2,"name":"updated-role","guard_name":"api","created_at":"2024-08-22T15:11:16.000000Z","updated_at":"2024-08-22T15:11:16.000000Z"}}} []
+
+
+
+=== New Log: 2024-08-22 15:11:16 ===
+[2024-08-22T15:11:16.562580+00:00] testing.INFO: Role deleted {"role":{"Spatie\\Permission\\Models\\Role":{"id":2,"name":"deletable-role","guard_name":"api","created_at":"2024-08-22T15:11:16.000000Z","updated_at":"2024-08-22T15:11:16.000000Z"}}} []
+
+
+
+=== New Log: 2024-08-22 15:11:16 ===
+[2024-08-22T15:11:16.596018+00:00] testing.INFO: Accessing settings index [] []
+[2024-08-22T15:11:16.596738+00:00] testing.INFO: Settings data retrieved {"settings":{"site_name":"Zeev Jewelry","currency":"USD","theme":"dark"},"theme":"dark"} []
+
+
+
+=== New Log: 2024-08-22 15:13:13 ===
+[2024-08-22T15:13:13.785247+00:00] testing.INFO: Test log entry: Logging is working. [] []
+
+
+
+=== New Log: 2024-08-22 15:13:13 ===
+[2024-08-22T15:13:13.833495+00:00] testing.INFO: Executing viewAny in AdminPolicy {"user_id":1,"has_admin_role":true,"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+[2024-08-22T15:13:13.835004+00:00] testing.INFO: Executing viewAny in AdminPolicy {"user_id":1,"has_admin_role":true,"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+[2024-08-22T15:13:13.840463+00:00] testing.INFO: Attempting to access permissions index {"user_id":1} []
+[2024-08-22T15:13:13.840751+00:00] testing.INFO: Executing viewAny in AdminPolicy {"user_id":1,"has_admin_role":true,"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+[2024-08-22T15:13:13.840821+00:00] testing.INFO: Admin accessing permissions index {"user_id":1} []
+[2024-08-22T15:13:13.841152+00:00] testing.INFO: Permissions data retrieved {"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+
+
+
+=== New Log: 2024-08-22 15:13:13 ===
+[2024-08-22T15:13:13.876839+00:00] testing.INFO: Admin accessing roles index [] []
+[2024-08-22T15:13:13.877446+00:00] testing.INFO: Roles data retrieved {"roles":{"Illuminate\\Database\\Eloquent\\Collection":[{"id":1,"name":"admin","guard_name":"api","created_at":"2024-08-22T15:13:13.000000Z","updated_at":"2024-08-22T15:13:13.000000Z"}]}} []
+
+
+
+=== New Log: 2024-08-22 15:13:13 ===
+[2024-08-22T15:13:13.919665+00:00] testing.INFO: Role created {"role":{"Spatie\\Permission\\Models\\Role":{"guard_name":"sanctum","name":"new-role","updated_at":"2024-08-22T15:13:13.000000Z","created_at":"2024-08-22T15:13:13.000000Z","id":2}}} []
+
+
+
+=== New Log: 2024-08-22 15:13:13 ===
+[2024-08-22T15:13:13.949310+00:00] testing.INFO: Role updated {"role":{"Spatie\\Permission\\Models\\Role":{"id":2,"name":"updated-role","guard_name":"api","created_at":"2024-08-22T15:13:13.000000Z","updated_at":"2024-08-22T15:13:13.000000Z"}}} []
+
+
+
+=== New Log: 2024-08-22 15:13:13 ===
+[2024-08-22T15:13:13.977599+00:00] testing.INFO: Role deleted {"role":{"Spatie\\Permission\\Models\\Role":{"id":2,"name":"deletable-role","guard_name":"api","created_at":"2024-08-22T15:13:13.000000Z","updated_at":"2024-08-22T15:13:13.000000Z"}}} []
+
+
+
+=== New Log: 2024-08-22 15:13:14 ===
+[2024-08-22T15:13:14.010204+00:00] testing.INFO: Accessing settings index [] []
+[2024-08-22T15:13:14.010914+00:00] testing.INFO: Settings data retrieved {"settings":{"site_name":"Zeev Jewelry","currency":"USD","theme":"dark"},"theme":"dark"} []
+
+
+
+=== New Log: 2024-08-22 15:14:25 ===
+[2024-08-22T15:14:25.516920+00:00] testing.INFO: Test log entry: Logging is working. [] []
+
+
+
+=== New Log: 2024-08-22 15:14:25 ===
+[2024-08-22T15:14:25.564746+00:00] testing.INFO: Executing viewAny in AdminPolicy {"user_id":1,"has_admin_role":true,"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+[2024-08-22T15:14:25.566186+00:00] testing.INFO: Executing viewAny in AdminPolicy {"user_id":1,"has_admin_role":true,"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+[2024-08-22T15:14:25.572228+00:00] testing.INFO: Attempting to access permissions index {"user_id":1} []
+[2024-08-22T15:14:25.572515+00:00] testing.INFO: Executing viewAny in AdminPolicy {"user_id":1,"has_admin_role":true,"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+[2024-08-22T15:14:25.572585+00:00] testing.INFO: Admin accessing permissions index {"user_id":1} []
+[2024-08-22T15:14:25.572973+00:00] testing.INFO: Permissions data retrieved {"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+
+
+
+=== New Log: 2024-08-22 15:14:25 ===
+[2024-08-22T15:14:25.608595+00:00] testing.INFO: Admin accessing roles index [] []
+[2024-08-22T15:14:25.609208+00:00] testing.INFO: Roles data retrieved {"roles":{"Illuminate\\Database\\Eloquent\\Collection":[{"id":1,"name":"admin","guard_name":"api","created_at":"2024-08-22T15:14:25.000000Z","updated_at":"2024-08-22T15:14:25.000000Z"}]}} []
+
+
+
+=== New Log: 2024-08-22 15:14:25 ===
+[2024-08-22T15:14:25.652104+00:00] testing.INFO: Role created {"role":{"Spatie\\Permission\\Models\\Role":{"guard_name":"sanctum","name":"new-role","updated_at":"2024-08-22T15:14:25.000000Z","created_at":"2024-08-22T15:14:25.000000Z","id":2}}} []
+
+
+
+=== New Log: 2024-08-22 15:14:25 ===
+[2024-08-22T15:14:25.681854+00:00] testing.INFO: Role updated {"role":{"Spatie\\Permission\\Models\\Role":{"id":2,"name":"updated-role","guard_name":"api","created_at":"2024-08-22T15:14:25.000000Z","updated_at":"2024-08-22T15:14:25.000000Z"}}} []
+
+
+
+=== New Log: 2024-08-22 15:14:25 ===
+[2024-08-22T15:14:25.711448+00:00] testing.INFO: Role deleted {"role":{"Spatie\\Permission\\Models\\Role":{"id":2,"name":"deletable-role","guard_name":"api","created_at":"2024-08-22T15:14:25.000000Z","updated_at":"2024-08-22T15:14:25.000000Z"}}} []
+
+
+
+=== New Log: 2024-08-22 15:14:25 ===
+[2024-08-22T15:14:25.744284+00:00] testing.INFO: Accessing settings index [] []
+[2024-08-22T15:14:25.744919+00:00] testing.INFO: Settings data retrieved {"settings":{"site_name":"Zeev Jewelry","currency":"USD","theme":"dark"},"theme":"dark"} []
+
+
+
+=== New Log: 2024-08-22 15:18:35 ===
+[2024-08-22T15:18:35.659415+00:00] testing.INFO: Test log entry: Logging is working. [] []
+
+
+
+=== New Log: 2024-08-22 15:18:35 ===
+[2024-08-22T15:18:35.727799+00:00] testing.INFO: Executing viewAny in AdminPolicy {"user_id":1,"has_admin_role":true,"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+[2024-08-22T15:18:35.729637+00:00] testing.INFO: Executing viewAny in AdminPolicy {"user_id":1,"has_admin_role":true,"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+[2024-08-22T15:18:35.737009+00:00] testing.INFO: Attempting to access permissions index {"user_id":1} []
+[2024-08-22T15:18:35.737358+00:00] testing.INFO: Executing viewAny in AdminPolicy {"user_id":1,"has_admin_role":true,"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+[2024-08-22T15:18:35.737450+00:00] testing.INFO: Admin accessing permissions index {"user_id":1} []
+[2024-08-22T15:18:35.737817+00:00] testing.INFO: Permissions data retrieved {"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+
+
+
+=== New Log: 2024-08-22 15:18:35 ===
+[2024-08-22T15:18:35.779579+00:00] testing.INFO: Admin accessing roles index [] []
+[2024-08-22T15:18:35.780434+00:00] testing.INFO: Roles data retrieved {"roles":{"Illuminate\\Database\\Eloquent\\Collection":[{"id":1,"name":"admin","guard_name":"api","created_at":"2024-08-22T15:18:35.000000Z","updated_at":"2024-08-22T15:18:35.000000Z"}]}} []
+
+
+
+=== New Log: 2024-08-22 15:18:35 ===
+[2024-08-22T15:18:35.838810+00:00] testing.INFO: Role created {"role":{"Spatie\\Permission\\Models\\Role":{"guard_name":"sanctum","name":"new-role","updated_at":"2024-08-22T15:18:35.000000Z","created_at":"2024-08-22T15:18:35.000000Z","id":2}}} []
+
+
+
+=== New Log: 2024-08-22 15:18:35 ===
+[2024-08-22T15:18:35.880101+00:00] testing.INFO: Role updated {"role":{"Spatie\\Permission\\Models\\Role":{"id":2,"name":"updated-role","guard_name":"api","created_at":"2024-08-22T15:18:35.000000Z","updated_at":"2024-08-22T15:18:35.000000Z"}}} []
+
+
+
+=== New Log: 2024-08-22 15:18:35 ===
+[2024-08-22T15:18:35.910816+00:00] testing.INFO: Role deleted {"role":{"Spatie\\Permission\\Models\\Role":{"id":2,"name":"deletable-role","guard_name":"api","created_at":"2024-08-22T15:18:35.000000Z","updated_at":"2024-08-22T15:18:35.000000Z"}}} []
+
+
+
+=== New Log: 2024-08-22 15:19:22 ===
+[2024-08-22T15:19:22.022662+00:00] testing.INFO: Test log entry: Logging is working. [] []
+
+
+
+=== New Log: 2024-08-22 15:19:22 ===
+[2024-08-22T15:19:22.075187+00:00] testing.INFO: Executing viewAny in AdminPolicy {"user_id":1,"has_admin_role":true,"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+[2024-08-22T15:19:22.076850+00:00] testing.INFO: Executing viewAny in AdminPolicy {"user_id":1,"has_admin_role":true,"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+[2024-08-22T15:19:22.084333+00:00] testing.INFO: Attempting to access permissions index {"user_id":1} []
+[2024-08-22T15:19:22.084714+00:00] testing.INFO: Executing viewAny in AdminPolicy {"user_id":1,"has_admin_role":true,"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+[2024-08-22T15:19:22.084815+00:00] testing.INFO: Admin accessing permissions index {"user_id":1} []
+[2024-08-22T15:19:22.085209+00:00] testing.INFO: Permissions data retrieved {"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+
+
+
+=== New Log: 2024-08-22 15:19:22 ===
+[2024-08-22T15:19:22.131425+00:00] testing.INFO: Admin accessing roles index [] []
+[2024-08-22T15:19:22.132389+00:00] testing.INFO: Roles data retrieved {"roles":{"Illuminate\\Database\\Eloquent\\Collection":[{"id":1,"name":"admin","guard_name":"api","created_at":"2024-08-22T15:19:22.000000Z","updated_at":"2024-08-22T15:19:22.000000Z"}]}} []
+
+
+
+=== New Log: 2024-08-22 15:19:22 ===
+[2024-08-22T15:19:22.196503+00:00] testing.INFO: Role created {"role":{"Spatie\\Permission\\Models\\Role":{"guard_name":"sanctum","name":"new-role","updated_at":"2024-08-22T15:19:22.000000Z","created_at":"2024-08-22T15:19:22.000000Z","id":2}}} []
+
+
+
+=== New Log: 2024-08-22 15:19:22 ===
+[2024-08-22T15:19:22.234566+00:00] testing.INFO: Role updated {"role":{"Spatie\\Permission\\Models\\Role":{"id":2,"name":"updated-role","guard_name":"api","created_at":"2024-08-22T15:19:22.000000Z","updated_at":"2024-08-22T15:19:22.000000Z"}}} []
+
+
+
+=== New Log: 2024-08-22 15:19:22 ===
+[2024-08-22T15:19:22.273016+00:00] testing.INFO: Role deleted {"role":{"Spatie\\Permission\\Models\\Role":{"id":2,"name":"deletable-role","guard_name":"api","created_at":"2024-08-22T15:19:22.000000Z","updated_at":"2024-08-22T15:19:22.000000Z"}}} []
+
+
+
+=== New Log: 2024-08-22 15:34:33 ===
+[2024-08-22T15:34:33.135805+00:00] testing.INFO: Test log entry: Logging is working. [] []
+
+
+
+=== New Log: 2024-08-22 15:34:33 ===
+[2024-08-22T15:34:33.199725+00:00] testing.INFO: Executing viewAny in AdminPolicy {"user_id":1,"has_admin_role":true,"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+[2024-08-22T15:34:33.202050+00:00] testing.INFO: Executing viewAny in AdminPolicy {"user_id":1,"has_admin_role":true,"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+[2024-08-22T15:34:33.210735+00:00] testing.INFO: Attempting to access permissions index {"user_id":1} []
+[2024-08-22T15:34:33.211124+00:00] testing.INFO: Executing viewAny in AdminPolicy {"user_id":1,"has_admin_role":true,"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+[2024-08-22T15:34:33.211217+00:00] testing.INFO: Admin accessing permissions index {"user_id":1} []
+[2024-08-22T15:34:33.211759+00:00] testing.INFO: Permissions data retrieved {"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+
+
+
+=== New Log: 2024-08-22 15:34:33 ===
+[2024-08-22T15:34:33.256459+00:00] testing.INFO: Admin accessing roles index [] []
+[2024-08-22T15:34:33.257034+00:00] testing.INFO: Roles data retrieved {"roles":{"Illuminate\\Database\\Eloquent\\Collection":[{"id":1,"name":"admin","guard_name":"api","created_at":"2024-08-22T15:34:33.000000Z","updated_at":"2024-08-22T15:34:33.000000Z"}]}} []
+
+
+
+=== New Log: 2024-08-22 15:34:33 ===
+[2024-08-22T15:34:33.308707+00:00] testing.INFO: Role created {"role":{"Spatie\\Permission\\Models\\Role":{"guard_name":"sanctum","name":"new-role","updated_at":"2024-08-22T15:34:33.000000Z","created_at":"2024-08-22T15:34:33.000000Z","id":2}}} []
+
+
+
+=== New Log: 2024-08-22 15:34:33 ===
+[2024-08-22T15:34:33.341249+00:00] testing.INFO: Role updated {"role":{"Spatie\\Permission\\Models\\Role":{"id":2,"name":"updated-role","guard_name":"api","created_at":"2024-08-22T15:34:33.000000Z","updated_at":"2024-08-22T15:34:33.000000Z"}}} []
+
+
+
+=== New Log: 2024-08-22 15:34:33 ===
+[2024-08-22T15:34:33.371809+00:00] testing.INFO: Role deleted {"role":{"Spatie\\Permission\\Models\\Role":{"id":2,"name":"deletable-role","guard_name":"api","created_at":"2024-08-22T15:34:33.000000Z","updated_at":"2024-08-22T15:34:33.000000Z"}}} []
+
+
+
+=== New Log: 2024-08-22 15:36:16 ===
+[2024-08-22T15:36:16.359636+00:00] testing.INFO: Test log entry: Logging is working. [] []
+
+
+
+=== New Log: 2024-08-22 15:36:16 ===
+[2024-08-22T15:36:16.407697+00:00] testing.INFO: Executing viewAny in AdminPolicy {"user_id":1,"has_admin_role":true,"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+[2024-08-22T15:36:16.409233+00:00] testing.INFO: Executing viewAny in AdminPolicy {"user_id":1,"has_admin_role":true,"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+[2024-08-22T15:36:16.415252+00:00] testing.INFO: Attempting to access permissions index {"user_id":1} []
+[2024-08-22T15:36:16.415555+00:00] testing.INFO: Executing viewAny in AdminPolicy {"user_id":1,"has_admin_role":true,"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+[2024-08-22T15:36:16.415633+00:00] testing.INFO: Admin accessing permissions index {"user_id":1} []
+[2024-08-22T15:36:16.415988+00:00] testing.INFO: Permissions data retrieved {"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+
+
+
+=== New Log: 2024-08-22 15:36:16 ===
+[2024-08-22T15:36:16.452511+00:00] testing.INFO: Admin accessing roles index [] []
+[2024-08-22T15:36:16.453076+00:00] testing.INFO: Roles data retrieved {"roles":{"Illuminate\\Database\\Eloquent\\Collection":[{"id":1,"name":"admin","guard_name":"api","created_at":"2024-08-22T15:36:16.000000Z","updated_at":"2024-08-22T15:36:16.000000Z"}]}} []
+
+
+
+=== New Log: 2024-08-22 15:36:16 ===
+[2024-08-22T15:36:16.495455+00:00] testing.INFO: Role created {"role":{"Spatie\\Permission\\Models\\Role":{"guard_name":"sanctum","name":"new-role","updated_at":"2024-08-22T15:36:16.000000Z","created_at":"2024-08-22T15:36:16.000000Z","id":2}}} []
+
+
+
+=== New Log: 2024-08-22 15:36:16 ===
+[2024-08-22T15:36:16.525497+00:00] testing.INFO: Role updated {"role":{"Spatie\\Permission\\Models\\Role":{"id":2,"name":"updated-role","guard_name":"api","created_at":"2024-08-22T15:36:16.000000Z","updated_at":"2024-08-22T15:36:16.000000Z"}}} []
+
+
+
+=== New Log: 2024-08-22 15:36:16 ===
+[2024-08-22T15:36:16.555214+00:00] testing.INFO: Role deleted {"role":{"Spatie\\Permission\\Models\\Role":{"id":2,"name":"deletable-role","guard_name":"api","created_at":"2024-08-22T15:36:16.000000Z","updated_at":"2024-08-22T15:36:16.000000Z"}}} []
+
+
+
+=== New Log: 2024-08-22 15:38:59 ===
+[2024-08-22T15:38:59.731477+00:00] testing.INFO: Test log entry: Logging is working. [] []
+
+
+
+=== New Log: 2024-08-22 15:38:59 ===
+[2024-08-22T15:38:59.783809+00:00] testing.INFO: Executing viewAny in AdminPolicy {"user_id":1,"has_admin_role":true,"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+[2024-08-22T15:38:59.785467+00:00] testing.INFO: Executing viewAny in AdminPolicy {"user_id":1,"has_admin_role":true,"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+[2024-08-22T15:38:59.792011+00:00] testing.INFO: Attempting to access permissions index {"user_id":1} []
+[2024-08-22T15:38:59.792310+00:00] testing.INFO: Executing viewAny in AdminPolicy {"user_id":1,"has_admin_role":true,"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+[2024-08-22T15:38:59.792439+00:00] testing.INFO: Admin accessing permissions index {"user_id":1} []
+[2024-08-22T15:38:59.792785+00:00] testing.INFO: Permissions data retrieved {"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+
+
+
+=== New Log: 2024-08-22 15:38:59 ===
+[2024-08-22T15:38:59.828871+00:00] testing.INFO: Admin accessing roles index [] []
+[2024-08-22T15:38:59.829457+00:00] testing.INFO: Roles data retrieved {"roles":{"Illuminate\\Database\\Eloquent\\Collection":[{"id":1,"name":"admin","guard_name":"api","created_at":"2024-08-22T15:38:59.000000Z","updated_at":"2024-08-22T15:38:59.000000Z"}]}} []
+
+
+
+=== New Log: 2024-08-22 15:38:59 ===
+[2024-08-22T15:38:59.873270+00:00] testing.INFO: Role created {"role":{"Spatie\\Permission\\Models\\Role":{"guard_name":"sanctum","name":"new-role","updated_at":"2024-08-22T15:38:59.000000Z","created_at":"2024-08-22T15:38:59.000000Z","id":2}}} []
+
+
+
+=== New Log: 2024-08-22 15:38:59 ===
+[2024-08-22T15:38:59.902916+00:00] testing.INFO: Role updated {"role":{"Spatie\\Permission\\Models\\Role":{"id":2,"name":"updated-role","guard_name":"api","created_at":"2024-08-22T15:38:59.000000Z","updated_at":"2024-08-22T15:38:59.000000Z"}}} []
+
+
+
+=== New Log: 2024-08-22 15:38:59 ===
+[2024-08-22T15:38:59.938059+00:00] testing.INFO: Role deleted {"role":{"Spatie\\Permission\\Models\\Role":{"id":2,"name":"deletable-role","guard_name":"api","created_at":"2024-08-22T15:38:59.000000Z","updated_at":"2024-08-22T15:38:59.000000Z"}}} []
+
+
+
+=== New Log: 2024-08-22 15:54:12 ===
+[2024-08-22T15:54:12.881914+00:00] testing.INFO: Test log entry: Logging is working. [] []
+
+
+
+=== New Log: 2024-08-22 15:54:12 ===
+[2024-08-22T15:54:12.931611+00:00] testing.INFO: Executing viewAny in AdminPolicy {"user_id":1,"has_admin_role":true,"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+[2024-08-22T15:54:12.933125+00:00] testing.INFO: Executing viewAny in AdminPolicy {"user_id":1,"has_admin_role":true,"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+[2024-08-22T15:54:12.938738+00:00] testing.INFO: Attempting to access permissions index {"user_id":1} []
+[2024-08-22T15:54:12.939049+00:00] testing.INFO: Executing viewAny in AdminPolicy {"user_id":1,"has_admin_role":true,"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+[2024-08-22T15:54:12.939118+00:00] testing.INFO: Admin accessing permissions index {"user_id":1} []
+[2024-08-22T15:54:12.939451+00:00] testing.INFO: Permissions data retrieved {"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+
+
+
+=== New Log: 2024-08-22 15:54:12 ===
+[2024-08-22T15:54:12.977667+00:00] testing.INFO: Admin accessing roles index [] []
+[2024-08-22T15:54:12.978226+00:00] testing.INFO: Roles data retrieved {"roles":{"Illuminate\\Database\\Eloquent\\Collection":[{"id":1,"name":"admin","guard_name":"api","created_at":"2024-08-22T15:54:12.000000Z","updated_at":"2024-08-22T15:54:12.000000Z"}]}} []
+
+
+
+=== New Log: 2024-08-22 15:54:13 ===
+[2024-08-22T15:54:13.022928+00:00] testing.INFO: Role created {"role":{"Spatie\\Permission\\Models\\Role":{"guard_name":"sanctum","name":"new-role","updated_at":"2024-08-22T15:54:13.000000Z","created_at":"2024-08-22T15:54:13.000000Z","id":2}}} []
+
+
+
+=== New Log: 2024-08-22 15:54:13 ===
+[2024-08-22T15:54:13.052191+00:00] testing.INFO: Role updated {"role":{"Spatie\\Permission\\Models\\Role":{"id":2,"name":"updated-role","guard_name":"api","created_at":"2024-08-22T15:54:13.000000Z","updated_at":"2024-08-22T15:54:13.000000Z"}}} []
+
+
+
+=== New Log: 2024-08-22 15:54:13 ===
+[2024-08-22T15:54:13.082001+00:00] testing.INFO: Role deleted {"role":{"Spatie\\Permission\\Models\\Role":{"id":2,"name":"deletable-role","guard_name":"api","created_at":"2024-08-22T15:54:13.000000Z","updated_at":"2024-08-22T15:54:13.000000Z"}}} []
+
+
+
+=== New Log: 2024-08-22 16:07:51 ===
+[2024-08-22T16:07:51.186034+00:00] testing.INFO: Test log entry: Logging is working. [] []
+
+
+
+=== New Log: 2024-08-22 16:07:51 ===
+[2024-08-22T16:07:51.234326+00:00] testing.INFO: Executing viewAny in AdminPolicy {"user_id":1,"has_admin_role":true,"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+[2024-08-22T16:07:51.235919+00:00] testing.INFO: Executing viewAny in AdminPolicy {"user_id":1,"has_admin_role":true,"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+[2024-08-22T16:07:51.241948+00:00] testing.INFO: Attempting to access permissions index {"user_id":1} []
+[2024-08-22T16:07:51.242256+00:00] testing.INFO: Executing viewAny in AdminPolicy {"user_id":1,"has_admin_role":true,"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+[2024-08-22T16:07:51.242336+00:00] testing.INFO: Admin accessing permissions index {"user_id":1} []
+[2024-08-22T16:07:51.242696+00:00] testing.INFO: Permissions data retrieved {"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+
+
+
+=== New Log: 2024-08-22 16:07:51 ===
+[2024-08-22T16:07:51.280444+00:00] testing.INFO: Admin accessing roles index [] []
+[2024-08-22T16:07:51.281087+00:00] testing.INFO: Roles data retrieved {"roles":{"Illuminate\\Database\\Eloquent\\Collection":[{"id":1,"name":"admin","guard_name":"api","created_at":"2024-08-22T16:07:51.000000Z","updated_at":"2024-08-22T16:07:51.000000Z"}]}} []
+
+
+
+=== New Log: 2024-08-22 16:07:51 ===
+[2024-08-22T16:07:51.327514+00:00] testing.INFO: Role created {"role":{"Spatie\\Permission\\Models\\Role":{"guard_name":"sanctum","name":"new-role","updated_at":"2024-08-22T16:07:51.000000Z","created_at":"2024-08-22T16:07:51.000000Z","id":2}}} []
+
+
+
+=== New Log: 2024-08-22 16:07:51 ===
+[2024-08-22T16:07:51.358334+00:00] testing.INFO: Role updated {"role":{"Spatie\\Permission\\Models\\Role":{"id":2,"name":"updated-role","guard_name":"api","created_at":"2024-08-22T16:07:51.000000Z","updated_at":"2024-08-22T16:07:51.000000Z"}}} []
+
+
+
+=== New Log: 2024-08-22 16:07:51 ===
+[2024-08-22T16:07:51.388803+00:00] testing.INFO: Role deleted {"role":{"Spatie\\Permission\\Models\\Role":{"id":2,"name":"deletable-role","guard_name":"api","created_at":"2024-08-22T16:07:51.000000Z","updated_at":"2024-08-22T16:07:51.000000Z"}}} []
+
+
+
+=== New Log: 2024-08-22 16:10:22 ===
+[2024-08-22T16:10:22.792975+00:00] testing.INFO: Test log entry: Logging is working. [] []
+
+
+
+=== New Log: 2024-08-22 16:10:22 ===
+[2024-08-22T16:10:22.843586+00:00] testing.INFO: Executing viewAny in AdminPolicy {"user_id":1,"has_admin_role":true,"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+[2024-08-22T16:10:22.845040+00:00] testing.INFO: Executing viewAny in AdminPolicy {"user_id":1,"has_admin_role":true,"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+[2024-08-22T16:10:22.850775+00:00] testing.INFO: Attempting to access permissions index {"user_id":1} []
+[2024-08-22T16:10:22.851062+00:00] testing.INFO: Executing viewAny in AdminPolicy {"user_id":1,"has_admin_role":true,"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+[2024-08-22T16:10:22.851132+00:00] testing.INFO: Admin accessing permissions index {"user_id":1} []
+[2024-08-22T16:10:22.851463+00:00] testing.INFO: Permissions data retrieved {"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+
+
+
+=== New Log: 2024-08-22 16:10:22 ===
+[2024-08-22T16:10:22.887579+00:00] testing.INFO: Admin accessing roles index [] []
+[2024-08-22T16:10:22.888145+00:00] testing.INFO: Roles data retrieved {"roles":{"Illuminate\\Database\\Eloquent\\Collection":[{"id":1,"name":"admin","guard_name":"api","created_at":"2024-08-22T16:10:22.000000Z","updated_at":"2024-08-22T16:10:22.000000Z"}]}} []
+
+
+
+=== New Log: 2024-08-22 16:10:22 ===
+[2024-08-22T16:10:22.930903+00:00] testing.INFO: Role created {"role":{"Spatie\\Permission\\Models\\Role":{"guard_name":"sanctum","name":"new-role","updated_at":"2024-08-22T16:10:22.000000Z","created_at":"2024-08-22T16:10:22.000000Z","id":2}}} []
+
+
+
+=== New Log: 2024-08-22 16:10:22 ===
+[2024-08-22T16:10:22.961242+00:00] testing.INFO: Role updated {"role":{"Spatie\\Permission\\Models\\Role":{"id":2,"name":"updated-role","guard_name":"api","created_at":"2024-08-22T16:10:22.000000Z","updated_at":"2024-08-22T16:10:22.000000Z"}}} []
+
+
+
+=== New Log: 2024-08-22 16:10:22 ===
+[2024-08-22T16:10:22.989890+00:00] testing.INFO: Role deleted {"role":{"Spatie\\Permission\\Models\\Role":{"id":2,"name":"deletable-role","guard_name":"api","created_at":"2024-08-22T16:10:22.000000Z","updated_at":"2024-08-22T16:10:22.000000Z"}}} []
+
+
+
+=== New Log: 2024-08-22 16:11:35 ===
+[2024-08-22T16:11:35.746106+00:00] testing.INFO: Test log entry: Logging is working. [] []
+
+
+
+=== New Log: 2024-08-22 16:11:35 ===
+[2024-08-22T16:11:35.804223+00:00] testing.INFO: Executing viewAny in AdminPolicy {"user_id":1,"has_admin_role":true,"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+[2024-08-22T16:11:35.805754+00:00] testing.INFO: Executing viewAny in AdminPolicy {"user_id":1,"has_admin_role":true,"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+[2024-08-22T16:11:35.811170+00:00] testing.INFO: Attempting to access permissions index {"user_id":1} []
+[2024-08-22T16:11:35.811458+00:00] testing.INFO: Executing viewAny in AdminPolicy {"user_id":1,"has_admin_role":true,"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+[2024-08-22T16:11:35.811528+00:00] testing.INFO: Admin accessing permissions index {"user_id":1} []
+[2024-08-22T16:11:35.811863+00:00] testing.INFO: Permissions data retrieved {"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+
+
+
+=== New Log: 2024-08-22 16:11:35 ===
+[2024-08-22T16:11:35.847579+00:00] testing.INFO: Admin accessing roles index [] []
+[2024-08-22T16:11:35.848134+00:00] testing.INFO: Roles data retrieved {"roles":{"Illuminate\\Database\\Eloquent\\Collection":[{"id":1,"name":"admin","guard_name":"api","created_at":"2024-08-22T16:11:35.000000Z","updated_at":"2024-08-22T16:11:35.000000Z"}]}} []
+
+
+
+=== New Log: 2024-08-22 16:11:35 ===
+[2024-08-22T16:11:35.890656+00:00] testing.INFO: Role created {"role":{"Spatie\\Permission\\Models\\Role":{"guard_name":"sanctum","name":"new-role","updated_at":"2024-08-22T16:11:35.000000Z","created_at":"2024-08-22T16:11:35.000000Z","id":2}}} []
+
+
+
+=== New Log: 2024-08-22 16:11:35 ===
+[2024-08-22T16:11:35.920769+00:00] testing.INFO: Role updated {"role":{"Spatie\\Permission\\Models\\Role":{"id":2,"name":"updated-role","guard_name":"api","created_at":"2024-08-22T16:11:35.000000Z","updated_at":"2024-08-22T16:11:35.000000Z"}}} []
+
+
+
+=== New Log: 2024-08-22 16:11:35 ===
+[2024-08-22T16:11:35.949199+00:00] testing.INFO: Role deleted {"role":{"Spatie\\Permission\\Models\\Role":{"id":2,"name":"deletable-role","guard_name":"api","created_at":"2024-08-22T16:11:35.000000Z","updated_at":"2024-08-22T16:11:35.000000Z"}}} []
+
+
+
+=== New Log: 2024-08-22 16:12:29 ===
+[2024-08-22T16:12:29.909059+00:00] testing.INFO: Test log entry: Logging is working. [] []
+
+
+
+=== New Log: 2024-08-22 16:12:29 ===
+[2024-08-22T16:12:29.956569+00:00] testing.INFO: Executing viewAny in AdminPolicy {"user_id":1,"has_admin_role":true,"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+[2024-08-22T16:12:29.958043+00:00] testing.INFO: Executing viewAny in AdminPolicy {"user_id":1,"has_admin_role":true,"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+[2024-08-22T16:12:29.963437+00:00] testing.INFO: Attempting to access permissions index {"user_id":1} []
+[2024-08-22T16:12:29.963728+00:00] testing.INFO: Executing viewAny in AdminPolicy {"user_id":1,"has_admin_role":true,"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+[2024-08-22T16:12:29.963845+00:00] testing.INFO: Admin accessing permissions index {"user_id":1} []
+[2024-08-22T16:12:29.964179+00:00] testing.INFO: Permissions data retrieved {"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+
+
+
+=== New Log: 2024-08-22 16:12:29 ===
+[2024-08-22T16:12:29.999793+00:00] testing.INFO: Admin accessing roles index [] []
+[2024-08-22T16:12:30.000393+00:00] testing.INFO: Roles data retrieved {"roles":{"Illuminate\\Database\\Eloquent\\Collection":[{"id":1,"name":"admin","guard_name":"api","created_at":"2024-08-22T16:12:29.000000Z","updated_at":"2024-08-22T16:12:29.000000Z"}]}} []
+
+
+
+=== New Log: 2024-08-22 16:12:30 ===
+[2024-08-22T16:12:30.043459+00:00] testing.INFO: Role created {"role":{"Spatie\\Permission\\Models\\Role":{"guard_name":"sanctum","name":"new-role","updated_at":"2024-08-22T16:12:30.000000Z","created_at":"2024-08-22T16:12:30.000000Z","id":2}}} []
+
+
+
+=== New Log: 2024-08-22 16:12:30 ===
+[2024-08-22T16:12:30.073905+00:00] testing.INFO: Role updated {"role":{"Spatie\\Permission\\Models\\Role":{"id":2,"name":"updated-role","guard_name":"api","created_at":"2024-08-22T16:12:30.000000Z","updated_at":"2024-08-22T16:12:30.000000Z"}}} []
+
+
+
+=== New Log: 2024-08-22 16:12:30 ===
+[2024-08-22T16:12:30.102030+00:00] testing.INFO: Role deleted {"role":{"Spatie\\Permission\\Models\\Role":{"id":2,"name":"deletable-role","guard_name":"api","created_at":"2024-08-22T16:12:30.000000Z","updated_at":"2024-08-22T16:12:30.000000Z"}}} []
+
+
+
+=== New Log: 2024-08-22 16:12:46 ===
+[2024-08-22T16:12:46.339690+00:00] testing.INFO: Test log entry: Logging is working. [] []
+
+
+
+=== New Log: 2024-08-22 16:12:46 ===
+[2024-08-22T16:12:46.387526+00:00] testing.INFO: Executing viewAny in AdminPolicy {"user_id":1,"has_admin_role":true,"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+[2024-08-22T16:12:46.389089+00:00] testing.INFO: Executing viewAny in AdminPolicy {"user_id":1,"has_admin_role":true,"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+[2024-08-22T16:12:46.394589+00:00] testing.INFO: Attempting to access permissions index {"user_id":1} []
+[2024-08-22T16:12:46.394880+00:00] testing.INFO: Executing viewAny in AdminPolicy {"user_id":1,"has_admin_role":true,"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+[2024-08-22T16:12:46.394950+00:00] testing.INFO: Admin accessing permissions index {"user_id":1} []
+[2024-08-22T16:12:46.395279+00:00] testing.INFO: Permissions data retrieved {"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+
+
+
+=== New Log: 2024-08-22 16:12:46 ===
+[2024-08-22T16:12:46.434318+00:00] testing.INFO: Admin accessing roles index [] []
+[2024-08-22T16:12:46.434948+00:00] testing.INFO: Roles data retrieved {"roles":{"Illuminate\\Database\\Eloquent\\Collection":[{"id":1,"name":"admin","guard_name":"api","created_at":"2024-08-22T16:12:46.000000Z","updated_at":"2024-08-22T16:12:46.000000Z"}]}} []
+
+
+
+=== New Log: 2024-08-22 16:12:46 ===
+[2024-08-22T16:12:46.480965+00:00] testing.INFO: Role created {"role":{"Spatie\\Permission\\Models\\Role":{"guard_name":"sanctum","name":"new-role","updated_at":"2024-08-22T16:12:46.000000Z","created_at":"2024-08-22T16:12:46.000000Z","id":2}}} []
+
+
+
+=== New Log: 2024-08-22 16:12:46 ===
+[2024-08-22T16:12:46.512896+00:00] testing.INFO: Role updated {"role":{"Spatie\\Permission\\Models\\Role":{"id":2,"name":"updated-role","guard_name":"api","created_at":"2024-08-22T16:12:46.000000Z","updated_at":"2024-08-22T16:12:46.000000Z"}}} []
+
+
+
+=== New Log: 2024-08-22 16:12:46 ===
+[2024-08-22T16:12:46.542588+00:00] testing.INFO: Role deleted {"role":{"Spatie\\Permission\\Models\\Role":{"id":2,"name":"deletable-role","guard_name":"api","created_at":"2024-08-22T16:12:46.000000Z","updated_at":"2024-08-22T16:12:46.000000Z"}}} []
+
+
+
+=== New Log: 2024-08-22 16:18:39 ===
+[2024-08-22T16:18:39.159191+00:00] testing.INFO: Test log entry: Logging is working. [] []
+
+
+
+=== New Log: 2024-08-22 16:18:39 ===
+[2024-08-22T16:18:39.209928+00:00] testing.INFO: Executing viewAny in AdminPolicy {"user_id":1,"has_admin_role":true,"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+[2024-08-22T16:18:39.211546+00:00] testing.INFO: Executing viewAny in AdminPolicy {"user_id":1,"has_admin_role":true,"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+[2024-08-22T16:18:39.217089+00:00] testing.INFO: Attempting to access permissions index {"user_id":1} []
+[2024-08-22T16:18:39.217377+00:00] testing.INFO: Executing viewAny in AdminPolicy {"user_id":1,"has_admin_role":true,"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+[2024-08-22T16:18:39.217453+00:00] testing.INFO: Admin accessing permissions index {"user_id":1} []
+[2024-08-22T16:18:39.217786+00:00] testing.INFO: Permissions data retrieved {"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+
+
+
+=== New Log: 2024-08-22 16:18:39 ===
+[2024-08-22T16:18:39.256147+00:00] testing.INFO: Admin accessing roles index [] []
+[2024-08-22T16:18:39.256747+00:00] testing.INFO: Roles data retrieved {"roles":{"Illuminate\\Database\\Eloquent\\Collection":[{"id":1,"name":"admin","guard_name":"api","created_at":"2024-08-22T16:18:39.000000Z","updated_at":"2024-08-22T16:18:39.000000Z"}]}} []
+
+
+
+=== New Log: 2024-08-22 16:18:39 ===
+[2024-08-22T16:18:39.299983+00:00] testing.INFO: Role created {"role":{"Spatie\\Permission\\Models\\Role":{"guard_name":"sanctum","name":"new-role","updated_at":"2024-08-22T16:18:39.000000Z","created_at":"2024-08-22T16:18:39.000000Z","id":2}}} []
+
+
+
+=== New Log: 2024-08-22 16:18:39 ===
+[2024-08-22T16:18:39.338626+00:00] testing.INFO: Role updated {"role":{"Spatie\\Permission\\Models\\Role":{"id":2,"name":"updated-role","guard_name":"api","created_at":"2024-08-22T16:18:39.000000Z","updated_at":"2024-08-22T16:18:39.000000Z"}}} []
+
+
+
+=== New Log: 2024-08-22 16:18:39 ===
+[2024-08-22T16:18:39.377664+00:00] testing.INFO: Role deleted {"role":{"Spatie\\Permission\\Models\\Role":{"id":2,"name":"deletable-role","guard_name":"api","created_at":"2024-08-22T16:18:39.000000Z","updated_at":"2024-08-22T16:18:39.000000Z"}}} []
+
+
+
+=== New Log: 2024-08-22 16:18:39 ===
+[2024-08-22T16:18:39.611813+00:00] testing.INFO: Executing viewAny in AdminPolicy {"user_id":1,"has_admin_role":true,"permissions":["view-users","manage-users"]} []
+[2024-08-22T16:18:39.612322+00:00] testing.INFO: Admin accessing users index [] []
+[2024-08-22T16:18:39.612589+00:00] testing.INFO: Users data retrieved {"users":{"Illuminate\\Database\\Eloquent\\Collection":[{"id":1,"username":"warren.auer","email":"gottlieb.alessandra@example.com","role":"customer","created_at":"2024-08-22T16:18:39.000000Z","updated_at":"2024-08-22T16:18:39.000000Z"},{"id":2,"username":"howell.dianna","email":"rick.russel@example.net","role":"customer","created_at":"2024-08-22T16:18:39.000000Z","updated_at":"2024-08-22T16:18:39.000000Z"}]}} []
+
+
+
+=== New Log: 2024-08-22 16:19:57 ===
+[2024-08-22T16:19:57.423108+00:00] testing.INFO: Test log entry: Logging is working. [] []
+
+
+
+=== New Log: 2024-08-22 16:19:57 ===
+[2024-08-22T16:19:57.473157+00:00] testing.INFO: Executing viewAny in AdminPolicy {"user_id":1,"has_admin_role":true,"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+[2024-08-22T16:19:57.474655+00:00] testing.INFO: Executing viewAny in AdminPolicy {"user_id":1,"has_admin_role":true,"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+[2024-08-22T16:19:57.480665+00:00] testing.INFO: Attempting to access permissions index {"user_id":1} []
+[2024-08-22T16:19:57.481012+00:00] testing.INFO: Executing viewAny in AdminPolicy {"user_id":1,"has_admin_role":true,"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+[2024-08-22T16:19:57.481136+00:00] testing.INFO: Admin accessing permissions index {"user_id":1} []
+[2024-08-22T16:19:57.481477+00:00] testing.INFO: Permissions data retrieved {"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+
+
+
+=== New Log: 2024-08-22 16:19:57 ===
+[2024-08-22T16:19:57.519342+00:00] testing.INFO: Admin accessing roles index [] []
+[2024-08-22T16:19:57.519932+00:00] testing.INFO: Roles data retrieved {"roles":{"Illuminate\\Database\\Eloquent\\Collection":[{"id":1,"name":"admin","guard_name":"api","created_at":"2024-08-22T16:19:57.000000Z","updated_at":"2024-08-22T16:19:57.000000Z"}]}} []
+
+
+
+=== New Log: 2024-08-22 16:19:57 ===
+[2024-08-22T16:19:57.563900+00:00] testing.INFO: Role created {"role":{"Spatie\\Permission\\Models\\Role":{"guard_name":"sanctum","name":"new-role","updated_at":"2024-08-22T16:19:57.000000Z","created_at":"2024-08-22T16:19:57.000000Z","id":2}}} []
+
+
+
+=== New Log: 2024-08-22 16:19:57 ===
+[2024-08-22T16:19:57.594641+00:00] testing.INFO: Role updated {"role":{"Spatie\\Permission\\Models\\Role":{"id":2,"name":"updated-role","guard_name":"api","created_at":"2024-08-22T16:19:57.000000Z","updated_at":"2024-08-22T16:19:57.000000Z"}}} []
+
+
+
+=== New Log: 2024-08-22 16:19:57 ===
+[2024-08-22T16:19:57.623662+00:00] testing.INFO: Role deleted {"role":{"Spatie\\Permission\\Models\\Role":{"id":2,"name":"deletable-role","guard_name":"api","created_at":"2024-08-22T16:19:57.000000Z","updated_at":"2024-08-22T16:19:57.000000Z"}}} []
+
+
+
+=== New Log: 2024-08-22 16:19:57 ===
+[2024-08-22T16:19:57.849905+00:00] testing.INFO: Executing viewAny in AdminPolicy {"user_id":1,"has_admin_role":true,"permissions":["view-users","manage-users"]} []
+[2024-08-22T16:19:57.850396+00:00] testing.INFO: Admin accessing users index [] []
+[2024-08-22T16:19:57.850642+00:00] testing.INFO: Users data retrieved {"users":{"Illuminate\\Database\\Eloquent\\Collection":[{"id":1,"username":"myrna05","email":"osinski.adell@example.org","role":"customer","created_at":"2024-08-22T16:19:57.000000Z","updated_at":"2024-08-22T16:19:57.000000Z"},{"id":2,"username":"pgrant","email":"lwolf@example.com","role":"customer","created_at":"2024-08-22T16:19:57.000000Z","updated_at":"2024-08-22T16:19:57.000000Z"}]}} []
+
+
+
+=== New Log: 2024-08-22 16:20:39 ===
+[2024-08-22T16:20:39.116111+00:00] testing.INFO: Test log entry: Logging is working. [] []
+
+
+
+=== New Log: 2024-08-22 16:20:39 ===
+[2024-08-22T16:20:39.164083+00:00] testing.INFO: Executing viewAny in AdminPolicy {"user_id":1,"has_admin_role":true,"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+[2024-08-22T16:20:39.165912+00:00] testing.INFO: Executing viewAny in AdminPolicy {"user_id":1,"has_admin_role":true,"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+[2024-08-22T16:20:39.171463+00:00] testing.INFO: Attempting to access permissions index {"user_id":1} []
+[2024-08-22T16:20:39.171755+00:00] testing.INFO: Executing viewAny in AdminPolicy {"user_id":1,"has_admin_role":true,"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+[2024-08-22T16:20:39.171828+00:00] testing.INFO: Admin accessing permissions index {"user_id":1} []
+[2024-08-22T16:20:39.172165+00:00] testing.INFO: Permissions data retrieved {"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+
+
+
+=== New Log: 2024-08-22 16:20:39 ===
+[2024-08-22T16:20:39.208311+00:00] testing.INFO: Admin accessing roles index [] []
+[2024-08-22T16:20:39.208873+00:00] testing.INFO: Roles data retrieved {"roles":{"Illuminate\\Database\\Eloquent\\Collection":[{"id":1,"name":"admin","guard_name":"api","created_at":"2024-08-22T16:20:39.000000Z","updated_at":"2024-08-22T16:20:39.000000Z"}]}} []
+
+
+
+=== New Log: 2024-08-22 16:20:39 ===
+[2024-08-22T16:20:39.255188+00:00] testing.INFO: Role created {"role":{"Spatie\\Permission\\Models\\Role":{"guard_name":"sanctum","name":"new-role","updated_at":"2024-08-22T16:20:39.000000Z","created_at":"2024-08-22T16:20:39.000000Z","id":2}}} []
+
+
+
+=== New Log: 2024-08-22 16:20:39 ===
+[2024-08-22T16:20:39.287093+00:00] testing.INFO: Role updated {"role":{"Spatie\\Permission\\Models\\Role":{"id":2,"name":"updated-role","guard_name":"api","created_at":"2024-08-22T16:20:39.000000Z","updated_at":"2024-08-22T16:20:39.000000Z"}}} []
+
+
+
+=== New Log: 2024-08-22 16:20:39 ===
+[2024-08-22T16:20:39.316717+00:00] testing.INFO: Role deleted {"role":{"Spatie\\Permission\\Models\\Role":{"id":2,"name":"deletable-role","guard_name":"api","created_at":"2024-08-22T16:20:39.000000Z","updated_at":"2024-08-22T16:20:39.000000Z"}}} []
+
+
+
+=== New Log: 2024-08-22 16:20:39 ===
+[2024-08-22T16:20:39.490155+00:00] testing.INFO: Executing viewAny in AdminPolicy {"user_id":1,"has_admin_role":true,"permissions":["view-users","manage-users"]} []
+[2024-08-22T16:20:39.490658+00:00] testing.INFO: Admin accessing users index [] []
+[2024-08-22T16:20:39.490926+00:00] testing.INFO: Users data retrieved {"users":{"Illuminate\\Database\\Eloquent\\Collection":[{"id":1,"username":"sydnie.johns","email":"asa.dach@example.org","role":"customer","created_at":"2024-08-22T16:20:39.000000Z","updated_at":"2024-08-22T16:20:39.000000Z"},{"id":2,"username":"rabbott","email":"jennifer.heaney@example.org","role":"customer","created_at":"2024-08-22T16:20:39.000000Z","updated_at":"2024-08-22T16:20:39.000000Z"}]}} []
+
+
+
+=== New Log: 2024-08-22 16:23:24 ===
+[2024-08-22T16:23:24.221047+00:00] testing.INFO: Test log entry: Logging is working. [] []
+
+
+
+=== New Log: 2024-08-22 16:23:24 ===
+[2024-08-22T16:23:24.278944+00:00] testing.INFO: Executing viewAny in AdminPolicy {"user_id":1,"has_admin_role":true,"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+[2024-08-22T16:23:24.281042+00:00] testing.INFO: Executing viewAny in AdminPolicy {"user_id":1,"has_admin_role":true,"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+[2024-08-22T16:23:24.287397+00:00] testing.INFO: Attempting to access permissions index {"user_id":1} []
+[2024-08-22T16:23:24.287710+00:00] testing.INFO: Executing viewAny in AdminPolicy {"user_id":1,"has_admin_role":true,"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+[2024-08-22T16:23:24.287780+00:00] testing.INFO: Admin accessing permissions index {"user_id":1} []
+[2024-08-22T16:23:24.288127+00:00] testing.INFO: Permissions data retrieved {"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+
+
+
+=== New Log: 2024-08-22 16:23:24 ===
+[2024-08-22T16:23:24.327370+00:00] testing.INFO: Admin accessing roles index [] []
+[2024-08-22T16:23:24.327918+00:00] testing.INFO: Roles data retrieved {"roles":{"Illuminate\\Database\\Eloquent\\Collection":[{"id":1,"name":"admin","guard_name":"api","created_at":"2024-08-22T16:23:24.000000Z","updated_at":"2024-08-22T16:23:24.000000Z"}]}} []
+
+
+
+=== New Log: 2024-08-22 16:23:24 ===
+[2024-08-22T16:23:24.373989+00:00] testing.INFO: Role created {"role":{"Spatie\\Permission\\Models\\Role":{"guard_name":"sanctum","name":"new-role","updated_at":"2024-08-22T16:23:24.000000Z","created_at":"2024-08-22T16:23:24.000000Z","id":2}}} []
+
+
+
+=== New Log: 2024-08-22 16:23:24 ===
+[2024-08-22T16:23:24.405388+00:00] testing.INFO: Role updated {"role":{"Spatie\\Permission\\Models\\Role":{"id":2,"name":"updated-role","guard_name":"api","created_at":"2024-08-22T16:23:24.000000Z","updated_at":"2024-08-22T16:23:24.000000Z"}}} []
+
+
+
+=== New Log: 2024-08-22 16:23:24 ===
+[2024-08-22T16:23:24.437137+00:00] testing.INFO: Role deleted {"role":{"Spatie\\Permission\\Models\\Role":{"id":2,"name":"deletable-role","guard_name":"api","created_at":"2024-08-22T16:23:24.000000Z","updated_at":"2024-08-22T16:23:24.000000Z"}}} []
+
+
+
+=== New Log: 2024-08-22 16:23:24 ===
+[2024-08-22T16:23:24.610521+00:00] testing.INFO: Executing viewAny in AdminPolicy {"user_id":1,"has_admin_role":true,"permissions":["view-users","manage-users"]} []
+[2024-08-22T16:23:24.611072+00:00] testing.INFO: Admin accessing users index [] []
+[2024-08-22T16:23:24.611353+00:00] testing.INFO: Users data retrieved {"users":{"Illuminate\\Database\\Eloquent\\Collection":[{"id":1,"username":"mossie04","email":"osvaldo76@example.org","role":"customer","created_at":"2024-08-22T16:23:24.000000Z","updated_at":"2024-08-22T16:23:24.000000Z"},{"id":2,"username":"syble.boehm","email":"hudson.jovany@example.org","role":"customer","created_at":"2024-08-22T16:23:24.000000Z","updated_at":"2024-08-22T16:23:24.000000Z"}]}} []
+
+
+
+=== New Log: 2024-08-22 16:26:53 ===
+[2024-08-22T16:26:53.507880+00:00] testing.INFO: Test log entry: Logging is working. [] []
+
+
+
+=== New Log: 2024-08-22 16:26:53 ===
+[2024-08-22T16:26:53.555383+00:00] testing.INFO: Executing viewAny in AdminPolicy {"user_id":1,"has_admin_role":true,"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+[2024-08-22T16:26:53.556888+00:00] testing.INFO: Executing viewAny in AdminPolicy {"user_id":1,"has_admin_role":true,"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+[2024-08-22T16:26:53.562649+00:00] testing.INFO: Attempting to access permissions index {"user_id":1} []
+[2024-08-22T16:26:53.562939+00:00] testing.INFO: Executing viewAny in AdminPolicy {"user_id":1,"has_admin_role":true,"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+[2024-08-22T16:26:53.563010+00:00] testing.INFO: Admin accessing permissions index {"user_id":1} []
+[2024-08-22T16:26:53.563341+00:00] testing.INFO: Permissions data retrieved {"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+
+
+
+=== New Log: 2024-08-22 16:26:53 ===
+[2024-08-22T16:26:53.599434+00:00] testing.INFO: Admin accessing roles index [] []
+[2024-08-22T16:26:53.600010+00:00] testing.INFO: Roles data retrieved {"roles":{"Illuminate\\Database\\Eloquent\\Collection":[{"id":1,"name":"admin","guard_name":"api","created_at":"2024-08-22T16:26:53.000000Z","updated_at":"2024-08-22T16:26:53.000000Z"}]}} []
+
+
+
+=== New Log: 2024-08-22 16:26:53 ===
+[2024-08-22T16:26:53.643304+00:00] testing.INFO: Role created {"role":{"Spatie\\Permission\\Models\\Role":{"guard_name":"sanctum","name":"new-role","updated_at":"2024-08-22T16:26:53.000000Z","created_at":"2024-08-22T16:26:53.000000Z","id":2}}} []
+
+
+
+=== New Log: 2024-08-22 16:26:53 ===
+[2024-08-22T16:26:53.673499+00:00] testing.INFO: Role updated {"role":{"Spatie\\Permission\\Models\\Role":{"id":2,"name":"updated-role","guard_name":"api","created_at":"2024-08-22T16:26:53.000000Z","updated_at":"2024-08-22T16:26:53.000000Z"}}} []
+
+
+
+=== New Log: 2024-08-22 16:26:53 ===
+[2024-08-22T16:26:53.703970+00:00] testing.INFO: Role deleted {"role":{"Spatie\\Permission\\Models\\Role":{"id":2,"name":"deletable-role","guard_name":"api","created_at":"2024-08-22T16:26:53.000000Z","updated_at":"2024-08-22T16:26:53.000000Z"}}} []
+
+
+
+=== New Log: 2024-08-22 16:26:53 ===
+[2024-08-22T16:26:53.887258+00:00] testing.INFO: Executing viewAny in AdminPolicy {"user_id":1,"has_admin_role":true,"permissions":["view-users","manage-users"]} []
+[2024-08-22T16:26:53.887777+00:00] testing.INFO: Admin accessing users index [] []
+[2024-08-22T16:26:53.888079+00:00] testing.INFO: Users data retrieved {"users":{"Illuminate\\Database\\Eloquent\\Collection":[{"id":1,"username":"zemlak.tevin","email":"novella72@example.com","role":"customer","created_at":"2024-08-22T16:26:53.000000Z","updated_at":"2024-08-22T16:26:53.000000Z"},{"id":2,"username":"brandyn59","email":"declan82@example.net","role":"customer","created_at":"2024-08-22T16:26:53.000000Z","updated_at":"2024-08-22T16:26:53.000000Z"}]}} []
+
+
+
+=== New Log: 2024-08-22 16:28:36 ===
+[2024-08-22T16:28:36.752786+00:00] testing.INFO: Test log entry: Logging is working. [] []
+
+
+
+=== New Log: 2024-08-22 16:28:36 ===
+[2024-08-22T16:28:36.801801+00:00] testing.INFO: Executing viewAny in AdminPolicy {"user_id":1,"has_admin_role":true,"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+[2024-08-22T16:28:36.803471+00:00] testing.INFO: Executing viewAny in AdminPolicy {"user_id":1,"has_admin_role":true,"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+[2024-08-22T16:28:36.809211+00:00] testing.INFO: Attempting to access permissions index {"user_id":1} []
+[2024-08-22T16:28:36.809500+00:00] testing.INFO: Executing viewAny in AdminPolicy {"user_id":1,"has_admin_role":true,"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+[2024-08-22T16:28:36.809579+00:00] testing.INFO: Admin accessing permissions index {"user_id":1} []
+[2024-08-22T16:28:36.809920+00:00] testing.INFO: Permissions data retrieved {"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+
+
+
+=== New Log: 2024-08-22 16:28:36 ===
+[2024-08-22T16:28:36.845878+00:00] testing.INFO: Admin accessing roles index [] []
+[2024-08-22T16:28:36.846447+00:00] testing.INFO: Roles data retrieved {"roles":{"Illuminate\\Database\\Eloquent\\Collection":[{"id":1,"name":"admin","guard_name":"api","created_at":"2024-08-22T16:28:36.000000Z","updated_at":"2024-08-22T16:28:36.000000Z"}]}} []
+
+
+
+=== New Log: 2024-08-22 16:28:36 ===
+[2024-08-22T16:28:36.889787+00:00] testing.INFO: Role created {"role":{"Spatie\\Permission\\Models\\Role":{"guard_name":"sanctum","name":"new-role","updated_at":"2024-08-22T16:28:36.000000Z","created_at":"2024-08-22T16:28:36.000000Z","id":2}}} []
+
+
+
+=== New Log: 2024-08-22 16:28:36 ===
+[2024-08-22T16:28:36.920072+00:00] testing.INFO: Role updated {"role":{"Spatie\\Permission\\Models\\Role":{"id":2,"name":"updated-role","guard_name":"api","created_at":"2024-08-22T16:28:36.000000Z","updated_at":"2024-08-22T16:28:36.000000Z"}}} []
+
+
+
+=== New Log: 2024-08-22 16:28:36 ===
+[2024-08-22T16:28:36.948769+00:00] testing.INFO: Role deleted {"role":{"Spatie\\Permission\\Models\\Role":{"id":2,"name":"deletable-role","guard_name":"api","created_at":"2024-08-22T16:28:36.000000Z","updated_at":"2024-08-22T16:28:36.000000Z"}}} []
+
+
+
+=== New Log: 2024-08-22 16:31:58 ===
+[2024-08-22T16:31:58.476637+00:00] testing.INFO: Test log entry: Logging is working. [] []
+
+
+
+=== New Log: 2024-08-22 16:31:58 ===
+[2024-08-22T16:31:58.534678+00:00] testing.INFO: Executing viewAny in AdminPolicy {"user_id":1,"has_admin_role":true,"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+[2024-08-22T16:31:58.536286+00:00] testing.INFO: Executing viewAny in AdminPolicy {"user_id":1,"has_admin_role":true,"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+[2024-08-22T16:31:58.542261+00:00] testing.INFO: Attempting to access permissions index {"user_id":1} []
+[2024-08-22T16:31:58.542574+00:00] testing.INFO: Executing viewAny in AdminPolicy {"user_id":1,"has_admin_role":true,"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+[2024-08-22T16:31:58.542672+00:00] testing.INFO: Admin accessing permissions index {"user_id":1} []
+[2024-08-22T16:31:58.543072+00:00] testing.INFO: Permissions data retrieved {"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+
+
+
+=== New Log: 2024-08-22 16:31:58 ===
+[2024-08-22T16:31:58.583127+00:00] testing.INFO: Admin accessing roles index [] []
+[2024-08-22T16:31:58.583813+00:00] testing.INFO: Roles data retrieved {"roles":{"Illuminate\\Database\\Eloquent\\Collection":[{"id":1,"name":"admin","guard_name":"api","created_at":"2024-08-22T16:31:58.000000Z","updated_at":"2024-08-22T16:31:58.000000Z"}]}} []
+
+
+
+=== New Log: 2024-08-22 16:31:58 ===
+[2024-08-22T16:31:58.638249+00:00] testing.INFO: Role created {"role":{"Spatie\\Permission\\Models\\Role":{"guard_name":"sanctum","name":"new-role","updated_at":"2024-08-22T16:31:58.000000Z","created_at":"2024-08-22T16:31:58.000000Z","id":2}}} []
+
+
+
+=== New Log: 2024-08-22 16:31:58 ===
+[2024-08-22T16:31:58.670875+00:00] testing.INFO: Role updated {"role":{"Spatie\\Permission\\Models\\Role":{"id":2,"name":"updated-role","guard_name":"api","created_at":"2024-08-22T16:31:58.000000Z","updated_at":"2024-08-22T16:31:58.000000Z"}}} []
+
+
+
+=== New Log: 2024-08-22 16:31:58 ===
+[2024-08-22T16:31:58.702417+00:00] testing.INFO: Role deleted {"role":{"Spatie\\Permission\\Models\\Role":{"id":2,"name":"deletable-role","guard_name":"api","created_at":"2024-08-22T16:31:58.000000Z","updated_at":"2024-08-22T16:31:58.000000Z"}}} []
+
+
+
+=== New Log: 2024-08-22 16:32:24 ===
+[2024-08-22T16:32:24.258963+00:00] testing.INFO: Test log entry: Logging is working. [] []
+
+
+
+=== New Log: 2024-08-22 16:32:24 ===
+[2024-08-22T16:32:24.306226+00:00] testing.INFO: Executing viewAny in AdminPolicy {"user_id":1,"has_admin_role":true,"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+[2024-08-22T16:32:24.307707+00:00] testing.INFO: Executing viewAny in AdminPolicy {"user_id":1,"has_admin_role":true,"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+[2024-08-22T16:32:24.313208+00:00] testing.INFO: Attempting to access permissions index {"user_id":1} []
+[2024-08-22T16:32:24.313500+00:00] testing.INFO: Executing viewAny in AdminPolicy {"user_id":1,"has_admin_role":true,"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+[2024-08-22T16:32:24.313569+00:00] testing.INFO: Admin accessing permissions index {"user_id":1} []
+[2024-08-22T16:32:24.313899+00:00] testing.INFO: Permissions data retrieved {"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+
+
+
+=== New Log: 2024-08-22 16:32:24 ===
+[2024-08-22T16:32:24.350630+00:00] testing.INFO: Admin accessing roles index [] []
+[2024-08-22T16:32:24.351201+00:00] testing.INFO: Roles data retrieved {"roles":{"Illuminate\\Database\\Eloquent\\Collection":[{"id":1,"name":"admin","guard_name":"api","created_at":"2024-08-22T16:32:24.000000Z","updated_at":"2024-08-22T16:32:24.000000Z"}]}} []
+
+
+
+=== New Log: 2024-08-22 16:32:24 ===
+[2024-08-22T16:32:24.393721+00:00] testing.INFO: Role created {"role":{"Spatie\\Permission\\Models\\Role":{"guard_name":"sanctum","name":"new-role","updated_at":"2024-08-22T16:32:24.000000Z","created_at":"2024-08-22T16:32:24.000000Z","id":2}}} []
+
+
+
+=== New Log: 2024-08-22 16:32:24 ===
+[2024-08-22T16:32:24.424222+00:00] testing.INFO: Role updated {"role":{"Spatie\\Permission\\Models\\Role":{"id":2,"name":"updated-role","guard_name":"api","created_at":"2024-08-22T16:32:24.000000Z","updated_at":"2024-08-22T16:32:24.000000Z"}}} []
+
+
+
+=== New Log: 2024-08-22 16:32:24 ===
+[2024-08-22T16:32:24.460793+00:00] testing.INFO: Role deleted {"role":{"Spatie\\Permission\\Models\\Role":{"id":2,"name":"deletable-role","guard_name":"api","created_at":"2024-08-22T16:32:24.000000Z","updated_at":"2024-08-22T16:32:24.000000Z"}}} []
+
+
+
+=== New Log: 2024-08-22 16:36:13 ===
+[2024-08-22T16:36:13.396817+00:00] testing.INFO: Test log entry: Logging is working. [] []
+
+
+
+=== New Log: 2024-08-22 16:36:13 ===
+[2024-08-22T16:36:13.446941+00:00] testing.INFO: Executing viewAny in AdminPolicy {"user_id":1,"has_admin_role":true,"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+[2024-08-22T16:36:13.448508+00:00] testing.INFO: Executing viewAny in AdminPolicy {"user_id":1,"has_admin_role":true,"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+[2024-08-22T16:36:13.453777+00:00] testing.INFO: Attempting to access permissions index {"user_id":1} []
+[2024-08-22T16:36:13.454068+00:00] testing.INFO: Executing viewAny in AdminPolicy {"user_id":1,"has_admin_role":true,"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+[2024-08-22T16:36:13.454144+00:00] testing.INFO: Admin accessing permissions index {"user_id":1} []
+[2024-08-22T16:36:13.454526+00:00] testing.INFO: Permissions data retrieved {"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+
+
+
+=== New Log: 2024-08-22 16:36:13 ===
+[2024-08-22T16:36:13.489958+00:00] testing.INFO: Admin accessing roles index [] []
+[2024-08-22T16:36:13.490509+00:00] testing.INFO: Roles data retrieved {"roles":{"Illuminate\\Database\\Eloquent\\Collection":[{"id":1,"name":"admin","guard_name":"api","created_at":"2024-08-22T16:36:13.000000Z","updated_at":"2024-08-22T16:36:13.000000Z"}]}} []
+
+
+
+=== New Log: 2024-08-22 16:36:13 ===
+[2024-08-22T16:36:13.532804+00:00] testing.INFO: Role created {"role":{"Spatie\\Permission\\Models\\Role":{"guard_name":"sanctum","name":"new-role","updated_at":"2024-08-22T16:36:13.000000Z","created_at":"2024-08-22T16:36:13.000000Z","id":2}}} []
+
+
+
+=== New Log: 2024-08-22 16:36:13 ===
+[2024-08-22T16:36:13.562222+00:00] testing.INFO: Role updated {"role":{"Spatie\\Permission\\Models\\Role":{"id":2,"name":"updated-role","guard_name":"api","created_at":"2024-08-22T16:36:13.000000Z","updated_at":"2024-08-22T16:36:13.000000Z"}}} []
+
+
+
+=== New Log: 2024-08-22 16:36:13 ===
+[2024-08-22T16:36:13.590539+00:00] testing.INFO: Role deleted {"role":{"Spatie\\Permission\\Models\\Role":{"id":2,"name":"deletable-role","guard_name":"api","created_at":"2024-08-22T16:36:13.000000Z","updated_at":"2024-08-22T16:36:13.000000Z"}}} []
+
+
+
+=== New Log: 2024-08-22 17:36:46 ===
+[2024-08-22T17:36:46.165498+00:00] testing.INFO: Test log entry: Logging is working. [] []
+
+
+
+=== New Log: 2024-08-22 17:36:46 ===
+[2024-08-22T17:36:46.214239+00:00] testing.INFO: Executing viewAny in AdminPolicy {"user_id":1,"has_admin_role":true,"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+[2024-08-22T17:36:46.215858+00:00] testing.INFO: Executing viewAny in AdminPolicy {"user_id":1,"has_admin_role":true,"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+
+
+
+=== New Log: 2024-08-22 17:42:03 ===
+[2024-08-22T17:42:03.686844+00:00] testing.INFO: Test log entry: Logging is working. [] []
+
+
+
+=== New Log: 2024-08-22 17:42:03 ===
+[2024-08-22T17:42:03.745635+00:00] testing.INFO: Executing viewAny in AdminPolicy {"user_id":1,"has_admin_role":true,"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+[2024-08-22T17:42:03.747186+00:00] testing.INFO: Executing viewAny in AdminPolicy {"user_id":1,"has_admin_role":true,"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+[2024-08-22T17:42:03.754814+00:00] testing.INFO: Attempting to access permissions index {"user_id":1} []
+[2024-08-22T17:42:03.755126+00:00] testing.INFO: Executing viewAny in AdminPolicy {"user_id":1,"has_admin_role":true,"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+[2024-08-22T17:42:03.755198+00:00] testing.INFO: Admin accessing permissions index {"user_id":1} []
+[2024-08-22T17:42:03.755532+00:00] testing.INFO: Permissions data retrieved {"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+
+
+
+=== New Log: 2024-08-22 17:42:03 ===
+[2024-08-22T17:42:03.791754+00:00] testing.INFO: Admin accessing roles index [] []
+[2024-08-22T17:42:03.792327+00:00] testing.INFO: Roles data retrieved {"roles":{"Illuminate\\Database\\Eloquent\\Collection":[{"id":1,"name":"admin","guard_name":"api","created_at":"2024-08-22T17:42:03.000000Z","updated_at":"2024-08-22T17:42:03.000000Z"}]}} []
+
+
+
+=== New Log: 2024-08-22 17:42:03 ===
+[2024-08-22T17:42:03.839289+00:00] testing.INFO: Role created {"role":{"Spatie\\Permission\\Models\\Role":{"guard_name":"sanctum","name":"new-role","updated_at":"2024-08-22T17:42:03.000000Z","created_at":"2024-08-22T17:42:03.000000Z","id":2}}} []
+
+
+
+=== New Log: 2024-08-22 17:42:03 ===
+[2024-08-22T17:42:03.869775+00:00] testing.INFO: Role updated {"role":{"Spatie\\Permission\\Models\\Role":{"id":2,"name":"updated-role","guard_name":"api","created_at":"2024-08-22T17:42:03.000000Z","updated_at":"2024-08-22T17:42:03.000000Z"}}} []
+
+
+
+=== New Log: 2024-08-22 17:42:03 ===
+[2024-08-22T17:42:03.897800+00:00] testing.INFO: Role deleted {"role":{"Spatie\\Permission\\Models\\Role":{"id":2,"name":"deletable-role","guard_name":"api","created_at":"2024-08-22T17:42:03.000000Z","updated_at":"2024-08-22T17:42:03.000000Z"}}} []
+
+
+
+=== New Log: 2024-08-22 17:47:25 ===
+[2024-08-22T17:47:25.850251+00:00] testing.INFO: Test log entry: Logging is working. [] []
+
+
+
+=== New Log: 2024-08-22 17:47:25 ===
+[2024-08-22T17:47:25.901106+00:00] testing.INFO: Executing viewAny in AdminPolicy {"user_id":1,"has_admin_role":true,"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+[2024-08-22T17:47:25.902515+00:00] testing.INFO: Executing viewAny in AdminPolicy {"user_id":1,"has_admin_role":true,"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+[2024-08-22T17:47:25.908306+00:00] testing.INFO: Attempting to access permissions index {"user_id":1} []
+[2024-08-22T17:47:25.908628+00:00] testing.INFO: Executing viewAny in AdminPolicy {"user_id":1,"has_admin_role":true,"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+[2024-08-22T17:47:25.908705+00:00] testing.INFO: Admin accessing permissions index {"user_id":1} []
+[2024-08-22T17:47:25.909054+00:00] testing.INFO: Permissions data retrieved {"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+
+
+
+=== New Log: 2024-08-22 17:47:25 ===
+[2024-08-22T17:47:25.942487+00:00] testing.INFO: Admin accessing roles index [] []
+[2024-08-22T17:47:25.943172+00:00] testing.INFO: Roles data retrieved {"roles":{"Illuminate\\Database\\Eloquent\\Collection":[{"id":1,"name":"admin","guard_name":"api","created_at":"2024-08-22T17:47:25.000000Z","updated_at":"2024-08-22T17:47:25.000000Z"}]}} []
+
+
+
+=== New Log: 2024-08-22 17:47:25 ===
+[2024-08-22T17:47:25.994428+00:00] testing.INFO: Role created {"role":{"Spatie\\Permission\\Models\\Role":{"guard_name":"sanctum","name":"new-role","updated_at":"2024-08-22T17:47:25.000000Z","created_at":"2024-08-22T17:47:25.000000Z","id":2}}} []
+
+
+
+=== New Log: 2024-08-22 17:47:26 ===
+[2024-08-22T17:47:26.026055+00:00] testing.INFO: Role updated {"role":{"Spatie\\Permission\\Models\\Role":{"id":2,"name":"updated-role","guard_name":"api","created_at":"2024-08-22T17:47:26.000000Z","updated_at":"2024-08-22T17:47:26.000000Z"}}} []
+
+
+
+=== New Log: 2024-08-22 17:47:26 ===
+[2024-08-22T17:47:26.055383+00:00] testing.INFO: Role deleted {"role":{"Spatie\\Permission\\Models\\Role":{"id":2,"name":"deletable-role","guard_name":"api","created_at":"2024-08-22T17:47:26.000000Z","updated_at":"2024-08-22T17:47:26.000000Z"}}} []
+
+
+
+=== New Log: 2024-08-22 17:50:21 ===
+[2024-08-22T17:50:21.994435+00:00] testing.INFO: Test log entry: Logging is working. [] []
+
+
+
+=== New Log: 2024-08-22 17:50:22 ===
+[2024-08-22T17:50:22.051886+00:00] testing.INFO: Executing viewAny in AdminPolicy {"user_id":1,"has_admin_role":true,"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+[2024-08-22T17:50:22.053828+00:00] testing.INFO: Executing viewAny in AdminPolicy {"user_id":1,"has_admin_role":true,"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+[2024-08-22T17:50:22.060159+00:00] testing.INFO: Attempting to access permissions index {"user_id":1} []
+[2024-08-22T17:50:22.060473+00:00] testing.INFO: Executing viewAny in AdminPolicy {"user_id":1,"has_admin_role":true,"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+[2024-08-22T17:50:22.060545+00:00] testing.INFO: Admin accessing permissions index {"user_id":1} []
+[2024-08-22T17:50:22.060880+00:00] testing.INFO: Permissions data retrieved {"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+
+
+
+=== New Log: 2024-08-22 17:50:22 ===
+[2024-08-22T17:50:22.100302+00:00] testing.INFO: Admin accessing roles index [] []
+[2024-08-22T17:50:22.100992+00:00] testing.INFO: Roles data retrieved {"roles":{"Illuminate\\Database\\Eloquent\\Collection":[{"id":1,"name":"admin","guard_name":"api","created_at":"2024-08-22T17:50:22.000000Z","updated_at":"2024-08-22T17:50:22.000000Z"}]}} []
+
+
+
+=== New Log: 2024-08-22 17:50:22 ===
+[2024-08-22T17:50:22.157307+00:00] testing.INFO: Role created {"role":{"Spatie\\Permission\\Models\\Role":{"guard_name":"sanctum","name":"new-role","updated_at":"2024-08-22T17:50:22.000000Z","created_at":"2024-08-22T17:50:22.000000Z","id":2}}} []
+
+
+
+=== New Log: 2024-08-22 17:50:22 ===
+[2024-08-22T17:50:22.206252+00:00] testing.INFO: Role updated {"role":{"Spatie\\Permission\\Models\\Role":{"id":2,"name":"updated-role","guard_name":"api","created_at":"2024-08-22T17:50:22.000000Z","updated_at":"2024-08-22T17:50:22.000000Z"}}} []
+
+
+
+=== New Log: 2024-08-22 17:50:22 ===
+[2024-08-22T17:50:22.241979+00:00] testing.INFO: Role deleted {"role":{"Spatie\\Permission\\Models\\Role":{"id":2,"name":"deletable-role","guard_name":"api","created_at":"2024-08-22T17:50:22.000000Z","updated_at":"2024-08-22T17:50:22.000000Z"}}} []
+
+
+
+=== New Log: 2024-08-22 18:00:14 ===
+[2024-08-22T18:00:14.673804+00:00] testing.INFO: Test log entry: Logging is working. [] []
+
+
+
+=== New Log: 2024-08-22 18:00:14 ===
+[2024-08-22T18:00:14.722469+00:00] testing.INFO: Executing viewAny in AdminPolicy {"user_id":1,"has_admin_role":true,"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+[2024-08-22T18:00:14.724033+00:00] testing.INFO: Executing viewAny in AdminPolicy {"user_id":1,"has_admin_role":true,"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+[2024-08-22T18:00:14.729368+00:00] testing.INFO: Attempting to access permissions index {"user_id":1} []
+[2024-08-22T18:00:14.729662+00:00] testing.INFO: Executing viewAny in AdminPolicy {"user_id":1,"has_admin_role":true,"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+[2024-08-22T18:00:14.729732+00:00] testing.INFO: Admin accessing permissions index {"user_id":1} []
+[2024-08-22T18:00:14.730063+00:00] testing.INFO: Permissions data retrieved {"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+
+
+
+=== New Log: 2024-08-22 18:00:14 ===
+[2024-08-22T18:00:14.762129+00:00] testing.INFO: Admin accessing roles index [] []
+[2024-08-22T18:00:14.762693+00:00] testing.INFO: Roles data retrieved {"roles":{"Illuminate\\Database\\Eloquent\\Collection":[{"id":1,"name":"admin","guard_name":"api","created_at":"2024-08-22T18:00:14.000000Z","updated_at":"2024-08-22T18:00:14.000000Z"}]}} []
+
+
+
+=== New Log: 2024-08-22 18:00:14 ===
+[2024-08-22T18:00:14.807926+00:00] testing.INFO: Role created {"role":{"Spatie\\Permission\\Models\\Role":{"guard_name":"sanctum","name":"new-role","updated_at":"2024-08-22T18:00:14.000000Z","created_at":"2024-08-22T18:00:14.000000Z","id":2}}} []
+
+
+
+=== New Log: 2024-08-22 18:00:14 ===
+[2024-08-22T18:00:14.837898+00:00] testing.INFO: Role updated {"role":{"Spatie\\Permission\\Models\\Role":{"id":2,"name":"updated-role","guard_name":"api","created_at":"2024-08-22T18:00:14.000000Z","updated_at":"2024-08-22T18:00:14.000000Z"}}} []
+
+
+
+=== New Log: 2024-08-22 18:00:14 ===
+[2024-08-22T18:00:14.865762+00:00] testing.INFO: Role deleted {"role":{"Spatie\\Permission\\Models\\Role":{"id":2,"name":"deletable-role","guard_name":"api","created_at":"2024-08-22T18:00:14.000000Z","updated_at":"2024-08-22T18:00:14.000000Z"}}} []
+
+
+
+=== New Log: 2024-08-22 18:02:42 ===
+[2024-08-22T18:02:42.970359+00:00] testing.INFO: Test log entry: Logging is working. [] []
+
+
+
+=== New Log: 2024-08-22 18:02:43 ===
+[2024-08-22T18:02:43.016398+00:00] testing.INFO: Executing viewAny in AdminPolicy {"user_id":1,"has_admin_role":true,"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+[2024-08-22T18:02:43.018188+00:00] testing.INFO: Executing viewAny in AdminPolicy {"user_id":1,"has_admin_role":true,"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+[2024-08-22T18:02:43.023369+00:00] testing.INFO: Attempting to access permissions index {"user_id":1} []
+[2024-08-22T18:02:43.023654+00:00] testing.INFO: Executing viewAny in AdminPolicy {"user_id":1,"has_admin_role":true,"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+[2024-08-22T18:02:43.023723+00:00] testing.INFO: Admin accessing permissions index {"user_id":1} []
+[2024-08-22T18:02:43.024051+00:00] testing.INFO: Permissions data retrieved {"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+
+
+
+=== New Log: 2024-08-22 18:02:43 ===
+[2024-08-22T18:02:43.055647+00:00] testing.INFO: Admin accessing roles index [] []
+[2024-08-22T18:02:43.056200+00:00] testing.INFO: Roles data retrieved {"roles":{"Illuminate\\Database\\Eloquent\\Collection":[{"id":1,"name":"admin","guard_name":"api","created_at":"2024-08-22T18:02:43.000000Z","updated_at":"2024-08-22T18:02:43.000000Z"}]}} []
+
+
+
+=== New Log: 2024-08-22 18:02:43 ===
+[2024-08-22T18:02:43.100949+00:00] testing.INFO: Role created {"role":{"Spatie\\Permission\\Models\\Role":{"guard_name":"sanctum","name":"new-role","updated_at":"2024-08-22T18:02:43.000000Z","created_at":"2024-08-22T18:02:43.000000Z","id":2}}} []
+
+
+
+=== New Log: 2024-08-22 18:02:43 ===
+[2024-08-22T18:02:43.130156+00:00] testing.INFO: Role updated {"role":{"Spatie\\Permission\\Models\\Role":{"id":2,"name":"updated-role","guard_name":"api","created_at":"2024-08-22T18:02:43.000000Z","updated_at":"2024-08-22T18:02:43.000000Z"}}} []
+
+
+
+=== New Log: 2024-08-22 18:02:43 ===
+[2024-08-22T18:02:43.157482+00:00] testing.INFO: Role deleted {"role":{"Spatie\\Permission\\Models\\Role":{"id":2,"name":"deletable-role","guard_name":"api","created_at":"2024-08-22T18:02:43.000000Z","updated_at":"2024-08-22T18:02:43.000000Z"}}} []
+
+
+
+=== New Log: 2024-08-22 18:03:14 ===
+[2024-08-22T18:03:14.694473+00:00] testing.INFO: Test log entry: Logging is working. [] []
+
+
+
+=== New Log: 2024-08-22 18:03:14 ===
+[2024-08-22T18:03:14.742775+00:00] testing.INFO: Executing viewAny in AdminPolicy {"user_id":1,"has_admin_role":true,"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+[2024-08-22T18:03:14.744301+00:00] testing.INFO: Executing viewAny in AdminPolicy {"user_id":1,"has_admin_role":true,"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+[2024-08-22T18:03:14.749528+00:00] testing.INFO: Attempting to access permissions index {"user_id":1} []
+[2024-08-22T18:03:14.749836+00:00] testing.INFO: Executing viewAny in AdminPolicy {"user_id":1,"has_admin_role":true,"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+[2024-08-22T18:03:14.749910+00:00] testing.INFO: Admin accessing permissions index {"user_id":1} []
+[2024-08-22T18:03:14.750244+00:00] testing.INFO: Permissions data retrieved {"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+
+
+
+=== New Log: 2024-08-22 18:03:14 ===
+[2024-08-22T18:03:14.782565+00:00] testing.INFO: Admin accessing roles index [] []
+[2024-08-22T18:03:14.783144+00:00] testing.INFO: Roles data retrieved {"roles":{"Illuminate\\Database\\Eloquent\\Collection":[{"id":1,"name":"admin","guard_name":"api","created_at":"2024-08-22T18:03:14.000000Z","updated_at":"2024-08-22T18:03:14.000000Z"}]}} []
+
+
+
+=== New Log: 2024-08-22 18:03:14 ===
+[2024-08-22T18:03:14.829071+00:00] testing.INFO: Role created {"role":{"Spatie\\Permission\\Models\\Role":{"guard_name":"sanctum","name":"new-role","updated_at":"2024-08-22T18:03:14.000000Z","created_at":"2024-08-22T18:03:14.000000Z","id":2}}} []
+
+
+
+=== New Log: 2024-08-22 18:03:14 ===
+[2024-08-22T18:03:14.861096+00:00] testing.INFO: Role updated {"role":{"Spatie\\Permission\\Models\\Role":{"id":2,"name":"updated-role","guard_name":"api","created_at":"2024-08-22T18:03:14.000000Z","updated_at":"2024-08-22T18:03:14.000000Z"}}} []
+
+
+
+=== New Log: 2024-08-22 18:03:14 ===
+[2024-08-22T18:03:14.891256+00:00] testing.INFO: Role deleted {"role":{"Spatie\\Permission\\Models\\Role":{"id":2,"name":"deletable-role","guard_name":"api","created_at":"2024-08-22T18:03:14.000000Z","updated_at":"2024-08-22T18:03:14.000000Z"}}} []
+
+
+
+=== New Log: 2024-08-22 18:06:22 ===
+[2024-08-22T18:06:22.232234+00:00] testing.INFO: Test log entry: Logging is working. [] []
+
+
+
+=== New Log: 2024-08-22 18:06:22 ===
+[2024-08-22T18:06:22.281842+00:00] testing.INFO: Executing viewAny in AdminPolicy {"user_id":1,"has_admin_role":true,"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+[2024-08-22T18:06:22.283350+00:00] testing.INFO: Executing viewAny in AdminPolicy {"user_id":1,"has_admin_role":true,"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+[2024-08-22T18:06:22.288604+00:00] testing.INFO: Attempting to access permissions index {"user_id":1} []
+[2024-08-22T18:06:22.288896+00:00] testing.INFO: Executing viewAny in AdminPolicy {"user_id":1,"has_admin_role":true,"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+[2024-08-22T18:06:22.288969+00:00] testing.INFO: Admin accessing permissions index {"user_id":1} []
+[2024-08-22T18:06:22.289314+00:00] testing.INFO: Permissions data retrieved {"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+
+
+
+=== New Log: 2024-08-22 18:06:22 ===
+[2024-08-22T18:06:22.321535+00:00] testing.INFO: Admin accessing roles index [] []
+[2024-08-22T18:06:22.322123+00:00] testing.INFO: Roles data retrieved {"roles":{"Illuminate\\Database\\Eloquent\\Collection":[{"id":1,"name":"admin","guard_name":"api","created_at":"2024-08-22T18:06:22.000000Z","updated_at":"2024-08-22T18:06:22.000000Z"}]}} []
+
+
+
+=== New Log: 2024-08-22 18:06:22 ===
+[2024-08-22T18:06:22.368187+00:00] testing.INFO: Role created {"role":{"Spatie\\Permission\\Models\\Role":{"guard_name":"sanctum","name":"new-role","updated_at":"2024-08-22T18:06:22.000000Z","created_at":"2024-08-22T18:06:22.000000Z","id":2}}} []
+
+
+
+=== New Log: 2024-08-22 18:06:22 ===
+[2024-08-22T18:06:22.397735+00:00] testing.INFO: Role updated {"role":{"Spatie\\Permission\\Models\\Role":{"id":2,"name":"updated-role","guard_name":"api","created_at":"2024-08-22T18:06:22.000000Z","updated_at":"2024-08-22T18:06:22.000000Z"}}} []
+
+
+
+=== New Log: 2024-08-22 18:06:22 ===
+[2024-08-22T18:06:22.425786+00:00] testing.INFO: Role deleted {"role":{"Spatie\\Permission\\Models\\Role":{"id":2,"name":"deletable-role","guard_name":"api","created_at":"2024-08-22T18:06:22.000000Z","updated_at":"2024-08-22T18:06:22.000000Z"}}} []
+
+
+
+=== New Log: 2024-08-22 18:06:58 ===
+[2024-08-22T18:06:58.973533+00:00] testing.INFO: Test log entry: Logging is working. [] []
+
+
+
+=== New Log: 2024-08-22 18:06:59 ===
+[2024-08-22T18:06:59.020366+00:00] testing.INFO: Executing viewAny in AdminPolicy {"user_id":1,"has_admin_role":true,"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+[2024-08-22T18:06:59.021925+00:00] testing.INFO: Executing viewAny in AdminPolicy {"user_id":1,"has_admin_role":true,"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+[2024-08-22T18:06:59.027187+00:00] testing.INFO: Attempting to access permissions index {"user_id":1} []
+[2024-08-22T18:06:59.027484+00:00] testing.INFO: Executing viewAny in AdminPolicy {"user_id":1,"has_admin_role":true,"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+[2024-08-22T18:06:59.027553+00:00] testing.INFO: Admin accessing permissions index {"user_id":1} []
+[2024-08-22T18:06:59.027885+00:00] testing.INFO: Permissions data retrieved {"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+
+
+
+=== New Log: 2024-08-22 18:06:59 ===
+[2024-08-22T18:06:59.059792+00:00] testing.INFO: Admin accessing roles index [] []
+[2024-08-22T18:06:59.060374+00:00] testing.INFO: Roles data retrieved {"roles":{"Illuminate\\Database\\Eloquent\\Collection":[{"id":1,"name":"admin","guard_name":"api","created_at":"2024-08-22T18:06:59.000000Z","updated_at":"2024-08-22T18:06:59.000000Z"}]}} []
+
+
+
+=== New Log: 2024-08-22 18:06:59 ===
+[2024-08-22T18:06:59.105898+00:00] testing.INFO: Role created {"role":{"Spatie\\Permission\\Models\\Role":{"guard_name":"sanctum","name":"new-role","updated_at":"2024-08-22T18:06:59.000000Z","created_at":"2024-08-22T18:06:59.000000Z","id":2}}} []
+
+
+
+=== New Log: 2024-08-22 18:06:59 ===
+[2024-08-22T18:06:59.134866+00:00] testing.INFO: Role updated {"role":{"Spatie\\Permission\\Models\\Role":{"id":2,"name":"updated-role","guard_name":"api","created_at":"2024-08-22T18:06:59.000000Z","updated_at":"2024-08-22T18:06:59.000000Z"}}} []
+
+
+
+=== New Log: 2024-08-22 18:06:59 ===
+[2024-08-22T18:06:59.162753+00:00] testing.INFO: Role deleted {"role":{"Spatie\\Permission\\Models\\Role":{"id":2,"name":"deletable-role","guard_name":"api","created_at":"2024-08-22T18:06:59.000000Z","updated_at":"2024-08-22T18:06:59.000000Z"}}} []
+
+
+
+=== New Log: 2024-08-22 18:07:33 ===
+[2024-08-22T18:07:33.843107+00:00] testing.INFO: Test log entry: Logging is working. [] []
+
+
+
+=== New Log: 2024-08-22 18:07:33 ===
+[2024-08-22T18:07:33.896965+00:00] testing.INFO: Executing viewAny in AdminPolicy {"user_id":1,"has_admin_role":true,"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+[2024-08-22T18:07:33.898511+00:00] testing.INFO: Executing viewAny in AdminPolicy {"user_id":1,"has_admin_role":true,"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+[2024-08-22T18:07:33.904075+00:00] testing.INFO: Attempting to access permissions index {"user_id":1} []
+[2024-08-22T18:07:33.904417+00:00] testing.INFO: Executing viewAny in AdminPolicy {"user_id":1,"has_admin_role":true,"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+[2024-08-22T18:07:33.904523+00:00] testing.INFO: Admin accessing permissions index {"user_id":1} []
+[2024-08-22T18:07:33.904900+00:00] testing.INFO: Permissions data retrieved {"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+
+
+
+=== New Log: 2024-08-22 18:07:33 ===
+[2024-08-22T18:07:33.937734+00:00] testing.INFO: Admin accessing roles index [] []
+[2024-08-22T18:07:33.939068+00:00] testing.INFO: Roles data retrieved {"roles":{"Illuminate\\Database\\Eloquent\\Collection":[{"id":1,"name":"admin","guard_name":"api","created_at":"2024-08-22T18:07:33.000000Z","updated_at":"2024-08-22T18:07:33.000000Z"}]}} []
+
+
+
+=== New Log: 2024-08-22 18:07:33 ===
+[2024-08-22T18:07:33.984369+00:00] testing.INFO: Role created {"role":{"Spatie\\Permission\\Models\\Role":{"guard_name":"sanctum","name":"new-role","updated_at":"2024-08-22T18:07:33.000000Z","created_at":"2024-08-22T18:07:33.000000Z","id":2}}} []
+
+
+
+=== New Log: 2024-08-22 18:07:34 ===
+[2024-08-22T18:07:34.013937+00:00] testing.INFO: Role updated {"role":{"Spatie\\Permission\\Models\\Role":{"id":2,"name":"updated-role","guard_name":"api","created_at":"2024-08-22T18:07:34.000000Z","updated_at":"2024-08-22T18:07:34.000000Z"}}} []
+
+
+
+=== New Log: 2024-08-22 18:07:34 ===
+[2024-08-22T18:07:34.043149+00:00] testing.INFO: Role deleted {"role":{"Spatie\\Permission\\Models\\Role":{"id":2,"name":"deletable-role","guard_name":"api","created_at":"2024-08-22T18:07:34.000000Z","updated_at":"2024-08-22T18:07:34.000000Z"}}} []
+
+
+
+=== New Log: 2024-08-22 18:10:35 ===
+[2024-08-22T18:10:35.210483+00:00] testing.INFO: Test log entry: Logging is working. [] []
+
+
+
+=== New Log: 2024-08-22 18:10:35 ===
+[2024-08-22T18:10:35.258240+00:00] testing.INFO: Executing viewAny in AdminPolicy {"user_id":1,"has_admin_role":true,"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+[2024-08-22T18:10:35.260373+00:00] testing.INFO: Executing viewAny in AdminPolicy {"user_id":1,"has_admin_role":true,"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+[2024-08-22T18:10:35.267527+00:00] testing.INFO: Attempting to access permissions index {"user_id":1} []
+[2024-08-22T18:10:35.267952+00:00] testing.INFO: Executing viewAny in AdminPolicy {"user_id":1,"has_admin_role":true,"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+[2024-08-22T18:10:35.268054+00:00] testing.INFO: Admin accessing permissions index {"user_id":1} []
+[2024-08-22T18:10:35.268476+00:00] testing.INFO: Permissions data retrieved {"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+
+
+
+=== New Log: 2024-08-22 18:10:35 ===
+[2024-08-22T18:10:35.302702+00:00] testing.INFO: Admin accessing roles index [] []
+[2024-08-22T18:10:35.303307+00:00] testing.INFO: Roles data retrieved {"roles":{"Illuminate\\Database\\Eloquent\\Collection":[{"id":1,"name":"admin","guard_name":"api","created_at":"2024-08-22T18:10:35.000000Z","updated_at":"2024-08-22T18:10:35.000000Z"}]}} []
+
+
+
+=== New Log: 2024-08-22 18:10:35 ===
+[2024-08-22T18:10:35.350160+00:00] testing.INFO: Role created {"role":{"Spatie\\Permission\\Models\\Role":{"guard_name":"sanctum","name":"new-role","updated_at":"2024-08-22T18:10:35.000000Z","created_at":"2024-08-22T18:10:35.000000Z","id":2}}} []
+
+
+
+=== New Log: 2024-08-22 18:10:35 ===
+[2024-08-22T18:10:35.384309+00:00] testing.INFO: Role updated {"role":{"Spatie\\Permission\\Models\\Role":{"id":2,"name":"updated-role","guard_name":"api","created_at":"2024-08-22T18:10:35.000000Z","updated_at":"2024-08-22T18:10:35.000000Z"}}} []
+
+
+
+=== New Log: 2024-08-22 18:10:35 ===
+[2024-08-22T18:10:35.415823+00:00] testing.INFO: Role deleted {"role":{"Spatie\\Permission\\Models\\Role":{"id":2,"name":"deletable-role","guard_name":"api","created_at":"2024-08-22T18:10:35.000000Z","updated_at":"2024-08-22T18:10:35.000000Z"}}} []
+
+
+
+=== New Log: 2024-08-22 18:11:00 ===
+[2024-08-22T18:11:00.511294+00:00] testing.INFO: Test log entry: Logging is working. [] []
+
+
+
+=== New Log: 2024-08-22 18:11:00 ===
+[2024-08-22T18:11:00.568684+00:00] testing.INFO: Executing viewAny in AdminPolicy {"user_id":1,"has_admin_role":true,"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+[2024-08-22T18:11:00.570544+00:00] testing.INFO: Executing viewAny in AdminPolicy {"user_id":1,"has_admin_role":true,"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+[2024-08-22T18:11:00.577438+00:00] testing.INFO: Attempting to access permissions index {"user_id":1} []
+[2024-08-22T18:11:00.577733+00:00] testing.INFO: Executing viewAny in AdminPolicy {"user_id":1,"has_admin_role":true,"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+[2024-08-22T18:11:00.577804+00:00] testing.INFO: Admin accessing permissions index {"user_id":1} []
+[2024-08-22T18:11:00.578146+00:00] testing.INFO: Permissions data retrieved {"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+
+
+
+=== New Log: 2024-08-22 18:11:00 ===
+[2024-08-22T18:11:00.615142+00:00] testing.INFO: Admin accessing roles index [] []
+[2024-08-22T18:11:00.615842+00:00] testing.INFO: Roles data retrieved {"roles":{"Illuminate\\Database\\Eloquent\\Collection":[{"id":1,"name":"admin","guard_name":"api","created_at":"2024-08-22T18:11:00.000000Z","updated_at":"2024-08-22T18:11:00.000000Z"}]}} []
+
+
+
+=== New Log: 2024-08-22 18:11:00 ===
+[2024-08-22T18:11:00.677678+00:00] testing.INFO: Role created {"role":{"Spatie\\Permission\\Models\\Role":{"guard_name":"sanctum","name":"new-role","updated_at":"2024-08-22T18:11:00.000000Z","created_at":"2024-08-22T18:11:00.000000Z","id":2}}} []
+
+
+
+=== New Log: 2024-08-22 18:11:00 ===
+[2024-08-22T18:11:00.719609+00:00] testing.INFO: Role updated {"role":{"Spatie\\Permission\\Models\\Role":{"id":2,"name":"updated-role","guard_name":"api","created_at":"2024-08-22T18:11:00.000000Z","updated_at":"2024-08-22T18:11:00.000000Z"}}} []
+
+
+
+=== New Log: 2024-08-22 18:11:00 ===
+[2024-08-22T18:11:00.755067+00:00] testing.INFO: Role deleted {"role":{"Spatie\\Permission\\Models\\Role":{"id":2,"name":"deletable-role","guard_name":"api","created_at":"2024-08-22T18:11:00.000000Z","updated_at":"2024-08-22T18:11:00.000000Z"}}} []
+
+
+
+=== New Log: 2024-08-22 18:14:59 ===
+[2024-08-22T18:14:59.263454+00:00] testing.INFO: Test log entry: Logging is working. [] []
+
+
+
+=== New Log: 2024-08-22 18:14:59 ===
+[2024-08-22T18:14:59.312131+00:00] testing.INFO: Executing viewAny in AdminPolicy {"user_id":1,"has_admin_role":true,"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+[2024-08-22T18:14:59.313721+00:00] testing.INFO: Executing viewAny in AdminPolicy {"user_id":1,"has_admin_role":true,"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+[2024-08-22T18:14:59.319742+00:00] testing.INFO: Attempting to access permissions index {"user_id":1} []
+[2024-08-22T18:14:59.320041+00:00] testing.INFO: Executing viewAny in AdminPolicy {"user_id":1,"has_admin_role":true,"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+[2024-08-22T18:14:59.320113+00:00] testing.INFO: Admin accessing permissions index {"user_id":1} []
+[2024-08-22T18:14:59.320443+00:00] testing.INFO: Permissions data retrieved {"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+
+
+
+=== New Log: 2024-08-22 18:14:59 ===
+[2024-08-22T18:14:59.355726+00:00] testing.INFO: Admin accessing roles index [] []
+[2024-08-22T18:14:59.356322+00:00] testing.INFO: Roles data retrieved {"roles":{"Illuminate\\Database\\Eloquent\\Collection":[{"id":1,"name":"admin","guard_name":"api","created_at":"2024-08-22T18:14:59.000000Z","updated_at":"2024-08-22T18:14:59.000000Z"}]}} []
+
+
+
+=== New Log: 2024-08-22 18:14:59 ===
+[2024-08-22T18:14:59.402501+00:00] testing.INFO: Role created {"role":{"Spatie\\Permission\\Models\\Role":{"guard_name":"sanctum","name":"new-role","updated_at":"2024-08-22T18:14:59.000000Z","created_at":"2024-08-22T18:14:59.000000Z","id":2}}} []
+
+
+
+=== New Log: 2024-08-22 18:14:59 ===
+[2024-08-22T18:14:59.433742+00:00] testing.INFO: Role updated {"role":{"Spatie\\Permission\\Models\\Role":{"id":2,"name":"updated-role","guard_name":"api","created_at":"2024-08-22T18:14:59.000000Z","updated_at":"2024-08-22T18:14:59.000000Z"}}} []
+
+
+
+=== New Log: 2024-08-22 18:14:59 ===
+[2024-08-22T18:14:59.469678+00:00] testing.INFO: Role deleted {"role":{"Spatie\\Permission\\Models\\Role":{"id":2,"name":"deletable-role","guard_name":"api","created_at":"2024-08-22T18:14:59.000000Z","updated_at":"2024-08-22T18:14:59.000000Z"}}} []
+
+
+
+=== New Log: 2024-08-22 18:14:59 ===
+[2024-08-22T18:14:59.747573+00:00] testing.INFO: Executing viewAny in AdminPolicy {"user_id":1,"has_admin_role":true,"permissions":["view-users","manage-users"]} []
+[2024-08-22T18:14:59.748110+00:00] testing.INFO: Admin accessing users index [] []
+[2024-08-22T18:14:59.748367+00:00] testing.INFO: Users data retrieved {"users":{"Illuminate\\Database\\Eloquent\\Collection":[{"id":1,"username":"sferry","email":"jedediah.torphy@example.org","role":"admin","created_at":"2024-08-22T18:14:59.000000Z","updated_at":"2024-08-22T18:14:59.000000Z"},{"id":2,"username":"kristopher31","email":"thompson.skylar@example.net","role":"customer","created_at":"2024-08-22T18:14:59.000000Z","updated_at":"2024-08-22T18:14:59.000000Z"}]}} []
+
+
+
+=== New Log: 2024-08-22 18:17:23 ===
+[2024-08-22T18:17:23.396841+00:00] testing.INFO: Test log entry: Logging is working. [] []
+
+
+
+=== New Log: 2024-08-22 18:17:23 ===
+[2024-08-22T18:17:23.443584+00:00] testing.INFO: Executing viewAny in AdminPolicy {"user_id":1,"has_admin_role":true,"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+[2024-08-22T18:17:23.445070+00:00] testing.INFO: Executing viewAny in AdminPolicy {"user_id":1,"has_admin_role":true,"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+[2024-08-22T18:17:23.450363+00:00] testing.INFO: Attempting to access permissions index {"user_id":1} []
+[2024-08-22T18:17:23.450653+00:00] testing.INFO: Executing viewAny in AdminPolicy {"user_id":1,"has_admin_role":true,"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+[2024-08-22T18:17:23.450723+00:00] testing.INFO: Admin accessing permissions index {"user_id":1} []
+[2024-08-22T18:17:23.451071+00:00] testing.INFO: Permissions data retrieved {"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+
+
+
+=== New Log: 2024-08-22 18:17:23 ===
+[2024-08-22T18:17:23.492433+00:00] testing.INFO: Admin accessing roles index [] []
+[2024-08-22T18:17:23.493029+00:00] testing.INFO: Roles data retrieved {"roles":{"Illuminate\\Database\\Eloquent\\Collection":[{"id":1,"name":"admin","guard_name":"api","created_at":"2024-08-22T18:17:23.000000Z","updated_at":"2024-08-22T18:17:23.000000Z"}]}} []
+
+
+
+=== New Log: 2024-08-22 18:17:23 ===
+[2024-08-22T18:17:23.539446+00:00] testing.INFO: Role created {"role":{"Spatie\\Permission\\Models\\Role":{"guard_name":"sanctum","name":"new-role","updated_at":"2024-08-22T18:17:23.000000Z","created_at":"2024-08-22T18:17:23.000000Z","id":2}}} []
+
+
+
+=== New Log: 2024-08-22 18:17:23 ===
+[2024-08-22T18:17:23.569418+00:00] testing.INFO: Role updated {"role":{"Spatie\\Permission\\Models\\Role":{"id":2,"name":"updated-role","guard_name":"api","created_at":"2024-08-22T18:17:23.000000Z","updated_at":"2024-08-22T18:17:23.000000Z"}}} []
+
+
+
+=== New Log: 2024-08-22 18:17:23 ===
+[2024-08-22T18:17:23.601568+00:00] testing.INFO: Role deleted {"role":{"Spatie\\Permission\\Models\\Role":{"id":2,"name":"deletable-role","guard_name":"api","created_at":"2024-08-22T18:17:23.000000Z","updated_at":"2024-08-22T18:17:23.000000Z"}}} []
+
+
+
+=== New Log: 2024-08-22 18:17:23 ===
+[2024-08-22T18:17:23.886360+00:00] testing.INFO: Executing viewAny in AdminPolicy {"user_id":1,"has_admin_role":true,"permissions":["view-users","manage-users"]} []
+[2024-08-22T18:17:23.886857+00:00] testing.INFO: Admin accessing users index [] []
+[2024-08-22T18:17:23.887110+00:00] testing.INFO: Users data retrieved {"users":{"Illuminate\\Database\\Eloquent\\Collection":[{"id":1,"username":"mschuster","email":"quinn.mcclure@example.org","role":"customer","created_at":"2024-08-22T18:17:23.000000Z","updated_at":"2024-08-22T18:17:23.000000Z"},{"id":2,"username":"yundt.cortez","email":"orlo.koss@example.org","role":"customer","created_at":"2024-08-22T18:17:23.000000Z","updated_at":"2024-08-22T18:17:23.000000Z"},{"id":3,"username":"austin80","email":"ilakin@example.net","role":"customer","created_at":"2024-08-22T18:17:23.000000Z","updated_at":"2024-08-22T18:17:23.000000Z"},{"id":4,"username":"delpha.robel","email":"marvin.madie@example.org","role":"customer","created_at":"2024-08-22T18:17:23.000000Z","updated_at":"2024-08-22T18:17:23.000000Z"}]}} []
+
+
+
+=== New Log: 2024-08-22 18:19:01 ===
+[2024-08-22T18:19:01.130287+00:00] testing.INFO: Test log entry: Logging is working. [] []
+
+
+
+=== New Log: 2024-08-22 18:19:01 ===
+[2024-08-22T18:19:01.178166+00:00] testing.INFO: Executing viewAny in AdminPolicy {"user_id":1,"has_admin_role":true,"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+[2024-08-22T18:19:01.179726+00:00] testing.INFO: Executing viewAny in AdminPolicy {"user_id":1,"has_admin_role":true,"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+[2024-08-22T18:19:01.184971+00:00] testing.INFO: Attempting to access permissions index {"user_id":1} []
+[2024-08-22T18:19:01.185258+00:00] testing.INFO: Executing viewAny in AdminPolicy {"user_id":1,"has_admin_role":true,"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+[2024-08-22T18:19:01.185382+00:00] testing.INFO: Admin accessing permissions index {"user_id":1} []
+[2024-08-22T18:19:01.185720+00:00] testing.INFO: Permissions data retrieved {"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+
+
+
+=== New Log: 2024-08-22 18:19:01 ===
+[2024-08-22T18:19:01.218242+00:00] testing.INFO: Admin accessing roles index [] []
+[2024-08-22T18:19:01.218818+00:00] testing.INFO: Roles data retrieved {"roles":{"Illuminate\\Database\\Eloquent\\Collection":[{"id":1,"name":"admin","guard_name":"api","created_at":"2024-08-22T18:19:01.000000Z","updated_at":"2024-08-22T18:19:01.000000Z"}]}} []
+
+
+
+=== New Log: 2024-08-22 18:19:01 ===
+[2024-08-22T18:19:01.265349+00:00] testing.INFO: Role created {"role":{"Spatie\\Permission\\Models\\Role":{"guard_name":"sanctum","name":"new-role","updated_at":"2024-08-22T18:19:01.000000Z","created_at":"2024-08-22T18:19:01.000000Z","id":2}}} []
+
+
+
+=== New Log: 2024-08-22 18:19:01 ===
+[2024-08-22T18:19:01.295019+00:00] testing.INFO: Role updated {"role":{"Spatie\\Permission\\Models\\Role":{"id":2,"name":"updated-role","guard_name":"api","created_at":"2024-08-22T18:19:01.000000Z","updated_at":"2024-08-22T18:19:01.000000Z"}}} []
+
+
+
+=== New Log: 2024-08-22 18:19:01 ===
+[2024-08-22T18:19:01.324079+00:00] testing.INFO: Role deleted {"role":{"Spatie\\Permission\\Models\\Role":{"id":2,"name":"deletable-role","guard_name":"api","created_at":"2024-08-22T18:19:01.000000Z","updated_at":"2024-08-22T18:19:01.000000Z"}}} []
+
+
+
+=== New Log: 2024-08-22 18:19:01 ===
+[2024-08-22T18:19:01.586763+00:00] testing.INFO: Executing viewAny in AdminPolicy {"user_id":1,"has_admin_role":true,"permissions":["view-users","manage-users"]} []
+[2024-08-22T18:19:01.587269+00:00] testing.INFO: Admin accessing users index [] []
+[2024-08-22T18:19:01.587534+00:00] testing.INFO: Users data retrieved {"users":{"Illuminate\\Database\\Eloquent\\Collection":[{"id":1,"username":"mohamed.rogahn","email":"tthiel@example.net","role":"customer","created_at":"2024-08-22T18:19:01.000000Z","updated_at":"2024-08-22T18:19:01.000000Z"},{"id":2,"username":"nora.nolan","email":"kathryne76@example.net","role":"customer","created_at":"2024-08-22T18:19:01.000000Z","updated_at":"2024-08-22T18:19:01.000000Z"}]}} []
+
+
+
+=== New Log: 2024-08-22 18:20:13 ===
+[2024-08-22T18:20:13.672133+00:00] testing.INFO: Test log entry: Logging is working. [] []
+
+
+
+=== New Log: 2024-08-22 18:20:13 ===
+[2024-08-22T18:20:13.723565+00:00] testing.INFO: Executing viewAny in AdminPolicy {"user_id":1,"has_admin_role":true,"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+[2024-08-22T18:20:13.725228+00:00] testing.INFO: Executing viewAny in AdminPolicy {"user_id":1,"has_admin_role":true,"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+[2024-08-22T18:20:13.732032+00:00] testing.INFO: Attempting to access permissions index {"user_id":1} []
+[2024-08-22T18:20:13.732361+00:00] testing.INFO: Executing viewAny in AdminPolicy {"user_id":1,"has_admin_role":true,"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+[2024-08-22T18:20:13.732436+00:00] testing.INFO: Admin accessing permissions index {"user_id":1} []
+[2024-08-22T18:20:13.732777+00:00] testing.INFO: Permissions data retrieved {"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+
+
+
+=== New Log: 2024-08-22 18:20:13 ===
+[2024-08-22T18:20:13.765203+00:00] testing.INFO: Admin accessing roles index [] []
+[2024-08-22T18:20:13.765776+00:00] testing.INFO: Roles data retrieved {"roles":{"Illuminate\\Database\\Eloquent\\Collection":[{"id":1,"name":"admin","guard_name":"api","created_at":"2024-08-22T18:20:13.000000Z","updated_at":"2024-08-22T18:20:13.000000Z"}]}} []
+
+
+
+=== New Log: 2024-08-22 18:20:13 ===
+[2024-08-22T18:20:13.811688+00:00] testing.INFO: Role created {"role":{"Spatie\\Permission\\Models\\Role":{"guard_name":"sanctum","name":"new-role","updated_at":"2024-08-22T18:20:13.000000Z","created_at":"2024-08-22T18:20:13.000000Z","id":2}}} []
+
+
+
+=== New Log: 2024-08-22 18:20:13 ===
+[2024-08-22T18:20:13.841337+00:00] testing.INFO: Role updated {"role":{"Spatie\\Permission\\Models\\Role":{"id":2,"name":"updated-role","guard_name":"api","created_at":"2024-08-22T18:20:13.000000Z","updated_at":"2024-08-22T18:20:13.000000Z"}}} []
+
+
+
+=== New Log: 2024-08-22 18:20:13 ===
+[2024-08-22T18:20:13.868959+00:00] testing.INFO: Role deleted {"role":{"Spatie\\Permission\\Models\\Role":{"id":2,"name":"deletable-role","guard_name":"api","created_at":"2024-08-22T18:20:13.000000Z","updated_at":"2024-08-22T18:20:13.000000Z"}}} []
+
+
+
+=== New Log: 2024-08-22 18:20:14 ===
+[2024-08-22T18:20:14.135602+00:00] testing.INFO: Executing viewAny in AdminPolicy {"user_id":1,"has_admin_role":true,"permissions":["view-users","manage-users"]} []
+[2024-08-22T18:20:14.136123+00:00] testing.INFO: Admin accessing users index [] []
+[2024-08-22T18:20:14.136398+00:00] testing.INFO: Users data retrieved {"users":{"Illuminate\\Database\\Eloquent\\Collection":[{"id":1,"username":"quigley.lilly","email":"admin@example.com","role":"customer","created_at":"2024-08-22T18:20:14.000000Z","updated_at":"2024-08-22T18:20:14.000000Z"},{"id":2,"username":"eloise.kiehn","email":"johanna51@example.net","role":"customer","created_at":"2024-08-22T18:20:14.000000Z","updated_at":"2024-08-22T18:20:14.000000Z"}]}} []
+
+
+
+=== New Log: 2024-08-22 18:24:00 ===
+[2024-08-22T18:24:00.840613+00:00] testing.INFO: Test log entry: Logging is working. [] []
+
+
+
+=== New Log: 2024-08-22 18:24:00 ===
+[2024-08-22T18:24:00.895605+00:00] testing.INFO: Executing viewAny in AdminPolicy {"user_id":1,"has_admin_role":true,"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+[2024-08-22T18:24:00.897751+00:00] testing.INFO: Executing viewAny in AdminPolicy {"user_id":1,"has_admin_role":true,"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+[2024-08-22T18:24:00.905386+00:00] testing.INFO: Attempting to access permissions index {"user_id":1} []
+[2024-08-22T18:24:00.905774+00:00] testing.INFO: Executing viewAny in AdminPolicy {"user_id":1,"has_admin_role":true,"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+[2024-08-22T18:24:00.905879+00:00] testing.INFO: Admin accessing permissions index {"user_id":1} []
+[2024-08-22T18:24:00.906242+00:00] testing.INFO: Permissions data retrieved {"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+
+
+
+=== New Log: 2024-08-22 18:24:00 ===
+[2024-08-22T18:24:00.946135+00:00] testing.INFO: Admin accessing roles index [] []
+[2024-08-22T18:24:00.946788+00:00] testing.INFO: Roles data retrieved {"roles":{"Illuminate\\Database\\Eloquent\\Collection":[{"id":1,"name":"admin","guard_name":"api","created_at":"2024-08-22T18:24:00.000000Z","updated_at":"2024-08-22T18:24:00.000000Z"}]}} []
+
+
+
+=== New Log: 2024-08-22 18:24:01 ===
+[2024-08-22T18:24:01.002701+00:00] testing.INFO: Role created {"role":{"Spatie\\Permission\\Models\\Role":{"guard_name":"sanctum","name":"new-role","updated_at":"2024-08-22T18:24:01.000000Z","created_at":"2024-08-22T18:24:01.000000Z","id":2}}} []
+
+
+
+=== New Log: 2024-08-22 18:24:01 ===
+[2024-08-22T18:24:01.044946+00:00] testing.INFO: Role updated {"role":{"Spatie\\Permission\\Models\\Role":{"id":2,"name":"updated-role","guard_name":"api","created_at":"2024-08-22T18:24:01.000000Z","updated_at":"2024-08-22T18:24:01.000000Z"}}} []
+
+
+
+=== New Log: 2024-08-22 18:24:01 ===
+[2024-08-22T18:24:01.084803+00:00] testing.INFO: Role deleted {"role":{"Spatie\\Permission\\Models\\Role":{"id":2,"name":"deletable-role","guard_name":"api","created_at":"2024-08-22T18:24:01.000000Z","updated_at":"2024-08-22T18:24:01.000000Z"}}} []
+
+
+
+=== New Log: 2024-08-22 18:24:01 ===
+[2024-08-22T18:24:01.360341+00:00] testing.INFO: Executing viewAny in AdminPolicy {"user_id":1,"has_admin_role":true,"permissions":[]} []
+[2024-08-22T18:24:01.360865+00:00] testing.INFO: Admin accessing users index [] []
+[2024-08-22T18:24:01.361137+00:00] testing.INFO: Users data retrieved {"users":{"Illuminate\\Database\\Eloquent\\Collection":[{"id":1,"username":"willy67","email":"hodkiewicz.otto@example.com","role":"customer","created_at":"2024-08-22T18:24:01.000000Z","updated_at":"2024-08-22T18:24:01.000000Z"},{"id":2,"username":"edwardo.hartmann","email":"terrill.leuschke@example.com","role":"customer","created_at":"2024-08-22T18:24:01.000000Z","updated_at":"2024-08-22T18:24:01.000000Z"}]}} []
+
+
+
+=== New Log: 2024-08-22 18:27:39 ===
+[2024-08-22T18:27:39.002719+00:00] testing.INFO: Test log entry: Logging is working. [] []
+
+
+
+=== New Log: 2024-08-22 18:27:39 ===
+[2024-08-22T18:27:39.055941+00:00] testing.INFO: Executing viewAny in AdminPolicy {"user_id":1,"has_admin_role":true,"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+[2024-08-22T18:27:39.057507+00:00] testing.INFO: Executing viewAny in AdminPolicy {"user_id":1,"has_admin_role":true,"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+[2024-08-22T18:27:39.063766+00:00] testing.INFO: Attempting to access permissions index {"user_id":1} []
+[2024-08-22T18:27:39.064091+00:00] testing.INFO: Executing viewAny in AdminPolicy {"user_id":1,"has_admin_role":true,"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+[2024-08-22T18:27:39.064163+00:00] testing.INFO: Admin accessing permissions index {"user_id":1} []
+[2024-08-22T18:27:39.064500+00:00] testing.INFO: Permissions data retrieved {"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+
+
+
+=== New Log: 2024-08-22 18:27:39 ===
+[2024-08-22T18:27:39.096371+00:00] testing.INFO: Admin accessing roles index [] []
+[2024-08-22T18:27:39.096921+00:00] testing.INFO: Roles data retrieved {"roles":{"Illuminate\\Database\\Eloquent\\Collection":[{"id":1,"name":"admin","guard_name":"api","created_at":"2024-08-22T18:27:39.000000Z","updated_at":"2024-08-22T18:27:39.000000Z"}]}} []
+
+
+
+=== New Log: 2024-08-22 18:27:39 ===
+[2024-08-22T18:27:39.141708+00:00] testing.INFO: Role created {"role":{"Spatie\\Permission\\Models\\Role":{"guard_name":"sanctum","name":"new-role","updated_at":"2024-08-22T18:27:39.000000Z","created_at":"2024-08-22T18:27:39.000000Z","id":2}}} []
+
+
+
+=== New Log: 2024-08-22 18:27:39 ===
+[2024-08-22T18:27:39.170346+00:00] testing.INFO: Role updated {"role":{"Spatie\\Permission\\Models\\Role":{"id":2,"name":"updated-role","guard_name":"api","created_at":"2024-08-22T18:27:39.000000Z","updated_at":"2024-08-22T18:27:39.000000Z"}}} []
+
+
+
+=== New Log: 2024-08-22 18:27:39 ===
+[2024-08-22T18:27:39.199010+00:00] testing.INFO: Role deleted {"role":{"Spatie\\Permission\\Models\\Role":{"id":2,"name":"deletable-role","guard_name":"api","created_at":"2024-08-22T18:27:39.000000Z","updated_at":"2024-08-22T18:27:39.000000Z"}}} []
+
+
+
+=== New Log: 2024-08-22 18:27:39 ===
+[2024-08-22T18:27:39.465388+00:00] testing.INFO: Executing viewAny in AdminPolicy {"user_id":1,"has_admin_role":true,"permissions":["manageUsers"]} []
+[2024-08-22T18:27:39.466077+00:00] testing.INFO: Admin accessing users index [] []
+[2024-08-22T18:27:39.466465+00:00] testing.INFO: Users data retrieved {"users":{"Illuminate\\Database\\Eloquent\\Collection":[{"id":1,"username":"lora.kessler","email":"fstehr@example.org","role":"customer","created_at":"2024-08-22T18:27:39.000000Z","updated_at":"2024-08-22T18:27:39.000000Z"},{"id":2,"username":"clifford.watsica","email":"lura68@example.net","role":"customer","created_at":"2024-08-22T18:27:39.000000Z","updated_at":"2024-08-22T18:27:39.000000Z"}]}} []
+
+
+
+=== New Log: 2024-08-22 18:28:43 ===
+[2024-08-22T18:28:43.404636+00:00] testing.INFO: Test log entry: Logging is working. [] []
+
+
+
+=== New Log: 2024-08-22 18:28:43 ===
+[2024-08-22T18:28:43.461615+00:00] testing.INFO: Executing viewAny in AdminPolicy {"user_id":1,"has_admin_role":true,"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+[2024-08-22T18:28:43.463441+00:00] testing.INFO: Executing viewAny in AdminPolicy {"user_id":1,"has_admin_role":true,"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+[2024-08-22T18:28:43.468823+00:00] testing.INFO: Attempting to access permissions index {"user_id":1} []
+[2024-08-22T18:28:43.469111+00:00] testing.INFO: Executing viewAny in AdminPolicy {"user_id":1,"has_admin_role":true,"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+[2024-08-22T18:28:43.469181+00:00] testing.INFO: Admin accessing permissions index {"user_id":1} []
+[2024-08-22T18:28:43.469512+00:00] testing.INFO: Permissions data retrieved {"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+
+
+
+=== New Log: 2024-08-22 18:28:43 ===
+[2024-08-22T18:28:43.501339+00:00] testing.INFO: Admin accessing roles index [] []
+[2024-08-22T18:28:43.501887+00:00] testing.INFO: Roles data retrieved {"roles":{"Illuminate\\Database\\Eloquent\\Collection":[{"id":1,"name":"admin","guard_name":"api","created_at":"2024-08-22T18:28:43.000000Z","updated_at":"2024-08-22T18:28:43.000000Z"}]}} []
+
+
+
+=== New Log: 2024-08-22 18:28:43 ===
+[2024-08-22T18:28:43.548418+00:00] testing.INFO: Role created {"role":{"Spatie\\Permission\\Models\\Role":{"guard_name":"sanctum","name":"new-role","updated_at":"2024-08-22T18:28:43.000000Z","created_at":"2024-08-22T18:28:43.000000Z","id":2}}} []
+
+
+
+=== New Log: 2024-08-22 18:28:43 ===
+[2024-08-22T18:28:43.577242+00:00] testing.INFO: Role updated {"role":{"Spatie\\Permission\\Models\\Role":{"id":2,"name":"updated-role","guard_name":"api","created_at":"2024-08-22T18:28:43.000000Z","updated_at":"2024-08-22T18:28:43.000000Z"}}} []
+
+
+
+=== New Log: 2024-08-22 18:28:43 ===
+[2024-08-22T18:28:43.606962+00:00] testing.INFO: Role deleted {"role":{"Spatie\\Permission\\Models\\Role":{"id":2,"name":"deletable-role","guard_name":"api","created_at":"2024-08-22T18:28:43.000000Z","updated_at":"2024-08-22T18:28:43.000000Z"}}} []
+
+
+
+=== New Log: 2024-08-22 18:28:43 ===
+[2024-08-22T18:28:43.867556+00:00] testing.INFO: Executing viewAny in AdminPolicy {"user_id":1,"has_admin_role":true,"permissions":["manageUsers"]} []
+[2024-08-22T18:28:43.868120+00:00] testing.INFO: Admin accessing users index [] []
+[2024-08-22T18:28:43.868422+00:00] testing.INFO: Users data retrieved {"users":{"Illuminate\\Database\\Eloquent\\Collection":[{"id":1,"username":"bechtelar.rebeka","email":"ilene59@example.com","role":"customer","created_at":"2024-08-22T18:28:43.000000Z","updated_at":"2024-08-22T18:28:43.000000Z"},{"id":2,"username":"lhaag","email":"collier.brendon@example.org","role":"customer","created_at":"2024-08-22T18:28:43.000000Z","updated_at":"2024-08-22T18:28:43.000000Z"}]}} []
+
+
+
+=== New Log: 2024-08-22 18:30:01 ===
+[2024-08-22T18:30:01.849035+00:00] testing.INFO: Test log entry: Logging is working. [] []
+
+
+
+=== New Log: 2024-08-22 18:30:01 ===
+[2024-08-22T18:30:01.898366+00:00] testing.INFO: Executing viewAny in AdminPolicy {"user_id":1,"has_admin_role":true,"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+[2024-08-22T18:30:01.900318+00:00] testing.INFO: Executing viewAny in AdminPolicy {"user_id":1,"has_admin_role":true,"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+[2024-08-22T18:30:01.905452+00:00] testing.INFO: Attempting to access permissions index {"user_id":1} []
+[2024-08-22T18:30:01.905743+00:00] testing.INFO: Executing viewAny in AdminPolicy {"user_id":1,"has_admin_role":true,"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+[2024-08-22T18:30:01.905812+00:00] testing.INFO: Admin accessing permissions index {"user_id":1} []
+[2024-08-22T18:30:01.906141+00:00] testing.INFO: Permissions data retrieved {"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+
+
+
+=== New Log: 2024-08-22 18:30:01 ===
+[2024-08-22T18:30:01.937825+00:00] testing.INFO: Admin accessing roles index [] []
+[2024-08-22T18:30:01.938410+00:00] testing.INFO: Roles data retrieved {"roles":{"Illuminate\\Database\\Eloquent\\Collection":[{"id":1,"name":"admin","guard_name":"api","created_at":"2024-08-22T18:30:01.000000Z","updated_at":"2024-08-22T18:30:01.000000Z"}]}} []
+
+
+
+=== New Log: 2024-08-22 18:30:01 ===
+[2024-08-22T18:30:01.984869+00:00] testing.INFO: Role created {"role":{"Spatie\\Permission\\Models\\Role":{"guard_name":"sanctum","name":"new-role","updated_at":"2024-08-22T18:30:01.000000Z","created_at":"2024-08-22T18:30:01.000000Z","id":2}}} []
+
+
+
+=== New Log: 2024-08-22 18:30:02 ===
+[2024-08-22T18:30:02.014290+00:00] testing.INFO: Role updated {"role":{"Spatie\\Permission\\Models\\Role":{"id":2,"name":"updated-role","guard_name":"api","created_at":"2024-08-22T18:30:02.000000Z","updated_at":"2024-08-22T18:30:02.000000Z"}}} []
+
+
+
+=== New Log: 2024-08-22 18:30:02 ===
+[2024-08-22T18:30:02.043462+00:00] testing.INFO: Role deleted {"role":{"Spatie\\Permission\\Models\\Role":{"id":2,"name":"deletable-role","guard_name":"api","created_at":"2024-08-22T18:30:02.000000Z","updated_at":"2024-08-22T18:30:02.000000Z"}}} []
+
+
+
+=== New Log: 2024-08-22 18:30:02 ===
+[2024-08-22T18:30:02.376920+00:00] testing.INFO: Executing viewAny in AdminPolicy {"user_id":1,"has_admin_role":true,"permissions":["manageUsers"]} []
+[2024-08-22T18:30:02.377440+00:00] testing.INFO: Admin accessing users index [] []
+[2024-08-22T18:30:02.377718+00:00] testing.INFO: Users data retrieved {"users":{"Illuminate\\Database\\Eloquent\\Collection":[{"id":1,"username":"cecilia08","email":"rlabadie@example.com","role":"customer","created_at":"2024-08-22T18:30:02.000000Z","updated_at":"2024-08-22T18:30:02.000000Z"},{"id":2,"username":"vkunze","email":"ygerlach@example.net","role":"customer","created_at":"2024-08-22T18:30:02.000000Z","updated_at":"2024-08-22T18:30:02.000000Z"}]}} []
+
+
+
+=== New Log: 2024-08-22 18:31:32 ===
+[2024-08-22T18:31:32.264171+00:00] testing.INFO: Test log entry: Logging is working. [] []
+
+
+
+=== New Log: 2024-08-22 18:31:32 ===
+[2024-08-22T18:31:32.311982+00:00] testing.INFO: Executing viewAny in AdminPolicy {"user_id":1,"has_admin_role":true,"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+[2024-08-22T18:31:32.313408+00:00] testing.INFO: Executing viewAny in AdminPolicy {"user_id":1,"has_admin_role":true,"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+[2024-08-22T18:31:32.318650+00:00] testing.INFO: Attempting to access permissions index {"user_id":1} []
+[2024-08-22T18:31:32.318941+00:00] testing.INFO: Executing viewAny in AdminPolicy {"user_id":1,"has_admin_role":true,"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+[2024-08-22T18:31:32.319011+00:00] testing.INFO: Admin accessing permissions index {"user_id":1} []
+[2024-08-22T18:31:32.319343+00:00] testing.INFO: Permissions data retrieved {"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+
+
+
+=== New Log: 2024-08-22 18:31:32 ===
+[2024-08-22T18:31:32.351396+00:00] testing.INFO: Admin accessing roles index [] []
+[2024-08-22T18:31:32.351958+00:00] testing.INFO: Roles data retrieved {"roles":{"Illuminate\\Database\\Eloquent\\Collection":[{"id":1,"name":"admin","guard_name":"api","created_at":"2024-08-22T18:31:32.000000Z","updated_at":"2024-08-22T18:31:32.000000Z"}]}} []
+
+
+
+=== New Log: 2024-08-22 18:31:32 ===
+[2024-08-22T18:31:32.398224+00:00] testing.INFO: Role created {"role":{"Spatie\\Permission\\Models\\Role":{"guard_name":"sanctum","name":"new-role","updated_at":"2024-08-22T18:31:32.000000Z","created_at":"2024-08-22T18:31:32.000000Z","id":2}}} []
+
+
+
+=== New Log: 2024-08-22 18:31:32 ===
+[2024-08-22T18:31:32.430606+00:00] testing.INFO: Role updated {"role":{"Spatie\\Permission\\Models\\Role":{"id":2,"name":"updated-role","guard_name":"api","created_at":"2024-08-22T18:31:32.000000Z","updated_at":"2024-08-22T18:31:32.000000Z"}}} []
+
+
+
+=== New Log: 2024-08-22 18:31:32 ===
+[2024-08-22T18:31:32.461710+00:00] testing.INFO: Role deleted {"role":{"Spatie\\Permission\\Models\\Role":{"id":2,"name":"deletable-role","guard_name":"api","created_at":"2024-08-22T18:31:32.000000Z","updated_at":"2024-08-22T18:31:32.000000Z"}}} []
+
+
+
+=== New Log: 2024-08-22 18:34:18 ===
+[2024-08-22T18:34:18.394294+00:00] testing.INFO: Test log entry: Logging is working. [] []
+
+
+
+=== New Log: 2024-08-22 18:34:18 ===
+[2024-08-22T18:34:18.443936+00:00] testing.INFO: Executing viewAny in AdminPolicy {"user_id":1,"has_admin_role":true,"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+[2024-08-22T18:34:18.445439+00:00] testing.INFO: Executing viewAny in AdminPolicy {"user_id":1,"has_admin_role":true,"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+[2024-08-22T18:34:18.450828+00:00] testing.INFO: Attempting to access permissions index {"user_id":1} []
+[2024-08-22T18:34:18.451154+00:00] testing.INFO: Executing viewAny in AdminPolicy {"user_id":1,"has_admin_role":true,"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+[2024-08-22T18:34:18.451227+00:00] testing.INFO: Admin accessing permissions index {"user_id":1} []
+[2024-08-22T18:34:18.451559+00:00] testing.INFO: Permissions data retrieved {"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+
+
+
+=== New Log: 2024-08-22 18:34:18 ===
+[2024-08-22T18:34:18.486640+00:00] testing.INFO: Admin accessing roles index [] []
+[2024-08-22T18:34:18.487422+00:00] testing.INFO: Roles data retrieved {"roles":{"Illuminate\\Database\\Eloquent\\Collection":[{"id":1,"name":"admin","guard_name":"api","created_at":"2024-08-22T18:34:18.000000Z","updated_at":"2024-08-22T18:34:18.000000Z"}]}} []
+
+
+
+=== New Log: 2024-08-22 18:34:18 ===
+[2024-08-22T18:34:18.533171+00:00] testing.INFO: Role created {"role":{"Spatie\\Permission\\Models\\Role":{"guard_name":"sanctum","name":"new-role","updated_at":"2024-08-22T18:34:18.000000Z","created_at":"2024-08-22T18:34:18.000000Z","id":2}}} []
+
+
+
+=== New Log: 2024-08-22 18:34:18 ===
+[2024-08-22T18:34:18.563892+00:00] testing.INFO: Role updated {"role":{"Spatie\\Permission\\Models\\Role":{"id":2,"name":"updated-role","guard_name":"api","created_at":"2024-08-22T18:34:18.000000Z","updated_at":"2024-08-22T18:34:18.000000Z"}}} []
+
+
+
+=== New Log: 2024-08-22 18:34:18 ===
+[2024-08-22T18:34:18.596491+00:00] testing.INFO: Role deleted {"role":{"Spatie\\Permission\\Models\\Role":{"id":2,"name":"deletable-role","guard_name":"api","created_at":"2024-08-22T18:34:18.000000Z","updated_at":"2024-08-22T18:34:18.000000Z"}}} []
+
+
+
+=== New Log: 2024-08-22 18:37:16 ===
+[2024-08-22T18:37:16.400676+00:00] testing.INFO: Test log entry: Logging is working. [] []
+
+
+
+=== New Log: 2024-08-22 18:37:16 ===
+[2024-08-22T18:37:16.449622+00:00] testing.INFO: Executing viewAny in AdminPolicy {"user_id":1,"has_admin_role":true,"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+[2024-08-22T18:37:16.451369+00:00] testing.INFO: Executing viewAny in AdminPolicy {"user_id":1,"has_admin_role":true,"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+[2024-08-22T18:37:16.457191+00:00] testing.INFO: Attempting to access permissions index {"user_id":1} []
+[2024-08-22T18:37:16.457557+00:00] testing.INFO: Executing viewAny in AdminPolicy {"user_id":1,"has_admin_role":true,"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+[2024-08-22T18:37:16.457644+00:00] testing.INFO: Admin accessing permissions index {"user_id":1} []
+[2024-08-22T18:37:16.458161+00:00] testing.INFO: Permissions data retrieved {"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+
+
+
+=== New Log: 2024-08-22 18:37:16 ===
+[2024-08-22T18:37:16.491470+00:00] testing.INFO: Admin accessing roles index [] []
+[2024-08-22T18:37:16.492279+00:00] testing.INFO: Roles data retrieved {"roles":{"Illuminate\\Database\\Eloquent\\Collection":[{"id":1,"name":"admin","guard_name":"api","created_at":"2024-08-22T18:37:16.000000Z","updated_at":"2024-08-22T18:37:16.000000Z"}]}} []
+
+
+
+=== New Log: 2024-08-22 18:37:16 ===
+[2024-08-22T18:37:16.541292+00:00] testing.INFO: Role created {"role":{"Spatie\\Permission\\Models\\Role":{"guard_name":"sanctum","name":"new-role","updated_at":"2024-08-22T18:37:16.000000Z","created_at":"2024-08-22T18:37:16.000000Z","id":2}}} []
+
+
+
+=== New Log: 2024-08-22 18:37:16 ===
+[2024-08-22T18:37:16.576323+00:00] testing.INFO: Role updated {"role":{"Spatie\\Permission\\Models\\Role":{"id":2,"name":"updated-role","guard_name":"api","created_at":"2024-08-22T18:37:16.000000Z","updated_at":"2024-08-22T18:37:16.000000Z"}}} []
+
+
+
+=== New Log: 2024-08-22 18:37:16 ===
+[2024-08-22T18:37:16.606851+00:00] testing.INFO: Role deleted {"role":{"Spatie\\Permission\\Models\\Role":{"id":2,"name":"deletable-role","guard_name":"api","created_at":"2024-08-22T18:37:16.000000Z","updated_at":"2024-08-22T18:37:16.000000Z"}}} []
+
+
+
+=== New Log: 2024-08-22 18:37:16 ===
+[2024-08-22T18:37:16.890818+00:00] testing.INFO: Admin accessing users index [] []
+[2024-08-22T18:37:16.891495+00:00] testing.INFO: Users data retrieved {"users":{"Illuminate\\Database\\Eloquent\\Collection":[{"id":1,"username":"jamal19","email":"bondricka@example.org","role":"customer","created_at":"2024-08-22T18:37:16.000000Z","updated_at":"2024-08-22T18:37:16.000000Z"},{"id":2,"username":"rosalind.boehm","email":"mshields@example.com","role":"customer","created_at":"2024-08-22T18:37:16.000000Z","updated_at":"2024-08-22T18:37:16.000000Z"}]}} []
+
+
+
+=== New Log: 2024-08-22 18:37:16 ===
+[2024-08-22T18:37:16.937529+00:00] testing.INFO: User created {"user":{"App\\Models\\User":{"username":"johndoe","email":"john@example.com","updated_at":"2024-08-22T18:37:16.000000Z","created_at":"2024-08-22T18:37:16.000000Z","id":2}}} []
+
+
+
+=== New Log: 2024-08-22 18:37:16 ===
+[2024-08-22T18:37:16.977563+00:00] testing.INFO: User updated {"user":{"App\\Models\\User":{"id":2,"username":"johnupdated","email":"johnupdated@example.com","role":"customer","created_at":"2024-08-22T18:37:16.000000Z","updated_at":"2024-08-22T18:37:16.000000Z"}}} []
+
+
+
+=== New Log: 2024-08-22 18:37:17 ===
+[2024-08-22T18:37:17.009907+00:00] testing.INFO: User deleted {"user":{"App\\Models\\User":{"id":2,"username":"kassulke.shany","email":"turner.una@example.net","role":"customer","created_at":"2024-08-22T18:37:17.000000Z","updated_at":"2024-08-22T18:37:17.000000Z"}}} []
+
+
+
+=== New Log: 2024-08-22 18:38:05 ===
+[2024-08-22T18:38:05.807152+00:00] testing.INFO: Test log entry: Logging is working. [] []
+
+
+
+=== New Log: 2024-08-22 18:38:05 ===
+[2024-08-22T18:38:05.855086+00:00] testing.INFO: Executing viewAny in AdminPolicy {"user_id":1,"has_admin_role":true,"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+[2024-08-22T18:38:05.856664+00:00] testing.INFO: Executing viewAny in AdminPolicy {"user_id":1,"has_admin_role":true,"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+[2024-08-22T18:38:05.862002+00:00] testing.INFO: Attempting to access permissions index {"user_id":1} []
+[2024-08-22T18:38:05.862291+00:00] testing.INFO: Executing viewAny in AdminPolicy {"user_id":1,"has_admin_role":true,"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+[2024-08-22T18:38:05.862362+00:00] testing.INFO: Admin accessing permissions index {"user_id":1} []
+[2024-08-22T18:38:05.862694+00:00] testing.INFO: Permissions data retrieved {"permissions":["view-permission","create-permission","update-permission","delete-permission"]} []
+
+
+
+=== New Log: 2024-08-22 18:38:05 ===
+[2024-08-22T18:38:05.895985+00:00] testing.INFO: Admin accessing roles index [] []
+[2024-08-22T18:38:05.896581+00:00] testing.INFO: Roles data retrieved {"roles":{"Illuminate\\Database\\Eloquent\\Collection":[{"id":1,"name":"admin","guard_name":"api","created_at":"2024-08-22T18:38:05.000000Z","updated_at":"2024-08-22T18:38:05.000000Z"}]}} []
+
+
+
+=== New Log: 2024-08-22 18:38:05 ===
+[2024-08-22T18:38:05.944694+00:00] testing.INFO: Role created {"role":{"Spatie\\Permission\\Models\\Role":{"guard_name":"sanctum","name":"new-role","updated_at":"2024-08-22T18:38:05.000000Z","created_at":"2024-08-22T18:38:05.000000Z","id":2}}} []
+
+
+
+=== New Log: 2024-08-22 18:38:05 ===
+[2024-08-22T18:38:05.974195+00:00] testing.INFO: Role updated {"role":{"Spatie\\Permission\\Models\\Role":{"id":2,"name":"updated-role","guard_name":"api","created_at":"2024-08-22T18:38:05.000000Z","updated_at":"2024-08-22T18:38:05.000000Z"}}} []
+
+
+
+=== New Log: 2024-08-22 18:38:06 ===
+[2024-08-22T18:38:06.006340+00:00] testing.INFO: Role deleted {"role":{"Spatie\\Permission\\Models\\Role":{"id":2,"name":"deletable-role","guard_name":"api","created_at":"2024-08-22T18:38:06.000000Z","updated_at":"2024-08-22T18:38:06.000000Z"}}} []
+
+
+
+=== New Log: 2024-08-22 18:38:06 ===
+[2024-08-22T18:38:06.266066+00:00] testing.INFO: Admin accessing users index [] []
+[2024-08-22T18:38:06.266763+00:00] testing.INFO: Users data retrieved {"users":{"Illuminate\\Database\\Eloquent\\Collection":[{"id":1,"username":"carmelo.cremin","email":"arianna20@example.org","role":"customer","created_at":"2024-08-22T18:38:06.000000Z","updated_at":"2024-08-22T18:38:06.000000Z"},{"id":2,"username":"stokes.orie","email":"annamae.schultz@example.net","role":"customer","created_at":"2024-08-22T18:38:06.000000Z","updated_at":"2024-08-22T18:38:06.000000Z"}]}} []
+
+
+
+=== New Log: 2024-08-22 18:38:06 ===
+[2024-08-22T18:38:06.305246+00:00] testing.INFO: User created {"user":{"App\\Models\\User":{"username":"johndoe","email":"john@example.com","updated_at":"2024-08-22T18:38:06.000000Z","created_at":"2024-08-22T18:38:06.000000Z","id":2}}} []
+
+
+
+=== New Log: 2024-08-22 18:38:06 ===
+[2024-08-22T18:38:06.334294+00:00] testing.INFO: User updated {"user":{"App\\Models\\User":{"id":2,"username":"johnupdated","email":"johnupdated@example.com","role":"customer","created_at":"2024-08-22T18:38:06.000000Z","updated_at":"2024-08-22T18:38:06.000000Z"}}} []
+
+
+
+=== New Log: 2024-08-22 18:38:06 ===
+[2024-08-22T18:38:06.362511+00:00] testing.INFO: User deleted {"user":{"App\\Models\\User":{"id":2,"username":"eweber","email":"isaias43@example.org","role":"customer","created_at":"2024-08-22T18:38:06.000000Z","updated_at":"2024-08-22T18:38:06.000000Z"}}} []

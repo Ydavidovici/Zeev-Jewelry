@@ -3,78 +3,83 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Settings;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Http\JsonResponse;
-use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 
 class SettingsController extends Controller
 {
-    /** @var array<string, mixed> $settings */
-    protected array $settings;
-
     public function __construct()
     {
-        // Hard-code the settings array
-        $this->settings = [
-            'site_name' => 'Zeev Jewelry',
-            'currency' => 'USD',
-            'theme_options' => ['light', 'dark'],
-            'default_language' => 'en'
-        ];
+        // Apply authentication middleware to all methods except getCurrentSettings
+        $this->middleware('auth:sanctum')->except('getCurrentSettings');
+        // Apply admin permissions middleware to all methods except getCurrentSettings
+        $this->middleware('can:manageSettings,App\Models\User')->only(['store', 'update', 'destroy']);
     }
 
-    public function test(): JsonResponse
+    /**
+     * Get all settings for public access.
+     *
+     * @return JsonResponse
+     */
+    public function getCurrentSettings(): JsonResponse
     {
-        return response()->json(['message' => 'SettingsController is working!']);
+        $settings = Settings::all();
+        return response()->json($settings);
     }
 
-    public function index(Request $request): JsonResponse
+    /**
+     * Store a new setting (admin only).
+     *
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function store(Request $request): JsonResponse
     {
-        $this->authorize('manageSettings', User::class);
+        $validated = $request->validate([
+            'key' => 'required|string|unique:settings',
+            'value' => 'required|string',
+        ]);
 
-        Log::channel('custom')->info('Admin accessing settings index');
-
-        // Use the hard-coded settings
-        $settings = $this->settings;
-
-        Log::channel('custom')->info('Settings data retrieved', compact('settings'));
-
-        $theme = $request->cookie('theme', 'light'); // Default to light theme
-
-        return response()->json(['settings' => $settings, 'theme' => $theme]);
+        $setting = Settings::create($validated);
+        return response()->json([
+            'message' => 'Setting created successfully.',
+            'setting' => $setting
+        ], 201);
     }
 
-    public function update(Request $request): JsonResponse
+    /**
+     * Update an existing setting (admin only).
+     *
+     * @param Request $request
+     * @param string $key
+     * @return JsonResponse
+     */
+    public function update(Request $request, string $key): JsonResponse
     {
-        $this->authorize('manageSettings', User::class);
+        $validated = $request->validate([
+            'value' => 'required|string',
+        ]);
 
-        $settings = $this->settings;
-        $inputSettings = $request->input('settings', []);
+        $setting = Settings::where('key', $key)->firstOrFail();
+        $setting->update($validated);
+        return response()->json([
+            'message' => 'Setting updated successfully.',
+            'setting' => $setting
+        ]);
+    }
 
-        if (is_array($inputSettings)) {
-            foreach ($inputSettings as $key => $value) {
-                if (is_string($key) && array_key_exists($key, $settings)) {
-                    // Ensure the value type is consistent or expected
-                    if (is_string($value) || is_int($value) || is_array($value)) {
-                        $settings[$key] = $value;
-                    }
-                }
-            }
-        }
-
-        // Update the settings with the new values
-        $this->settings = $settings;
-
-        if ($request->has('theme')) {
-            $theme = $request->input('theme');
-            if (is_string($theme)) {
-                cookie()->queue(cookie('theme', $theme, 60 * 24 * 30)); // 30 days
-            }
-        }
-
-        Log::channel('custom')->info('Settings updated', ['settings' => $settings]);
-
-        return response()->json(['message' => 'Settings updated successfully.']);
+    /**
+     * Delete a setting (admin only).
+     *
+     * @param string $key
+     * @return JsonResponse
+     */
+    public function destroy(string $key): JsonResponse
+    {
+        $setting = Settings::where('key', $key)->firstOrFail();
+        $setting->delete();
+        return response()->json(['message' => 'Setting deleted successfully.']);
     }
 }

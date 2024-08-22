@@ -11,6 +11,9 @@ class UsersTableSeeder extends Seeder
 {
     public function run()
     {
+        // Truncate the users table
+        User::truncate();
+
         User::insert([
             [
                 'email' => 'admin@example.com',
