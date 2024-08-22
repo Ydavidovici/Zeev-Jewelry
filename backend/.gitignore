@@ -21,4 +21,5 @@ yarn-error.log
 .DS_Store
 *.xml
 .env
-/storage/logs/*
+/storage/logs/laravel.log
+/storage/logs/logs.txt
