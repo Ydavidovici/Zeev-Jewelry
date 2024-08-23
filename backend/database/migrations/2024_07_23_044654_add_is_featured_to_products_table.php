@@ -11,7 +11,7 @@ class AddIsFeaturedToProductsTable extends Migration
     public function up()
     {
         Schema::table('products', function (Blueprint $table) {
-            $table->boolean('is_featured')->default(false)->after('some_existing_column');
+            $table->boolean('is_featured')->default(false);
         });
     }
 

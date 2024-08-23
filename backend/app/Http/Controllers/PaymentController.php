@@ -11,6 +11,11 @@ use Illuminate\Http\JsonResponse;
 
 class PaymentController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth:api');
+    }
+
     public function index(): JsonResponse
     {
         $this->authorize('viewAny', Payment::class);

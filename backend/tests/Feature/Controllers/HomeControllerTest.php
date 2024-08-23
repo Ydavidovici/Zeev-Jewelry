@@ -1,22 +1,22 @@
 <?php
 
-namespace Tests\Feature\Controllers;
+namespace Tests\Feature;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 use App\Models\Product;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class HomeControllerTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function test_user_can_view_homepage_with_featured_products()
+    public function testHomePageFeaturedProducts()
     {
-        Product::factory()->count(3)->create(['is_featured' => true]);
+        Product::factory()->count(6)->create(['is_featured' => true]);
 
         $response = $this->getJson('/api/home');
 
         $response->assertStatus(200)
-            ->assertJsonStructure(['featured_products' => []]);
+            ->assertJsonCount(6, 'featured_products');
     }
 }

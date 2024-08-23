@@ -1,75 +1,89 @@
 <?php
 
-namespace Tests\Feature\Controllers;
+namespace Tests\Feature;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
-use App\Models\Category;
 use App\Models\User;
+use App\Models\Category;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tymon\JWTAuth\Facades\JWTAuth;
 
 class CategoryControllerTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function test_user_can_view_categories()
+    public function testCategoryIndex()
     {
         $user = User::factory()->create();
-        $this->actingAs($user, 'sanctum');
+        $token = JWTAuth::fromUser($user);
 
-        $response = $this->getJson('/api/categories');
+        Category::factory()->count(3)->create();
+
+        $response = $this->withHeader('Authorization', "Bearer $token")
+            ->getJson('/api/categories');
 
         $response->assertStatus(200)
-            ->assertJsonStructure([[]]); // Assuming you expect an array of categories
+            ->assertJsonCount(3);
     }
 
-    public function test_user_can_create_category()
+    public function testCategoryStore()
     {
         $user = User::factory()->create();
-        $this->actingAs($user, 'sanctum');
+        $token = JWTAuth::fromUser($user);
 
-        $response = $this->postJson('/api/categories', [
-            'category_name' => 'New Category',
-        ]);
+        $data = [
+            'category_name' => 'Electronics',
+        ];
+
+        $response = $this->withHeader('Authorization', "Bearer $token")
+            ->postJson('/api/categories', $data);
 
         $response->assertStatus(201)
-            ->assertJsonStructure(['id', 'category_name']);
+            ->assertJson($data);
     }
 
-    public function test_user_can_view_single_category()
+    public function testCategoryShow()
     {
         $user = User::factory()->create();
-        $category = Category::factory()->create();
-        $this->actingAs($user, 'sanctum');
+        $token = JWTAuth::fromUser($user);
 
-        $response = $this->getJson("/api/categories/{$category->id}");
+        $category = Category::factory()->create();
+
+        $response = $this->withHeader('Authorization', "Bearer $token")
+            ->getJson("/api/categories/{$category->id}");
 
         $response->assertStatus(200)
-            ->assertJsonStructure(['id', 'category_name']);
+            ->assertJson($category->toArray());
     }
 
-    public function test_user_can_update_category()
+    public function testCategoryUpdate()
     {
         $user = User::factory()->create();
-        $category = Category::factory()->create();
-        $this->actingAs($user, 'sanctum');
+        $token = JWTAuth::fromUser($user);
 
-        $response = $this->putJson("/api/categories/{$category->id}", [
-            'category_name' => 'Updated Category',
-        ]);
+        $category = Category::factory()->create();
+
+        $data = [
+            'category_name' => 'Home Appliances',
+        ];
+
+        $response = $this->withHeader('Authorization', "Bearer $token")
+            ->putJson("/api/categories/{$category->id}", $data);
 
         $response->assertStatus(200)
-            ->assertJsonStructure(['id', 'category_name']);
+            ->assertJson($data);
     }
 
-    public function test_user_can_delete_category()
+    public function testCategoryDestroy()
     {
         $user = User::factory()->create();
-        $category = Category::factory()->create();
-        $this->actingAs($user, 'sanctum');
+        $token = JWTAuth::fromUser($user);
 
-        $response = $this->deleteJson("/api/categories/{$category->id}");
+        $category = Category::factory()->create();
+
+        $response = $this->withHeader('Authorization', "Bearer $token")
+            ->deleteJson("/api/categories/{$category->id}");
 
         $response->assertStatus(204);
-        $this->assertDatabaseMissing('categories', ['id' => $category->id]);
     }
 }

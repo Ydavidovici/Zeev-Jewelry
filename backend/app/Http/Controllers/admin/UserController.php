@@ -14,7 +14,7 @@ class UserController extends Controller
     public function __construct()
     {
         // Apply authentication middleware to all methods
-        $this->middleware('auth:sanctum');
+        $this->middleware('auth:api');
         // Apply admin permissions middleware to all methods
         $this->middleware('can:manageUsers,App\Models\User');
     }

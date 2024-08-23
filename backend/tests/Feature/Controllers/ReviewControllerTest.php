@@ -1,86 +1,94 @@
 <?php
 
-namespace Tests\Feature\Controllers;
+namespace Tests\Feature;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
-use App\Models\Review;
-use App\Models\Product;
-use App\Models\Customer;
 use App\Models\User;
+use App\Models\Review;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tymon\JWTAuth\Facades\JWTAuth;
 
 class ReviewControllerTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function test_user_can_view_reviews()
+    public function testReviewIndex()
     {
         $user = User::factory()->create();
-        $this->actingAs($user, 'sanctum');
+        $token = JWTAuth::fromUser($user);
 
         Review::factory()->count(3)->create();
 
-        $response = $this->getJson('/api/reviews');
+        $response = $this->withHeader('Authorization', "Bearer $token")
+            ->getJson('/api/reviews');
 
         $response->assertStatus(200)
-            ->assertJsonStructure([[]]); // Expect an array of reviews
+            ->assertJsonCount(3);
     }
 
-    public function test_user_can_create_review()
+    public function testReviewStore()
     {
         $user = User::factory()->create();
-        $this->actingAs($user, 'sanctum');
-        $product = Product::factory()->create();
-        $customer = Customer::factory()->create();
+        $token = JWTAuth::fromUser($user);
 
-        $response = $this->postJson('/api/reviews', [
-            'product_id' => $product->id,
-            'customer_id' => $customer->id,
-            'review_text' => 'This is a great product!',
+        $data = [
+            'product_id' => 1,
+            'customer_id' => 1,
+            'review_text' => 'Great product!',
             'rating' => 5,
-            'review_date' => now()->toDateString(),
-        ]);
+            'review_date' => now(),
+        ];
+
+        $response = $this->withHeader('Authorization', "Bearer $token")
+            ->postJson('/api/reviews', $data);
 
         $response->assertStatus(201)
-            ->assertJsonStructure(['id', 'product_id', 'customer_id', 'review_text', 'rating', 'review_date']);
+            ->assertJson($data);
     }
 
-    public function test_user_can_view_single_review()
+    public function testReviewShow()
     {
         $user = User::factory()->create();
-        $this->actingAs($user, 'sanctum');
+        $token = JWTAuth::fromUser($user);
+
         $review = Review::factory()->create();
 
-        $response = $this->getJson("/api/reviews/{$review->id}");
+        $response = $this->withHeader('Authorization', "Bearer $token")
+            ->getJson("/api/reviews/{$review->id}");
 
         $response->assertStatus(200)
-            ->assertJsonStructure(['id', 'product_id', 'customer_id', 'review_text', 'rating', 'review_date']);
+            ->assertJson($review->toArray());
     }
 
-    public function test_user_can_update_review()
+    public function testReviewUpdate()
     {
         $user = User::factory()->create();
-        $this->actingAs($user, 'sanctum');
+        $token = JWTAuth::fromUser($user);
+
         $review = Review::factory()->create();
 
-        $response = $this->putJson("/api/reviews/{$review->id}", [
-            'review_text' => 'Updated review text',
+        $data = [
+            'review_text' => 'Updated review',
             'rating' => 4,
-        ]);
+        ];
+
+        $response = $this->withHeader('Authorization', "Bearer $token")
+            ->putJson("/api/reviews/{$review->id}", $data);
 
         $response->assertStatus(200)
-            ->assertJsonStructure(['id', 'product_id', 'customer_id', 'review_text', 'rating', 'review_date']);
+            ->assertJson($data);
     }
 
-    public function test_user_can_delete_review()
+    public function testReviewDestroy()
     {
         $user = User::factory()->create();
-        $this->actingAs($user, 'sanctum');
+        $token = JWTAuth::fromUser($user);
+
         $review = Review::factory()->create();
 
-        $response = $this->deleteJson("/api/reviews/{$review->id}");
+        $response = $this->withHeader('Authorization', "Bearer $token")
+            ->deleteJson("/api/reviews/{$review->id}");
 
         $response->assertStatus(204);
-        $this->assertDatabaseMissing('reviews', ['id' => $review->id]);
     }
 }

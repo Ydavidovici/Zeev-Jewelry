@@ -1,43 +1,45 @@
 <?php
 
-namespace Tests\Feature\Controllers\auth;
+namespace Tests\Feature\Auth;
 
-use App\Mail\PasswordResetMail;
+use Tests\TestCase;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Password;
-use Tests\TestCase;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\PasswordResetMail;
 
 class ForgotPasswordControllerTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function test_user_can_request_password_reset_link()
+    public function test_reset_link_email_is_sent_when_user_exists()
     {
         Mail::fake();
 
         $user = User::factory()->create(['email' => 'user@example.com']);
 
-        $response = $this->postJson('/api/password/email', [
+        $response = $this->postJson(route('password.email'), [
             'email' => 'user@example.com',
         ]);
 
         $response->assertStatus(200)
-            ->assertJson(['message' => 'Reset link sent to your email.']);
+            ->assertJson(['message' => 'If the email address is registered, you will receive a reset link.']);
 
-        Mail::assertSent(PasswordResetMail::class, function ($mail) use ($user) {
-            return $mail->hasTo($user->email) && $mail->user->is($user);
-        });
+        Mail::assertSent(PasswordResetMail::class);
     }
 
-    public function test_user_cannot_request_password_reset_link_with_invalid_email()
+    public function test_no_email_sent_when_user_does_not_exist()
     {
-        $response = $this->postJson('/api/password/email', [
-            'email' => 'invalid@example.com',
+        Mail::fake();
+
+        $response = $this->postJson(route('password.email'), [
+            'email' => 'nonexistent@example.com',
         ]);
 
-        $response->assertStatus(400)
-            ->assertJson(['message' => 'Unable to send reset link.']);
+        $response->assertStatus(200)
+            ->assertJson(['message' => 'If the email address is registered, you will receive a reset link.']);
+
+        Mail::assertNotSent(PasswordResetMail::class);
     }
 }

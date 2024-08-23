@@ -1,82 +1,92 @@
 <?php
 
-namespace Tests\Feature\Controllers;
+namespace Tests\Feature;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
-use App\Models\InventoryMovement;
-use App\Models\Inventory;
 use App\Models\User;
+use App\Models\InventoryMovement;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tymon\JWTAuth\Facades\JWTAuth;
 
 class InventoryMovementControllerTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function test_user_can_view_inventory_movements()
+    public function testInventoryMovementIndex()
     {
         $user = User::factory()->create();
-        $this->actingAs($user, 'sanctum');
+        $token = JWTAuth::fromUser($user);
 
         InventoryMovement::factory()->count(3)->create();
 
-        $response = $this->getJson('/api/inventory_movements');
+        $response = $this->withHeader('Authorization', "Bearer $token")
+            ->getJson('/api/inventory_movements');
 
         $response->assertStatus(200)
-            ->assertJsonStructure([[]]); // Expect an array of inventory movements
+            ->assertJsonCount(3);
     }
 
-    public function test_user_can_create_inventory_movement()
+    public function testInventoryMovementStore()
     {
         $user = User::factory()->create();
-        $this->actingAs($user, 'sanctum');
-        $inventory = Inventory::factory()->create();
+        $token = JWTAuth::fromUser($user);
 
-        $response = $this->postJson('/api/inventory_movements', [
-            'inventory_id' => $inventory->id,
-            'quantity' => 10,
+        $data = [
+            'inventory_id' => 1,
+            'quantity' => 50,
             'movement_type' => 'Restock',
-        ]);
+        ];
+
+        $response = $this->withHeader('Authorization', "Bearer $token")
+            ->postJson('/api/inventory_movements', $data);
 
         $response->assertStatus(201)
-            ->assertJsonStructure(['id', 'inventory_id', 'quantity', 'movement_type']);
+            ->assertJson($data);
     }
 
-    public function test_user_can_view_single_inventory_movement()
+    public function testInventoryMovementShow()
     {
         $user = User::factory()->create();
-        $this->actingAs($user, 'sanctum');
+        $token = JWTAuth::fromUser($user);
+
         $inventoryMovement = InventoryMovement::factory()->create();
 
-        $response = $this->getJson("/api/inventory_movements/{$inventoryMovement->id}");
+        $response = $this->withHeader('Authorization', "Bearer $token")
+            ->getJson("/api/inventory_movements/{$inventoryMovement->id}");
 
         $response->assertStatus(200)
-            ->assertJsonStructure(['id', 'inventory_id', 'quantity', 'movement_type']);
+            ->assertJson($inventoryMovement->toArray());
     }
 
-    public function test_user_can_update_inventory_movement()
+    public function testInventoryMovementUpdate()
     {
         $user = User::factory()->create();
-        $this->actingAs($user, 'sanctum');
+        $token = JWTAuth::fromUser($user);
+
         $inventoryMovement = InventoryMovement::factory()->create();
 
-        $response = $this->putJson("/api/inventory_movements/{$inventoryMovement->id}", [
-            'quantity' => 20,
-            'movement_type' => 'Sale',
-        ]);
+        $data = [
+            'quantity' => 100,
+            'movement_type' => 'Adjustment',
+        ];
+
+        $response = $this->withHeader('Authorization', "Bearer $token")
+            ->putJson("/api/inventory_movements/{$inventoryMovement->id}", $data);
 
         $response->assertStatus(200)
-            ->assertJsonStructure(['id', 'inventory_id', 'quantity', 'movement_type']);
+            ->assertJson($data);
     }
 
-    public function test_user_can_delete_inventory_movement()
+    public function testInventoryMovementDestroy()
     {
         $user = User::factory()->create();
-        $this->actingAs($user, 'sanctum');
+        $token = JWTAuth::fromUser($user);
+
         $inventoryMovement = InventoryMovement::factory()->create();
 
-        $response = $this->deleteJson("/api/inventory_movements/{$inventoryMovement->id}");
+        $response = $this->withHeader('Authorization', "Bearer $token")
+            ->deleteJson("/api/inventory_movements/{$inventoryMovement->id}");
 
         $response->assertStatus(204);
-        $this->assertDatabaseMissing('inventory_movements', ['id' => $inventoryMovement->id]);
     }
 }

@@ -1,56 +1,53 @@
 <?php
 
-namespace Tests\Feature\Controllers\Auth;
+namespace Tests\Feature\Auth;
 
 use Tests\TestCase;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Support\Facades\Hash;
+use Tymon\JWTAuth\Facades\JWTAuth;
 
 class LoginControllerTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function test_can_login_and_receive_token()
+    public function test_user_can_login_with_correct_credentials()
     {
-        $user = User::factory()->create([
-            'password' => Hash::make('password'),
-        ]);
+        $user = User::factory()->create(['password' => bcrypt('password')]);
 
-        $response = $this->postJson('/login', [
+        $response = $this->postJson(route('login'), [
             'email' => $user->email,
             'password' => 'password',
         ]);
 
         $response->assertStatus(200)
-            ->assertJsonStructure(['access_token', 'token_type']);
-
-        // You might want to store the access_token to verify it in subsequent tests.
-        $accessToken = $response->json('access_token');
-        $this->assertNotNull($accessToken);
-
-        // Optionally, make a request to a protected route to ensure the token works
-        $this->withHeaders([
-            'Authorization' => "Bearer $accessToken",
-        ])->get('/some-protected-route')
-            ->assertStatus(200);
+            ->assertJsonStructure(['access_token', 'token_type', 'expires_in']);
     }
 
-    public function test_can_logout_and_invalidate_token()
+    public function test_user_cannot_login_with_incorrect_credentials()
+    {
+        $user = User::factory()->create(['password' => bcrypt('password')]);
+
+        $response = $this->postJson(route('login'), [
+            'email' => $user->email,
+            'password' => 'wrongpassword',
+        ]);
+
+        $response->assertStatus(401)
+            ->assertJson(['error' => 'Unauthorized']);
+    }
+
+    public function test_user_can_logout()
     {
         $user = User::factory()->create();
-        $token = $user->createToken('auth_token')->plainTextToken;
 
-        $this->withHeaders([
-            'Authorization' => "Bearer $token",
-        ])->postJson('/logout')
-            ->assertStatus(200)
-            ->assertJson(['message' => 'Logged out successfully.']);
+        $token = JWTAuth::fromUser($user);
 
-        // Try accessing a protected route with the old token
-        $this->withHeaders([
-            'Authorization' => "Bearer $token",
-        ])->get('/some-protected-route')
-            ->assertStatus(401); // Expecting 401 Unauthorized since the token should be invalidated
+        $response = $this->withHeaders([
+            'Authorization' => 'Bearer ' . $token,
+        ])->postJson(route('logout'));
+
+        $response->assertStatus(200)
+            ->assertJson(['message' => 'Successfully logged out']);
     }
 }

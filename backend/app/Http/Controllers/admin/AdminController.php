@@ -13,6 +13,11 @@ use Illuminate\Http\JsonResponse;
 
 class AdminController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth:api');
+    }
+
     public function index(): JsonResponse
     {
         $this->authorize('accessDashboard', User::class);

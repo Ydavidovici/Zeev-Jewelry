@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
@@ -11,8 +10,8 @@ class UsersTableSeeder extends Seeder
 {
     public function run()
     {
-        // Truncate the users table
-        User::truncate();
+        // Delete all users
+        User::query()->delete();
 
         User::insert([
             [

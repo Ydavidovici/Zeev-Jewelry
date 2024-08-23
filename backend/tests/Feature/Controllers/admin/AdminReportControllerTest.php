@@ -1,50 +1,43 @@
 <?php
 
-namespace Tests\Feature\Controllers\Admin;
+namespace Tests\Feature\Admin;
 
-use App\Http\Controllers\Admin\AdminReportController;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Support\Facades\Route;
 use Tests\TestCase;
 use App\Models\User;
+use Spatie\Permission\Models\Role;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class AdminReportControllerTest extends TestCase
 {
     use RefreshDatabase;
 
-    protected $adminUser;
-
-    protected function setUp(): void
+    public function test_admin_can_access_dashboard_report()
     {
-        parent::setUp();
+        $adminRole = Role::create(['name' => 'admin']);
+        $admin = User::factory()->create();
+        $admin->assignRole($adminRole);
 
-        // Create an admin user
-        $this->adminUser = User::factory()->create();
-    }
+        $this->actingAs($admin, 'api');
 
-    public function test_admin_can_access_dashboard_and_generate_reports()
-    {
-        // Acting as the admin user
-        $this->actingAs($this->adminUser);
+        $response = $this->getJson(route('admin.report.index'));
 
-        // Mocking the route to return a fixed JSON response
-        Route::get('/admin/reports', function () {
-            return response()->json([
-                'server_performance' => [],
-                'database_performance' => [],
-                'error_logs' => [],
-            ]);
-        });
-
-        // Call the route
-        $response = $this->getJson('/admin/reports');
-
-        // Assert the response status and structure
         $response->assertStatus(200)
             ->assertJsonStructure([
                 'server_performance',
                 'database_performance',
                 'error_logs',
+                'uptime',
             ]);
+    }
+
+    public function test_non_admin_cannot_access_dashboard_report()
+    {
+        $user = User::factory()->create();
+
+        $this->actingAs($user, 'api');
+
+        $response = $this->getJson(route('admin.report.index'));
+
+        $response->assertStatus(403); // Forbidden
     }
 }

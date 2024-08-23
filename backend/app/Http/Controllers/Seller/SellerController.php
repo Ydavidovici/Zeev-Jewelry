@@ -12,6 +12,11 @@ use Illuminate\Http\JsonResponse;
 
 class SellerController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth:api');
+    }
+
     public function index(): JsonResponse
     {
         $this->authorize('viewDashboard', auth()->user());

@@ -11,6 +11,11 @@ use Illuminate\Http\JsonResponse;
 
 class CheckoutController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth:api');
+    }
+
     public function index(): JsonResponse
     {
         $cart = Session::get('cart', []);

@@ -6,14 +6,13 @@ use App\Http\Controllers\Controller;
 use App\Models\Settings;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Facades\Auth;
 
 class SettingsController extends Controller
 {
     public function __construct()
     {
         // Apply authentication middleware to all methods except getCurrentSettings
-        $this->middleware('auth:sanctum')->except('getCurrentSettings');
+        $this->middleware('auth:api')->except('getCurrentSettings');
         // Apply admin permissions middleware to all methods except getCurrentSettings
         $this->middleware('can:manageSettings,App\Models\User')->only(['store', 'update', 'destroy']);
     }

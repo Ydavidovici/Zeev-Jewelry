@@ -1,80 +1,72 @@
 <?php
 
-namespace Tests\Feature\Controllers;
+namespace Tests\Feature;
 
 use Tests\TestCase;
-use App\Models\Order;
-use App\Models\Payment;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Support\Facades\Log;
+use Illuminate\Http\Request;
 use Stripe\Webhook;
-use Illuminate\Support\Facades\Http;
+use Stripe\Exception\SignatureVerificationException;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Stripe\Stripe;
+use Illuminate\Support\Facades\Log;
 
 class WebhookControllerTest extends TestCase
 {
     use RefreshDatabase;
 
-    /** @test */
-    public function it_handles_successful_payment_intent_webhook()
+    public function testWebhookHandlePaymentSucceeded()
     {
-        $order = Order::factory()->create([
-            'payment_intent_id' => 'pi_test',
-            'status' => 'pending',
-        ]);
-
-        $payment = Payment::factory()->create([
-            'order_id' => $order->id,
-            'payment_intent_id' => 'pi_test',
-            'payment_status' => 'pending',
-        ]);
+        // Mock the Stripe Webhook constructEvent method to simulate Stripe webhook event
+        $this->mock(Webhook::class, function ($mock) {
+            $mock->shouldReceive('constructEvent')
+                ->andReturn((object) [
+                    'type' => 'payment_intent.succeeded',
+                    'data' => (object) [
+                        'object' => (object) [
+                            'id' => 'pi_1GqIC8I7cO5EaPm4u0d5C4K6',
+                            'status' => 'succeeded',
+                        ],
+                    ],
+                ]);
+        });
 
         $payload = json_encode([
             'type' => 'payment_intent.succeeded',
             'data' => [
                 'object' => [
-                    'id' => 'pi_test',
+                    'id' => 'pi_1GqIC8I7cO5EaPm4u0d5C4K6',
+                    'status' => 'succeeded',
                 ],
             ],
         ]);
 
-        $sigHeader = 't=' . time() . ',v1=' . hash_hmac('sha256', $payload, config('services.stripe.webhook_secret'));
+        $response = $this->postJson('/api/webhook', [], ['Stripe-Signature' => 'some-signature']);
 
-        $response = $this->postJson('/api/stripe/webhook', [], [
-            'Stripe-Signature' => $sigHeader,
-            'Content-Type' => 'application/json',
-        ]);
-
-        $response->assertStatus(200);
-        $order->refresh();
-        $payment->refresh();
-
-        $this->assertEquals('Paid', $order->status);
-        $this->assertEquals('succeeded', $payment->payment_status);
+        $response->assertStatus(200)
+            ->assertJson(['status' => 'success']);
     }
 
-    /** @test */
-    public function it_logs_unknown_event_type()
+    public function testWebhookHandleInvalidSignature()
     {
-        Log::shouldReceive('warning')
-            ->once()
-            ->with('Received unknown event type unknown_event');
+        // Mock the Stripe Webhook constructEvent method to throw a SignatureVerificationException
+        $this->mock(Webhook::class, function ($mock) {
+            $mock->shouldReceive('constructEvent')
+                ->andThrow(SignatureVerificationException::class);
+        });
 
         $payload = json_encode([
-            'type' => 'unknown_event',
+            'type' => 'payment_intent.succeeded',
             'data' => [
                 'object' => [
-                    'id' => 'pi_test',
+                    'id' => 'pi_1GqIC8I7cO5EaPm4u0d5C4K6',
+                    'status' => 'succeeded',
                 ],
             ],
         ]);
 
-        $sigHeader = 't=' . time() . ',v1=' . hash_hmac('sha256', $payload, config('services.stripe.webhook_secret'));
+        $response = $this->postJson('/api/webhook', [], ['Stripe-Signature' => 'some-invalid-signature']);
 
-        $response = $this->postJson('/api/stripe/webhook', [], [
-            'Stripe-Signature' => $sigHeader,
-            'Content-Type' => 'application/json',
-        ]);
-
-        $response->assertStatus(200);
+        $response->assertStatus(400)
+            ->assertJson(['error' => 'Invalid signature']);
     }
 }

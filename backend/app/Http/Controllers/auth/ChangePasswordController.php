@@ -14,7 +14,7 @@ class ChangePasswordController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth:sanctum');
+        $this->middleware('auth:api');
     }
 
     public function changePassword(Request $request): JsonResponse
@@ -30,6 +30,7 @@ class ChangePasswordController extends Controller
             return response()->json(['message' => 'Your current password does not match our records.'], 400);
         }
 
+        // Update the user's password
         $user->password = Hash::make($request->new_password);
         $user->save();
 

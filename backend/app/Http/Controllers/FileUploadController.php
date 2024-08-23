@@ -8,6 +8,11 @@ use Illuminate\Http\JsonResponse;
 
 class FileUploadController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth:api');
+    }
+
     public function store(Request $request): JsonResponse
     {
         $this->authorize('create', File::class);

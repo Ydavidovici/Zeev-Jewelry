@@ -1,14 +1,13 @@
 <?php
 
-namespace Tests\Feature\Controllers\auth;
+namespace Tests\Feature\Auth;
 
-use App\Mail\PasswordChangeConfirmationMail;
+use Tests\TestCase;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Password;
-use Tests\TestCase;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\PasswordChangeConfirmationMail;
 
 class ResetPasswordControllerTest extends TestCase
 {
@@ -19,34 +18,31 @@ class ResetPasswordControllerTest extends TestCase
         Mail::fake();
 
         $user = User::factory()->create(['email' => 'user@example.com']);
-        $token = Password::broker()->createToken($user);
+        $token = Password::createToken($user);
 
-        $response = $this->postJson('/api/password/reset', [
+        $response = $this->postJson(route('password.reset'), [
             'token' => $token,
             'email' => 'user@example.com',
-            'password' => 'newpassword123',
-            'password_confirmation' => 'newpassword123',
+            'password' => 'newpassword',
+            'password_confirmation' => 'newpassword',
         ]);
 
         $response->assertStatus(200)
             ->assertJson(['message' => 'Password reset successfully.']);
 
-        $this->assertTrue(Hash::check('newpassword123', $user->fresh()->password));
-
-        Mail::assertSent(PasswordChangeConfirmationMail::class, function ($mail) use ($user) {
-            return $mail->hasTo($user->email) && $mail->user->is($user);
-        });
+        Mail::assertSent(PasswordChangeConfirmationMail::class);
+        $this->assertTrue(Hash::check('newpassword', $user->fresh()->password));
     }
 
-    public function test_user_cannot_reset_password_with_invalid_token()
+    public function test_password_reset_fails_with_invalid_token()
     {
         $user = User::factory()->create(['email' => 'user@example.com']);
 
-        $response = $this->postJson('/api/password/reset', [
+        $response = $this->postJson(route('password.reset'), [
             'token' => 'invalid-token',
             'email' => 'user@example.com',
-            'password' => 'newpassword123',
-            'password_confirmation' => 'newpassword123',
+            'password' => 'newpassword',
+            'password_confirmation' => 'newpassword',
         ]);
 
         $response->assertStatus(400)

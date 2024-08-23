@@ -4,92 +4,90 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Product;
-use Illuminate\Support\Facades\Session;
-use Illuminate\Support\Str;
+use App\Models\Cart;
+use App\Models\CartItem;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Auth;
 
 class CartController extends Controller
 {
-    public function index(Request $request): JsonResponse
+    public function __construct()
     {
-        $this->authorize('viewAny', Product::class);
+        $this->middleware('auth:api');
+    }
 
-        $cartId = $request->cookie('cart_id');
+    public function index(): JsonResponse
+    {
+        $user = Auth::user();
 
-        if (!$cartId) {
-            $cartId = Str::uuid();
-            cookie()->queue(cookie('cart_id', $cartId, 60 * 24 * 30)); // 30 days
-        }
+        // Policy check for viewing the cart
+        $this->authorize('viewAny', Cart::class);
 
-        $cart = Session::get("cart_{$cartId}", []);
+        $cart = Cart::with('items.product')->where('user_id', $user->id)->firstOrCreate([
+            'user_id' => $user->id,
+        ]);
 
         return response()->json(['cart' => $cart]);
     }
 
     public function store(Request $request): JsonResponse
     {
-        $this->authorize('create', Product::class);
+        $user = Auth::user();
+
+        // Policy check for creating a cart
+        $this->authorize('create', Cart::class);
 
         $request->validate([
             'product_id' => 'required|exists:products,id',
             'quantity' => 'required|integer|min:1',
         ]);
 
+        $cart = Cart::firstOrCreate(['user_id' => $user->id]);
         $product = Product::findOrFail($request->input('product_id'));
-        $quantity = $request->input('quantity', 1);
+        $quantity = $request->input('quantity');
 
-        $cartId = $request->cookie('cart_id');
+        $cartItem = CartItem::firstOrCreate([
+            'cart_id' => $cart->id,
+            'product_id' => $product->id,
+        ], [
+            'quantity' => $quantity,
+        ]);
 
-        if (!$cartId) {
-            $cartId = Str::uuid();
-            cookie()->queue(cookie('cart_id', $cartId, 60 * 24 * 30)); // 30 days
+        if (!$cartItem->wasRecentlyCreated) {
+            $cartItem->quantity += $quantity;
+            $cartItem->save();
         }
 
-        $cart = Session::get("cart_{$cartId}", []);
-
-        if (isset($cart[$product->id])) {
-            $cart[$product->id]['quantity'] += $quantity;
-        } else {
-            $cart[$product->id] = [
-                'product' => $product,
-                'quantity' => $quantity,
-            ];
-        }
-
-        Session::put("cart_{$cartId}", $cart);
-
-        return response()->json(['message' => 'Product added to cart.']);
+        return response()->json(['message' => 'Product added to cart.', 'cart' => $cart->load('items.product')]);
     }
 
-    public function update(Request $request, $productId): JsonResponse
+    public function update(Request $request, CartItem $cartItem): JsonResponse
     {
-        $this->authorize('update', Product::class);
+        $user = Auth::user();
+
+        // Policy check for updating the cart item
+        $this->authorize('update', $cartItem->cart);
 
         $request->validate([
             'quantity' => 'required|integer|min:1',
         ]);
 
-        $cartId = $request->cookie('cart_id');
-        $cart = Session::get("cart_{$cartId}", []);
+        $cartItem->update([
+            'quantity' => $request->input('quantity'),
+        ]);
 
-        if (isset($cart[$productId])) {
-            $cart[$productId]['quantity'] = $request->input('quantity');
-            Session::put("cart_{$cartId}", $cart);
-        }
-
-        return response()->json(['message' => 'Cart updated.']);
+        return response()->json(['message' => 'Cart updated.', 'cart' => $cartItem->cart->load('items.product')]);
     }
 
-    public function destroy(Request $request, $productId): JsonResponse
+    public function destroy(CartItem $cartItem): JsonResponse
     {
-        $this->authorize('delete', Product::class);
+        $user = Auth::user();
 
-        $cartId = $request->cookie('cart_id');
-        $cart = Session::get("cart_{$cartId}", []);
+        // Policy check for deleting the cart item
+        $this->authorize('delete', $cartItem->cart);
 
-        unset($cart[$productId]);
-        Session::put("cart_{$cartId}", $cart);
+        $cartItem->delete();
 
-        return response()->json(['message' => 'Product removed from cart.']);
+        return response()->json(['message' => 'Product removed from cart.', 'cart' => $cartItem->cart->load('items.product')]);
     }
 }

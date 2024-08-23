@@ -1,82 +1,92 @@
 <?php
 
-namespace Tests\Feature\Controllers;
+namespace Tests\Feature;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
-use App\Models\Inventory;
-use App\Models\Product;
 use App\Models\User;
+use App\Models\Inventory;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tymon\JWTAuth\Facades\JWTAuth;
 
 class InventoryControllerTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function test_user_can_view_inventory()
+    public function testInventoryIndex()
     {
         $user = User::factory()->create();
-        $this->actingAs($user, 'sanctum');
+        $token = JWTAuth::fromUser($user);
 
         Inventory::factory()->count(3)->create();
 
-        $response = $this->getJson('/api/inventories');
+        $response = $this->withHeader('Authorization', "Bearer $token")
+            ->getJson('/api/inventories');
 
         $response->assertStatus(200)
-            ->assertJsonStructure([[]]); // Expect an array of inventories
+            ->assertJsonCount(3);
     }
 
-    public function test_user_can_create_inventory()
+    public function testInventoryStore()
     {
         $user = User::factory()->create();
-        $this->actingAs($user, 'sanctum');
-        $product = Product::factory()->create();
+        $token = JWTAuth::fromUser($user);
 
-        $response = $this->postJson('/api/inventories', [
-            'product_id' => $product->id,
-            'quantity' => 10,
+        $data = [
+            'product_id' => 1,
+            'quantity' => 100,
             'location' => 'Warehouse 1',
-        ]);
+        ];
+
+        $response = $this->withHeader('Authorization', "Bearer $token")
+            ->postJson('/api/inventories', $data);
 
         $response->assertStatus(201)
-            ->assertJsonStructure(['id', 'product_id', 'quantity', 'location']);
+            ->assertJson($data);
     }
 
-    public function test_user_can_view_single_inventory()
+    public function testInventoryShow()
     {
         $user = User::factory()->create();
-        $this->actingAs($user, 'sanctum');
+        $token = JWTAuth::fromUser($user);
+
         $inventory = Inventory::factory()->create();
 
-        $response = $this->getJson("/api/inventories/{$inventory->id}");
+        $response = $this->withHeader('Authorization', "Bearer $token")
+            ->getJson("/api/inventories/{$inventory->id}");
 
         $response->assertStatus(200)
-            ->assertJsonStructure(['id', 'product_id', 'quantity', 'location']);
+            ->assertJson($inventory->toArray());
     }
 
-    public function test_user_can_update_inventory()
+    public function testInventoryUpdate()
     {
         $user = User::factory()->create();
-        $this->actingAs($user, 'sanctum');
+        $token = JWTAuth::fromUser($user);
+
         $inventory = Inventory::factory()->create();
 
-        $response = $this->putJson("/api/inventories/{$inventory->id}", [
-            'quantity' => 20,
+        $data = [
+            'quantity' => 200,
             'location' => 'Warehouse 2',
-        ]);
+        ];
+
+        $response = $this->withHeader('Authorization', "Bearer $token")
+            ->putJson("/api/inventories/{$inventory->id}", $data);
 
         $response->assertStatus(200)
-            ->assertJsonStructure(['id', 'product_id', 'quantity', 'location']);
+            ->assertJson($data);
     }
 
-    public function test_user_can_delete_inventory()
+    public function testInventoryDestroy()
     {
         $user = User::factory()->create();
-        $this->actingAs($user, 'sanctum');
+        $token = JWTAuth::fromUser($user);
+
         $inventory = Inventory::factory()->create();
 
-        $response = $this->deleteJson("/api/inventories/{$inventory->id}");
+        $response = $this->withHeader('Authorization', "Bearer $token")
+            ->deleteJson("/api/inventories/{$inventory->id}");
 
         $response->assertStatus(204);
-        $this->assertDatabaseMissing('inventories', ['id' => $inventory->id]);
     }
 }

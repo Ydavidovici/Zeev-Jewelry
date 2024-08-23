@@ -1,65 +1,57 @@
 <?php
 
-namespace Tests\Feature\Controllers;
+namespace Tests\Feature;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 use App\Models\User;
 use App\Models\Order;
-use App\Models\Product;
-use App\Models\OrderDetail;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tymon\JWTAuth\Facades\JWTAuth;
 
 class CheckoutControllerTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function test_user_can_view_cart_at_checkout()
+    public function testCheckoutIndex()
     {
         $user = User::factory()->create();
-        $this->actingAs($user, 'sanctum');
+        $token = JWTAuth::fromUser($user);
 
-        $response = $this->getJson('/api/checkout');
+        $response = $this->withHeader('Authorization', "Bearer $token")
+            ->getJson('/api/checkout');
 
         $response->assertStatus(200)
             ->assertJsonStructure(['cart']);
     }
 
-    public function test_user_can_place_order()
+    public function testCheckoutStore()
     {
         $user = User::factory()->create();
-        $this->actingAs($user, 'sanctum');
+        $token = JWTAuth::fromUser($user);
 
-        // Assume there is a cart in the session
-        session(['cart' => [
-            1 => ['product' => Product::factory()->create(), 'quantity' => 1]
-        ]]);
-
-        $response = $this->postJson('/api/checkout', [
+        $data = [
             'address' => '123 Main St',
             'city' => 'New York',
             'postal_code' => '10001',
-        ]);
+        ];
 
-        $response->assertStatus(200)
-            ->assertJson(['message' => 'Order placed successfully.']);
+        $response = $this->withHeader('Authorization', "Bearer $token")
+            ->postJson('/api/checkout', $data);
+
+        $response->assertStatus(201)
+            ->assertJsonStructure(['message']);
     }
 
-    public function test_order_success()
+    public function testCheckoutSuccess()
     {
-        $user = User::factory()->create();
-        $this->actingAs($user, 'sanctum');
-
         $response = $this->getJson('/api/checkout/success');
 
         $response->assertStatus(200)
             ->assertJson(['message' => 'Order completed successfully.']);
     }
 
-    public function test_order_failure()
+    public function testCheckoutFailure()
     {
-        $user = User::factory()->create();
-        $this->actingAs($user, 'sanctum');
-
         $response = $this->getJson('/api/checkout/failure');
 
         $response->assertStatus(200)

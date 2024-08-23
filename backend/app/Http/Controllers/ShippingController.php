@@ -10,6 +10,11 @@ use Illuminate\Support\Facades\Mail;
 
 class ShippingController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth:api');
+    }
+
     public function index(): JsonResponse
     {
         $this->authorize('viewAny', Shipping::class);

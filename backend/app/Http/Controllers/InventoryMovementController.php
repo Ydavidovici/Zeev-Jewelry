@@ -10,6 +10,11 @@ use Illuminate\Http\JsonResponse;
 
 class InventoryMovementController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth:api');
+    }
+
     public function index(): JsonResponse
     {
         $this->authorize('viewAny', InventoryMovement::class);

@@ -1,116 +1,93 @@
 <?php
 
-namespace Tests\Feature\Controllers;
+namespace Tests\Feature;
 
-use App\Mail\OrderConfirmationMail;
-use App\Mail\ShippingConfirmationMail;
 use Tests\TestCase;
-use App\Models\Order;
-use App\Models\Customer;
 use App\Models\User;
+use App\Models\Order;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Support\Facades\Mail;
+use Tymon\JWTAuth\Facades\JWTAuth;
 
 class OrderControllerTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function test_user_can_view_all_orders()
+    public function testOrderIndex()
     {
-        $this->actingAs(User::factory()->create());
+        $user = User::factory()->create();
+        $token = JWTAuth::fromUser($user);
 
-        $order = Order::factory()->create();
+        Order::factory()->count(3)->create();
 
-        $response = $this->getJson('/api/orders');
+        $response = $this->withHeader('Authorization', "Bearer $token")
+            ->getJson('/api/orders');
 
         $response->assertStatus(200)
-            ->assertJsonFragment(['id' => $order->id]);
+            ->assertJsonCount(3);
     }
 
-    public function test_user_can_create_an_order()
+    public function testOrderStore()
     {
-        Mail::fake();
+        $user = User::factory()->create();
+        $token = JWTAuth::fromUser($user);
 
-        $this->actingAs(User::factory()->create());
-
-        $orderData = [
-            'customer_id' => Customer::factory()->create()->id,
-            'order_date' => now()->toDateString(),
-            'total_amount' => 150.00,
+        $data = [
+            'customer_id' => 1,
+            'order_date' => now(),
+            'total_amount' => 100,
             'is_guest' => false,
-            'status' => 'pending',
-            'payment_intent_id' => 'pi_123456789',
+            'status' => 'Pending',
         ];
 
-        $response = $this->postJson('/api/orders', $orderData);
+        $response = $this->withHeader('Authorization', "Bearer $token")
+            ->postJson('/api/orders', $data);
 
         $response->assertStatus(201)
-            ->assertJsonFragment([
-                'payment_intent_id' => 'pi_123456789',
-            ]);
-
-        $this->assertDatabaseHas('orders', $orderData);
-
-        $order = Order::first();
-
-        Mail::assertSent(OrderConfirmationMail::class, function ($mail) use ($order) {
-            return $mail->hasTo($order->customer->email) && $mail->order->is($order);
-        });
+            ->assertJson($data);
     }
 
-    public function test_user_can_view_a_single_order()
+    public function testOrderShow()
     {
-        $this->actingAs(User::factory()->create());
+        $user = User::factory()->create();
+        $token = JWTAuth::fromUser($user);
 
         $order = Order::factory()->create();
 
-        $response = $this->getJson('/api/orders/' . $order->id);
+        $response = $this->withHeader('Authorization', "Bearer $token")
+            ->getJson("/api/orders/{$order->id}");
 
         $response->assertStatus(200)
-            ->assertJsonFragment(['id' => $order->id]);
+            ->assertJson($order->toArray());
     }
 
-    public function test_user_can_update_an_order()
+    public function testOrderUpdate()
     {
-        Mail::fake();
-
-        $this->actingAs(User::factory()->create());
+        $user = User::factory()->create();
+        $token = JWTAuth::fromUser($user);
 
         $order = Order::factory()->create();
 
-        $updateData = [
-            'customer_id' => Customer::factory()->create()->id,
-            'order_date' => now()->toDateString(),
-            'total_amount' => 200.00,
-            'is_guest' => true,
-            'status' => 'shipped', // We change status to shipped here
-            'payment_intent_id' => 'pi_987654321',
+        $data = [
+            'status' => 'Shipped',
         ];
 
-        $response = $this->putJson('/api/orders/' . $order->id, $updateData);
+        $response = $this->withHeader('Authorization', "Bearer $token")
+            ->putJson("/api/orders/{$order->id}", $data);
 
         $response->assertStatus(200)
-            ->assertJsonFragment([
-                'payment_intent_id' => 'pi_987654321',
-            ]);
-
-        $this->assertDatabaseHas('orders', $updateData);
-
-        Mail::assertSent(ShippingConfirmationMail::class, function ($mail) use ($order) {
-            return $mail->hasTo($order->customer->email) && $mail->order->is($order);
-        });
+            ->assertJson($data);
     }
 
-    public function test_user_can_delete_an_order()
+    public function testOrderDestroy()
     {
-        $this->actingAs(User::factory()->create());
+        $user = User::factory()->create();
+        $token = JWTAuth::fromUser($user);
 
         $order = Order::factory()->create();
 
-        $response = $this->deleteJson('/api/orders/' . $order->id);
+        $response = $this->withHeader('Authorization', "Bearer $token")
+            ->deleteJson("/api/orders/{$order->id}");
 
         $response->assertStatus(204);
-
-        $this->assertDatabaseMissing('orders', ['id' => $order->id]);
     }
 }

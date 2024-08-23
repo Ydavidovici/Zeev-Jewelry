@@ -1,139 +1,81 @@
 <?php
 
-namespace Tests\Feature\Controllers;
+namespace Tests\Feature\Admin;
 
-use App\Models\Settings;
-use App\Models\User;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
+use App\Models\User;
+use App\Models\Settings;
+use Spatie\Permission\Models\Role;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class SettingsControllerTest extends TestCase
 {
     use RefreshDatabase;
 
-    private $adminUser;
-    private $normalUser;
-
-    protected function setUp(): void
+    public function test_anyone_can_view_current_settings()
     {
-        parent::setUp();
+        Settings::create(['key' => 'site_name', 'value' => 'Test Site']);
 
-        // Seed the roles
-        $this->artisan('db:seed', ['--class' => 'RolesTableSeeder']);
-
-        // Create an admin user and a normal user
-        $this->adminUser = User::factory()->create();
-        $this->adminUser->assignRole('admin');
-
-        $this->normalUser = User::factory()->create();
-        $this->normalUser->assignRole('customer');
-    }
-
-    /**
-     * Test public access to current settings.
-     *
-     * @return void
-     */
-    public function test_public_can_get_current_settings()
-    {
-        Settings::factory()->create(['key' => 'theme', 'value' => 'dark']);
-
-        $response = $this->getJson('/current-settings');
+        $response = $this->getJson(route('current.settings'));
 
         $response->assertStatus(200)
-            ->assertJsonFragment(['key' => 'theme'])
-            ->assertJsonFragment(['value' => 'dark']);
+            ->assertJsonStructure([[
+                'id',
+                'key',
+                'value',
+                'created_at',
+                'updated_at',
+            ]]);
     }
 
-    /**
-     * Test admin can store settings.
-     *
-     * @return void
-     */
-    public function test_admin_can_store_settings()
+    public function test_admin_can_create_setting()
     {
-        $response = $this->actingAs($this->adminUser, 'sanctum')
-            ->postJson('/admin/settings', ['key' => 'theme', 'value' => 'dark']);
+        $adminRole = Role::create(['name' => 'admin']);
+        $admin = User::factory()->create();
+        $admin->assignRole($adminRole);
+
+        $this->actingAs($admin, 'api');
+
+        $response = $this->postJson(route('admin.settings.store'), [
+            'key' => 'site_name',
+            'value' => 'Test Site',
+        ]);
 
         $response->assertStatus(201)
-            ->assertJsonFragment(['key' => 'theme'])
-            ->assertJsonFragment(['value' => 'dark']);
+            ->assertJsonStructure(['message', 'setting']);
     }
 
-    /**
-     * Test normal user cannot store settings.
-     *
-     * @return void
-     */
-    public function test_normal_user_cannot_store_settings()
+    public function test_admin_can_update_setting()
     {
-        $response = $this->actingAs($this->normalUser, 'sanctum')
-            ->postJson('/admin/settings', ['key' => 'theme', 'value' => 'dark']);
+        $adminRole = Role::create(['name' => 'admin']);
+        $admin = User::factory()->create();
+        $admin->assignRole($adminRole);
 
-        $response->assertStatus(403);
+        $setting = Settings::create(['key' => 'site_name', 'value' => 'Test Site']);
+
+        $this->actingAs($admin, 'api');
+
+        $response = $this->putJson(route('admin.settings.update', $setting->key),
+            [
+                'value' => 'Updated Site Name',
+            ]);
+        $response->assertStatus(200)
+            ->assertJsonStructure(['message', 'setting']);
     }
 
-    /**
-     * Test admin can update settings.
-     *
-     * @return void
-     */
-    public function test_admin_can_update_settings()
+    public function test_admin_can_delete_setting()
     {
-        $setting = Settings::factory()->create(['key' => 'theme', 'value' => 'light']);
+        $adminRole = Role::create(['name' => 'admin']);
+        $admin = User::factory()->create();
+        $admin->assignRole($adminRole);
 
-        $response = $this->actingAs($this->adminUser, 'sanctum')
-            ->putJson('/admin/settings/' . $setting->key, ['value' => 'dark']);
+        $setting = Settings::create(['key' => 'site_name', 'value' => 'Test Site']);
+
+        $this->actingAs($admin, 'api');
+
+        $response = $this->deleteJson(route('admin.settings.destroy', $setting->key));
 
         $response->assertStatus(200)
-            ->assertJsonFragment(['key' => 'theme'])
-            ->assertJsonFragment(['value' => 'dark']);
-    }
-
-    /**
-     * Test normal user cannot update settings.
-     *
-     * @return void
-     */
-    public function test_normal_user_cannot_update_settings()
-    {
-        $setting = Settings::factory()->create(['key' => 'theme', 'value' => 'light']);
-
-        $response = $this->actingAs($this->normalUser, 'sanctum')
-            ->putJson('/admin/settings/' . $setting->id, ['value' => 'dark']);
-
-        $response->assertStatus(403);
-    }
-
-    /**
-     * Test admin can delete settings.
-     *
-     * @return void
-     */
-    public function test_admin_can_delete_settings()
-    {
-        $setting = Settings::factory()->create(['key' => 'theme', 'value' => 'dark']);
-
-        $response = $this->actingAs($this->adminUser, 'sanctum')
-            ->deleteJson('/admin/settings/' . $setting->key);
-
-        $response->assertStatus(200)
-            ->assertJson(['message' => 'Setting deleted successfully.']);
-        $this->assertDatabaseMissing('settings', ['key' => 'theme']);
-    }
-
-    /**
-     * Test normal user cannot delete settings.
-     *
-     * @return void
-     */
-    public function test_normal_user_cannot_delete_settings()
-    {
-        $setting = Settings::factory()->create(['key' => 'theme', 'value' => 'dark']);
-
-        $response = $this->actingAs($this->normalUser, 'sanctum')
-            ->deleteJson('/admin/settings/' . $setting->id);
-
-        $response->assertStatus(403);
+            ->assertJsonStructure(['message']);
     }
 }

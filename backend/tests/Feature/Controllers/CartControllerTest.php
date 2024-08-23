@@ -1,64 +1,78 @@
 <?php
 
-namespace Tests\Feature\Controllers;
+namespace Tests\Feature;
 
 use Tests\TestCase;
+use App\Models\User;
 use App\Models\Product;
+use App\Models\Cart;
+use App\Models\CartItem;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tymon\JWTAuth\Facades\JWTAuth;
 
 class CartControllerTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function test_can_add_product_to_cart()
+    public function testCartIndex()
     {
-        $product = Product::factory()->create();
+        $user = User::factory()->create();
+        $token = JWTAuth::fromUser($user);
 
-        $response = $this->postJson('/cart', [
-            'product_id' => $product->id,
-            'quantity' => 1,
-        ]);
+        Cart::factory()->create(['user_id' => $user->id]);
+
+        $response = $this->withHeader('Authorization', "Bearer $token")
+            ->getJson('/api/cart');
 
         $response->assertStatus(200)
-            ->assertJson(['message' => 'Product added to cart.']);
-
-        $this->assertNotNull($response->headers->getCookies());
-        $this->assertArrayHasKey($product->id, session("cart_" . $this->getCookie('cart_id')));
+            ->assertJsonStructure(['cart']);
     }
 
-    public function test_can_update_cart_item()
+    public function testAddToCart()
     {
+        $user = User::factory()->create();
+        $token = JWTAuth::fromUser($user);
+
         $product = Product::factory()->create();
 
-        $this->postJson('/cart', [
-            'product_id' => $product->id,
-            'quantity' => 1,
-        ]);
+        $response = $this->withHeader('Authorization', "Bearer $token")
+            ->postJson('/api/cart', [
+                'product_id' => $product->id,
+                'quantity' => 2,
+            ]);
 
-        $response = $this->putJson("/cart/{$product->id}", [
-            'quantity' => 5,
-        ]);
-
-        $response->assertStatus(200)
-            ->assertJson(['message' => 'Cart updated.']);
-
-        $this->assertEquals(5, session("cart_" . $this->getCookie('cart_id'))[$product->id]['quantity']);
+        $response->assertStatus(201)
+            ->assertJsonStructure(['message', 'cart']);
     }
 
-    public function test_can_remove_product_from_cart()
+    public function testUpdateCartItem()
     {
-        $product = Product::factory()->create();
+        $user = User::factory()->create();
+        $token = JWTAuth::fromUser($user);
 
-        $this->postJson('/cart', [
-            'product_id' => $product->id,
-            'quantity' => 1,
-        ]);
+        $cart = Cart::factory()->create(['user_id' => $user->id]);
+        $cartItem = CartItem::factory()->create(['cart_id' => $cart->id]);
 
-        $response = $this->deleteJson("/cart/{$product->id}");
+        $response = $this->withHeader('Authorization', "Bearer $token")
+            ->putJson("/api/cart/{$cartItem->id}", [
+                'quantity' => 3,
+            ]);
 
         $response->assertStatus(200)
-            ->assertJson(['message' => 'Product removed from cart.']);
+            ->assertJsonStructure(['message', 'cart']);
+    }
 
-        $this->assertArrayNotHasKey($product->id, session("cart_" . $this->getCookie('cart_id')));
+    public function testRemoveFromCart()
+    {
+        $user = User::factory()->create();
+        $token = JWTAuth::fromUser($user);
+
+        $cart = Cart::factory()->create(['user_id' => $user->id]);
+        $cartItem = CartItem::factory()->create(['cart_id' => $cart->id]);
+
+        $response = $this->withHeader('Authorization', "Bearer $token")
+            ->deleteJson("/api/cart/{$cartItem->id}");
+
+        $response->assertStatus(204);
     }
 }

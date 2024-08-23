@@ -12,6 +12,11 @@ use Illuminate\Http\JsonResponse;
 
 class WebhookController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth:api');
+    }
+
     public function handle(Request $request): JsonResponse
     {
         $endpoint_secret = env('STRIPE_WEBHOOK_SECRET');

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\auth;
+namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Mail\WelcomeMail;
@@ -42,7 +42,7 @@ class RegisterController extends Controller
         // Send welcome email
         Mail::to($user->email)->send(new WelcomeMail($user));
 
-        $token = $user->createToken('auth_token')->plainTextToken;
+        $token = JWTAuth::fromUser($user);
 
         return response()->json(['access_token' => $token, 'token_type' => 'Bearer']);
     }

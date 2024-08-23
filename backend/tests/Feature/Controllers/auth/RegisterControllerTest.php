@@ -1,12 +1,12 @@
 <?php
 
-namespace Tests\Feature\Controllers\auth;
+namespace Tests\Feature\Auth;
 
-use App\Mail\WelcomeMail;
+use Tests\TestCase;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Mail;
-use Tests\TestCase;
+use App\Mail\WelcomeMail;
 
 class RegisterControllerTest extends TestCase
 {
@@ -16,38 +16,31 @@ class RegisterControllerTest extends TestCase
     {
         Mail::fake();
 
-        $response = $this->postJson('/api/register', [
-            'username' => 'johndoe',
-            'name' => 'John Doe',
-            'email' => 'johndoe@example.com',
-            'password' => 'password123',
-            'password_confirmation' => 'password123',
+        $response = $this->postJson(route('register'), [
+            'username' => 'newuser',
+            'name' => 'New User',
+            'email' => 'newuser@example.com',
+            'password' => 'password',
+            'password_confirmation' => 'password',
         ]);
 
-        $response->assertStatus(200)
+        $response->assertStatus(201)
             ->assertJsonStructure(['access_token', 'token_type']);
 
-        $this->assertDatabaseHas('users', [
-            'email' => 'johndoe@example.com',
-        ]);
-
-        $user = User::where('email', 'johndoe@example.com')->first();
-
-        Mail::assertSent(WelcomeMail::class, function ($mail) use ($user) {
-            return $mail->hasTo($user->email) && $mail->user->is($user);
-        });
+        $this->assertDatabaseHas('users', ['email' => 'newuser@example.com']);
+        Mail::assertSent(WelcomeMail::class);
     }
 
-    public function test_user_cannot_register_with_existing_email()
+    public function test_registration_fails_with_existing_email()
     {
-        User::factory()->create(['email' => 'johndoe@example.com']);
+        User::factory()->create(['email' => 'existing@example.com']);
 
-        $response = $this->postJson('/api/register', [
-            'username' => 'janedoe',
-            'name' => 'Jane Doe',
-            'email' => 'johndoe@example.com',
-            'password' => 'password123',
-            'password_confirmation' => 'password123',
+        $response = $this->postJson(route('register'), [
+            'username' => 'newuser',
+            'name' => 'New User',
+            'email' => 'existing@example.com',
+            'password' => 'password',
+            'password_confirmation' => 'password',
         ]);
 
         $response->assertStatus(422)

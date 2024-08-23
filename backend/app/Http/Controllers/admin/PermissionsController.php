@@ -11,6 +11,11 @@ use Illuminate\Http\JsonResponse;
 
 class PermissionsController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth:api');
+    }
+
     /**
      * @throws AuthorizationException
      */

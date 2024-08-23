@@ -1,12 +1,15 @@
 <?php
 
-namespace Tests\Feature\Controllers\Admin;
+namespace Tests\Feature\Admin;
 
-use App\Http\Controllers\Admin\AdminController;
-use App\Models\User;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Support\Facades\Route;
 use Tests\TestCase;
+use App\Models\User;
+use Spatie\Permission\Models\Role;
+use Spatie\Permission\Models\Permission;
+use App\Models\Product;
+use App\Models\Order;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Laravel\Sanctum\Sanctum;
 
 class AdminControllerTest extends TestCase
 {
@@ -14,25 +17,32 @@ class AdminControllerTest extends TestCase
 
     public function test_admin_can_access_dashboard()
     {
+        $adminRole = Role::create(['name' => 'admin']);
         $admin = User::factory()->create();
-        $this->actingAs($admin);
+        $admin->assignRole($adminRole);
 
-        // Mocking the route to return a fixed JSON response
-        Route::get('/admin/dashboard', function () {
-            return response()->json([
-                'users' => [],
-                'roles' => [],
-                'permissions' => [],
-                'products' => [],
-                'orders' => [],
-            ]);
-        });
+        $this->actingAs($admin, 'api');
 
-        $response = $this->getJson('/admin/dashboard');
+        $response = $this->getJson(route('admin.index'));
 
         $response->assertStatus(200)
             ->assertJsonStructure([
-                'users', 'roles', 'permissions', 'products', 'orders'
+                'users',
+                'roles',
+                'permissions',
+                'products',
+                'orders',
             ]);
+    }
+
+    public function test_non_admin_cannot_access_dashboard()
+    {
+        $user = User::factory()->create();
+
+        $this->actingAs($user, 'api');
+
+        $response = $this->getJson(route('admin.index'));
+
+        $response->assertStatus(403); // Forbidden
     }
 }

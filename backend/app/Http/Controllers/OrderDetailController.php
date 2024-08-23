@@ -8,6 +8,11 @@ use Illuminate\Http\JsonResponse;
 
 class OrderDetailController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth:api');
+    }
+
     public function index(): JsonResponse
     {
         $this->authorize('viewAny', OrderDetail::class);

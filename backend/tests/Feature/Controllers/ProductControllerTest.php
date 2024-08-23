@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature\Controllers;
+namespace Tests\Feature;
 
 use Tests\TestCase;
 use App\Models\Product;
@@ -10,31 +10,23 @@ class ProductControllerTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function test_can_view_product_and_track_recently_viewed()
+    public function testProductShow()
     {
         $product = Product::factory()->create();
 
-        $response = $this->getJson("/products/{$product->id}");
+        $response = $this->getJson("/api/products/{$product->id}");
 
         $response->assertStatus(200)
-            ->assertJson(['product' => [
-                'id' => $product->id,
-            ]]);
-
-        $this->assertContains($product->id, json_decode($this->getCookie('viewed_products'), true));
+            ->assertJsonStructure(['product']);
     }
 
-    public function test_can_view_recently_viewed_products()
+    public function testRecentlyViewedProducts()
     {
-        $product1 = Product::factory()->create();
-        $product2 = Product::factory()->create();
+        $products = Product::factory()->count(3)->create();
 
-        $this->withCookie('viewed_products', json_encode([$product1->id, $product2->id]))
-            ->getJson('/products/recently-viewed')
-            ->assertStatus(200)
-            ->assertJson(['recently_viewed' => [
-                ['id' => $product1->id],
-                ['id' => $product2->id],
-            ]]);
+        $response = $this->getJson('/api/products/recently_viewed');
+
+        $response->assertStatus(200)
+            ->assertJsonStructure(['recently_viewed']);
     }
 }

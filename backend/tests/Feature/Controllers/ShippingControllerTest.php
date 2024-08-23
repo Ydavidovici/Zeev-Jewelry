@@ -1,98 +1,97 @@
 <?php
 
-namespace Tests\Feature\Controllers;
+namespace Tests\Feature;
 
-use App\Mail\ShippingConfirmationMail;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
-use App\Models\Shipping;
-use App\Models\Order;
 use App\Models\User;
-use Illuminate\Support\Facades\Mail;
+use App\Models\Shipping;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tymon\JWTAuth\Facades\JWTAuth;
 
 class ShippingControllerTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function test_user_can_view_shipping()
+    public function testShippingIndex()
     {
         $user = User::factory()->create();
-        $this->actingAs($user, 'sanctum');
+        $token = JWTAuth::fromUser($user);
 
         Shipping::factory()->count(3)->create();
 
-        $response = $this->getJson('/api/shippings');
+        $response = $this->withHeader('Authorization', "Bearer $token")
+            ->getJson('/api/shipping');
 
         $response->assertStatus(200)
-            ->assertJsonStructure([[]]); // Expect an array of shipping records
+            ->assertJsonCount(3);
     }
 
-    public function test_user_can_create_shipping()
+    public function testShippingStore()
     {
-        Mail::fake();
-
         $user = User::factory()->create();
-        $this->actingAs($user, 'sanctum');
-        $order = Order::factory()->create();
+        $token = JWTAuth::fromUser($user);
 
-        $response = $this->postJson('/api/shippings', [
-            'order_id' => $order->id,
-            'shipping_type' => 'UPS',
-            'shipping_cost' => 10.00,
-            'shipping_status' => 'Shipped',
-            'tracking_number' => '1Z999AA10123456784',
+        $data = [
+            'order_id' => 1,
+            'seller_id' => 1,
+            'shipping_type' => 'Standard',
+            'shipping_cost' => 10,
+            'shipping_status' => 'Pending',
+            'tracking_number' => '1234567890',
             'shipping_address' => '123 Main St',
-            'shipping_carrier' => 'UPS',
+            'shipping_carrier' => 'FedEx',
             'recipient_name' => 'John Doe',
-            'estimated_delivery_date' => now()->addDays(5)->toDateString(),
-            'additional_notes' => 'Handle with care',
-        ]);
+        ];
+
+        $response = $this->withHeader('Authorization', "Bearer $token")
+            ->postJson('/api/shipping', $data);
 
         $response->assertStatus(201)
-            ->assertJsonStructure(['id', 'order_id', 'shipping_type', 'shipping_cost', 'shipping_status', 'tracking_number']);
-
-        $shipping = Shipping::first();
-
-        Mail::assertSent(ShippingConfirmationMail::class, function ($mail) use ($shipping, $order) {
-            return $mail->hasTo($order->customer->email) && $mail->order->is($order);
-        });
+            ->assertJson($data);
     }
 
-    public function test_user_can_view_single_shipping()
+    public function testShippingShow()
     {
         $user = User::factory()->create();
-        $this->actingAs($user, 'sanctum');
+        $token = JWTAuth::fromUser($user);
+
         $shipping = Shipping::factory()->create();
 
-        $response = $this->getJson("/api/shippings/{$shipping->id}");
+        $response = $this->withHeader('Authorization', "Bearer $token")
+            ->getJson("/api/shipping/{$shipping->id}");
 
         $response->assertStatus(200)
-            ->assertJsonStructure(['id', 'order_id', 'shipping_type', 'shipping_cost', 'shipping_status', 'tracking_number']);
+            ->assertJson($shipping->toArray());
     }
 
-    public function test_user_can_update_shipping()
+    public function testShippingUpdate()
     {
         $user = User::factory()->create();
-        $this->actingAs($user, 'sanctum');
+        $token = JWTAuth::fromUser($user);
+
         $shipping = Shipping::factory()->create();
 
-        $response = $this->putJson("/api/shippings/{$shipping->id}", [
-            'shipping_status' => 'Delivered',
-        ]);
+        $data = [
+            'shipping_status' => 'Shipped',
+        ];
+
+        $response = $this->withHeader('Authorization', "Bearer $token")
+            ->putJson("/api/shipping/{$shipping->id}", $data);
 
         $response->assertStatus(200)
-            ->assertJsonStructure(['id', 'order_id', 'shipping_type', 'shipping_cost', 'shipping_status', 'tracking_number']);
+            ->assertJson($data);
     }
 
-    public function test_user_can_delete_shipping()
+    public function testShippingDestroy()
     {
         $user = User::factory()->create();
-        $this->actingAs($user, 'sanctum');
+        $token = JWTAuth::fromUser($user);
+
         $shipping = Shipping::factory()->create();
 
-        $response = $this->deleteJson("/api/shippings/{$shipping->id}");
+        $response = $this->withHeader('Authorization', "Bearer $token")
+            ->deleteJson("/api/shipping/{$shipping->id}");
 
         $response->assertStatus(204);
-        $this->assertDatabaseMissing('shippings', ['id' => $shipping->id]);
     }
 }

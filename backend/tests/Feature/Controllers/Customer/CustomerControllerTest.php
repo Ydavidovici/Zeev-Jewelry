@@ -1,88 +1,95 @@
 <?php
 
-namespace Tests\Feature\Customer;
+namespace Tests\Feature;
 
-use App\Models\Customer;
-use App\Models\User;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
+use App\Models\User;
+use App\Models\Customer;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tymon\JWTAuth\Facades\JWTAuth;
 
 class CustomerControllerTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function test_user_can_view_customers()
+    public function testCustomerIndex()
     {
         $user = User::factory()->create();
-        $this->actingAs($user, 'sanctum');
+        $token = JWTAuth::fromUser($user);
 
         Customer::factory()->count(3)->create();
 
-        $response = $this->getJson('/api/customers');
+        $response = $this->withHeader('Authorization', "Bearer $token")
+            ->getJson('/api/customers');
 
         $response->assertStatus(200)
-            ->assertJsonStructure(['customers' => [['id', 'user_id', 'address', 'phone_number', 'email', 'is_guest']]]);
+            ->assertJsonCount(3, 'customers');
     }
 
-    public function test_user_can_create_customer()
+    public function testCustomerStore()
     {
         $user = User::factory()->create();
-        $this->actingAs($user, 'sanctum');
+        $token = JWTAuth::fromUser($user);
 
-        $response = $this->postJson('/api/customers', [
+        $data = [
             'user_id' => $user->id,
             'address' => '123 Main St',
-            'phone_number' => '123-456-7890',
+            'phone_number' => '1234567890',
             'email' => 'customer@example.com',
             'is_guest' => false,
-        ]);
+        ];
 
-        $response->assertStatus(201)
-            ->assertJsonStructure(['customer' => ['id', 'user_id', 'address', 'phone_number', 'email', 'is_guest']]);
+        $response = $this->withHeader('Authorization', "Bearer $token")
+            ->postJson('/api/customers', $data);
+
+        $response->assertStatus(201);
+        $this->assertDatabaseHas('customers', $data);
     }
 
-    public function test_user_can_view_single_customer()
+    public function testCustomerShow()
     {
         $user = User::factory()->create();
-        $this->actingAs($user, 'sanctum');
+        $token = JWTAuth::fromUser($user);
 
         $customer = Customer::factory()->create();
 
-        $response = $this->getJson("/api/customers/{$customer->id}");
+        $response = $this->withHeader('Authorization', "Bearer $token")
+            ->getJson("/api/customers/{$customer->id}");
 
         $response->assertStatus(200)
-            ->assertJson(['customer' => ['id' => $customer->id, 'user_id' => $customer->user_id]]);
+            ->assertJson(['customer' => $customer->toArray()]);
     }
 
-    public function test_user_can_update_customer()
+    public function testCustomerUpdate()
     {
         $user = User::factory()->create();
-        $this->actingAs($user, 'sanctum');
+        $token = JWTAuth::fromUser($user);
 
         $customer = Customer::factory()->create();
 
-        $response = $this->putJson("/api/customers/{$customer->id}", [
-            'user_id' => $user->id,
+        $data = [
             'address' => '456 Elm St',
-            'phone_number' => '987-654-3210',
-            'email' => 'updated@example.com',
-            'is_guest' => true,
-        ]);
+            'phone_number' => '9876543210',
+        ];
 
-        $response->assertStatus(200)
-            ->assertJson(['customer' => ['id' => $customer->id, 'address' => '456 Elm St']]);
+        $response = $this->withHeader('Authorization', "Bearer $token")
+            ->putJson("/api/customers/{$customer->id}", $data);
+
+        $response->assertStatus(200);
+        $this->assertDatabaseHas('customers', $data);
     }
 
-    public function test_user_can_delete_customer()
+    public function testCustomerDestroy()
     {
         $user = User::factory()->create();
-        $this->actingAs($user, 'sanctum');
+        $token = JWTAuth::fromUser($user);
 
         $customer = Customer::factory()->create();
 
-        $response = $this->deleteJson("/api/customers/{$customer->id}");
+        $response = $this->withHeader('Authorization', "Bearer $token")
+            ->deleteJson("/api/customers/{$customer->id}");
 
         $response->assertStatus(204);
-        $this->assertDatabaseMissing('customers', ['id' => $customer->id]);
+        $this->assertDeleted($customer);
     }
 }

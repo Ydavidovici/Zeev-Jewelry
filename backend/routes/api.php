@@ -25,16 +25,17 @@ use App\Http\Controllers\{
     PaymentController,
     ProductController,
     ReviewController,
-    Seller\ReportController,
+    Seller\SellerReportController,
     Seller\SellerController,
     ShippingController,
     WebhookController
 };
 use Illuminate\Support\Facades\Route;
+use Illuminate\Http\Request;
 
 // Authentication Routes
 Route::post('login', [LoginController::class, 'login'])->name('login');
-Route::post('logout', [LoginController::class, 'logout'])->name('logout')->middleware('auth:sanctum');
+Route::post('logout', [LoginController::class, 'logout'])->name('logout')->middleware('auth:api');
 Route::post('register', [RegisterController::class, 'register'])->name('register');
 
 // Password Reset Routes
@@ -42,7 +43,7 @@ Route::post('password/email', [ForgotPasswordController::class, 'sendResetLinkEm
 Route::post('password/reset', [ResetPasswordController::class, 'reset'])->name('password.reset');
 
 // Password Change Routes
-Route::middleware('auth:sanctum')->group(function () {
+Route::middleware('auth:api')->group(function () {
     Route::post('password/change', [ChangePasswordController::class, 'changePassword'])->name('password.update');
 });
 
@@ -55,7 +56,7 @@ Route::get('products', [ProductController::class, 'index'])->name('products.inde
 Route::get('products/{product}', [ProductController::class, 'show'])->name('products.show');
 
 // Cart routes (accessible to guests and authenticated users)
-Route::middleware('auth:sanctum')->group(function () {
+Route::middleware('auth:api')->group(function () {
     Route::get('cart', [CartController::class, 'index'])->name('cart.index');
     Route::post('cart', [CartController::class, 'store'])->name('cart.store');
     Route::put('cart/{product}', [CartController::class, 'update'])->name('cart.update');
@@ -64,7 +65,7 @@ Route::middleware('auth:sanctum')->group(function () {
 });
 
 // Authenticated routes
-Route::middleware(['auth:sanctum'])->group(function () {
+Route::middleware(['auth:api'])->group(function () {
     Route::apiResource('categories', CategoryController::class)->names('categories');
     Route::apiResource('customers', CustomerController::class)->names('customers');
     Route::apiResource('inventories', InventoryController::class)->names('inventories');
@@ -85,7 +86,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
 });
 
 // Admin routes
-Route::middleware(['auth:sanctum', 'can:manageSettings,App\Models\User'])->prefix('admin')->name('admin.')->group(function () {
+Route::middleware(['auth:api', 'can:manageSettings,App\Models\User'])->prefix('admin')->name('admin.')->group(function () {
     // Permissions Routes
     Route::get('permissions', [PermissionsController::class, 'index'])->name('permissions.index');
     Route::post('permissions', [PermissionsController::class, 'store'])->name('permissions.store');
@@ -108,4 +109,16 @@ Route::middleware(['auth:sanctum', 'can:manageSettings,App\Models\User'])->prefi
     Route::post('settings', [SettingsController::class, 'store'])->name('settings.store');
     Route::put('settings/{key}', [SettingsController::class, 'update'])->name('settings.update');
     Route::delete('settings/{key}', [SettingsController::class, 'destroy'])->name('settings.destroy');
+});
+
+// Test Routes
+Route::post('/test-password/email', function (Request $request) {
+    \Log::info('Request received:', $request->all());
+    $request->validate(['email' => 'required|email']);
+    \Log::info('Validation passed');
+    return response()->json(['message' => 'Validation passed.'], 200);
+})->withoutMiddleware(['auth', 'throttle', 'verified']);
+
+Route::middleware('auth:api')->get('/some-protected-route', function () {
+    return response()->json(['message' => 'You are authenticated.']);
 });

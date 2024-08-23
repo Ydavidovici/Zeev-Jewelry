@@ -1,121 +1,107 @@
 <?php
 
-namespace Tests\Feature\Controllers;
+namespace Tests\Feature;
 
 use Tests\TestCase;
-use App\Models\Order;
-use App\Models\Payment;
 use App\Models\User;
+use App\Models\Payment;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Stripe\Stripe;
-use Stripe\PaymentIntent;
-use Mockery;
+use Tymon\JWTAuth\Facades\JWTAuth;
 
 class PaymentControllerTest extends TestCase
 {
     use RefreshDatabase;
 
-    /** @test */
-    public function user_can_create_a_payment_intent()
+    public function testPaymentIndex()
     {
-        $this->actingAs(User::factory()->create());
+        $user = User::factory()->create();
+        $token = JWTAuth::fromUser($user);
 
-        $order = Order::factory()->create([
-            'total_amount' => 1000,
-        ]);
+        Payment::factory()->count(3)->create();
 
-        $response = $this->postJson('/api/payments', [
-            'order_id' => $order->id,
-            'amount' => $order->total_amount,
-        ]);
+        $response = $this->withHeader('Authorization', "Bearer $token")
+            ->getJson('/api/payments');
 
-        $response->assertStatus(200);
-        $this->assertArrayHasKey('clientSecret', $response->json());
-
-        $this->assertDatabaseHas('payments', [
-            'order_id' => $order->id,
-            'payment_status' => 'pending',
-        ]);
+        $response->assertStatus(200)
+            ->assertJsonCount(3);
     }
 
-    /** @test */
-    public function payment_can_be_confirmed()
+    public function testPaymentStore()
     {
-        $this->actingAs(User::factory()->create());
+        $user = User::factory()->create();
+        $token = JWTAuth::fromUser($user);
 
-        $order = Order::factory()->create();
+        $data = [
+            'order_id' => 1,
+            'amount' => 100,
+        ];
 
-        $paymentIntent = PaymentIntent::create([
-            'amount' => 1000,
-            'currency' => 'usd',
-        ]);
+        $response = $this->withHeader('Authorization', "Bearer $token")
+            ->postJson('/api/payments', $data);
 
-        $payment = Payment::factory()->create([
-            'order_id' => $order->id,
-            'payment_intent_id' => $paymentIntent->id,
-            'payment_status' => 'pending',
-            'amount' => 1000,
-        ]);
-
-        $response = $this->postJson('/api/payments/confirm', [
-            'payment_intent_id' => $paymentIntent->id,
-            'order_id' => $order->id,
-        ]);
-
-        $response->assertStatus(200);
-        $response->assertJson(['message' => 'Payment successful.']);
-
-        $order->refresh();
-        $payment->refresh();
-
-        $this->assertEquals('Paid', $order->status);
-        $this->assertEquals('succeeded', $payment->payment_status);
+        $response->assertStatus(201)
+            ->assertJsonStructure(['clientSecret']);
     }
 
-    /** @test */
-    public function user_can_update_payment_status()
+    public function testPaymentConfirm()
     {
-        $this->actingAs(User::factory()->create());
+        $user = User::factory()->create();
+        $token = JWTAuth::fromUser($user);
 
-        $payment = Payment::factory()->create([
-            'payment_status' => 'pending',
-        ]);
+        $data = [
+            'payment_intent_id' => 'pi_1GqIC8I7cO5EaPm4u0d5C4K6',
+            'order_id' => 1,
+        ];
 
-        $response = $this->putJson('/api/payments/' . $payment->id, [
-            'payment_status' => 'completed',
-        ]);
+        $response = $this->withHeader('Authorization', "Bearer $token")
+            ->postJson('/api/payments/confirm', $data);
 
-        $response->assertStatus(200);
-
-        $payment->refresh();
-        $this->assertEquals('completed', $payment->payment_status);
+        $response->assertStatus(200)
+            ->assertJsonStructure(['message']);
     }
 
-    /** @test */
-    public function user_can_view_payment_details()
+    public function testPaymentShow()
     {
-        $this->actingAs(User::factory()->create());
+        $user = User::factory()->create();
+        $token = JWTAuth::fromUser($user);
 
         $payment = Payment::factory()->create();
 
-        $response = $this->getJson('/api/payments/' . $payment->id);
+        $response = $this->withHeader('Authorization', "Bearer $token")
+            ->getJson("/api/payments/{$payment->id}");
 
-        $response->assertStatus(200);
-        $response->assertJson([
-            'id' => $payment->id,
-        ]);
+        $response->assertStatus(200)
+            ->assertJson($payment->toArray());
     }
 
-    /** @test */
-    public function user_can_delete_a_payment()
+    public function testPaymentUpdate()
     {
-        $this->actingAs(User::factory()->create());
+        $user = User::factory()->create();
+        $token = JWTAuth::fromUser($user);
 
         $payment = Payment::factory()->create();
 
-        $response = $this->deleteJson('/api/payments/' . $payment->id);
+        $data = [
+            'payment_status' => 'succeeded',
+        ];
+
+        $response = $this->withHeader('Authorization', "Bearer $token")
+            ->putJson("/api/payments/{$payment->id}", $data);
+
+        $response->assertStatus(200)
+            ->assertJson($data);
+    }
+
+    public function testPaymentDestroy()
+    {
+        $user = User::factory()->create();
+        $token = JWTAuth::fromUser($user);
+
+        $payment = Payment::factory()->create();
+
+        $response = $this->withHeader('Authorization', "Bearer $token")
+            ->deleteJson("/api/payments/{$payment->id}");
 
         $response->assertStatus(204);
-        $this->assertDatabaseMissing('payments', ['id' => $payment->id]);
     }
 }

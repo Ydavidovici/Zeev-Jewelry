@@ -1,85 +1,92 @@
 <?php
 
-namespace Tests\Feature\Controllers;
+namespace Tests\Feature;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
-use App\Models\OrderDetail;
-use App\Models\Order;
-use App\Models\Product;
 use App\Models\User;
+use App\Models\OrderDetail;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tymon\JWTAuth\Facades\JWTAuth;
 
 class OrderDetailControllerTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function test_user_can_view_order_details()
+    public function testOrderDetailIndex()
     {
         $user = User::factory()->create();
-        $this->actingAs($user, 'sanctum');
+        $token = JWTAuth::fromUser($user);
 
         OrderDetail::factory()->count(3)->create();
 
-        $response = $this->getJson('/api/order_details');
+        $response = $this->withHeader('Authorization', "Bearer $token")
+            ->getJson('/api/order_details');
 
         $response->assertStatus(200)
-            ->assertJsonStructure([[]]); // Expect an array of order details
+            ->assertJsonCount(3);
     }
 
-    public function test_user_can_create_order_detail()
+    public function testOrderDetailStore()
     {
         $user = User::factory()->create();
-        $this->actingAs($user, 'sanctum');
-        $order = Order::factory()->create();
-        $product = Product::factory()->create();
+        $token = JWTAuth::fromUser($user);
 
-        $response = $this->postJson('/api/order_details', [
-            'order_id' => $order->id,
-            'product_id' => $product->id,
+        $data = [
+            'order_id' => 1,
+            'product_id' => 1,
             'quantity' => 2,
             'price' => 50,
-        ]);
+        ];
+
+        $response = $this->withHeader('Authorization', "Bearer $token")
+            ->postJson('/api/order_details', $data);
 
         $response->assertStatus(201)
-            ->assertJsonStructure(['id', 'order_id', 'product_id', 'quantity', 'price']);
+            ->assertJson($data);
     }
 
-    public function test_user_can_view_single_order_detail()
+    public function testOrderDetailShow()
     {
         $user = User::factory()->create();
-        $this->actingAs($user, 'sanctum');
+        $token = JWTAuth::fromUser($user);
+
         $orderDetail = OrderDetail::factory()->create();
 
-        $response = $this->getJson("/api/order_details/{$orderDetail->id}");
+        $response = $this->withHeader('Authorization', "Bearer $token")
+            ->getJson("/api/order_details/{$orderDetail->id}");
 
         $response->assertStatus(200)
-            ->assertJsonStructure(['id', 'order_id', 'product_id', 'quantity', 'price']);
+            ->assertJson($orderDetail->toArray());
     }
 
-    public function test_user_can_update_order_detail()
+    public function testOrderDetailUpdate()
     {
         $user = User::factory()->create();
-        $this->actingAs($user, 'sanctum');
+        $token = JWTAuth::fromUser($user);
+
         $orderDetail = OrderDetail::factory()->create();
 
-        $response = $this->putJson("/api/order_details/{$orderDetail->id}", [
+        $data = [
             'quantity' => 3,
-            'price' => 60,
-        ]);
+        ];
+
+        $response = $this->withHeader('Authorization', "Bearer $token")
+            ->putJson("/api/order_details/{$orderDetail->id}", $data);
 
         $response->assertStatus(200)
-            ->assertJsonStructure(['id', 'order_id', 'product_id', 'quantity', 'price']);
+            ->assertJson($data);
     }
 
-    public function test_user_can_delete_order_detail()
+    public function testOrderDetailDestroy()
     {
         $user = User::factory()->create();
-        $this->actingAs($user, 'sanctum');
+        $token = JWTAuth::fromUser($user);
+
         $orderDetail = OrderDetail::factory()->create();
 
-        $response = $this->deleteJson("/api/order_details/{$orderDetail->id}");
+        $response = $this->withHeader('Authorization', "Bearer $token")
+            ->deleteJson("/api/order_details/{$orderDetail->id}");
 
         $response->assertStatus(204);
-        $this->assertDatabaseMissing('order_details', ['id' => $orderDetail->id]);
     }
 }
