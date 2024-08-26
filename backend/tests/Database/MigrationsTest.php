@@ -5,12 +5,17 @@ namespace Tests\Database;
 use Illuminate\Support\Facades\Schema;
 use Tests\TestCase;
 use PHPUnit\Framework\Attributes\Test;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class MigrationsTest extends TestCase
 {
+    use RefreshDatabase;
+
     #[Test]
     public function users_table_has_expected_columns()
     {
+        $this->assertEquals('testing', app()->environment(), 'The environment is not set to testing');
+
         $this->assertTrue(Schema::hasTable('users'));
 
         $expectedColumns = [
