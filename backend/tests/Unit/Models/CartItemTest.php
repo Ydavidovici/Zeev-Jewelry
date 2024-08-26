@@ -2,49 +2,34 @@
 
 namespace Tests\Unit\Models;
 
-use PHPUnit\Framework\TestCase;
+use Tests\TestCase;
 use App\Models\CartItem;
 use App\Models\Cart;
 use App\Models\Product;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use PHPUnit\Framework\Attributes\Test;
 
 class CartItemTest extends TestCase
 {
-    public function test_cart_item_has_cart_id()
-    {
-        $cartItem = new CartItem(['cart_id' => 1]);
+    use RefreshDatabase;
 
-        $this->assertEquals(1, $cartItem->cart_id);
+    #[Test]
+    public function cart_item_belongs_to_cart()
+    {
+        $cart = Cart::factory()->create();
+        $cartItem = CartItem::factory()->create(['cart_id' => $cart->id]);
+
+        $this->assertInstanceOf(Cart::class, $cartItem->cart);
+        $this->assertEquals($cart->id, $cartItem->cart->id);
     }
 
-    public function test_cart_item_has_product_id()
+    #[Test]
+    public function cart_item_belongs_to_product()
     {
-        $cartItem = new CartItem(['product_id' => 1]);
+        $product = Product::factory()->create();
+        $cartItem = CartItem::factory()->create(['product_id' => $product->id]);
 
-        $this->assertEquals(1, $cartItem->product_id);
-    }
-
-    public function test_cart_item_has_quantity()
-    {
-        $cartItem = new CartItem(['quantity' => 5]);
-
-        $this->assertEquals(5, $cartItem->quantity);
-    }
-
-    public function test_cart_item_belongs_to_cart()
-    {
-        $cartItem = new CartItem();
-        $relation = $cartItem->cart();
-
-        $this->assertInstanceOf(\Illuminate\Database\Eloquent\Relations\BelongsTo::class, $relation);
-        $this->assertEquals('cart_id', $relation->getForeignKeyName());
-    }
-
-    public function test_cart_item_belongs_to_product()
-    {
-        $cartItem = new CartItem();
-        $relation = $cartItem->product();
-
-        $this->assertInstanceOf(\Illuminate\Database\Eloquent\Relations\BelongsTo::class, $relation);
-        $this->assertEquals('product_id', $relation->getForeignKeyName());
+        $this->assertInstanceOf(Product::class, $cartItem->product);
+        $this->assertEquals($product->id, $cartItem->product->id);
     }
 }

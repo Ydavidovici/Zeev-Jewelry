@@ -2,36 +2,67 @@
 
 namespace Tests\Unit\Models;
 
-use PHPUnit\Framework\TestCase;
+use Tests\TestCase;
 use App\Models\User;
+use Spatie\Permission\Models\Role;  // Ensure the correct Role model is imported
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use PHPUnit\Framework\Attributes\Test;
 
 class UserTest extends TestCase
 {
-    public function test_user_has_username()
-    {
-        $user = new User(['username' => 'testuser']);
+    use RefreshDatabase;
 
-        $this->assertEquals('testuser', $user->username);
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        // Create roles in the database
+        Role::create(['name' => 'admin', 'guard_name' => 'api']);
+        Role::create(['name' => 'customer', 'guard_name' => 'api']);
+        Role::create(['name' => 'seller', 'guard_name' => 'api']);
     }
 
-    public function test_user_has_email()
+    #[Test]
+    public function user_has_fillable_attributes()
     {
-        $user = new User(['email' => 'test@example.com']);
+        $fillable = ['username', 'email', 'password'];
 
-        $this->assertEquals('test@example.com', $user->email);
+        $this->assertEquals($fillable, (new User())->getFillable());
     }
 
-    public function test_user_has_password()
+    #[Test]
+    public function user_can_be_assigned_roles()
     {
-        $user = new User(['password' => 'secret']);
+        $user = User::factory()->create();
+        $user->assignRole('admin');
 
-        $this->assertEquals('secret', $user->password);
+        $this->assertTrue($user->hasRole('admin'));
     }
 
-    public function test_user_has_role_id()
+    #[Test]
+    public function user_is_admin()
     {
-        $user = new User(['role_id' => 1]);
+        $user = User::factory()->create();
+        $user->assignRole('admin');
 
-        $this->assertEquals(1, $user->role_id);
+        $this->assertTrue($user->isAdmin());
+    }
+
+    #[Test]
+    public function user_is_customer()
+    {
+        $user = User::factory()->create();
+        $user->assignRole('customer');
+
+        $this->assertTrue($user->isCustomer());
+    }
+
+    #[Test]
+    public function user_is_seller()
+    {
+        $user = User::factory()->create();
+        $user->assignRole('seller');
+
+        $this->assertTrue($user->isSeller());
     }
 }

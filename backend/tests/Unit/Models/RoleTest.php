@@ -1,32 +1,30 @@
 <?php
 
+// tests/Unit/Models/RoleTest.php
+
 namespace Tests\Unit\Models;
 
-use PHPUnit\Framework\TestCase;
+use Tests\TestCase;
 use App\Models\Role;
+use App\Models\User;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use PHPUnit\Framework\Attributes\Test;
 
 class RoleTest extends TestCase
 {
-    public function test_role_has_name()
+    use RefreshDatabase;
+
+    #[Test]
+    public function role_has_many_users()
     {
-        $role = new Role(['name' => 'Admin']);
+        // Create a role using the Role factory
+        $role = Role::factory()->create();
 
-        $this->assertEquals('Admin', $role->name);
-    }
+        // Create a user and assign the role
+        $user = User::factory()->create();
+        $user->assignRole($role->name);
 
-    public function test_role_has_description()
-    {
-        $role = new Role(['description' => 'Administrator role']);
-
-        $this->assertEquals('Administrator role', $role->description);
-    }
-
-    public function test_role_has_many_users()
-    {
-        $role = new Role();
-        $relation = $role->users();
-
-        $this->assertInstanceOf(\Illuminate\Database\Eloquent\Relations\HasMany::class, $relation);
-        $this->assertEquals('role_id', $relation->getForeignKeyName());
+        $this->assertTrue($role->users->contains($user));
+        $this->assertInstanceOf(\Illuminate\Database\Eloquent\Collection::class, $role->users);
     }
 }

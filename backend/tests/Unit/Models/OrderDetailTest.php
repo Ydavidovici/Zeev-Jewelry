@@ -2,36 +2,51 @@
 
 namespace Tests\Unit\Models;
 
-use PHPUnit\Framework\TestCase;
+use Tests\TestCase;
 use App\Models\OrderDetail;
+use App\Models\Order;
+use App\Models\Product;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use PHPUnit\Framework\Attributes\Test;
 
 class OrderDetailTest extends TestCase
 {
-    public function test_order_detail_has_order_id()
-    {
-        $orderDetail = new OrderDetail(['order_id' => 1]);
+    use RefreshDatabase;
 
-        $this->assertEquals(1, $orderDetail->order_id);
+    #[Test]
+    public function order_detail_belongs_to_order()
+    {
+        $order = Order::factory()->create();
+        $product = Product::factory()->create(); // Ensure a product is created
+        $orderDetail = OrderDetail::factory()->create(['order_id' => $order->id, 'product_id' => $product->id]);
+
+        $this->assertInstanceOf(Order::class, $orderDetail->order);
+        $this->assertEquals($order->id, $orderDetail->order->id);
     }
 
-    public function test_order_detail_has_product_id()
+    #[Test]
+    public function order_detail_belongs_to_product()
     {
-        $orderDetail = new OrderDetail(['product_id' => 1]);
+        $product = Product::factory()->create();
+        $orderDetail = OrderDetail::factory()->create(['product_id' => $product->id]);
 
-        $this->assertEquals(1, $orderDetail->product_id);
+        $this->assertInstanceOf(Product::class, $orderDetail->product); // Verify the relationship
+        $this->assertEquals($product->id, $orderDetail->product->id);
     }
 
-    public function test_order_detail_has_quantity()
+    #[Test]
+    public function order_detail_has_quantity()
     {
-        $orderDetail = new OrderDetail(['quantity' => 2]);
+        $orderDetail = OrderDetail::factory()->create(['quantity' => 3]);
 
-        $this->assertEquals(2, $orderDetail->quantity);
+        $this->assertEquals(3, $orderDetail->quantity);
     }
 
-    public function test_order_detail_has_price()
+    #[Test]
+    public function order_detail_has_price()
     {
-        $orderDetail = new OrderDetail(['price' => 99.99]);
+        $orderDetail = OrderDetail::factory()->create(['price' => 29.99]);
 
-        $this->assertEquals(99.99, $orderDetail->price);
+        $this->assertEquals(29.99, $orderDetail->price);
     }
 }

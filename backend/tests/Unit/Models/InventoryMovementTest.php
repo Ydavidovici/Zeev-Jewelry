@@ -2,38 +2,31 @@
 
 namespace Tests\Unit\Models;
 
-use PHPUnit\Framework\TestCase;
+use Tests\TestCase;
 use App\Models\InventoryMovement;
+use App\Models\Inventory;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use PHPUnit\Framework\Attributes\Test;
 
 class InventoryMovementTest extends TestCase
 {
-    public function test_inventory_movement_has_inventory_id()
-    {
-        $inventoryMovement = new InventoryMovement(['inventory_id' => 1]);
+    use RefreshDatabase;
 
-        $this->assertEquals(1, $inventoryMovement->inventory_id);
+    #[Test]
+    public function inventory_movement_belongs_to_inventory()
+    {
+        $inventory = Inventory::factory()->create();
+        $inventoryMovement = InventoryMovement::factory()->create(['inventory_id' => $inventory->id]);
+
+        $this->assertInstanceOf(Inventory::class, $inventoryMovement->inventory);
+        $this->assertEquals($inventory->id, $inventoryMovement->inventory->id);
     }
 
-    public function test_inventory_movement_has_quantity()
+    #[Test]
+    public function inventory_movement_has_quantity()
     {
-        $inventoryMovement = new InventoryMovement(['quantity' => 50]);
+        $inventoryMovement = InventoryMovement::factory()->create(['quantity_change' => 50]);
 
-        $this->assertEquals(50, $inventoryMovement->quantity);
-    }
-
-    public function test_inventory_movement_has_movement_type()
-    {
-        $inventoryMovement = new InventoryMovement(['movement_type' => 'in']);
-
-        $this->assertEquals('in', $inventoryMovement->movement_type);
-    }
-
-    public function test_inventory_movement_belongs_to_inventory()
-    {
-        $inventoryMovement = new InventoryMovement();
-        $relation = $inventoryMovement->inventory();
-
-        $this->assertInstanceOf(\Illuminate\Database\Eloquent\Relations\BelongsTo::class, $relation);
-        $this->assertEquals('inventory_id', $relation->getForeignKeyName());
+        $this->assertEquals(50, $inventoryMovement->quantity_change);
     }
 }

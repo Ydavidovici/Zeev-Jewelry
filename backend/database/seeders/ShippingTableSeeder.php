@@ -13,13 +13,13 @@ class ShippingTableSeeder extends Seeder
     public function run()
     {
         // Assuming you have a seller user created
-        $seller = User::where('role', 'Seller')->first();
+        $seller = User::where('role', 'seller')->first();  // Ensure 'seller' is lowercase to match the database value
 
         // Fetch orders dynamically
         $order1 = Order::where('customer_id', 1)->first();
         $order2 = Order::where('customer_id', 2)->first();
 
-        if ($order1 && $order2) {
+        if ($order1 && $order2 && $seller) {
             Shipping::insert([
                 [
                     'order_id' => $order1->id,
@@ -33,6 +33,11 @@ class ShippingTableSeeder extends Seeder
                     'recipient_name' => 'John Doe',
                     'additional_notes' => 'Leave at the front door.',
                     'seller_id' => $seller->id,
+                    'city' => 'Anytown',
+                    'state' => 'NY',
+                    'postal_code' => '10001',
+                    'country' => 'USA',
+                    'shipping_method' => 'Ground',
                 ],
                 [
                     'order_id' => $order2->id,
@@ -41,13 +46,20 @@ class ShippingTableSeeder extends Seeder
                     'shipping_cost' => 19.99,
                     'shipping_carrier' => 'FedEx',
                     'tracking_number' => '1Z999BB10123456785',
-                    'estimated_delivery_date' => Carbon::now(),
+                    'estimated_delivery_date' => Carbon::now()->addDays(2),
                     'shipping_address' => '456 Elm St, Othertown, USA',
                     'recipient_name' => 'Jane Smith',
                     'additional_notes' => 'Handle with care.',
                     'seller_id' => $seller->id,
+                    'city' => 'Othertown',
+                    'state' => 'CA',
+                    'postal_code' => '90001',
+                    'country' => 'USA',
+                    'shipping_method' => 'Air',
                 ],
             ]);
+        } else {
+            $this->command->info('Orders or Seller not found, skipping shipping seeder.');
         }
     }
 }

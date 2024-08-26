@@ -1,6 +1,5 @@
 <?php
 
-
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -18,7 +17,12 @@ class CreateShippingTable extends Migration
             $table->string('shipping_status');
             $table->string('tracking_number');
             $table->string('shipping_address');
+            $table->string('city');
+            $table->string('state');
+            $table->string('postal_code');
+            $table->string('country');
             $table->string('shipping_carrier');
+            $table->string('shipping_method');
             $table->string('recipient_name');
             $table->timestamp('estimated_delivery_date');
             $table->text('additional_notes')->nullable();

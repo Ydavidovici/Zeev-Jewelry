@@ -12,7 +12,7 @@ class CreateInventoryMovementsTable extends Migration
             $table->id();
             $table->unsignedBigInteger('inventory_id');
             $table->string('movement_type');
-            $table->integer('quantity');
+            $table->integer('quantity_change');
             $table->timestamp('movement_date');
             $table->timestamps();
 

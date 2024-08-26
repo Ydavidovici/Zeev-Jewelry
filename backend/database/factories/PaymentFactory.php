@@ -18,6 +18,7 @@ class PaymentFactory extends Factory
             'seller_id' => User::factory()->create(['role' => 'seller'])->id,
             'payment_type' => $this->faker->word,
             'payment_status' => $this->faker->randomElement(['processed', 'failed', 'pending']),
+            'amount' => $this->faker->randomFloat(2, 1, 1000),
         ];
     }
 }

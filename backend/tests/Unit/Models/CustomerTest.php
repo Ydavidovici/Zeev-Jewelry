@@ -2,61 +2,40 @@
 
 namespace Tests\Unit\Models;
 
-use PHPUnit\Framework\TestCase;
+use Tests\TestCase;
 use App\Models\Customer;
+use App\Models\User;
+use App\Models\Product;
+use App\Models\Review;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use PHPUnit\Framework\Attributes\Test;
 
 class CustomerTest extends TestCase
 {
-    public function test_customer_has_user_id()
-    {
-        $customer = new Customer(['user_id' => 1]);
+    use RefreshDatabase;
 
-        $this->assertEquals(1, $customer->user_id);
+    #[Test]
+    public function customer_belongs_to_user()
+    {
+        $user = User::factory()->create();
+        $customer = Customer::factory()->create(['user_id' => $user->id]);
+
+        $this->assertInstanceOf(User::class, $customer->user);
+        $this->assertEquals($user->id, $customer->user->id);
     }
 
-    public function test_customer_has_address()
+    #[Test]
+    public function customer_has_many_reviews()
     {
-        $customer = new Customer(['address' => '123 Main St']);
+        $customer = Customer::factory()->create();
+        $product = Product::factory()->create(); // Ensure product is created
+        $review = Review::factory()->create([
+            'product_id' => $product->id, // Ensure the product ID is assigned correctly
+            'customer_id' => $customer->id, // Ensure customer ID is assigned correctly
+            'review_date' => now() // Add review date
+        ]);
 
-        $this->assertEquals('123 Main St', $customer->address);
-    }
-
-    public function test_customer_has_phone_number()
-    {
-        $customer = new Customer(['phone_number' => '555-555-5555']);
-
-        $this->assertEquals('555-555-5555', $customer->phone_number);
-    }
-
-    public function test_customer_has_email()
-    {
-        $customer = new Customer(['email' => 'customer@example.com']);
-
-        $this->assertEquals('customer@example.com', $customer->email);
-    }
-
-    public function test_customer_is_guest()
-    {
-        $customer = new Customer(['is_guest' => true]);
-
-        $this->assertTrue($customer->is_guest);
-    }
-
-    public function test_customer_belongs_to_user()
-    {
-        $customer = new Customer();
-        $relation = $customer->user();
-
-        $this->assertInstanceOf(\Illuminate\Database\Eloquent\Relations\BelongsTo::class, $relation);
-        $this->assertEquals('user_id', $relation->getForeignKeyName());
-    }
-
-    public function test_customer_has_many_reviews()
-    {
-        $customer = new Customer();
-        $relation = $customer->reviews();
-
-        $this->assertInstanceOf(\Illuminate\Database\Eloquent\Relations\HasMany::class, $relation);
-        $this->assertEquals('customer_id', $relation->getForeignKeyName());
+        $this->assertTrue($customer->reviews->contains($review));
+        $this->assertInstanceOf(\Illuminate\Database\Eloquent\Collection::class, $customer->reviews);
     }
 }

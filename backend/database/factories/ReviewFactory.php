@@ -18,7 +18,7 @@ class ReviewFactory extends Factory
             'customer_id' => Customer::factory(),
             'review_text' => $this->faker->paragraph,
             'rating' => $this->faker->numberBetween(1, 5),
-            'review_date' => $this->faker->dateTime,
+            'review_date' => $this->faker->dateTime(),
         ];
     }
 }

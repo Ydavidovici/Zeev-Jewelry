@@ -25,6 +25,11 @@ class ShippingFactory extends Factory
             'recipient_name' => $this->faker->name,
             'estimated_delivery_date' => $this->faker->dateTime,
             'additional_notes' => $this->faker->paragraph,
+            'city' => $this->faker->city,
+            'state' => $this->faker->state,
+            'postal_code' => $this->faker->postcode,
+            'country' => $this->faker->country,
+            'shipping_method' => $this->faker->randomElement(['Ground', 'Air', 'Sea']),
         ];
     }
 }

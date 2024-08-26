@@ -14,7 +14,7 @@ class InventoryMovementFactory extends Factory
     {
         return [
             'inventory_id' => Inventory::factory(),
-            'type' => $this->faker->randomElement(['addition', 'subtraction']),
+            'movement_type' => $this->faker->randomElement(['addition', 'subtraction']),
             'quantity_change' => $this->faker->numberBetween(1, 100),
             'movement_date' => $this->faker->dateTime,
         ];

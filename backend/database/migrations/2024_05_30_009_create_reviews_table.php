@@ -1,6 +1,7 @@
 <?php
 
 // database/migrations/2024_05_30_009_create_reviews_table.php
+
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -15,7 +16,7 @@ class CreateReviewsTable extends Migration
             $table->unsignedBigInteger('customer_id');
             $table->text('review_text');
             $table->integer('rating');
-            $table->timestamp('review_date');
+            $table->timestamp('review_date')->nullable(); // Allow NULL values
             $table->timestamps();
 
             $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');

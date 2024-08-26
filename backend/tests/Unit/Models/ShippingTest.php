@@ -2,80 +2,104 @@
 
 namespace Tests\Unit\Models;
 
-use PHPUnit\Framework\TestCase;
+use Tests\TestCase;
 use App\Models\Shipping;
+use App\Models\Order;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use PHPUnit\Framework\Attributes\Test;
 
 class ShippingTest extends TestCase
 {
-    public function test_shipping_has_order_id()
-    {
-        $shipping = new Shipping(['order_id' => 1]);
+    use RefreshDatabase;
 
-        $this->assertEquals(1, $shipping->order_id);
+    #[Test]
+    public function shipping_belongs_to_order()
+    {
+        $order = Order::factory()->create();
+        $shipping = Shipping::factory()->create(['order_id' => $order->id]);
+
+        $this->assertInstanceOf(Order::class, $shipping->order);
+        $this->assertEquals($order->id, $shipping->order->id);
     }
 
-    public function test_shipping_has_address()
+    #[Test]
+    public function shipping_has_tracking_number()
     {
-        $shipping = new Shipping(['address' => '123 Main St']);
-
-        $this->assertEquals('123 Main St', $shipping->address);
-    }
-
-    public function test_shipping_has_city()
-    {
-        $shipping = new Shipping(['city' => 'New York']);
-
-        $this->assertEquals('New York', $shipping->city);
-    }
-
-    public function test_shipping_has_state()
-    {
-        $shipping = new Shipping(['state' => 'NY']);
-
-        $this->assertEquals('NY', $shipping->state);
-    }
-
-    public function test_shipping_has_postal_code()
-    {
-        $shipping = new Shipping(['postal_code' => '10001']);
-
-        $this->assertEquals('10001', $shipping->postal_code);
-    }
-
-    public function test_shipping_has_country()
-    {
-        $shipping = new Shipping(['country' => 'USA']);
-
-        $this->assertEquals('USA', $shipping->country);
-    }
-
-    public function test_shipping_has_shipping_method()
-    {
-        $shipping = new Shipping(['shipping_method' => 'FedEx']);
-
-        $this->assertEquals('FedEx', $shipping->shipping_method);
-    }
-
-    public function test_shipping_has_tracking_number()
-    {
-        $shipping = new Shipping(['tracking_number' => '123456789']);
+        $shipping = Shipping::factory()->create(['tracking_number' => '123456789']);
 
         $this->assertEquals('123456789', $shipping->tracking_number);
     }
 
-    public function test_shipping_has_status()
+    #[Test]
+    public function shipping_has_address()
     {
-        $shipping = new Shipping(['status' => 'shipped']);
+        $shipping = Shipping::factory()->create(['shipping_address' => '123 Main St']);
 
-        $this->assertEquals('shipped', $shipping->status);
+        $this->assertEquals('123 Main St', $shipping->shipping_address);
     }
 
-    public function test_shipping_belongs_to_order()
+    #[Test]
+    public function shipping_has_city()
     {
-        $shipping = new Shipping();
-        $relation = $shipping->order();
+        $shipping = Shipping::factory()->create(['city' => 'New York']);
 
-        $this->assertInstanceOf(\Illuminate\Database\Eloquent\Relations\BelongsTo::class, $relation);
-        $this->assertEquals('order_id', $relation->getForeignKeyName());
+        $this->assertEquals('New York', $shipping->city);
+    }
+
+    #[Test]
+    public function shipping_has_state()
+    {
+        $shipping = Shipping::factory()->create(['state' => 'NY']);
+
+        $this->assertEquals('NY', $shipping->state);
+    }
+
+    #[Test]
+    public function shipping_has_postal_code()
+    {
+        $shipping = Shipping::factory()->create(['postal_code' => '10001']);
+
+        $this->assertEquals('10001', $shipping->postal_code);
+    }
+
+    #[Test]
+    public function shipping_has_country()
+    {
+        $shipping = Shipping::factory()->create(['country' => 'USA']);
+
+        $this->assertEquals('USA', $shipping->country);
+    }
+
+    #[Test]
+    public function shipping_has_shipping_method()
+    {
+        $shipping = Shipping::factory()->create(['shipping_method' => 'FedEx']);
+
+        $this->assertEquals('FedEx', $shipping->shipping_method);
+    }
+
+    #[Test]
+    public function shipping_has_status()
+    {
+        $shipping = Shipping::factory()->create(['shipping_status' => 'shipped']);
+
+        $this->assertEquals('shipped', $shipping->shipping_status);
+    }
+
+    #[Test]
+    public function shipping_has_estimated_delivery_date()
+    {
+        $date = now();
+        $shipping = Shipping::factory()->create(['estimated_delivery_date' => $date]);
+
+        $this->assertEquals($date, $shipping->estimated_delivery_date);
+    }
+
+    #[Test]
+    public function shipping_has_recipient_name()
+    {
+        $shipping = Shipping::factory()->create(['recipient_name' => 'John Doe']);
+
+        $this->assertEquals('John Doe', $shipping->recipient_name);
     }
 }

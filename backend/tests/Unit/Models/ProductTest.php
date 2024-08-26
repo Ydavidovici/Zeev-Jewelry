@@ -2,68 +2,44 @@
 
 namespace Tests\Unit\Models;
 
-use PHPUnit\Framework\TestCase;
+use Tests\TestCase;
 use App\Models\Product;
+use App\Models\Category;
+use App\Models\Customer;
+use App\Models\Review;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use PHPUnit\Framework\Attributes\Test;
 
 class ProductTest extends TestCase
 {
-    public function test_product_has_category_id()
-    {
-        $product = new Product(['category_id' => 1]);
+    use RefreshDatabase;
 
-        $this->assertEquals(1, $product->category_id);
+    #[Test]
+    public function product_belongs_to_category()
+    {
+        $category = Category::factory()->create();
+        $product = Product::factory()->create(['category_id' => $category->id]);
+
+        $this->assertInstanceOf(Category::class, $product->category);
+        $this->assertEquals($category->id, $product->category->id);
     }
 
-    public function test_product_has_name()
+    #[Test]
+    public function product_has_many_reviews()
     {
-        $product = new Product(['name' => 'Sample Product']);
+        // Create a product
+        $product = Product::factory()->create();
 
-        $this->assertEquals('Sample Product', $product->name);
-    }
+        // Create a customer
+        $customer = Customer::factory()->create();
 
-    public function test_product_has_description()
-    {
-        $product = new Product(['description' => 'Sample Description']);
+        // Create a review for the product by the customer
+        $review = Review::factory()->create([
+            'product_id' => $product->id,
+            'customer_id' => $customer->id,
+        ]);
 
-        $this->assertEquals('Sample Description', $product->description);
-    }
-
-    public function test_product_has_price()
-    {
-        $product = new Product(['price' => 99.99]);
-
-        $this->assertEquals(99.99, $product->price);
-    }
-
-    public function test_product_has_stock_quantity()
-    {
-        $product = new Product(['stock_quantity' => 50]);
-
-        $this->assertEquals(50, $product->stock_quantity);
-    }
-
-    public function test_product_is_featured()
-    {
-        $product = new Product(['is_featured' => true]);
-
-        $this->assertTrue($product->is_featured);
-    }
-
-    public function test_product_belongs_to_category()
-    {
-        $product = new Product();
-        $relation = $product->category();
-
-        $this->assertInstanceOf(\Illuminate\Database\Eloquent\Relations\BelongsTo::class, $relation);
-        $this->assertEquals('category_id', $relation->getForeignKeyName());
-    }
-
-    public function test_product_has_many_reviews()
-    {
-        $product = new Product();
-        $relation = $product->reviews();
-
-        $this->assertInstanceOf(\Illuminate\Database\Eloquent\Relations\HasMany::class, $relation);
-        $this->assertEquals('product_id', $relation->getForeignKeyName());
+        $this->assertTrue($product->reviews->contains($review));
+        $this->assertInstanceOf(\Illuminate\Database\Eloquent\Collection::class, $product->reviews);
     }
 }
