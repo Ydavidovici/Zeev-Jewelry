@@ -13,11 +13,15 @@ class InventoryFactory extends Factory
 
     public function definition()
     {
+        // Create a user and assign the 'seller' role properly
+        $seller = User::factory()->create();
+        $seller->assignRole('seller');
+
         return [
             'product_id' => Product::factory(),
             'quantity' => $this->faker->numberBetween(1, 100),
             'location' => $this->faker->word,
-            'seller_id' => User::factory()->create(['role' => 'seller'])->id,
+            'seller_id' => $seller->id,
         ];
     }
 }

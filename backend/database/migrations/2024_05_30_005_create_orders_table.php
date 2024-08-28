@@ -1,6 +1,5 @@
 <?php
 
-// database/migrations/2024_05_30_005_create_orders_table.php
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -20,7 +19,9 @@ class CreateOrdersTable extends Migration
             $table->string('payment_intent_id')->nullable();
             $table->timestamps();
 
-            $table->foreign('customer_id')->references('id')->on('customers')->onDelete('cascade');
+            // Update foreign keys to reference 'users' table
+            $table->foreign('customer_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('seller_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 

@@ -13,9 +13,13 @@ class PaymentFactory extends Factory
 
     public function definition()
     {
+        // Create a user and assign the 'seller' role properly
+        $seller = User::factory()->create();
+        $seller->assignRole('seller');
+
         return [
             'order_id' => Order::factory(),
-            'seller_id' => User::factory()->create(['role' => 'seller'])->id,
+            'seller_id' => $seller->id, // Use the seller's ID after assigning the role
             'payment_type' => $this->faker->word,
             'payment_status' => $this->faker->randomElement(['processed', 'failed', 'pending']),
             'amount' => $this->faker->randomFloat(2, 1, 1000),

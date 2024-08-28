@@ -5,40 +5,41 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use App\Models\Order;
 use App\Models\User;
-use App\Models\Customer;
 
 class OrdersTableSeeder extends Seeder
 {
     public function run()
     {
-        // Get the first user with the 'customer' role
+        // Get a user with the 'customer' role
         $customer = User::role('customer')->first();
-        // Get the first user with the 'seller' role
+
+        // Get a user with the 'seller' role
         $seller = User::role('seller')->first();
 
-        // Find the customer model using the user ID
-        $customerEntry = $customer ? Customer::where('user_id', $customer->id)->first() : null;
-
-        // Check if both customerEntry and seller exist
-        if ($customerEntry && $seller) {
+        // Check if both customer and seller exist
+        if ($customer && $seller) {
             Order::insert([
                 [
-                    'customer_id' => $customerEntry->id, // Use customerEntry ID
-                    'seller_id' => $seller->id,
-                    'order_date' => now(),
-                    'total_amount' => 799.99,
+                    'customer_id' => $customer->id, // Reference the correct user's ID
                     'is_guest' => false,
+                    'order_date' => now(),
+                    'payment_intent_id' => null, // Use appropriate value if needed
+                    'seller_id' => $seller->id,
                     'status' => 'completed',
+                    'total_amount' => 799.99,
                 ],
                 [
-                    'customer_id' => $customerEntry->id, // Use customerEntry ID
-                    'seller_id' => $seller->id,
-                    'order_date' => now(),
-                    'total_amount' => 299.99,
+                    'customer_id' => $customer->id, // Reference the correct user's ID
                     'is_guest' => true,
+                    'order_date' => now(),
+                    'payment_intent_id' => null, // Use appropriate value if needed
+                    'seller_id' => $seller->id,
                     'status' => 'pending',
+                    'total_amount' => 299.99,
                 ],
             ]);
+
+            $this->command->info('Orders seeded successfully.');
         } else {
             $this->command->info('Customer or seller not found, skipping orders seeder.');
         }

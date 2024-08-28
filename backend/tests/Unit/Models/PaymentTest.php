@@ -6,11 +6,31 @@ use Tests\TestCase;
 use App\Models\Order;
 use App\Models\Payment;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Spatie\Permission\Models\Role;
 use PHPUnit\Framework\Attributes\Test;
 
 class PaymentTest extends TestCase
 {
     use RefreshDatabase;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+        $this->seedRoles();
+    }
+
+    private function seedRoles()
+    {
+        if (Role::where('name', 'seller')->doesntExist()) {
+            Role::create(['name' => 'seller', 'guard_name' => 'api']);
+        }
+        if (Role::where('name', 'customer')->doesntExist()) {
+            Role::create(['name' => 'customer', 'guard_name' => 'api']);
+        }
+        if (Role::where('name', 'admin')->doesntExist()) {
+            Role::create(['name' => 'admin', 'guard_name' => 'api']);
+        }
+    }
 
     #[Test]
     public function payment_belongs_to_order()

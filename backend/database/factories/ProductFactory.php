@@ -13,8 +13,12 @@ class ProductFactory extends Factory
 
     public function definition()
     {
+        // Create a user without the 'role' attribute directly and assign the role properly
+        $seller = User::factory()->create();
+        $seller->assignRole('seller'); // Properly assign role without setting a non-existent column
+
         return [
-            'seller_id' => User::factory()->create(['role' => 'seller'])->id,
+            'seller_id' => $seller->id, // Use the seller's ID after assigning the role
             'product_name' => $this->faker->word,
             'description' => $this->faker->paragraph,
             'price' => $this->faker->randomFloat(2, 1, 1000),

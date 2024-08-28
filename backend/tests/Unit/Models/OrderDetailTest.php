@@ -7,14 +7,34 @@ use App\Models\OrderDetail;
 use App\Models\Order;
 use App\Models\Product;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use PHPUnit\Framework\Attributes\Test;
+use Spatie\Permission\Models\Role;
 
 class OrderDetailTest extends TestCase
 {
     use RefreshDatabase;
 
-    #[Test]
-    public function order_detail_belongs_to_order()
+    // Seed roles before each test
+    protected function setUp(): void
+    {
+        parent::setUp();
+        $this->seedRoles();
+    }
+
+    // Method to seed roles for testing
+    private function seedRoles()
+    {
+        if (Role::where('name', 'seller')->doesntExist()) {
+            Role::create(['name' => 'seller', 'guard_name' => 'api']);
+        }
+        if (Role::where('name', 'customer')->doesntExist()) {
+            Role::create(['name' => 'customer', 'guard_name' => 'api']);
+        }
+        if (Role::where('name', 'admin')->doesntExist()) {
+            Role::create(['name' => 'admin', 'guard_name' => 'api']);
+        }
+    }
+
+    public function test_order_detail_belongs_to_order()
     {
         $order = Order::factory()->create();
         $product = Product::factory()->create(); // Ensure a product is created
@@ -24,26 +44,23 @@ class OrderDetailTest extends TestCase
         $this->assertEquals($order->id, $orderDetail->order->id);
     }
 
-    #[Test]
-    public function order_detail_belongs_to_product()
+    public function test_order_detail_belongs_to_product()
     {
         $product = Product::factory()->create();
         $orderDetail = OrderDetail::factory()->create(['product_id' => $product->id]);
 
-        $this->assertInstanceOf(Product::class, $orderDetail->product); // Verify the relationship
+        $this->assertInstanceOf(Product::class, $orderDetail->product);
         $this->assertEquals($product->id, $orderDetail->product->id);
     }
 
-    #[Test]
-    public function order_detail_has_quantity()
+    public function test_order_detail_has_quantity()
     {
         $orderDetail = OrderDetail::factory()->create(['quantity' => 3]);
 
         $this->assertEquals(3, $orderDetail->quantity);
     }
 
-    #[Test]
-    public function order_detail_has_price()
+    public function test_order_detail_has_price()
     {
         $orderDetail = OrderDetail::factory()->create(['price' => 29.99]);
 

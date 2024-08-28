@@ -4,18 +4,22 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use App\Models\User;
-use App\Models\Customer;
+use Spatie\Permission\Models\Role;
 use Illuminate\Support\Facades\Hash;
 
 class UsersTableSeeder extends Seeder
 {
     public function run()
     {
-        // Delete all users and customers to prevent duplication
-        User::query()->delete();
-        Customer::query()->delete();
+        // Ensure roles exist before seeding users
+        Role::firstOrCreate(['name' => 'admin', 'guard_name' => 'api']);
+        Role::firstOrCreate(['name' => 'customer', 'guard_name' => 'api']);
+        Role::firstOrCreate(['name' => 'seller', 'guard_name' => 'api']);
 
-        // Seed users with roles and corresponding customers
+        // Delete all users to prevent duplication
+        User::query()->delete();
+
+        // Seed users with roles
         $adminUser = User::create([
             'email' => 'admin@example.com',
             'password' => Hash::make('password'),
@@ -29,15 +33,6 @@ class UsersTableSeeder extends Seeder
             'username' => 'customer1',
         ]);
         $customerUser->assignRole('customer');
-
-        // Create a corresponding customer entry for the customer user
-        Customer::create([
-            'user_id' => $customerUser->id, // Foreign key to users table
-            'address' => '123 Main St, Anytown, USA',
-            'email' => 'customer1@example.com',
-            'phone_number' => '123-456-7890',
-            'is_guest' => false,
-        ]);
 
         $sellerUser = User::create([
             'email' => 'seller1@example.com',

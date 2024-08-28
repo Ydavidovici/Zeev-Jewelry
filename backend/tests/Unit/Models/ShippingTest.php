@@ -6,11 +6,33 @@ use Tests\TestCase;
 use App\Models\Shipping;
 use App\Models\Order;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Spatie\Permission\Models\Role;
 use PHPUnit\Framework\Attributes\Test;
 
 class ShippingTest extends TestCase
 {
     use RefreshDatabase;
+
+    // Seed roles before each test
+    protected function setUp(): void
+    {
+        parent::setUp();
+        $this->seedRoles();
+    }
+
+    // Method to seed roles for testing
+    private function seedRoles()
+    {
+        if (Role::where('name', 'seller')->doesntExist()) {
+            Role::create(['name' => 'seller', 'guard_name' => 'api']);
+        }
+        if (Role::where('name', 'customer')->doesntExist()) {
+            Role::create(['name' => 'customer', 'guard_name' => 'api']);
+        }
+        if (Role::where('name', 'admin')->doesntExist()) {
+            Role::create(['name' => 'admin', 'guard_name' => 'api']);
+        }
+    }
 
     #[Test]
     public function shipping_belongs_to_order()

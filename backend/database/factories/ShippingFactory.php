@@ -13,9 +13,13 @@ class ShippingFactory extends Factory
 
     public function definition()
     {
+        // Create a user and assign the 'seller' role properly
+        $seller = User::factory()->create();
+        $seller->assignRole('seller');
+
         return [
             'order_id' => Order::factory(),
-            'seller_id' => User::factory()->create(['role' => 'seller'])->id,
+            'seller_id' => $seller->id, // Use the seller's ID after assigning the role
             'shipping_type' => $this->faker->word,
             'shipping_cost' => $this->faker->randomFloat(2, 1, 100),
             'shipping_status' => $this->faker->randomElement(['shipped', 'pending', 'delivered']),
