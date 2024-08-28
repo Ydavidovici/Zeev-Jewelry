@@ -12,9 +12,7 @@ class RolesTableSeeder extends Seeder
         $roles = ['admin', 'customer', 'seller'];
 
         foreach ($roles as $role) {
-            if (!Role::where('name', $role)->where('guard_name', 'api')->exists()) {
-                Role::create(['name' => $role, 'guard_name' => 'api']);
-            }
+            Role::firstOrCreate(['name' => $role, 'guard_name' => 'api']);
         }
     }
 }

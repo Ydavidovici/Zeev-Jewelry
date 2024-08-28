@@ -12,17 +12,16 @@ class ShippingTableSeeder extends Seeder
 {
     public function run()
     {
-        // Assuming you have a seller user created
-        $seller = User::where('role', 'seller')->first();  // Ensure 'seller' is lowercase to match the database value
+        // Find the first user with the 'seller' role
+        $seller = User::role('seller')->first();
 
-        // Fetch orders dynamically
-        $order1 = Order::where('customer_id', 1)->first();
-        $order2 = Order::where('customer_id', 2)->first();
+        // Find the first two orders dynamically
+        $orders = Order::take(2)->get();
 
-        if ($order1 && $order2 && $seller) {
+        if ($orders->count() === 2 && $seller) {
             Shipping::insert([
                 [
-                    'order_id' => $order1->id,
+                    'order_id' => $orders[0]->id,
                     'shipping_status' => 'shipped',
                     'shipping_type' => 'Standard',
                     'shipping_cost' => 9.99,
@@ -40,7 +39,7 @@ class ShippingTableSeeder extends Seeder
                     'shipping_method' => 'Ground',
                 ],
                 [
-                    'order_id' => $order2->id,
+                    'order_id' => $orders[1]->id,
                     'shipping_status' => 'pending',
                     'shipping_type' => 'Express',
                     'shipping_cost' => 19.99,

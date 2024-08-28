@@ -3,35 +3,47 @@
 namespace App\Policies;
 
 use App\Models\User;
-use App\Models\Customer;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class CustomerPolicy
 {
     use HandlesAuthorization;
 
-    public function viewAny(User $user)
+    /**
+     * Customer specific actions
+     */
+    public function manageCart(User $user)
     {
-        return $user->hasRole('admin') || $user->hasRole('seller');
+        return $user->hasRole('customer');
     }
 
-    public function view(User $user, Customer $customer)
+    public function viewOrders(User $user)
     {
-        return $user->hasRole('admin') || $user->hasRole('seller') || $user->id === $customer->user_id;
+        return $user->hasRole('customer');
     }
 
-    public function create(User $user)
+    public function manageProfile(User $user)
     {
-        return $user->hasRole('admin') || $user->hasRole('seller') || $user->id === $customer->user_id;
+        return $user->hasRole('customer');
     }
 
-    public function update(User $user, Customer $customer)
+    public function writeReview(User $user)
     {
-        return $user->hasRole('admin') || $user->hasRole('seller') || $user->id === $customer->user_id;
+        return $user->hasRole('customer');
     }
 
-    public function delete(User $user, Customer $customer)
+    public function viewCheckout(User $user)
     {
-        return $user->hasRole('admin') || $user->id === $customer->user_id;
+        return $user->hasRole('customer');
+    }
+
+    public function manageCheckout(User $user)
+    {
+        return $user->hasRole('customer');
+    }
+
+    public function viewPayments(User $user)
+    {
+        return $user->hasRole('customer');
     }
 }

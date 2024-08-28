@@ -4,65 +4,107 @@ namespace Tests\Unit\Policies;
 
 use App\Models\User;
 use App\Policies\SellerPolicy;
-use PHPUnit\Framework\TestCase;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\TestCase;
 
 class SellerPolicyTest extends TestCase
 {
-    protected $sellerUser;
-    protected $adminUser;
-    protected $customerUser;
-    protected $sellerPolicy;
+    use RefreshDatabase;
+
+    protected $seller;
+    protected $nonSeller;
+    protected $policy;
 
     protected function setUp(): void
     {
         parent::setUp();
 
-        $this->sellerUser = User::factory()->make(['role' => 'seller']);
-        $this->adminUser = User::factory()->make(['role' => 'admin']);
-        $this->customerUser = User::factory()->make(['role' => 'customer']);
+        // Clear cached roles and permissions
+        app()[\Spatie\Permission\PermissionRegistrar::class]->forgetCachedPermissions();
 
-        $this->sellerPolicy = new SellerPolicy();
+        // Seed roles and permissions
+        $this->seed(\Database\Seeders\RolesAndPermissionsSeeder::class);
+
+        // Create a seller user
+        $this->seller = User::factory()->create();
+        $this->seller->assignRole('seller');
+
+        // Create a non-seller user
+        $this->nonSeller = User::factory()->create();
+        $this->nonSeller->assignRole('customer');
+
+        // Instantiate the policy
+        $this->policy = new SellerPolicy();
     }
 
-    public function test_view_dashboard()
+
+    public function testSellerCanManageProducts()
     {
-        $this->assertTrue($this->sellerPolicy->viewDashboard($this->sellerUser));
-        $this->assertFalse($this->sellerPolicy->viewDashboard($this->adminUser));
-        $this->assertFalse($this->sellerPolicy->viewDashboard($this->customerUser));
+        $this->assertTrue($this->policy->manageProducts($this->seller));
     }
 
-    public function test_manage_products()
+    public function testNonSellerCannotManageProducts()
     {
-        $this->assertTrue($this->sellerPolicy->manageProducts($this->sellerUser));
-        $this->assertFalse($this->sellerPolicy->manageProducts($this->adminUser));
-        $this->assertFalse($this->sellerPolicy->manageProducts($this->customerUser));
+        $this->assertFalse($this->policy->manageProducts($this->nonSeller));
     }
 
-    public function test_manage_orders()
+    public function testSellerCanManageOrders()
     {
-        $this->assertTrue($this->sellerPolicy->manageOrders($this->sellerUser));
-        $this->assertFalse($this->sellerPolicy->manageOrders($this->adminUser));
-        $this->assertFalse($this->sellerPolicy->manageOrders($this->customerUser));
+        $this->assertTrue($this->policy->manageOrders($this->seller));
     }
 
-    public function test_manage_inventory()
+    public function testNonSellerCannotManageOrders()
     {
-        $this->assertTrue($this->sellerPolicy->manageInventory($this->sellerUser));
-        $this->assertFalse($this->sellerPolicy->manageInventory($this->adminUser));
-        $this->assertFalse($this->sellerPolicy->manageInventory($this->customerUser));
+        $this->assertFalse($this->policy->manageOrders($this->nonSeller));
     }
 
-    public function test_manage_shipping()
+    public function testSellerCanManageInventory()
     {
-        $this->assertTrue($this->sellerPolicy->manageShipping($this->sellerUser));
-        $this->assertFalse($this->sellerPolicy->manageShipping($this->adminUser));
-        $this->assertFalse($this->sellerPolicy->manageShipping($this->customerUser));
+        $this->assertTrue($this->policy->manageInventory($this->seller));
     }
 
-    public function test_manage_payments()
+    public function testNonSellerCannotManageInventory()
     {
-        $this->assertTrue($this->sellerPolicy->managePayments($this->sellerUser));
-        $this->assertFalse($this->sellerPolicy->managePayments($this->adminUser));
-        $this->assertFalse($this->sellerPolicy->managePayments($this->customerUser));
+        $this->assertFalse($this->policy->manageInventory($this->nonSeller));
+    }
+
+    public function testSellerCanManageShipping()
+    {
+        $this->assertTrue($this->policy->manageShipping($this->seller));
+    }
+
+    public function testNonSellerCannotManageShipping()
+    {
+        $this->assertFalse($this->policy->manageShipping($this->nonSeller));
+    }
+
+    public function testSellerCanManagePayments()
+    {
+        $this->assertTrue($this->policy->managePayments($this->seller));
+    }
+
+    public function testNonSellerCannotManagePayments()
+    {
+        $this->assertFalse($this->policy->managePayments($this->nonSeller));
+    }
+
+    public function testSellerCanManageReports()
+    {
+        $this->assertTrue($this->policy->manageReports($this->seller));
+    }
+
+    public function testNonSellerCannotManageReports()
+    {
+        $this->assertFalse($this->policy->manageReports($this->nonSeller));
+    }
+
+    public function testSellerCanUploadFiles()
+    {
+        $this->assertTrue($this->policy->uploadFiles($this->seller));
+    }
+
+    public function testNonSellerCannotUploadFiles()
+    {
+        $this->assertFalse($this->policy->uploadFiles($this->nonSeller));
     }
 }

@@ -11,7 +11,8 @@ class ProductsTableSeeder extends Seeder
 {
     public function run()
     {
-        $seller = User::where('role', 'seller')->first();
+        // Find the first user with the 'seller' role using Spatie's role checking
+        $seller = User::role('seller')->first();  // Using Spatie's role query scope
 
         if ($seller) {
             Product::insert([

@@ -14,7 +14,7 @@ class SettingsController extends Controller
         // Apply authentication middleware to all methods except getCurrentSettings
         $this->middleware('auth:api')->except('getCurrentSettings');
         // Apply admin permissions middleware to all methods except getCurrentSettings
-        $this->middleware('can:manageSettings,App\Models\User')->only(['store', 'update', 'destroy']);
+        $this->middleware('can:manageSettings,App\Models\User')->only(['index', 'store', 'update', 'destroy']);
     }
 
     /**
@@ -23,6 +23,17 @@ class SettingsController extends Controller
      * @return JsonResponse
      */
     public function getCurrentSettings(): JsonResponse
+    {
+        $settings = Settings::all();
+        return response()->json($settings);
+    }
+
+    /**
+     * Display a listing of the settings (admin only).
+     *
+     * @return JsonResponse
+     */
+    public function index(): JsonResponse
     {
         $settings = Settings::all();
         return response()->json($settings);

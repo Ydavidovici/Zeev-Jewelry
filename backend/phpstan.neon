@@ -1,6 +1,15 @@
+includes:
+    - vendor/phpstan/phpstan-strict-rules/rules.neon
+
 parameters:
-    level: max
+    level: max  # This sets the analysis level to maximum, which is the most strict.
     paths:
-        - .
+        - app  # Assuming your policies and other code are in the app directory.
     excludePaths:
-        - vendor/*
+        - vendor/*  # Exclude vendor directory to avoid analyzing third-party code.
+        - tests/*   # Exclude tests directory if you don't want to analyze test files.
+
+    # Unused code detection settings (available with strict rules)
+    reportUnmatchedIgnoredErrors: true
+
+

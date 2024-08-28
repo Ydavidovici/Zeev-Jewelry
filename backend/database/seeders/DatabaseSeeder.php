@@ -15,7 +15,6 @@ class DatabaseSeeder extends Seeder
             UsersTableSeeder::class,
             CategoriesTableSeeder::class,
             ProductsTableSeeder::class,
-            CustomersTableSeeder::class,
             OrdersTableSeeder::class,
             OrderDetailsTableSeeder::class,
             PaymentsTableSeeder::class,

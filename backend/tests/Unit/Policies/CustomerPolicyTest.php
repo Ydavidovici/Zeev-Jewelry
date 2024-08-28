@@ -3,68 +3,108 @@
 namespace Tests\Unit\Policies;
 
 use App\Models\User;
-use App\Models\Customer;
 use App\Policies\CustomerPolicy;
-use PHPUnit\Framework\TestCase;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\TestCase;
 
 class CustomerPolicyTest extends TestCase
 {
-    protected $adminUser;
-    protected $sellerUser;
-    protected $customerUser;
-    protected $otherCustomerUser;
+    use RefreshDatabase;
+
     protected $customer;
-    protected $customerPolicy;
+    protected $nonCustomer;
+    protected $policy;
 
     protected function setUp(): void
     {
         parent::setUp();
 
-        $this->adminUser = User::factory()->make(['role' => 'admin-page']);
-        $this->sellerUser = User::factory()->make(['role' => 'seller-page']);
-        $this->customerUser = User::factory()->make(['role' => 'customer']);
-        $this->otherCustomerUser = User::factory()->make(['role' => 'customer']);
-        $this->customer = Customer::factory()->make(['user_id' => $this->customerUser->id]);
+        // Clear cached roles and permissions
+        app()[\Spatie\Permission\PermissionRegistrar::class]->forgetCachedPermissions();
 
-        $this->customerPolicy = new CustomerPolicy();
+        // Seed roles and permissions
+        $this->seed(\Database\Seeders\RolesAndPermissionsSeeder::class);
+
+        // Create a customer user
+        $this->customer = User::factory()->create();
+        $this->customer->assignRole('customer');
+
+        // Create a non-customer user
+        $this->nonCustomer = User::factory()->create();
+        $this->nonCustomer->assignRole('seller');
+
+        // Instantiate the policy
+        $this->policy = new CustomerPolicy();
     }
 
-    public function test_view_any()
+
+    public function testCustomerCanManageCart()
     {
-        $this->assertTrue($this->customerPolicy->viewAny($this->adminUser));
-        $this->assertTrue($this->customerPolicy->viewAny($this->sellerUser));
-        $this->assertFalse($this->customerPolicy->viewAny($this->customerUser));
+        $this->assertTrue($this->policy->manageCart($this->customer));
     }
 
-    public function test_view()
+    public function testNonCustomerCannotManageCart()
     {
-        $this->assertTrue($this->customerPolicy->view($this->adminUser, $this->customer));
-        $this->assertTrue($this->customerPolicy->view($this->sellerUser, $this->customer));
-        $this->assertTrue($this->customerPolicy->view($this->customerUser, $this->customer));
-        $this->assertFalse($this->customerPolicy->view($this->otherCustomerUser, $this->customer));
+        $this->assertFalse($this->policy->manageCart($this->nonCustomer));
     }
 
-    public function test_create()
+    public function testCustomerCanViewOrders()
     {
-        $this->assertTrue($this->customerPolicy->create($this->adminUser));
-        $this->assertTrue($this->customerPolicy->create($this->sellerUser));
-        $this->assertTrue($this->customerPolicy->create($this->customerUser));
-        $this->assertFalse($this->customerPolicy->create($this->otherCustomerUser));
+        $this->assertTrue($this->policy->viewOrders($this->customer));
     }
 
-    public function test_update()
+    public function testNonCustomerCannotViewOrders()
     {
-        $this->assertTrue($this->customerPolicy->update($this->adminUser, $this->customer));
-        $this->assertTrue($this->customerPolicy->update($this->sellerUser, $this->customer));
-        $this->assertTrue($this->customerPolicy->update($this->customerUser, $this->customer));
-        $this->assertFalse($this->customerPolicy->update($this->otherCustomerUser, $this->customer));
+        $this->assertFalse($this->policy->viewOrders($this->nonCustomer));
     }
 
-    public function test_delete()
+    public function testCustomerCanManageProfile()
     {
-        $this->assertTrue($this->customerPolicy->delete($this->adminUser, $this->customer));
-        $this->assertTrue($this->customerPolicy->delete($this->customerUser, $this->customer));
-        $this->assertFalse($this->customerPolicy->delete($this->sellerUser, $this->customer));
-        $this->assertFalse($this->customerPolicy->delete($this->otherCustomerUser, $this->customer));
+        $this->assertTrue($this->policy->manageProfile($this->customer));
+    }
+
+    public function testNonCustomerCannotManageProfile()
+    {
+        $this->assertFalse($this->policy->manageProfile($this->nonCustomer));
+    }
+
+    public function testCustomerCanWriteReview()
+    {
+        $this->assertTrue($this->policy->writeReview($this->customer));
+    }
+
+    public function testNonCustomerCannotWriteReview()
+    {
+        $this->assertFalse($this->policy->writeReview($this->nonCustomer));
+    }
+
+    public function testCustomerCanViewCheckout()
+    {
+        $this->assertTrue($this->policy->viewCheckout($this->customer));
+    }
+
+    public function testNonCustomerCannotViewCheckout()
+    {
+        $this->assertFalse($this->policy->viewCheckout($this->nonCustomer));
+    }
+
+    public function testCustomerCanManageCheckout()
+    {
+        $this->assertTrue($this->policy->manageCheckout($this->customer));
+    }
+
+    public function testNonCustomerCannotManageCheckout()
+    {
+        $this->assertFalse($this->policy->manageCheckout($this->nonCustomer));
+    }
+
+    public function testCustomerCanViewPayments()
+    {
+        $this->assertTrue($this->policy->viewPayments($this->customer));
+    }
+
+    public function testNonCustomerCannotViewPayments()
+    {
+        $this->assertFalse($this->policy->viewPayments($this->nonCustomer));
     }
 }

@@ -11,30 +11,31 @@ class PaymentsTableSeeder extends Seeder
 {
     public function run()
     {
-        // Assuming you have a seller user created
-        $seller = User::where('role', 'Seller')->first();
+        // Find the first seller user
+        $seller = User::role('seller')->first();
 
-        // Fetch orders dynamically
-        $order1 = Order::where('customer_id', 1)->first();
-        $order2 = Order::where('customer_id', 2)->first();
+        // Fetch the first two orders
+        $orders = Order::take(2)->get();
 
-        if ($order1 && $order2) {
+        if ($orders->count() === 2 && $seller) {
             Payment::insert([
                 [
-                    'order_id' => $order1->id,
+                    'order_id' => $orders[0]->id,
                     'payment_status' => 'processed',
                     'payment_type' => 'Credit Card',
                     'seller_id' => $seller->id,
                     'amount' => 100.00,
                 ],
                 [
-                    'order_id' => $order2->id,
+                    'order_id' => $orders[1]->id,
                     'payment_status' => 'pending',
                     'payment_type' => 'PayPal',
                     'seller_id' => $seller->id,
                     'amount' => 50.00,
                 ],
             ]);
+        } else {
+            $this->command->info('Seller or orders not found, skipping payments seeder.');
         }
     }
 }
