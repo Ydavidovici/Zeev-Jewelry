@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use Tymon\JWTAuth\Facades\JWTAuth;
+use Illuminate\Support\Facades\Gate;
 
 class RegisterController extends Controller
 {
@@ -30,6 +31,10 @@ class RegisterController extends Controller
 
         if ($validator->fails()) {
             return response()->json(['errors' => $validator->errors()], 422);
+        }
+
+        if (!Gate::allows('register', User::class)) {
+            return response()->json(['message' => 'Unauthorized'], 403);
         }
 
         // Create the user

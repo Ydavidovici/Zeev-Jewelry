@@ -9,6 +9,7 @@ use App\Models\Inventory;
 use App\Models\Shipping;
 use App\Models\Payment;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Gate;
 
 class SellerController extends Controller
 {
@@ -19,13 +20,17 @@ class SellerController extends Controller
 
     public function index(): JsonResponse
     {
-        $this->authorize('viewDashboard', auth()->user());
+        $user = auth()->user();
 
-        $products = Product::where('seller_id', auth()->id())->get();
-        $orders = Order::where('seller_id', auth()->id())->get();
-        $inventory = Inventory::where('seller_id', auth()->id())->get();
-        $shipping = Shipping::where('seller_id', auth()->id())->get();
-        $payments = Payment::where('seller_id', auth()->id())->get();
+        if (!Gate::allows('view-dashboard-seller', $user)) {
+            return response()->json(['message' => 'Unauthorized'], 403);
+        }
+
+        $products = Product::where('seller_id', $user->id)->get();
+        $orders = Order::where('seller_id', $user->id)->get();
+        $inventory = Inventory::where('seller_id', $user->id)->get();
+        $shipping = Shipping::where('seller_id', $user->id)->get();
+        $payments = Payment::where('seller_id', $user->id)->get();
 
         return response()->json([
             'products' => $products,

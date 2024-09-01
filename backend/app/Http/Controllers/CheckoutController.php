@@ -8,6 +8,7 @@ use App\Models\OrderDetail;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Gate;
 
 class CheckoutController extends Controller
 {
@@ -18,13 +19,19 @@ class CheckoutController extends Controller
 
     public function index(): JsonResponse
     {
+        if (!Gate::allows('view-checkout', auth()->user())) {
+            return response()->json(['message' => 'Unauthorized'], 403);
+        }
+
         $cart = Session::get('cart', []);
         return response()->json(['cart' => $cart]);
     }
 
     public function store(Request $request): JsonResponse
     {
-        $this->authorize('create', Order::class);
+        if (!Gate::allows('create-order', auth()->user())) {
+            return response()->json(['message' => 'Unauthorized'], 403);
+        }
 
         $validatedData = $request->validate([
             'address' => 'required|string|max:255',

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Spatie\Permission\Models\Role;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Http\JsonResponse;
 
 class RoleController extends Controller
@@ -17,7 +18,9 @@ class RoleController extends Controller
 
     public function index(): JsonResponse
     {
-        $this->authorize('viewAny', Role::class);
+        if (Gate::denies('manage-roles')) {
+            abort(403);
+        }
 
         Log::channel('custom')->info('Admin accessing roles index');
 
@@ -30,7 +33,9 @@ class RoleController extends Controller
 
     public function store(Request $request): JsonResponse
     {
-        $this->authorize('create', Role::class);
+        if (Gate::denies('manage-roles')) {
+            abort(403);
+        }
 
         $validatedData = $request->validate([
             'name' => 'required|string|max:255',
@@ -46,7 +51,9 @@ class RoleController extends Controller
 
     public function update(Request $request, Role $role): JsonResponse
     {
-        $this->authorize('update', $role);
+        if (Gate::denies('manage-roles')) {
+            abort(403);
+        }
 
         $validatedData = $request->validate([
             'name' => 'required|string|max:255',
@@ -62,7 +69,9 @@ class RoleController extends Controller
 
     public function destroy(Role $role): JsonResponse
     {
-        $this->authorize('delete', $role);
+        if (Gate::denies('manage-roles')) {
+            abort(403);
+        }
 
         Log::channel('custom')->info('Role deleted', ['role' => $role]);
 

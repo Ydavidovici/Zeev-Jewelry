@@ -16,7 +16,9 @@ class AdminReportController extends Controller
 
     public function index(): JsonResponse
     {
-        $this->authorize('viewAdminDashboard', auth()->user());
+        if (Gate::denies('access-admin-dashboard')) {
+            abort(403);
+        }
 
         $serverPerformance = $this->getServerPerformance();
         $databasePerformance = $this->getDatabasePerformance();
@@ -43,16 +45,32 @@ class AdminReportController extends Controller
 
     private function getServerPerformance()
     {
+        // Check if sys_getloadavg() is available
+        if (function_exists('sys_getloadavg')) {
+            $cpuUsage = sys_getloadavg()[0];
+        } else {
+            // Fallback for environments where sys_getloadavg() is not available
+            $cpuUsage = 'N/A'; // or use any other method to determine CPU usage
+        }
+
+        // Memory usage is universally available
+        $memoryUsage = memory_get_usage(true) / 1024 / 1024 . ' MB';
+
         return [
-            'cpu_usage' => sys_getloadavg()[0],
-            'memory_usage' => memory_get_usage(true) / 1024 / 1024 . ' MB',
+            'cpu_usage' => $cpuUsage,
+            'memory_usage' => $memoryUsage,
         ];
     }
 
     private function getDatabasePerformance()
     {
-        $slowQueries = DB::select("SHOW FULL PROCESSLIST");
-        $slowQueryCount = collect($slowQueries)->where('Time', '>', 5)->count();
+        try {
+            $slowQueries = DB::select("SHOW FULL PROCESSLIST");
+            $slowQueryCount = collect($slowQueries)->where('Time', '>', 5)->count();
+        } catch (\Exception $e) {
+            Log::channel('custom')->error('Error fetching database performance: ' . $e->getMessage());
+            $slowQueryCount = 'N/A';
+        }
 
         return [
             'slow_query_count' => $slowQueryCount,
@@ -61,23 +79,34 @@ class AdminReportController extends Controller
 
     private function getErrorLogs()
     {
-        return Log::channel('custom')->getLogs()->filter(function ($log) {
-            return $log->level == 'error';
-        })->take(10)->toArray();
+        try {
+            return Log::channel('custom')->getLogs()->filter(function ($log) {
+                return $log->level == 'error';
+            })->take(10)->toArray();
+        } catch (\Exception $e) {
+            Log::channel('custom')->error('Error fetching error logs: ' . $e->getMessage());
+            return [];
+        }
     }
 
     private function getUptime()
     {
-        $uptime = shell_exec("uptime");
-
-        return [
-            'uptime' => $uptime,
-        ];
+        try {
+            $uptime = shell_exec("uptime");
+            return [
+                'uptime' => $uptime,
+            ];
+        } catch (\Exception $e) {
+            Log::channel('custom')->error('Error fetching system uptime: ' . $e->getMessage());
+            return [
+                'uptime' => 'N/A',
+            ];
+        }
     }
 
     public function getApiPerformanceReport(): JsonResponse
     {
-        $this->authorize('viewAdminDashboard', auth()->user());
+        $this->authorize('accessDashboard', User::class); // Make sure this authorization call is correct
 
         $averageResponseTime = DB::table('api_performance')->avg('duration');
         $peakResponseTime = DB::table('api_performance')->max('duration');

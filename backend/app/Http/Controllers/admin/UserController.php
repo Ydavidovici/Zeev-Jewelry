@@ -7,20 +7,22 @@ use App\Models\User;
 use Spatie\Permission\Models\Role;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Http\JsonResponse;
 
 class UserController extends Controller
 {
     public function __construct()
     {
-        // Apply authentication middleware to all methods
         $this->middleware('auth:api');
-        // Apply admin permissions middleware to all methods
-        $this->middleware('can:manageUsers,App\Models\User');
     }
 
     public function index(): JsonResponse
     {
+        if (Gate::denies('manage-users')) {
+            abort(403);
+        }
+
         Log::channel('custom')->info('Admin accessing users index');
 
         $users = User::all();
@@ -32,6 +34,10 @@ class UserController extends Controller
 
     public function store(Request $request): JsonResponse
     {
+        if (Gate::denies('manage-users')) {
+            abort(403);
+        }
+
         $validatedData = $request->validate([
             'username' => 'required|string|max:255',
             'password' => 'required|string|min:8',
@@ -45,7 +51,6 @@ class UserController extends Controller
             'email' => $validatedData['email'],
         ]);
 
-        // Assign role using the 'api' guard role
         $role = Role::where('name', $validatedData['role_name'])
             ->where('guard_name', 'api')
             ->firstOrFail();
@@ -59,6 +64,10 @@ class UserController extends Controller
 
     public function update(Request $request, User $user): JsonResponse
     {
+        if (Gate::denies('manage-users')) {
+            abort(403);
+        }
+
         $validatedData = $request->validate([
             'username' => 'required|string|max:255',
             'password' => 'nullable|string|min:8',
@@ -74,7 +83,6 @@ class UserController extends Controller
 
         $user->update($validatedData);
 
-        // Sync roles using the 'api' guard role
         $role = Role::where('name', $validatedData['role_name'])
             ->where('guard_name', 'api')
             ->firstOrFail();
@@ -88,6 +96,10 @@ class UserController extends Controller
 
     public function destroy(User $user): JsonResponse
     {
+        if (Gate::denies('manage-users')) {
+            abort(403);
+        }
+
         Log::channel('custom')->info('User deleted', ['user' => $user]);
 
         $user->delete();

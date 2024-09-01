@@ -9,6 +9,7 @@ use Spatie\Permission\Models\Permission;
 use App\Models\Product;
 use App\Models\Order;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Http\JsonResponse;
 
 class AdminController extends Controller
@@ -20,7 +21,9 @@ class AdminController extends Controller
 
     public function index(): JsonResponse
     {
-        $this->authorize('accessDashboard', User::class);
+        if (Gate::denies('access-admin-dashboard')) {
+            abort(403);
+        }
 
         Log::channel('custom')->info('Admin accessing dashboard');
 

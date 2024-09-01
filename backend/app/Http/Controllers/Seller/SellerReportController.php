@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Gate;
 
 class SellerReportController extends Controller
 {
@@ -16,7 +17,11 @@ class SellerReportController extends Controller
 
     public function index(Request $request): JsonResponse
     {
-        $this->authorize('viewDashboard', auth()->user());
+        $user = auth()->user();
+
+        if (!Gate::allows('view-seller-dashboard', $user)) {
+            return response()->json(['message' => 'Unauthorized'], 403);
+        }
 
         $startDate = $request->input('start_date', now()->subMonth());
         $endDate = $request->input('end_date', now());
@@ -27,7 +32,7 @@ class SellerReportController extends Controller
         // Other metrics...
 
         Log::channel('custom')->info('Seller report generated.', [
-            'user_id' => auth()->id(),
+            'user_id' => $user->id,
             'time' => now(),
         ]);
 
@@ -46,6 +51,4 @@ class SellerReportController extends Controller
             ->whereBetween('created_at', [$startDate, $endDate])
             ->sum('total');
     }
-
-    // Other private methods for metrics...
 }

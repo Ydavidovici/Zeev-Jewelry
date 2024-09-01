@@ -1,93 +1,105 @@
 <?php
 
-namespace Tests\Feature;
+namespace Tests\Feature\Controllers;
 
-use Tests\TestCase;
-use App\Models\User;
 use App\Models\Order;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Tymon\JWTAuth\Facades\JWTAuth;
+use Illuminate\Support\Facades\Gate;
+use Tests\TestCase;
 
 class OrderControllerTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function testOrderIndex()
+    protected function setUp(): void
     {
-        $user = User::factory()->create();
-        $token = JWTAuth::fromUser($user);
-
-        Order::factory()->count(3)->create();
-
-        $response = $this->withHeader('Authorization', "Bearer $token")
-            ->getJson('/api/orders');
-
-        $response->assertStatus(200)
-            ->assertJsonCount(3);
+        parent::setUp();
+        $this->actingAs(User::factory()->create(), 'api');
     }
 
-    public function testOrderStore()
+    /** @test */
+    public function it_can_view_all_orders()
     {
-        $user = User::factory()->create();
-        $token = JWTAuth::fromUser($user);
+        Gate::define('viewAny', function ($user) {
+            return true;
+        });
 
-        $data = [
+        $response = $this->getJson(route('orders.index'));
+
+        $response->assertStatus(200)
+            ->assertJsonStructure(['*' => ['id', 'customer_id', 'order_date', 'total_amount']]);
+    }
+
+    /** @test */
+    public function it_can_create_an_order()
+    {
+        Gate::define('create', function ($user) {
+            return true;
+        });
+
+        $orderData = [
             'customer_id' => 1,
-            'order_date' => now(),
-            'total_amount' => 100,
+            'order_date' => now()->toDateString(),
+            'total_amount' => 100.00,
             'is_guest' => false,
             'status' => 'Pending',
+            'payment_intent_id' => 'test_intent_id',
         ];
 
-        $response = $this->withHeader('Authorization', "Bearer $token")
-            ->postJson('/api/orders', $data);
+        $response = $this->postJson(route('orders.store'), $orderData);
 
         $response->assertStatus(201)
-            ->assertJson($data);
+            ->assertJsonFragment(['status' => 'Pending']);
+
+        $this->assertDatabaseHas('orders', ['customer_id' => 1, 'total_amount' => 100.00]);
     }
 
-    public function testOrderShow()
+    /** @test */
+    public function it_can_show_an_order()
     {
-        $user = User::factory()->create();
-        $token = JWTAuth::fromUser($user);
+        Gate::define('view', function ($user, $order) {
+            return true;
+        });
 
         $order = Order::factory()->create();
 
-        $response = $this->withHeader('Authorization', "Bearer $token")
-            ->getJson("/api/orders/{$order->id}");
+        $response = $this->getJson(route('orders.show', $order->id));
 
         $response->assertStatus(200)
-            ->assertJson($order->toArray());
+            ->assertJson(['id' => $order->id]);
     }
 
-    public function testOrderUpdate()
+    /** @test */
+    public function it_can_update_an_order()
     {
-        $user = User::factory()->create();
-        $token = JWTAuth::fromUser($user);
+        Gate::define('update', function ($user, $order) {
+            return true;
+        });
 
         $order = Order::factory()->create();
 
-        $data = [
-            'status' => 'Shipped',
-        ];
-
-        $response = $this->withHeader('Authorization', "Bearer $token")
-            ->putJson("/api/orders/{$order->id}", $data);
+        $response = $this->putJson(route('orders.update', $order->id), ['status' => 'Completed']);
 
         $response->assertStatus(200)
-            ->assertJson($data);
+            ->assertJsonFragment(['status' => 'Completed']);
+
+        $this->assertDatabaseHas('orders', ['id' => $order->id, 'status' => 'Completed']);
     }
 
-    public function testOrderDestroy()
+    /** @test */
+    public function it_can_delete_an_order()
     {
-        $user = User::factory()->create();
-        $token = JWTAuth::fromUser($user);
+        Gate::define('delete', function ($user, $order) {
+            return true;
+        });
 
         $order = Order::factory()->create();
 
-        $response = $this->withHeader('Authorization', "Bearer $token")
-            ->deleteJson("/api/orders/{$order->id}");
+        $response = $this->deleteJson(route('orders.destroy', $order->id));
 
         $response->assertStatus(204);
+
+        $this->assertDatabaseMissing('orders', ['id' => $order->id]);
     }
 }

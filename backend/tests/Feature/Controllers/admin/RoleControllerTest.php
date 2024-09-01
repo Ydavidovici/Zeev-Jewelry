@@ -1,11 +1,11 @@
 <?php
 
-namespace Tests\Feature\Admin;
+namespace Tests\Feature\Controllers\Admin;
 
 use Tests\TestCase;
 use App\Models\User;
-use Spatie\Permission\Models\Role;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Spatie\Permission\Models\Role;
 
 class RoleControllerTest extends TestCase
 {
@@ -19,7 +19,7 @@ class RoleControllerTest extends TestCase
 
         $this->actingAs($admin, 'api');
 
-        $response = $this->getJson(route('admin.roles.index'));
+        $response = $this->getJson(route('roles.index'));
 
         $response->assertStatus(200)
             ->assertJsonStructure(['roles']);
@@ -31,7 +31,7 @@ class RoleControllerTest extends TestCase
 
         $this->actingAs($user, 'api');
 
-        $response = $this->getJson(route('admin.roles.index'));
+        $response = $this->getJson(route('roles.index'));
 
         $response->assertStatus(403); // Forbidden
     }
@@ -44,13 +44,27 @@ class RoleControllerTest extends TestCase
 
         $this->actingAs($admin, 'api');
 
-        $response = $this->postJson(route('admin.roles.store'), [
+        $response = $this->postJson(route('roles.store'), [
             'name' => 'editor',
             'description' => 'Can edit content',
         ]);
 
         $response->assertStatus(201)
             ->assertJsonStructure(['role']);
+    }
+
+    public function test_non_admin_cannot_create_role()
+    {
+        $user = User::factory()->create();
+
+        $this->actingAs($user, 'api');
+
+        $response = $this->postJson(route('roles.store'), [
+            'name' => 'editor',
+            'description' => 'Can edit content',
+        ]);
+
+        $response->assertStatus(403); // Forbidden
     }
 
     public function test_admin_can_update_role()
@@ -63,13 +77,28 @@ class RoleControllerTest extends TestCase
 
         $this->actingAs($admin, 'api');
 
-        $response = $this->putJson(route('admin.roles.update', $role), [
-            'name' => 'author',
-            'description' => 'Can create content',
+        $response = $this->putJson(route('roles.update', $role), [
+            'name' => 'super editor',
+            'description' => 'Can edit all content',
         ]);
 
         $response->assertStatus(200)
             ->assertJsonStructure(['role']);
+    }
+
+    public function test_non_admin_cannot_update_role()
+    {
+        $user = User::factory()->create();
+        $role = Role::create(['name' => 'editor', 'description' => 'Can edit content']);
+
+        $this->actingAs($user, 'api');
+
+        $response = $this->putJson(route('roles.update', $role), [
+            'name' => 'super editor',
+            'description' => 'Can edit all content',
+        ]);
+
+        $response->assertStatus(403); // Forbidden
     }
 
     public function test_admin_can_delete_role()
@@ -82,8 +111,20 @@ class RoleControllerTest extends TestCase
 
         $this->actingAs($admin, 'api');
 
-        $response = $this->deleteJson(route('admin.roles.destroy', $role));
+        $response = $this->deleteJson(route('roles.destroy', $role));
 
         $response->assertStatus(204);
+    }
+
+    public function test_non_admin_cannot_delete_role()
+    {
+        $user = User::factory()->create();
+        $role = Role::create(['name' => 'editor', 'description' => 'Can edit content']);
+
+        $this->actingAs($user, 'api');
+
+        $response = $this->deleteJson(route('roles.destroy', $role));
+
+        $response->assertStatus(403); // Forbidden
     }
 }

@@ -5,48 +5,38 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Settings;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Http\JsonResponse;
 
 class SettingsController extends Controller
 {
     public function __construct()
     {
-        // Apply authentication middleware to all methods except getCurrentSettings
         $this->middleware('auth:api')->except('getCurrentSettings');
-        // Apply admin permissions middleware to all methods except getCurrentSettings
-        $this->middleware('can:manageSettings,App\Models\User')->only(['index', 'store', 'update', 'destroy']);
     }
 
-    /**
-     * Get all settings for public access.
-     *
-     * @return JsonResponse
-     */
     public function getCurrentSettings(): JsonResponse
     {
         $settings = Settings::all();
         return response()->json($settings);
     }
 
-    /**
-     * Display a listing of the settings (admin only).
-     *
-     * @return JsonResponse
-     */
     public function index(): JsonResponse
     {
+        if (Gate::denies('manage-settings')) {
+            abort(403);
+        }
+
         $settings = Settings::all();
         return response()->json($settings);
     }
 
-    /**
-     * Store a new setting (admin only).
-     *
-     * @param Request $request
-     * @return JsonResponse
-     */
     public function store(Request $request): JsonResponse
     {
+        if (Gate::denies('manage-settings')) {
+            abort(403);
+        }
+
         $validated = $request->validate([
             'key' => 'required|string|unique:settings',
             'value' => 'required|string',
@@ -59,15 +49,12 @@ class SettingsController extends Controller
         ], 201);
     }
 
-    /**
-     * Update an existing setting (admin only).
-     *
-     * @param Request $request
-     * @param string $key
-     * @return JsonResponse
-     */
     public function update(Request $request, string $key): JsonResponse
     {
+        if (Gate::denies('manage-settings')) {
+            abort(403);
+        }
+
         $validated = $request->validate([
             'value' => 'required|string',
         ]);
@@ -80,14 +67,12 @@ class SettingsController extends Controller
         ]);
     }
 
-    /**
-     * Delete a setting (admin only).
-     *
-     * @param string $key
-     * @return JsonResponse
-     */
     public function destroy(string $key): JsonResponse
     {
+        if (Gate::denies('manage-settings')) {
+            abort(403);
+        }
+
         $setting = Settings::where('key', $key)->firstOrFail();
         $setting->delete();
         return response()->json(['message' => 'Setting deleted successfully.']);

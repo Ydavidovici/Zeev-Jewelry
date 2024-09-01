@@ -23,8 +23,8 @@ class OrderDetailTest extends TestCase
     // Method to seed roles for testing
     private function seedRoles()
     {
-        if (Role::where('name', 'seller')->doesntExist()) {
-            Role::create(['name' => 'seller', 'guard_name' => 'api']);
+        if (Role::where('name', 'Seller')->doesntExist()) {
+            Role::create(['name' => 'Seller', 'guard_name' => 'api']);
         }
         if (Role::where('name', 'customer')->doesntExist()) {
             Role::create(['name' => 'customer', 'guard_name' => 'api']);

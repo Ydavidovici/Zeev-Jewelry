@@ -9,6 +9,7 @@ use App\Models\Order;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Gate;
 
 class OrderController extends Controller
 {
@@ -19,14 +20,19 @@ class OrderController extends Controller
 
     public function index(): JsonResponse
     {
-        $this->authorize('viewAny', Order::class);
+        if (!Gate::allows('view-any-order', auth()->user())) {
+            return response()->json(['message' => 'Unauthorized'], 403);
+        }
+
         $orders = Order::all();
         return response()->json($orders);
     }
 
     public function store(Request $request): JsonResponse
     {
-        $this->authorize('create', Order::class);
+        if (!Gate::allows('create-order', auth()->user())) {
+            return response()->json(['message' => 'Unauthorized'], 403);
+        }
 
         $request->validate([
             'customer_id' => 'required|exists:customers,id',
@@ -39,7 +45,6 @@ class OrderController extends Controller
 
         $order = Order::create($request->all());
 
-        // Send order confirmation email
         Mail::to($order->customer->email)->send(new OrderConfirmationMail($order));
 
         return response()->json($order, 201);
@@ -47,13 +52,18 @@ class OrderController extends Controller
 
     public function show(Order $order): JsonResponse
     {
-        $this->authorize('view', $order);
+        if (!Gate::allows('view-order', $order)) {
+            return response()->json(['message' => 'Unauthorized'], 403);
+        }
+
         return response()->json($order);
     }
 
     public function update(Request $request, Order $order): JsonResponse
     {
-        $this->authorize('update', $order);
+        if (!Gate::allows('update-order', $order)) {
+            return response()->json(['message' => 'Unauthorized'], 403);
+        }
 
         $request->validate([
             'customer_id' => 'required|exists:customers,id',
@@ -66,7 +76,6 @@ class OrderController extends Controller
 
         $order->update($request->all());
 
-        // Send appropriate status update email
         if ($order->status === 'shipped') {
             Mail::to($order->customer->email)->send(new ShippingConfirmationMail($order));
         } elseif ($order->status === 'delivered') {
@@ -78,7 +87,10 @@ class OrderController extends Controller
 
     public function destroy(Order $order): JsonResponse
     {
-        $this->authorize('delete', $order);
+        if (!Gate::allows('delete-order', $order)) {
+            return response()->json(['message' => 'Unauthorized'], 403);
+        }
+
         $order->delete();
 
         return response()->json(null, 204);

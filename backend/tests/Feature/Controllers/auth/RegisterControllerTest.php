@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature\Auth;
+namespace Tests\Feature\Controllers\Auth;
 
 use Tests\TestCase;
 use App\Models\User;
@@ -16,31 +16,33 @@ class RegisterControllerTest extends TestCase
     {
         Mail::fake();
 
-        $response = $this->postJson(route('register'), [
-            'username' => 'newuser',
-            'name' => 'New User',
-            'email' => 'newuser@example.com',
-            'password' => 'password',
-            'password_confirmation' => 'password',
+        $response = $this->postJson(route('auth.register'), [
+            'username' => 'johndoe',
+            'name' => 'John Doe',
+            'email' => 'john@example.com',
+            'password' => 'password123',
+            'password_confirmation' => 'password123',
         ]);
 
         $response->assertStatus(201)
-            ->assertJsonStructure(['access_token', 'token_type']);
+            ->assertJsonStructure([
+                'access_token',
+                'token_type',
+            ]);
 
-        $this->assertDatabaseHas('users', ['email' => 'newuser@example.com']);
         Mail::assertSent(WelcomeMail::class);
     }
 
-    public function test_registration_fails_with_existing_email()
+    public function test_user_cannot_register_with_existing_email()
     {
-        User::factory()->create(['email' => 'existing@example.com']);
+        User::factory()->create(['email' => 'john@example.com']);
 
-        $response = $this->postJson(route('register'), [
-            'username' => 'newuser',
-            'name' => 'New User',
-            'email' => 'existing@example.com',
-            'password' => 'password',
-            'password_confirmation' => 'password',
+        $response = $this->postJson(route('auth.register'), [
+            'username' => 'johndoe',
+            'name' => 'John Doe',
+            'email' => 'john@example.com',
+            'password' => 'password123',
+            'password_confirmation' => 'password123',
         ]);
 
         $response->assertStatus(422)

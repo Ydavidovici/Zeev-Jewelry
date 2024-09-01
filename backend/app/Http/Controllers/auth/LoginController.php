@@ -5,10 +5,9 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
-use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Tymon\JWTAuth\Facades\JWTAuth;
+use Illuminate\Support\Facades\Gate;
 
 class LoginController extends Controller
 {
@@ -16,9 +15,17 @@ class LoginController extends Controller
     {
         $credentials = $request->only('email', 'password');
 
-        if (!$token = Auth::guard('api')->attempt($credentials)) {
+        if (!Auth::guard('api')->attempt($credentials)) {
             return response()->json(['error' => 'Unauthorized'], 401);
         }
+
+        $user = Auth::user();
+
+        if (!Gate::allows('login', $user)) {
+            return response()->json(['message' => 'Unauthorized'], 403);
+        }
+
+        $token = JWTAuth::fromUser($user);
 
         return $this->respondWithToken($token);
     }

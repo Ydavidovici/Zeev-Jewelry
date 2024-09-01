@@ -1,78 +1,93 @@
 <?php
 
-namespace Tests\Feature;
+namespace Tests\Feature\Controllers;
 
-use Tests\TestCase;
-use App\Models\User;
-use App\Models\Product;
 use App\Models\Cart;
 use App\Models\CartItem;
+use App\Models\Product;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Tymon\JWTAuth\Facades\JWTAuth;
+use Illuminate\Support\Facades\Gate;
+use Tests\TestCase;
 
 class CartControllerTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function testCartIndex()
+    protected function setUp(): void
     {
-        $user = User::factory()->create();
-        $token = JWTAuth::fromUser($user);
+        parent::setUp();
+        $this->actingAs(User::factory()->create(), 'api');
+    }
 
-        Cart::factory()->create(['user_id' => $user->id]);
+    /** @test */
+    public function it_can_view_the_cart()
+    {
+        Gate::define('viewAny', function ($user) {
+            return true;
+        });
 
-        $response = $this->withHeader('Authorization', "Bearer $token")
-            ->getJson('/api/cart');
+        $response = $this->getJson(route('carts.index'));
 
         $response->assertStatus(200)
             ->assertJsonStructure(['cart']);
     }
 
-    public function testAddToCart()
+    /** @test */
+    public function it_can_add_a_product_to_the_cart()
     {
-        $user = User::factory()->create();
-        $token = JWTAuth::fromUser($user);
+        Gate::define('create', function ($user) {
+            return true;
+        });
 
         $product = Product::factory()->create();
+        $requestData = ['product_id' => $product->id, 'quantity' => 1];
 
-        $response = $this->withHeader('Authorization', "Bearer $token")
-            ->postJson('/api/cart', [
-                'product_id' => $product->id,
-                'quantity' => 2,
-            ]);
-
-        $response->assertStatus(201)
-            ->assertJsonStructure(['message', 'cart']);
-    }
-
-    public function testUpdateCartItem()
-    {
-        $user = User::factory()->create();
-        $token = JWTAuth::fromUser($user);
-
-        $cart = Cart::factory()->create(['user_id' => $user->id]);
-        $cartItem = CartItem::factory()->create(['cart_id' => $cart->id]);
-
-        $response = $this->withHeader('Authorization', "Bearer $token")
-            ->putJson("/api/cart/{$cartItem->id}", [
-                'quantity' => 3,
-            ]);
+        $response = $this->postJson(route('carts.store'), $requestData);
 
         $response->assertStatus(200)
-            ->assertJsonStructure(['message', 'cart']);
+            ->assertJsonFragment(['message' => 'Product added to cart.']);
+
+        $this->assertDatabaseHas('cart_items', [
+            'product_id' => $product->id,
+            'quantity' => 1,
+        ]);
     }
 
-    public function testRemoveFromCart()
+    /** @test */
+    public function it_can_update_cart_item_quantity()
     {
-        $user = User::factory()->create();
-        $token = JWTAuth::fromUser($user);
+        Gate::define('update', function ($user, $cart) {
+            return true;
+        });
 
-        $cart = Cart::factory()->create(['user_id' => $user->id]);
-        $cartItem = CartItem::factory()->create(['cart_id' => $cart->id]);
+        $cartItem = CartItem::factory()->create();
 
-        $response = $this->withHeader('Authorization', "Bearer $token")
-            ->deleteJson("/api/cart/{$cartItem->id}");
+        $response = $this->putJson(route('carts.update', $cartItem->id), ['quantity' => 2]);
 
-        $response->assertStatus(204);
+        $response->assertStatus(200)
+            ->assertJsonFragment(['message' => 'Cart updated.']);
+
+        $this->assertDatabaseHas('cart_items', [
+            'id' => $cartItem->id,
+            'quantity' => 2,
+        ]);
+    }
+
+    /** @test */
+    public function it_can_remove_a_product_from_the_cart()
+    {
+        Gate::define('delete', function ($user, $cart) {
+            return true;
+        });
+
+        $cartItem = CartItem::factory()->create();
+
+        $response = $this->deleteJson(route('carts.destroy', $cartItem->id));
+
+        $response->assertStatus(200)
+            ->assertJsonFragment(['message' => 'Product removed from cart.']);
+
+        $this->assertDatabaseMissing('cart_items', ['id' => $cartItem->id]);
     }
 }

@@ -1,89 +1,98 @@
 <?php
 
-namespace Tests\Feature;
+namespace Tests\Feature\Controllers;
 
-use Tests\TestCase;
-use App\Models\User;
 use App\Models\Category;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Tymon\JWTAuth\Facades\JWTAuth;
+use Illuminate\Support\Facades\Gate;
+use Tests\TestCase;
 
 class CategoryControllerTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function testCategoryIndex()
+    protected function setUp(): void
     {
-        $user = User::factory()->create();
-        $token = JWTAuth::fromUser($user);
-
-        Category::factory()->count(3)->create();
-
-        $response = $this->withHeader('Authorization', "Bearer $token")
-            ->getJson('/api/categories');
-
-        $response->assertStatus(200)
-            ->assertJsonCount(3);
+        parent::setUp();
+        $this->actingAs(User::factory()->create(), 'api');
     }
 
-    public function testCategoryStore()
+    /** @test */
+    public function it_can_view_all_categories()
     {
-        $user = User::factory()->create();
-        $token = JWTAuth::fromUser($user);
+        Gate::define('viewAny', function ($user) {
+            return true;
+        });
 
-        $data = [
-            'category_name' => 'Electronics',
-        ];
+        $response = $this->getJson(route('categories.index'));
 
-        $response = $this->withHeader('Authorization', "Bearer $token")
-            ->postJson('/api/categories', $data);
+        $response->assertStatus(200)
+            ->assertJsonStructure(['*' => ['id', 'category_name']]);
+    }
+
+    /** @test */
+    public function it_can_create_a_category()
+    {
+        Gate::define('create', function ($user) {
+            return true;
+        });
+
+        $categoryData = ['category_name' => 'New Category'];
+
+        $response = $this->postJson(route('categories.store'), $categoryData);
 
         $response->assertStatus(201)
-            ->assertJson($data);
+            ->assertJsonFragment(['category_name' => 'New Category']);
+
+        $this->assertDatabaseHas('categories', ['category_name' => 'New Category']);
     }
 
-    public function testCategoryShow()
+    /** @test */
+    public function it_can_show_a_category()
     {
-        $user = User::factory()->create();
-        $token = JWTAuth::fromUser($user);
+        Gate::define('view', function ($user, $category) {
+            return true;
+        });
 
         $category = Category::factory()->create();
 
-        $response = $this->withHeader('Authorization', "Bearer $token")
-            ->getJson("/api/categories/{$category->id}");
+        $response = $this->getJson(route('categories.show', $category->id));
 
         $response->assertStatus(200)
-            ->assertJson($category->toArray());
+            ->assertJson(['id' => $category->id]);
     }
 
-    public function testCategoryUpdate()
+    /** @test */
+    public function it_can_update_a_category()
     {
-        $user = User::factory()->create();
-        $token = JWTAuth::fromUser($user);
+        Gate::define('update', function ($user, $category) {
+            return true;
+        });
 
         $category = Category::factory()->create();
 
-        $data = [
-            'category_name' => 'Home Appliances',
-        ];
-
-        $response = $this->withHeader('Authorization', "Bearer $token")
-            ->putJson("/api/categories/{$category->id}", $data);
+        $response = $this->putJson(route('categories.update', $category->id), ['category_name' => 'Updated Category']);
 
         $response->assertStatus(200)
-            ->assertJson($data);
+            ->assertJsonFragment(['category_name' => 'Updated Category']);
+
+        $this->assertDatabaseHas('categories', ['id' => $category->id, 'category_name' => 'Updated Category']);
     }
 
-    public function testCategoryDestroy()
+    /** @test */
+    public function it_can_delete_a_category()
     {
-        $user = User::factory()->create();
-        $token = JWTAuth::fromUser($user);
+        Gate::define('delete', function ($user, $category) {
+            return true;
+        });
 
         $category = Category::factory()->create();
 
-        $response = $this->withHeader('Authorization', "Bearer $token")
-            ->deleteJson("/api/categories/{$category->id}");
+        $response = $this->deleteJson(route('categories.destroy', $category->id));
 
         $response->assertStatus(204);
+
+        $this->assertDatabaseMissing('categories', ['id' => $category->id]);
     }
 }

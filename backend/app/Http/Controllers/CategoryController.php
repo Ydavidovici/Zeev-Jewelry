@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Gate;
 
 class CategoryController extends Controller
 {
@@ -15,14 +16,19 @@ class CategoryController extends Controller
 
     public function index(): JsonResponse
     {
-        $this->authorize('viewAny', Category::class);
+        if (!Gate::allows('view-any-category', auth()->user())) {
+            return response()->json(['message' => 'Unauthorized'], 403);
+        }
+
         $categories = Category::all();
         return response()->json($categories);
     }
 
     public function store(Request $request): JsonResponse
     {
-        $this->authorize('create', Category::class);
+        if (!Gate::allows('create-category', auth()->user())) {
+            return response()->json(['message' => 'Unauthorized'], 403);
+        }
 
         $request->validate([
             'category_name' => 'required|string|max:255',
@@ -35,13 +41,18 @@ class CategoryController extends Controller
 
     public function show(Category $category): JsonResponse
     {
-        $this->authorize('view', $category);
+        if (!Gate::allows('view-category', $category, auth()->user())) {
+            return response()->json(['message' => 'Unauthorized'], 403);
+        }
+
         return response()->json($category);
     }
 
     public function update(Request $request, Category $category): JsonResponse
     {
-        $this->authorize('update', $category);
+        if (!Gate::allows('update-category', $category, auth()->user())) {
+            return response()->json(['message' => 'Unauthorized'], 403);
+        }
 
         $request->validate([
             'category_name' => 'required|string|max:255',
@@ -54,7 +65,10 @@ class CategoryController extends Controller
 
     public function destroy(Category $category): JsonResponse
     {
-        $this->authorize('delete', $category);
+        if (!Gate::allows('delete-category', $category, auth()->user())) {
+            return response()->json(['message' => 'Unauthorized'], 403);
+        }
+
         $category->delete();
 
         return response()->json(null, 204);

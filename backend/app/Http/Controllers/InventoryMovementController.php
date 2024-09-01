@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Gate;
 
 class InventoryMovementController extends Controller
 {
@@ -17,7 +18,9 @@ class InventoryMovementController extends Controller
 
     public function index(): JsonResponse
     {
-        $this->authorize('viewAny', InventoryMovement::class);
+        if (!Gate::allows('view-any-inventory-movement', auth()->user())) {
+            return response()->json(['message' => 'Unauthorized'], 403);
+        }
 
         $inventoryMovements = InventoryMovement::all();
 
@@ -28,7 +31,9 @@ class InventoryMovementController extends Controller
 
     public function store(Request $request): JsonResponse
     {
-        $this->authorize('create', InventoryMovement::class);
+        if (!Gate::allows('create-inventory-movement', auth()->user())) {
+            return response()->json(['message' => 'Unauthorized'], 403);
+        }
 
         $request->validate([
             'inventory_id' => 'required|exists:inventories,id',
@@ -45,7 +50,9 @@ class InventoryMovementController extends Controller
 
     public function show(InventoryMovement $inventoryMovement): JsonResponse
     {
-        $this->authorize('view', $inventoryMovement);
+        if (!Gate::allows('view-inventory-movement', $inventoryMovement)) {
+            return response()->json(['message' => 'Unauthorized'], 403);
+        }
 
         Log::info('User viewed an inventory movement.', ['user_id' => Auth::id(), 'inventory_movement_id' => $inventoryMovement->id]);
 
@@ -54,7 +61,9 @@ class InventoryMovementController extends Controller
 
     public function update(Request $request, InventoryMovement $inventoryMovement): JsonResponse
     {
-        $this->authorize('update', $inventoryMovement);
+        if (!Gate::allows('update-inventory-movement', $inventoryMovement)) {
+            return response()->json(['message' => 'Unauthorized'], 403);
+        }
 
         $request->validate([
             'inventory_id' => 'required|exists:inventories,id',
@@ -71,7 +80,10 @@ class InventoryMovementController extends Controller
 
     public function destroy(InventoryMovement $inventoryMovement): JsonResponse
     {
-        $this->authorize('delete', $inventoryMovement);
+        if (!Gate::allows('delete-inventory-movement', $inventoryMovement)) {
+            return response()->json(['message' => 'Unauthorized'], 403);
+        }
+
         $inventoryMovement->delete();
 
         Log::info('Inventory movement deleted.', ['user_id' => Auth::id(), 'inventory_movement_id' => $inventoryMovement->id]);

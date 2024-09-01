@@ -25,8 +25,8 @@ class CartItemTest extends TestCase
     private function seedRoles()
     {
         // Check if roles already exist to avoid duplicate entries
-        if (Role::where('name', 'seller')->doesntExist()) {
-            Role::create(['name' => 'seller', 'guard_name' => 'api']);
+        if (Role::where('name', 'Seller')->doesntExist()) {
+            Role::create(['name' => 'Seller', 'guard_name' => 'api']);
         }
         if (Role::where('name', 'customer')->doesntExist()) {
             Role::create(['name' => 'customer', 'guard_name' => 'api']);

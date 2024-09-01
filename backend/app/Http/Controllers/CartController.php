@@ -8,6 +8,7 @@ use App\Models\Cart;
 use App\Models\CartItem;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 
 class CartController extends Controller
 {
@@ -20,8 +21,9 @@ class CartController extends Controller
     {
         $user = Auth::user();
 
-        // Policy check for viewing the cart
-        $this->authorize('viewAny', Cart::class);
+        if (!Gate::allows('view-any-cart', $user)) {
+            return response()->json(['message' => 'Unauthorized'], 403);
+        }
 
         $cart = Cart::with('items.product')->where('user_id', $user->id)->firstOrCreate([
             'user_id' => $user->id,
@@ -34,8 +36,9 @@ class CartController extends Controller
     {
         $user = Auth::user();
 
-        // Policy check for creating a cart
-        $this->authorize('create', Cart::class);
+        if (!Gate::allows('create-cart', $user)) {
+            return response()->json(['message' => 'Unauthorized'], 403);
+        }
 
         $request->validate([
             'product_id' => 'required|exists:products,id',
@@ -65,8 +68,9 @@ class CartController extends Controller
     {
         $user = Auth::user();
 
-        // Policy check for updating the cart item
-        $this->authorize('update', $cartItem->cart);
+        if (!Gate::allows('update-cart', $cartItem->cart, $user)) {
+            return response()->json(['message' => 'Unauthorized'], 403);
+        }
 
         $request->validate([
             'quantity' => 'required|integer|min:1',
@@ -83,8 +87,9 @@ class CartController extends Controller
     {
         $user = Auth::user();
 
-        // Policy check for deleting the cart item
-        $this->authorize('delete', $cartItem->cart);
+        if (!Gate::allows('delete-cart', $cartItem->cart, $user)) {
+            return response()->json(['message' => 'Unauthorized'], 403);
+        }
 
         $cartItem->delete();
 

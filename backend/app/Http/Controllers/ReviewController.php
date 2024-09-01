@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Review;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Gate;
 
 class ReviewController extends Controller
 {
@@ -15,14 +16,19 @@ class ReviewController extends Controller
 
     public function index(): JsonResponse
     {
-        $this->authorize('viewAny', Review::class);
+        if (!Gate::allows('view-any-review', auth()->user())) {
+            return response()->json(['message' => 'Unauthorized'], 403);
+        }
+
         $reviews = Review::all();
         return response()->json($reviews);
     }
 
     public function store(Request $request): JsonResponse
     {
-        $this->authorize('create', Review::class);
+        if (!Gate::allows('create-review', auth()->user())) {
+            return response()->json(['message' => 'Unauthorized'], 403);
+        }
 
         $request->validate([
             'product_id' => 'required|exists:products,id',
@@ -39,13 +45,18 @@ class ReviewController extends Controller
 
     public function show(Review $review): JsonResponse
     {
-        $this->authorize('view', $review);
+        if (!Gate::allows('view-review', $review)) {
+            return response()->json(['message' => 'Unauthorized'], 403);
+        }
+
         return response()->json($review);
     }
 
     public function update(Request $request, Review $review): JsonResponse
     {
-        $this->authorize('update', $review);
+        if (!Gate::allows('update-review', $review)) {
+            return response()->json(['message' => 'Unauthorized'], 403);
+        }
 
         $request->validate([
             'product_id' => 'required|exists:products,id',
@@ -62,7 +73,10 @@ class ReviewController extends Controller
 
     public function destroy(Review $review): JsonResponse
     {
-        $this->authorize('delete', $review);
+        if (!Gate::allows('delete-review', $review)) {
+            return response()->json(['message' => 'Unauthorized'], 403);
+        }
+
         $review->delete();
 
         return response()->json(null, 204);

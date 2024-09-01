@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\OrderDetail;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Gate;
 
 class OrderDetailController extends Controller
 {
@@ -15,14 +16,19 @@ class OrderDetailController extends Controller
 
     public function index(): JsonResponse
     {
-        $this->authorize('viewAny', OrderDetail::class);
+        if (!Gate::allows('view-any-order-detail', auth()->user())) {
+            return response()->json(['message' => 'Unauthorized'], 403);
+        }
+
         $orderDetails = OrderDetail::all();
         return response()->json($orderDetails);
     }
 
     public function store(Request $request): JsonResponse
     {
-        $this->authorize('create', OrderDetail::class);
+        if (!Gate::allows('create-order-detail', auth()->user())) {
+            return response()->json(['message' => 'Unauthorized'], 403);
+        }
 
         $request->validate([
             'order_id' => 'required|exists:orders,id',
@@ -38,13 +44,18 @@ class OrderDetailController extends Controller
 
     public function show(OrderDetail $orderDetail): JsonResponse
     {
-        $this->authorize('view', $orderDetail);
+        if (!Gate::allows('view-order-detail', $orderDetail)) {
+            return response()->json(['message' => 'Unauthorized'], 403);
+        }
+
         return response()->json($orderDetail);
     }
 
     public function update(Request $request, OrderDetail $orderDetail): JsonResponse
     {
-        $this->authorize('update', $orderDetail);
+        if (!Gate::allows('update-order-detail', $orderDetail)) {
+            return response()->json(['message' => 'Unauthorized'], 403);
+        }
 
         $request->validate([
             'order_id' => 'required|exists:orders,id',
@@ -60,7 +71,10 @@ class OrderDetailController extends Controller
 
     public function destroy(OrderDetail $orderDetail): JsonResponse
     {
-        $this->authorize('delete', $orderDetail);
+        if (!Gate::allows('delete-order-detail', $orderDetail)) {
+            return response()->json(['message' => 'Unauthorized'], 403);
+        }
+
         $orderDetail->delete();
 
         return response()->json(null, 204);

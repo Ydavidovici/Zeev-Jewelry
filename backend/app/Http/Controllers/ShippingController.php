@@ -7,6 +7,7 @@ use App\Models\Shipping;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Gate;
 
 class ShippingController extends Controller
 {
@@ -17,14 +18,19 @@ class ShippingController extends Controller
 
     public function index(): JsonResponse
     {
-        $this->authorize('viewAny', Shipping::class);
+        if (!Gate::allows('view-any-shipping', auth()->user())) {
+            return response()->json(['message' => 'Unauthorized'], 403);
+        }
+
         $shippings = Shipping::all();
         return response()->json($shippings);
     }
 
     public function store(Request $request): JsonResponse
     {
-        $this->authorize('create', Shipping::class);
+        if (!Gate::allows('create-shipping', auth()->user())) {
+            return response()->json(['message' => 'Unauthorized'], 403);
+        }
 
         $request->validate([
             'order_id' => 'required|exists:orders,id',
@@ -42,7 +48,6 @@ class ShippingController extends Controller
 
         $shipping = Shipping::create($request->all());
 
-        // Send shipping confirmation email
         $order = $shipping->order;
         Mail::to($order->customer->email)->send(new ShippingConfirmationMail($order));
 
@@ -51,13 +56,18 @@ class ShippingController extends Controller
 
     public function show(Shipping $shipping): JsonResponse
     {
-        $this->authorize('view', $shipping);
+        if (!Gate::allows('view-shipping', $shipping)) {
+            return response()->json(['message' => 'Unauthorized'], 403);
+        }
+
         return response()->json($shipping);
     }
 
     public function update(Request $request, Shipping $shipping): JsonResponse
     {
-        $this->authorize('update', $shipping);
+        if (!Gate::allows('update-shipping', $shipping)) {
+            return response()->json(['message' => 'Unauthorized'], 403);
+        }
 
         $request->validate([
             'order_id' => 'required|exists:orders,id',
@@ -80,7 +90,10 @@ class ShippingController extends Controller
 
     public function destroy(Shipping $shipping): JsonResponse
     {
-        $this->authorize('delete', $shipping);
+        if (!Gate::allows('delete-shipping', $shipping)) {
+            return response()->json(['message' => 'Unauthorized'], 403);
+        }
+
         $shipping->delete();
 
         return response()->json(null, 204);
@@ -88,7 +101,9 @@ class ShippingController extends Controller
 
     public function track(Shipping $shipping): JsonResponse
     {
-        $this->authorize('view', $shipping);
+        if (!Gate::allows('view-shipping', $shipping)) {
+            return response()->json(['message' => 'Unauthorized'], 403);
+        }
 
         try {
             $trackingInfo = $shipping->trackShipment();

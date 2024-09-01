@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Gate;
 
 class FileUploadController extends Controller
 {
@@ -15,7 +16,9 @@ class FileUploadController extends Controller
 
     public function store(Request $request): JsonResponse
     {
-        $this->authorize('create', File::class);
+        if (!Gate::allows('create-file', auth()->user())) {
+            return response()->json(['message' => 'Unauthorized'], 403);
+        }
 
         $request->validate([
             'file' => 'required|file|mimes:jpg,png,jpeg,gif|max:2048',
@@ -34,7 +37,9 @@ class FileUploadController extends Controller
 
     public function index(): JsonResponse
     {
-        $this->authorize('viewAny', File::class);
+        if (!Gate::allows('view-any-file', auth()->user())) {
+            return response()->json(['message' => 'Unauthorized'], 403);
+        }
 
         $files = Storage::files('public/uploads');
         $fileUrls = array_map(function ($file) {
@@ -46,7 +51,9 @@ class FileUploadController extends Controller
 
     public function destroy($filename): JsonResponse
     {
-        $this->authorize('delete', File::class);
+        if (!Gate::allows('delete-file', auth()->user())) {
+            return response()->json(['message' => 'Unauthorized'], 403);
+        }
 
         $safeName = preg_replace('/[^a-zA-Z0-9-_\.]/', '_', $filename);
 

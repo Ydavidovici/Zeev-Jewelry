@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use App\Models\User;
+use Illuminate\Support\Facades\Gate;
 
 class ResetPasswordController extends Controller
 {
@@ -26,29 +27,28 @@ class ResetPasswordController extends Controller
             'password' => 'required|string|min:8|confirmed',
         ]);
 
-        try {
-            $response = Password::reset(
-                $request->only('email', 'password', 'password_confirmation', 'token'),
-                function ($user, $password) {
-                    $user->password = Hash::make($password);
-                    $user->save();
-                }
-            );
+        $user = User::where('email', $request->email)->first();
 
-            if ($response == Password::PASSWORD_RESET) {
-                $user = User::where('email', $request->email)->first();
-                if ($user) {
-                    // Send password change confirmation email
-                    Mail::to($user->email)->send(new PasswordChangeConfirmationMail($user));
-                }
-                return response()->json(['message' => 'Password reset successfully.'], 200);
-            } else {
-                return response()->json(['message' => __($response)], 400);
-            }
-
-        } catch (\Exception $e) {
-            \Log::error('Password reset failed: ' . $e->getMessage());
-            return response()->json(['message' => 'Failed to reset password.'], 500);
+        if ($user && !Gate::allows('reset-password', $user)) {
+            return response()->json(['message' => 'Unauthorized'], 403);
         }
+
+        $response = Password::reset(
+            $request->only('email', 'password', 'password_confirmation', 'token'),
+            function ($user, $password) {
+                $user->password = Hash::make($password);
+                $user->save();
+            }
+        );
+
+        if ($response == Password::PASSWORD_RESET) {
+            if ($user) {
+                // Send password change confirmation email
+                Mail::to($user->email)->send(new PasswordChangeConfirmationMail($user));
+            }
+            return response()->json(['message' => 'Password reset successfully.'], 200);
+        }
+
+        return response()->json(['message' => __($response)], 400);
     }
 }

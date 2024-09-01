@@ -6,6 +6,7 @@ use App\Models\Inventory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Gate;
 
 class InventoryController extends Controller
 {
@@ -16,21 +17,22 @@ class InventoryController extends Controller
 
     public function index(): JsonResponse
     {
-        $this->authorize('viewAny', Inventory::class);
-
-        $inventories = Inventory::all();
-        if (Auth::user()->hasRole('admin')) {
-            $inventories = Inventory::all();
-        } elseif (Auth::user()->hasRole('seller')) {
-            $inventories = Inventory::where('user_id', Auth::id())->get();
+        if (!Gate::allows('view-any-inventory', auth()->user())) {
+            return response()->json(['message' => 'Unauthorized'], 403);
         }
+
+        $inventories = Auth::user()->hasRole('admin')
+            ? Inventory::all()
+            : Inventory::where('user_id', Auth::id())->get();
 
         return response()->json($inventories);
     }
 
     public function store(Request $request): JsonResponse
     {
-        $this->authorize('create', Inventory::class);
+        if (!Gate::allows('create-inventory', auth()->user())) {
+            return response()->json(['message' => 'Unauthorized'], 403);
+        }
 
         $request->validate([
             'product_id' => 'required|exists:products,id',
@@ -47,10 +49,8 @@ class InventoryController extends Controller
 
     public function show(Inventory $inventory): JsonResponse
     {
-        $this->authorize('view', $inventory);
-
-        if (Auth::user()->hasRole('seller') && $inventory->user_id !== Auth::id()) {
-            abort(403, 'Unauthorized action.');
+        if (!Gate::allows('view-inventory', $inventory)) {
+            return response()->json(['message' => 'Unauthorized'], 403);
         }
 
         return response()->json($inventory);
@@ -58,10 +58,8 @@ class InventoryController extends Controller
 
     public function update(Request $request, Inventory $inventory): JsonResponse
     {
-        $this->authorize('update', $inventory);
-
-        if (Auth::user()->hasRole('seller') && $inventory->user_id !== Auth::id()) {
-            abort(403, 'Unauthorized action.');
+        if (!Gate::allows('update-inventory', $inventory)) {
+            return response()->json(['message' => 'Unauthorized'], 403);
         }
 
         $request->validate([
@@ -77,10 +75,8 @@ class InventoryController extends Controller
 
     public function destroy(Inventory $inventory): JsonResponse
     {
-        $this->authorize('delete', $inventory);
-
-        if (Auth::user()->hasRole('seller') && $inventory->user_id !== Auth::id()) {
-            abort(403, 'Unauthorized action.');
+        if (!Gate::allows('delete-inventory', $inventory)) {
+            return response()->json(['message' => 'Unauthorized'], 403);
         }
 
         $inventory->delete();

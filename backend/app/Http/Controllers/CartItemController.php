@@ -6,6 +6,7 @@ use App\Models\CartItem;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 
 class CartItemController extends Controller
 {
@@ -18,10 +19,10 @@ class CartItemController extends Controller
     {
         $user = Auth::user();
 
-        // Policy check for viewing any cart items
-        $this->authorize('viewAny', CartItem::class);
+        if (!Gate::allows('view-any-cart-item', $user)) {
+            return response()->json(['message' => 'Unauthorized'], 403);
+        }
 
-        // Retrieve all cart items associated with the user's cart
         $cartItems = CartItem::whereHas('cart', function($query) use ($user) {
             $query->where('user_id', $user->id);
         })->get();
@@ -33,8 +34,9 @@ class CartItemController extends Controller
     {
         $user = Auth::user();
 
-        // Policy check for creating cart items
-        $this->authorize('create', CartItem::class);
+        if (!Gate::allows('create-cart-item', $user)) {
+            return response()->json(['message' => 'Unauthorized'], 403);
+        }
 
         $request->validate([
             'cart_id' => 'required|exists:carts,id',
@@ -52,8 +54,9 @@ class CartItemController extends Controller
         $user = Auth::user();
         $cartItem = CartItem::findOrFail($id);
 
-        // Policy check for viewing a specific cart item
-        $this->authorize('view', $cartItem);
+        if (!Gate::allows('view-cart-item', $cartItem, $user)) {
+            return response()->json(['message' => 'Unauthorized'], 403);
+        }
 
         return response()->json($cartItem);
     }
@@ -63,8 +66,9 @@ class CartItemController extends Controller
         $user = Auth::user();
         $cartItem = CartItem::findOrFail($id);
 
-        // Policy check for updating a specific cart item
-        $this->authorize('update', $cartItem);
+        if (!Gate::allows('update-cart-item', $cartItem, $user)) {
+            return response()->json(['message' => 'Unauthorized'], 403);
+        }
 
         $request->validate([
             'quantity' => 'required|integer|min:1',
@@ -80,8 +84,9 @@ class CartItemController extends Controller
         $user = Auth::user();
         $cartItem = CartItem::findOrFail($id);
 
-        // Policy check for deleting a specific cart item
-        $this->authorize('delete', $cartItem);
+        if (!Gate::allows('delete-cart-item', $cartItem, $user)) {
+            return response()->json(['message' => 'Unauthorized'], 403);
+        }
 
         $cartItem->delete();
 

@@ -19,7 +19,7 @@ class UserTest extends TestCase
         // Create roles in the database
         Role::create(['name' => 'admin', 'guard_name' => 'api']);
         Role::create(['name' => 'customer', 'guard_name' => 'api']);
-        Role::create(['name' => 'seller', 'guard_name' => 'api']);
+        Role::create(['name' => 'Seller', 'guard_name' => 'api']);
     }
 
     #[Test]
@@ -61,7 +61,7 @@ class UserTest extends TestCase
     public function user_is_seller()
     {
         $user = User::factory()->create();
-        $user->assignRole('seller');
+        $user->assignRole('Seller');
 
         $this->assertTrue($user->isSeller());
     }

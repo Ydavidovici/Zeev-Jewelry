@@ -1,11 +1,11 @@
 <?php
 
-namespace Tests\Feature\Admin;
+namespace Tests\Feature\Controllers\Admin;
 
 use Tests\TestCase;
 use App\Models\User;
-use Spatie\Permission\Models\Role;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Spatie\Permission\Models\Role;
 
 class AdminReportControllerTest extends TestCase
 {

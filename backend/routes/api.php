@@ -6,6 +6,7 @@ use App\Http\Controllers\{
     Admin\RoleController,
     Admin\UserController,
     Admin\SettingsController,
+    Admin\AdminReportController,
     Auth\ChangePasswordController,
     Auth\ForgotPasswordController,
     Auth\LoginController,
@@ -15,7 +16,6 @@ use App\Http\Controllers\{
     CartItemController,
     CategoryController,
     CheckoutController,
-    Customer\CustomerController,
     FileUploadController,
     HomeController,
     InventoryController,
@@ -86,30 +86,41 @@ Route::middleware(['auth:api'])->group(function () {
 });
 
 // Admin routes
-Route::middleware(['auth:api', 'can:manageSettings,App\Models\User'])->prefix('admin')->name('admin.')->group(function () {
-    // Permissions Routes
-    Route::get('permissions', [PermissionsController::class, 'index'])->name('permissions.index');
-    Route::post('permissions', [PermissionsController::class, 'store'])->name('permissions.store');
-    Route::get('permissions/{permission}', [PermissionsController::class, 'show'])->name('permissions.show');
-    Route::put('permissions/{permission}', [PermissionsController::class, 'update'])->name('permissions.update');
-    Route::delete('permissions/{permission}', [PermissionsController::class, 'destroy'])->name('permissions.destroy');
+Route::middleware(['auth:api', 'can:manageSettings,App\Models\User'])
+    ->prefix('admin')
+    ->name('admin.')
+    ->group(function () {
+        // Dashboard route
+        Route::get('dashboard', [AdminController::class, 'index'])->name('index');
 
-    // Roles Routes
-    Route::get('roles', [RoleController::class, 'index'])->name('roles.index');
-    Route::post('roles', [RoleController::class, 'store'])->name('roles.store');
-    Route::get('roles/{role}', [RoleController::class, 'show'])->name('roles.show');
-    Route::put('roles/{role}', [RoleController::class, 'update'])->name('roles.update');
-    Route::delete('roles/{role}', [RoleController::class, 'destroy'])->name('roles.destroy');
+        // Report route
+        Route::get('report', [AdminReportController::class, 'index'])->name('report.index');
 
-    // Users management
-    Route::apiResource('users', UserController::class)->names('users');
+        // Existing routes...
+        // Permissions Routes
+        Route::get('permissions', [PermissionsController::class, 'index'])->name('permissions.index');
+        Route::post('permissions', [PermissionsController::class, 'store'])->name('permissions.store');
+        Route::get('permissions/{permission}', [PermissionsController::class, 'show'])->name('permissions.show');
+        Route::put('permissions/{permission}', [PermissionsController::class, 'update'])->name('permissions.update');
+        Route::delete('permissions/{permission}', [PermissionsController::class, 'destroy'])->name('permissions.destroy');
 
-    // Settings management
-    Route::get('settings', [SettingsController::class, 'index'])->name('settings.index');
-    Route::post('settings', [SettingsController::class, 'store'])->name('settings.store');
-    Route::put('settings/{key}', [SettingsController::class, 'update'])->name('settings.update');
-    Route::delete('settings/{key}', [SettingsController::class, 'destroy'])->name('settings.destroy');
-});
+        // Roles Routes
+        Route::get('roles', [RoleController::class, 'index'])->name('roles.index');
+        Route::post('roles', [RoleController::class, 'store'])->name('roles.store');
+        Route::get('roles/{role}', [RoleController::class, 'show'])->name('roles.show');
+        Route::put('roles/{role}', [RoleController::class, 'update'])->name('roles.update');
+        Route::delete('roles/{role}', [RoleController::class, 'destroy'])->name('roles.destroy');
+
+        // Users management
+        Route::apiResource('users', UserController::class)->names('users');
+
+        // Settings management
+        Route::get('settings', [SettingsController::class, 'index'])->name('settings.index');
+        Route::post('settings', [SettingsController::class, 'store'])->name('settings.store');
+        Route::put('settings/{key}', [SettingsController::class, 'update'])->name('settings.update');
+        Route::delete('settings/{key}', [SettingsController::class, 'destroy'])->name('settings.destroy');
+    });
+
 
 // Test Routes
 Route::post('/test-password/email', function (Request $request) {

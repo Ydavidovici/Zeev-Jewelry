@@ -28,7 +28,7 @@ class SellerControllerTest extends TestCase
         Payment::factory()->create(['seller_id' => $user->id]);
 
         $response = $this->withHeader('Authorization', "Bearer $token")
-            ->getJson('/api/seller/dashboard');
+            ->getJson('/api/Seller/dashboard');
 
         $response->assertStatus(200)
             ->assertJsonStructure([

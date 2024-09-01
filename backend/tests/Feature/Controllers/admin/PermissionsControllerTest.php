@@ -1,12 +1,12 @@
 <?php
 
-namespace Tests\Feature\Admin;
+namespace Tests\Feature\Controllers\Admin;
 
 use Tests\TestCase;
 use App\Models\User;
-use Spatie\Permission\Models\Role;
-use Spatie\Permission\Models\Permission;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Spatie\Permission\Models\Permission;
+use Spatie\Permission\Models\Role;
 
 class PermissionsControllerTest extends TestCase
 {
@@ -20,7 +20,7 @@ class PermissionsControllerTest extends TestCase
 
         $this->actingAs($admin, 'api');
 
-        $response = $this->getJson(route('admin.permissions.index'));
+        $response = $this->getJson(route('permissions.index'));
 
         $response->assertStatus(200)
             ->assertJsonStructure(['permissions']);
@@ -32,7 +32,7 @@ class PermissionsControllerTest extends TestCase
 
         $this->actingAs($user, 'api');
 
-        $response = $this->getJson(route('admin.permissions.index'));
+        $response = $this->getJson(route('permissions.index'));
 
         $response->assertStatus(403); // Forbidden
     }
@@ -45,12 +45,25 @@ class PermissionsControllerTest extends TestCase
 
         $this->actingAs($admin, 'api');
 
-        $response = $this->postJson(route('admin.permissions.store'), [
+        $response = $this->postJson(route('permissions.store'), [
             'name' => 'edit articles',
         ]);
 
         $response->assertStatus(201)
             ->assertJsonStructure(['permission']);
+    }
+
+    public function test_non_admin_cannot_create_permission()
+    {
+        $user = User::factory()->create();
+
+        $this->actingAs($user, 'api');
+
+        $response = $this->postJson(route('permissions.store'), [
+            'name' => 'edit articles',
+        ]);
+
+        $response->assertStatus(403); // Forbidden
     }
 
     public function test_admin_can_update_permission()
@@ -63,12 +76,26 @@ class PermissionsControllerTest extends TestCase
 
         $this->actingAs($admin, 'api');
 
-        $response = $this->putJson(route('admin.permissions.update', $permission), [
+        $response = $this->putJson(route('permissions.update', $permission), [
             'name' => 'edit posts',
         ]);
 
         $response->assertStatus(200)
             ->assertJsonStructure(['permission']);
+    }
+
+    public function test_non_admin_cannot_update_permission()
+    {
+        $user = User::factory()->create();
+        $permission = Permission::create(['name' => 'edit articles']);
+
+        $this->actingAs($user, 'api');
+
+        $response = $this->putJson(route('permissions.update', $permission), [
+            'name' => 'edit posts',
+        ]);
+
+        $response->assertStatus(403); // Forbidden
     }
 
     public function test_admin_can_delete_permission()
@@ -81,8 +108,20 @@ class PermissionsControllerTest extends TestCase
 
         $this->actingAs($admin, 'api');
 
-        $response = $this->deleteJson(route('admin.permissions.destroy', $permission));
+        $response = $this->deleteJson(route('permissions.destroy', $permission));
 
         $response->assertStatus(204);
+    }
+
+    public function test_non_admin_cannot_delete_permission()
+    {
+        $user = User::factory()->create();
+        $permission = Permission::create(['name' => 'edit articles']);
+
+        $this->actingAs($user, 'api');
+
+        $response = $this->deleteJson(route('permissions.destroy', $permission));
+
+        $response->assertStatus(403); // Forbidden
     }
 }

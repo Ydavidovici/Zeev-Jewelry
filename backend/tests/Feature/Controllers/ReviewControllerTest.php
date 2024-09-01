@@ -1,94 +1,104 @@
 <?php
 
-namespace Tests\Feature;
+namespace Tests\Feature\Controllers;
 
-use Tests\TestCase;
-use App\Models\User;
 use App\Models\Review;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Tymon\JWTAuth\Facades\JWTAuth;
+use Illuminate\Support\Facades\Gate;
+use Tests\TestCase;
 
 class ReviewControllerTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function testReviewIndex()
+    protected function setUp(): void
     {
-        $user = User::factory()->create();
-        $token = JWTAuth::fromUser($user);
-
-        Review::factory()->count(3)->create();
-
-        $response = $this->withHeader('Authorization', "Bearer $token")
-            ->getJson('/api/reviews');
-
-        $response->assertStatus(200)
-            ->assertJsonCount(3);
+        parent::setUp();
+        $this->actingAs(User::factory()->create(), 'api');
     }
 
-    public function testReviewStore()
+    /** @test */
+    public function it_can_view_all_reviews()
     {
-        $user = User::factory()->create();
-        $token = JWTAuth::fromUser($user);
+        Gate::define('viewAny', function ($user) {
+            return true;
+        });
 
-        $data = [
+        $response = $this->getJson(route('reviews.index'));
+
+        $response->assertStatus(200)
+            ->assertJsonStructure(['*' => ['id', 'product_id', 'customer_id', 'review_text', 'rating']]);
+    }
+
+    /** @test */
+    public function it_can_create_a_review()
+    {
+        Gate::define('create', function ($user) {
+            return true;
+        });
+
+        $reviewData = [
             'product_id' => 1,
             'customer_id' => 1,
             'review_text' => 'Great product!',
             'rating' => 5,
-            'review_date' => now(),
+            'review_date' => now()->toDateString(),
         ];
 
-        $response = $this->withHeader('Authorization', "Bearer $token")
-            ->postJson('/api/reviews', $data);
+        $response = $this->postJson(route('reviews.store'), $reviewData);
 
         $response->assertStatus(201)
-            ->assertJson($data);
+            ->assertJsonFragment(['review_text' => 'Great product!']);
+
+        $this->assertDatabaseHas('reviews', ['product_id' => 1, 'review_text' => 'Great product!']);
     }
 
-    public function testReviewShow()
+    /** @test */
+    public function it_can_show_a_review()
     {
-        $user = User::factory()->create();
-        $token = JWTAuth::fromUser($user);
+        Gate::define('view', function ($user, $review) {
+            return true;
+        });
 
         $review = Review::factory()->create();
 
-        $response = $this->withHeader('Authorization', "Bearer $token")
-            ->getJson("/api/reviews/{$review->id}");
+        $response = $this->getJson(route('reviews.show', $review->id));
 
         $response->assertStatus(200)
-            ->assertJson($review->toArray());
+            ->assertJson(['id' => $review->id]);
     }
 
-    public function testReviewUpdate()
+    /** @test */
+    public function it_can_update_a_review()
     {
-        $user = User::factory()->create();
-        $token = JWTAuth::fromUser($user);
+        Gate::define('update', function ($user, $review) {
+            return true;
+        });
 
         $review = Review::factory()->create();
 
-        $data = [
-            'review_text' => 'Updated review',
-            'rating' => 4,
-        ];
-
-        $response = $this->withHeader('Authorization', "Bearer $token")
-            ->putJson("/api/reviews/{$review->id}", $data);
+        $response = $this->putJson(route('reviews.update', $review->id), ['rating' => 4]);
 
         $response->assertStatus(200)
-            ->assertJson($data);
+            ->assertJsonFragment(['rating' => 4]);
+
+        $this->assertDatabaseHas('reviews', ['id' => $review->id, 'rating' => 4]);
     }
 
-    public function testReviewDestroy()
+    /** @test */
+    public function it_can_delete_a_review()
     {
-        $user = User::factory()->create();
-        $token = JWTAuth::fromUser($user);
+        Gate::define('delete', function ($user, $review) {
+            return true;
+        });
 
         $review = Review::factory()->create();
 
-        $response = $this->withHeader('Authorization', "Bearer $token")
-            ->deleteJson("/api/reviews/{$review->id}");
+        $response = $this->deleteJson(route('reviews.destroy', $review->id));
 
         $response->assertStatus(204);
+
+        $this->assertDatabaseMissing('reviews', ['id' => $review->id]);
     }
 }

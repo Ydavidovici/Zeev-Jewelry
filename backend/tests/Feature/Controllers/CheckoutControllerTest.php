@@ -1,60 +1,72 @@
 <?php
 
-namespace Tests\Feature;
+namespace Tests\Feature\Controllers;
 
-use Tests\TestCase;
-use App\Models\User;
 use App\Models\Order;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Tymon\JWTAuth\Facades\JWTAuth;
+use Illuminate\Support\Facades\Gate;
+use Tests\TestCase;
 
 class CheckoutControllerTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function testCheckoutIndex()
+    protected function setUp(): void
     {
-        $user = User::factory()->create();
-        $token = JWTAuth::fromUser($user);
+        parent::setUp();
+        $this->actingAs(User::factory()->create(), 'api');
+    }
 
-        $response = $this->withHeader('Authorization', "Bearer $token")
-            ->getJson('/api/checkout');
+    /** @test */
+    public function it_can_view_the_checkout_cart()
+    {
+        $response = $this->getJson(route('checkout.index'));
 
         $response->assertStatus(200)
             ->assertJsonStructure(['cart']);
     }
 
-    public function testCheckoutStore()
+    /** @test */
+    public function it_can_create_an_order()
     {
-        $user = User::factory()->create();
-        $token = JWTAuth::fromUser($user);
+        Gate::define('create', function ($user) {
+            return true;
+        });
 
-        $data = [
+        $orderData = [
             'address' => '123 Main St',
-            'city' => 'New York',
-            'postal_code' => '10001',
+            'city' => 'Testville',
+            'postal_code' => '12345'
         ];
 
-        $response = $this->withHeader('Authorization', "Bearer $token")
-            ->postJson('/api/checkout', $data);
+        session()->put('cart', [
+            ['product' => Product::factory()->create(), 'quantity' => 1]
+        ]);
 
-        $response->assertStatus(201)
-            ->assertJsonStructure(['message']);
-    }
-
-    public function testCheckoutSuccess()
-    {
-        $response = $this->getJson('/api/checkout/success');
+        $response = $this->postJson(route('checkout.store'), $orderData);
 
         $response->assertStatus(200)
-            ->assertJson(['message' => 'Order completed successfully.']);
+            ->assertJsonFragment(['message' => 'Order placed successfully.']);
+
+        $this->assertDatabaseHas('orders', ['user_id' => auth()->id(), 'status' => 'Pending']);
     }
 
-    public function testCheckoutFailure()
+    /** @test */
+    public function it_can_confirm_checkout_success()
     {
-        $response = $this->getJson('/api/checkout/failure');
+        $response = $this->getJson(route('checkout.success'));
 
         $response->assertStatus(200)
-            ->assertJson(['message' => 'Order failed.']);
+            ->assertJsonFragment(['message' => 'Order completed successfully.']);
+    }
+
+    /** @test */
+    public function it_can_confirm_checkout_failure()
+    {
+        $response = $this->getJson(route('checkout.failure'));
+
+        $response->assertStatus(200)
+            ->assertJsonFragment(['message' => 'Order failed.']);
     }
 }

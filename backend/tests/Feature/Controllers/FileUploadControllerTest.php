@@ -1,30 +1,37 @@
 <?php
 
-namespace Tests\Feature;
+namespace Tests\Feature\Controllers;
 
-use Tests\TestCase;
-use Illuminate\Http\UploadedFile;
-use Illuminate\Support\Facades\Storage;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Tymon\JWTAuth\Facades\JWTAuth;
+use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Storage;
+use Tests\TestCase;
 
 class FileUploadControllerTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function testFileUpload()
+    protected function setUp(): void
     {
+        parent::setUp();
+        $this->actingAs(User::factory()->create(), 'api');
         Storage::fake('public');
+    }
 
-        $user = User::factory()->create();
-        $token = JWTAuth::fromUser($user);
+    /** @test */
+    public function it_can_upload_a_file()
+    {
+        Gate::define('create', function ($user) {
+            return true;
+        });
 
-        $file = UploadedFile::fake()->image('avatar.jpg');
+        $file = UploadedFile::fake()->image('test.jpg');
 
-        $response = $this->withHeader('Authorization', "Bearer $token")
-            ->postJson('/api/files', [
-                'file' => $file,
-            ]);
+        $response = $this->postJson(route('files.store'), [
+            'file' => $file
+        ]);
 
         $response->assertStatus(200)
             ->assertJsonStructure(['path']);
@@ -32,39 +39,35 @@ class FileUploadControllerTest extends TestCase
         Storage::disk('public')->assertExists('uploads/' . $file->hashName());
     }
 
-    public function testFileIndex()
+    /** @test */
+    public function it_can_list_uploaded_files()
     {
-        Storage::fake('public');
+        Gate::define('viewAny', function ($user) {
+            return true;
+        });
 
-        $user = User::factory()->create();
-        $token = JWTAuth::fromUser($user);
+        Storage::disk('public')->put('uploads/test.jpg', 'Test Content');
 
-        Storage::disk('public')->put('uploads/file1.jpg', 'content');
-        Storage::disk('public')->put('uploads/file2.jpg', 'content');
-
-        $response = $this->withHeader('Authorization', "Bearer $token")
-            ->getJson('/api/files');
+        $response = $this->getJson(route('files.index'));
 
         $response->assertStatus(200)
-            ->assertJsonCount(2, 'files');
+            ->assertJsonFragment(['files' => [Storage::url('uploads/test.jpg')]]);
     }
 
-    public function testFileDelete()
+    /** @test */
+    public function it_can_delete_a_file()
     {
-        Storage::fake('public');
+        Gate::define('delete', function ($user) {
+            return true;
+        });
 
-        $user = User::factory()->create();
-        $token = JWTAuth::fromUser($user);
+        Storage::disk('public')->put('uploads/test.jpg', 'Test Content');
 
-        $file = UploadedFile::fake()->image('avatar.jpg');
-        $filePath = $file->storeAs('public/uploads', 'avatar.jpg');
-
-        $response = $this->withHeader('Authorization', "Bearer $token")
-            ->deleteJson('/api/files/avatar.jpg');
+        $response = $this->deleteJson(route('files.destroy', 'test.jpg'));
 
         $response->assertStatus(200)
-            ->assertJson(['message' => 'File deleted successfully.']);
+            ->assertJsonFragment(['message' => 'File deleted successfully.']);
 
-        Storage::disk('public')->assertMissing('uploads/avatar.jpg');
+        Storage::disk('public')->assertMissing('uploads/test.jpg');
     }
 }

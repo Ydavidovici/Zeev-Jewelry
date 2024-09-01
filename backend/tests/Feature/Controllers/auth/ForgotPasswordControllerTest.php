@@ -1,11 +1,10 @@
 <?php
 
-namespace Tests\Feature\Auth;
+namespace Tests\Feature\Controllers\Auth;
 
 use Tests\TestCase;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\PasswordResetMail;
 
@@ -13,14 +12,14 @@ class ForgotPasswordControllerTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function test_reset_link_email_is_sent_when_user_exists()
+    public function test_user_receives_reset_link_email()
     {
         Mail::fake();
 
-        $user = User::factory()->create(['email' => 'user@example.com']);
+        $user = User::factory()->create();
 
-        $response = $this->postJson(route('password.email'), [
-            'email' => 'user@example.com',
+        $response = $this->postJson(route('auth.forgotPassword'), [
+            'email' => $user->email,
         ]);
 
         $response->assertStatus(200)
@@ -29,11 +28,11 @@ class ForgotPasswordControllerTest extends TestCase
         Mail::assertSent(PasswordResetMail::class);
     }
 
-    public function test_no_email_sent_when_user_does_not_exist()
+    public function test_non_registered_email_does_not_receive_reset_link_email()
     {
         Mail::fake();
 
-        $response = $this->postJson(route('password.email'), [
+        $response = $this->postJson(route('auth.forgotPassword'), [
             'email' => 'nonexistent@example.com',
         ]);
 

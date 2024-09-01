@@ -14,7 +14,7 @@ class WebhookController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth:api');
+        // Webhooks are typically not authenticated, so you may not need middleware here.
     }
 
     public function handle(Request $request): JsonResponse
@@ -46,9 +46,7 @@ class WebhookController extends Controller
 
                     $payment = Payment::where('payment_intent_id', $paymentIntent->id)->first();
                     if ($payment) {
-                        $payment->update([
-                            'payment_status' => 'succeeded',
-                        ]);
+                        $payment->update(['payment_status' => 'succeeded']);
                     }
                 }
                 break;

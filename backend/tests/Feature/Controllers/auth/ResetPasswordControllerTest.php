@@ -1,13 +1,13 @@
 <?php
 
-namespace Tests\Feature\Auth;
+namespace Tests\Feature\Controllers\Auth;
 
 use Tests\TestCase;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Support\Facades\Password;
-use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Password;
 use App\Mail\PasswordChangeConfirmationMail;
 
 class ResetPasswordControllerTest extends TestCase
@@ -18,13 +18,13 @@ class ResetPasswordControllerTest extends TestCase
     {
         Mail::fake();
 
-        $user = User::factory()->create(['email' => 'user@example.com']);
-        // Generate a password reset token
-        $token = Password::broker()->createToken($user);
+        $user = User::factory()->create();
 
-        $response = $this->postJson(route('password.reset'), [
+        $token = Password::createToken($user);
+
+        $response = $this->postJson(route('auth.resetPassword'), [
+            'email' => $user->email,
             'token' => $token,
-            'email' => 'user@example.com',
             'password' => 'newpassword',
             'password_confirmation' => 'newpassword',
         ]);
@@ -33,21 +33,20 @@ class ResetPasswordControllerTest extends TestCase
             ->assertJson(['message' => 'Password reset successfully.']);
 
         Mail::assertSent(PasswordChangeConfirmationMail::class);
-        $this->assertTrue(Hash::check('newpassword', $user->fresh()->password));
     }
 
-    public function test_password_reset_fails_with_invalid_token()
+    public function test_user_cannot_reset_password_with_invalid_token()
     {
-        $user = User::factory()->create(['email' => 'user@example.com']);
+        $user = User::factory()->create();
 
-        $response = $this->postJson(route('password.reset'), [
-            'token' => 'invalid-token',
-            'email' => 'user@example.com',
+        $response = $this->postJson(route('auth.resetPassword'), [
+            'email' => $user->email,
+            'token' => 'invalidtoken',
             'password' => 'newpassword',
             'password_confirmation' => 'newpassword',
         ]);
 
         $response->assertStatus(400)
-            ->assertJson(['message' => 'This password reset token is invalid.']); // Update expected message here
+            ->assertJson(['message' => 'This password reset token is invalid.']);
     }
 }

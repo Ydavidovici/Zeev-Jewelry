@@ -1,97 +1,109 @@
 <?php
 
-namespace Tests\Feature;
+namespace Tests\Feature\Controllers;
 
-use Tests\TestCase;
-use App\Models\User;
 use App\Models\Shipping;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Tymon\JWTAuth\Facades\JWTAuth;
+use Illuminate\Support\Facades\Gate;
+use Tests\TestCase;
 
 class ShippingControllerTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function testShippingIndex()
+    protected function setUp(): void
     {
-        $user = User::factory()->create();
-        $token = JWTAuth::fromUser($user);
-
-        Shipping::factory()->count(3)->create();
-
-        $response = $this->withHeader('Authorization', "Bearer $token")
-            ->getJson('/api/shipping');
-
-        $response->assertStatus(200)
-            ->assertJsonCount(3);
+        parent::setUp();
+        $this->actingAs(User::factory()->create(), 'api');
     }
 
-    public function testShippingStore()
+    /** @test */
+    public function it_can_view_all_shipping_details()
     {
-        $user = User::factory()->create();
-        $token = JWTAuth::fromUser($user);
+        Gate::define('viewAny', function ($user) {
+            return true;
+        });
 
-        $data = [
+        $response = $this->getJson(route('shipping.index'));
+
+        $response->assertStatus(200)
+            ->assertJsonStructure(['*' => ['id', 'order_id', 'shipping_type', 'shipping_cost', 'shipping_status']]);
+    }
+
+    /** @test */
+    public function it_can_create_shipping_details()
+    {
+        Gate::define('create', function ($user) {
+            return true;
+        });
+
+        $shippingData = [
             'order_id' => 1,
             'seller_id' => 1,
             'shipping_type' => 'Standard',
-            'shipping_cost' => 10,
+            'shipping_cost' => 10.00,
             'shipping_status' => 'Pending',
-            'tracking_number' => '1234567890',
+            'tracking_number' => '123456',
             'shipping_address' => '123 Main St',
-            'shipping_carrier' => 'FedEx',
+            'shipping_carrier' => 'DHL',
             'recipient_name' => 'John Doe',
+            'estimated_delivery_date' => now()->addWeek()->toDateString(),
         ];
 
-        $response = $this->withHeader('Authorization', "Bearer $token")
-            ->postJson('/api/shipping', $data);
+        $response = $this->postJson(route('shipping.store'), $shippingData);
 
         $response->assertStatus(201)
-            ->assertJson($data);
+            ->assertJsonFragment(['shipping_status' => 'Pending']);
+
+        $this->assertDatabaseHas('shipping', ['order_id' => 1, 'shipping_status' => 'Pending']);
     }
 
-    public function testShippingShow()
+    /** @test */
+    public function it_can_show_shipping_details()
     {
-        $user = User::factory()->create();
-        $token = JWTAuth::fromUser($user);
+        Gate::define('view', function ($user, $shipping) {
+            return true;
+        });
 
         $shipping = Shipping::factory()->create();
 
-        $response = $this->withHeader('Authorization', "Bearer $token")
-            ->getJson("/api/shipping/{$shipping->id}");
+        $response = $this->getJson(route('shipping.show', $shipping->id));
 
         $response->assertStatus(200)
-            ->assertJson($shipping->toArray());
+            ->assertJson(['id' => $shipping->id]);
     }
 
-    public function testShippingUpdate()
+    /** @test */
+    public function it_can_update_shipping_details()
     {
-        $user = User::factory()->create();
-        $token = JWTAuth::fromUser($user);
+        Gate::define('update', function ($user, $shipping) {
+            return true;
+        });
 
         $shipping = Shipping::factory()->create();
 
-        $data = [
-            'shipping_status' => 'Shipped',
-        ];
-
-        $response = $this->withHeader('Authorization', "Bearer $token")
-            ->putJson("/api/shipping/{$shipping->id}", $data);
+        $response = $this->putJson(route('shipping.update', $shipping->id), ['shipping_status' => 'Shipped']);
 
         $response->assertStatus(200)
-            ->assertJson($data);
+            ->assertJsonFragment(['shipping_status' => 'Shipped']);
+
+        $this->assertDatabaseHas('shipping', ['id' => $shipping->id, 'shipping_status' => 'Shipped']);
     }
 
-    public function testShippingDestroy()
+    /** @test */
+    public function it_can_delete_shipping_details()
     {
-        $user = User::factory()->create();
-        $token = JWTAuth::fromUser($user);
+        Gate::define('delete', function ($user, $shipping) {
+            return true;
+        });
 
         $shipping = Shipping::factory()->create();
 
-        $response = $this->withHeader('Authorization', "Bearer $token")
-            ->deleteJson("/api/shipping/{$shipping->id}");
+        $response = $this->deleteJson(route('shipping.destroy', $shipping->id));
 
         $response->assertStatus(204);
+
+        $this->assertDatabaseMissing('shipping', ['id' => $shipping->id]);
     }
 }

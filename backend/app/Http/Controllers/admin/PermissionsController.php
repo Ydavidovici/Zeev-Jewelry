@@ -7,6 +7,7 @@ use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Permission;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Http\JsonResponse;
 
 class PermissionsController extends Controller
@@ -16,16 +17,15 @@ class PermissionsController extends Controller
         $this->middleware('auth:api');
     }
 
-    /**
-     * @throws AuthorizationException
-     */
     public function index(): JsonResponse
     {
         Log::channel('custom')->info('Attempting to access permissions index', [
             'user_id' => auth()->id(),
         ]);
 
-        $this->authorize('viewAny', Permission::class);
+        if (Gate::denies('manage-permissions')) {
+            abort(403);
+        }
 
         Log::channel('custom')->info('Admin accessing permissions index', [
             'user_id' => auth()->id(),
@@ -42,7 +42,9 @@ class PermissionsController extends Controller
 
     public function store(Request $request): JsonResponse
     {
-        $this->authorize('create', Permission::class);
+        if (Gate::denies('manage-permissions')) {
+            abort(403);
+        }
 
         $validatedData = $request->validate([
             'name' => 'required|string|max:255|unique:permissions',
@@ -57,7 +59,9 @@ class PermissionsController extends Controller
 
     public function update(Request $request, Permission $permission): JsonResponse
     {
-        $this->authorize('update', $permission);
+        if (Gate::denies('manage-permissions')) {
+            abort(403);
+        }
 
         $validatedData = $request->validate([
             'name' => 'required|string|max:255|unique:permissions,name,' . $permission->id,
@@ -72,7 +76,9 @@ class PermissionsController extends Controller
 
     public function destroy(Permission $permission): JsonResponse
     {
-        $this->authorize('delete', $permission);
+        if (Gate::denies('manage-permissions')) {
+            abort(403);
+        }
 
         Log::channel('custom')->info('Permission deleted', ['permission' => $permission]);
 

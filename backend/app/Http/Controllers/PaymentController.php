@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Stripe\Stripe;
 use Stripe\PaymentIntent;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Gate;
 
 class PaymentController extends Controller
 {
@@ -18,14 +19,19 @@ class PaymentController extends Controller
 
     public function index(): JsonResponse
     {
-        $this->authorize('viewAny', Payment::class);
+        if (!Gate::allows('view-any-payment', auth()->user())) {
+            return response()->json(['message' => 'Unauthorized'], 403);
+        }
+
         $payments = Payment::all();
         return response()->json($payments);
     }
 
     public function store(Request $request): JsonResponse
     {
-        $this->authorize('create', Payment::class);
+        if (!Gate::allows('create-payment', auth()->user())) {
+            return response()->json(['message' => 'Unauthorized'], 403);
+        }
 
         $request->validate([
             'order_id' => 'required|exists:orders,id',
@@ -44,7 +50,6 @@ class PaymentController extends Controller
                 ],
             ]);
 
-            // Store payment details
             Payment::create([
                 'order_id' => $request->order_id,
                 'payment_intent_id' => $paymentIntent->id,
@@ -53,9 +58,7 @@ class PaymentController extends Controller
                 'amount' => $request->amount,
             ]);
 
-            return response()->json([
-                'clientSecret' => $paymentIntent->client_secret,
-            ]);
+            return response()->json(['clientSecret' => $paymentIntent->client_secret]);
         } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);
         }
@@ -80,9 +83,7 @@ class PaymentController extends Controller
                 $order->save();
 
                 $payment = Payment::where('payment_intent_id', $intent->id)->first();
-                $payment->update([
-                    'payment_status' => 'succeeded',
-                ]);
+                $payment->update(['payment_status' => 'succeeded']);
 
                 return response()->json(['message' => 'Payment successful.']);
             }
@@ -95,13 +96,18 @@ class PaymentController extends Controller
 
     public function show(Payment $payment): JsonResponse
     {
-        $this->authorize('view', $payment);
+        if (!Gate::allows('view-payment', $payment)) {
+            return response()->json(['message' => 'Unauthorized'], 403);
+        }
+
         return response()->json($payment);
     }
 
     public function update(Request $request, Payment $payment): JsonResponse
     {
-        $this->authorize('update', $payment);
+        if (!Gate::allows('update-payment', $payment)) {
+            return response()->json(['message' => 'Unauthorized'], 403);
+        }
 
         $request->validate([
             'payment_status' => 'required|string|max:255',
@@ -114,7 +120,10 @@ class PaymentController extends Controller
 
     public function destroy(Payment $payment): JsonResponse
     {
-        $this->authorize('delete', $payment);
+        if (!Gate::allows('delete-payment', $payment)) {
+            return response()->json(['message' => 'Unauthorized'], 403);
+        }
+
         $payment->delete();
 
         return response()->json(null, 204);

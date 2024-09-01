@@ -20,7 +20,7 @@ class SellerReportControllerTest extends TestCase
         Order::factory()->count(5)->create(['seller_id' => $user->id]);
 
         $response = $this->withHeader('Authorization', "Bearer $token")
-            ->getJson('/api/seller/reports');
+            ->getJson('/api/Seller/reports');
 
         $response->assertStatus(200)
             ->assertJsonStructure([

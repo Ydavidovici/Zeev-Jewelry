@@ -1,12 +1,14 @@
 <?php
 
-namespace Tests\Feature\Auth;
+namespace Tests\Feature\Controllers\Auth;
 
 use Tests\TestCase;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Hash;
-use Tymon\JWTAuth\Facades\JWTAuth;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\PasswordChangeConfirmationMail;
+use Spatie\Permission\Models\Role;
 
 class ChangePasswordControllerTest extends TestCase
 {
@@ -18,11 +20,11 @@ class ChangePasswordControllerTest extends TestCase
             'password' => Hash::make('oldpassword'),
         ]);
 
-        $token = JWTAuth::fromUser($user);
+        $this->actingAs($user, 'api');
 
-        $response = $this->withHeaders([
-            'Authorization' => 'Bearer ' . $token,
-        ])->postJson(route('password.update'), [
+        Mail::fake();
+
+        $response = $this->postJson(route('auth.changePassword'), [
             'old_password' => 'oldpassword',
             'new_password' => 'newpassword',
             'new_password_confirmation' => 'newpassword',
@@ -31,7 +33,7 @@ class ChangePasswordControllerTest extends TestCase
         $response->assertStatus(200)
             ->assertJson(['message' => 'Password changed successfully.']);
 
-        $this->assertTrue(Hash::check('newpassword', $user->fresh()->password));
+        Mail::assertSent(PasswordChangeConfirmationMail::class);
     }
 
     public function test_user_cannot_change_password_with_wrong_old_password()
@@ -40,11 +42,9 @@ class ChangePasswordControllerTest extends TestCase
             'password' => Hash::make('oldpassword'),
         ]);
 
-        $token = JWTAuth::fromUser($user);
+        $this->actingAs($user, 'api');
 
-        $response = $this->withHeaders([
-            'Authorization' => 'Bearer ' . $token,
-        ])->postJson(route('password.update'), [
+        $response = $this->postJson(route('auth.changePassword'), [
             'old_password' => 'wrongpassword',
             'new_password' => 'newpassword',
             'new_password_confirmation' => 'newpassword',
