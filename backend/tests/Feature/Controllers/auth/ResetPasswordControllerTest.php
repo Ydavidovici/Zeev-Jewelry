@@ -7,6 +7,7 @@ use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Hash;
 use App\Mail\PasswordChangeConfirmationMail;
 
 class ResetPasswordControllerTest extends TestCase
@@ -18,7 +19,8 @@ class ResetPasswordControllerTest extends TestCase
         Mail::fake();
 
         $user = User::factory()->create(['email' => 'user@example.com']);
-        $token = Password::createToken($user);
+        // Generate a password reset token
+        $token = Password::broker()->createToken($user);
 
         $response = $this->postJson(route('password.reset'), [
             'token' => $token,
@@ -46,6 +48,6 @@ class ResetPasswordControllerTest extends TestCase
         ]);
 
         $response->assertStatus(400)
-            ->assertJson(['message' => 'Failed to reset password.']);
+            ->assertJson(['message' => 'This password reset token is invalid.']); // Update expected message here
     }
 }

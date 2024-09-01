@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
+use Tymon\JWTAuth\Facades\JWTAuth;
 
 class RegisterController extends Controller
 {
@@ -31,6 +32,7 @@ class RegisterController extends Controller
             return response()->json(['errors' => $validator->errors()], 422);
         }
 
+        // Create the user
         $user = User::create([
             'username' => $request->username,
             'name' => $request->name,
@@ -42,8 +44,10 @@ class RegisterController extends Controller
         // Send welcome email
         Mail::to($user->email)->send(new WelcomeMail($user));
 
+        // Generate JWT token
         $token = JWTAuth::fromUser($user);
 
-        return response()->json(['access_token' => $token, 'token_type' => 'Bearer']);
+        // Return response with 201 status code
+        return response()->json(['access_token' => $token, 'token_type' => 'Bearer'], 201);
     }
 }
