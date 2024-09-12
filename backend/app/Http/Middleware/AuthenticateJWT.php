@@ -17,6 +17,8 @@ class AuthenticateJWT
      */
     public function handle($request, Closure $next)
     {
+        Log::info('Request passed to AuthenticateJWT middleware');
+
         try {
             $user = JWTAuth::parseToken()->authenticate();
         } catch (JWTException $e) {

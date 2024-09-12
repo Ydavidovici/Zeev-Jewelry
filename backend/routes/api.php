@@ -61,13 +61,14 @@ Route::middleware('auth:api')->group(function () {
     Route::post('cart', [CartController::class, 'store'])->name('cart.store');
     Route::put('cart/{product}', [CartController::class, 'update'])->name('cart.update');
     Route::delete('cart/{product}', [CartController::class, 'destroy'])->name('cart.destroy');
+
+    // Cart items routes
     Route::apiResource('cart_items', CartItemController::class)->names('cart_items');
 });
 
 // Authenticated routes
 Route::middleware(['auth:api'])->group(function () {
     Route::apiResource('categories', CategoryController::class)->names('categories');
-    Route::apiResource('customers', CustomerController::class)->names('customers');
     Route::apiResource('inventories', InventoryController::class)->names('inventories');
     Route::apiResource('inventory-movements', InventoryMovementController::class)->names('inventory_movements');
     Route::apiResource('order-details', OrderDetailController::class)->names('order_details');
@@ -86,28 +87,28 @@ Route::middleware(['auth:api'])->group(function () {
 });
 
 // Admin routes
-Route::middleware(['auth:api', 'can:manageSettings,App\Models\User'])
-    ->prefix('admin')
+Route::prefix('admin')
+    ->middleware('auth:api')
     ->name('admin.')
     ->group(function () {
-        // Dashboard route
+
+        // Dashboard route (authorization check will be inside the controller)
         Route::get('dashboard', [AdminController::class, 'index'])->name('index');
 
-        // Report route
+        // Report route (authorization check will be inside the controller)
         Route::get('report', [AdminReportController::class, 'index'])->name('report.index');
 
-        // Existing routes...
         // Permissions Routes
         Route::get('permissions', [PermissionsController::class, 'index'])->name('permissions.index');
         Route::post('permissions', [PermissionsController::class, 'store'])->name('permissions.store');
-        Route::get('permissions/{permission}', [PermissionsController::class, 'show'])->name('permissions.show');
+        Route::get('permissions/{permission}', [PermissionsController::class, 'show'])->name('permissions.show'); // route-model binding
         Route::put('permissions/{permission}', [PermissionsController::class, 'update'])->name('permissions.update');
         Route::delete('permissions/{permission}', [PermissionsController::class, 'destroy'])->name('permissions.destroy');
 
         // Roles Routes
         Route::get('roles', [RoleController::class, 'index'])->name('roles.index');
         Route::post('roles', [RoleController::class, 'store'])->name('roles.store');
-        Route::get('roles/{role}', [RoleController::class, 'show'])->name('roles.show');
+        Route::get('roles/{role}', [RoleController::class, 'show'])->name('roles.show'); // route-model binding
         Route::put('roles/{role}', [RoleController::class, 'update'])->name('roles.update');
         Route::delete('roles/{role}', [RoleController::class, 'destroy'])->name('roles.destroy');
 
@@ -117,10 +118,12 @@ Route::middleware(['auth:api', 'can:manageSettings,App\Models\User'])
         // Settings management
         Route::get('settings', [SettingsController::class, 'index'])->name('settings.index');
         Route::post('settings', [SettingsController::class, 'store'])->name('settings.store');
-        Route::put('settings/{key}', [SettingsController::class, 'update'])->name('settings.update');
+        Route::put('settings/{key}', [SettingsController::class, 'update'])->name('settings.update'); // key should be unique
         Route::delete('settings/{key}', [SettingsController::class, 'destroy'])->name('settings.destroy');
     });
 
+// Webhook Routes
+Route::post('webhook', [WebhookController::class, 'handle'])->name('webhook.handle');
 
 // Test Routes
 Route::post('/test-password/email', function (Request $request) {

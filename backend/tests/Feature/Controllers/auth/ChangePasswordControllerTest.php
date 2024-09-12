@@ -8,11 +8,16 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\PasswordChangeConfirmationMail;
-use Spatie\Permission\Models\Role;
 
 class ChangePasswordControllerTest extends TestCase
 {
     use RefreshDatabase;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+        $this->artisan('db:seed', ['--class' => 'RolesAndPermissionsSeeder']); // Seed roles and permissions
+    }
 
     public function test_user_can_change_password()
     {
@@ -24,7 +29,7 @@ class ChangePasswordControllerTest extends TestCase
 
         Mail::fake();
 
-        $response = $this->postJson(route('auth.changePassword'), [
+        $response = $this->postJson(route('password.update'), [
             'old_password' => 'oldpassword',
             'new_password' => 'newpassword',
             'new_password_confirmation' => 'newpassword',
@@ -44,7 +49,7 @@ class ChangePasswordControllerTest extends TestCase
 
         $this->actingAs($user, 'api');
 
-        $response = $this->postJson(route('auth.changePassword'), [
+        $response = $this->postJson(route('password.update'), [
             'old_password' => 'wrongpassword',
             'new_password' => 'newpassword',
             'new_password_confirmation' => 'newpassword',

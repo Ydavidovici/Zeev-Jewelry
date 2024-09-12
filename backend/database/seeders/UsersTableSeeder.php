@@ -16,8 +16,9 @@ class UsersTableSeeder extends Seeder
         Role::firstOrCreate(['name' => 'customer', 'guard_name' => 'api']);
         Role::firstOrCreate(['name' => 'seller', 'guard_name' => 'api']);
 
-        // Delete all users to prevent duplication
-        User::query()->delete();
+        if (app()->environment('local', 'testing')) {
+            User::query()->delete();
+        }
 
         // Seed users with roles
         $adminUser = User::create([

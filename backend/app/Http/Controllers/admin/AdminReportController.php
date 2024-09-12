@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Auth;
 
 class AdminReportController extends Controller
 {
@@ -16,21 +17,19 @@ class AdminReportController extends Controller
 
     public function index(): JsonResponse
     {
-        if (Gate::denies('access-admin-dashboard')) {
-            abort(403);
+        // Check if the authenticated user is an admin
+        if (!Auth::user()->hasRole('admin')) {
+            abort(403, 'Unauthorized.');
         }
 
+        // Get performance data and logs
         $serverPerformance = $this->getServerPerformance();
         $databasePerformance = $this->getDatabasePerformance();
         $errorLogs = $this->getErrorLogs();
         $uptime = $this->getUptime();
 
+        // Log admin access
         Log::channel('custom')->info('Admin accessed the dashboard.', [
-            'user_id' => auth()->id(),
-            'time' => now(),
-        ]);
-
-        Log::channel('logs')->info('Admin accessed the dashboard.', [
             'user_id' => auth()->id(),
             'time' => now(),
         ]);
@@ -45,15 +44,12 @@ class AdminReportController extends Controller
 
     private function getServerPerformance()
     {
-        // Check if sys_getloadavg() is available
         if (function_exists('sys_getloadavg')) {
             $cpuUsage = sys_getloadavg()[0];
         } else {
-            // Fallback for environments where sys_getloadavg() is not available
-            $cpuUsage = 'N/A'; // or use any other method to determine CPU usage
+            $cpuUsage = 'N/A';
         }
 
-        // Memory usage is universally available
         $memoryUsage = memory_get_usage(true) / 1024 / 1024 . ' MB';
 
         return [
@@ -79,15 +75,30 @@ class AdminReportController extends Controller
 
     private function getErrorLogs()
     {
+        // Define the path to the log file (adjust as needed)
+        $logFilePath = storage_path('logs/laravel.log'); // Adjust this if your custom channel uses a different file
+
+        // Check if the log file exists
+        if (!file_exists($logFilePath)) {
+            return [];
+        }
+
+        // Read the log file
         try {
-            return Log::channel('custom')->getLogs()->filter(function ($log) {
-                return $log->level == 'error';
-            })->take(10)->toArray();
+            $logFileContents = file($logFilePath, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+            // Filter the logs for 'error' level logs
+            $errorLogs = array_filter($logFileContents, function ($line) {
+                return strpos($line, 'ERROR') !== false;
+            });
+
+            // Return the last 10 error logs
+            return array_slice($errorLogs, -10);
         } catch (\Exception $e) {
             Log::channel('custom')->error('Error fetching error logs: ' . $e->getMessage());
             return [];
         }
     }
+
 
     private function getUptime()
     {
@@ -102,36 +113,5 @@ class AdminReportController extends Controller
                 'uptime' => 'N/A',
             ];
         }
-    }
-
-    public function getApiPerformanceReport(): JsonResponse
-    {
-        $this->authorize('accessDashboard', User::class); // Make sure this authorization call is correct
-
-        $averageResponseTime = DB::table('api_performance')->avg('duration');
-        $peakResponseTime = DB::table('api_performance')->max('duration');
-        $errorRate = DB::table('api_performance')
-                ->where('status_code', '>=', 400)
-                ->count() / DB::table('api_performance')->count() * 100;
-
-        Log::channel('custom')->info('API performance report generated.', [
-            'average_response_time' => $averageResponseTime,
-            'peak_response_time' => $peakResponseTime,
-            'error_rate' => $errorRate,
-            'time' => now(),
-        ]);
-
-        Log::channel('logs')->info('API performance report generated.', [
-            'average_response_time' => $averageResponseTime,
-            'peak_response_time' => $peakResponseTime,
-            'error_rate' => $errorRate,
-            'time' => now(),
-        ]);
-
-        return response()->json([
-            'average_response_time' => $averageResponseTime,
-            'peak_response_time' => $peakResponseTime,
-            'error_rate' => $errorRate,
-        ]);
     }
 }

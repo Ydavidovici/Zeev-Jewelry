@@ -3,48 +3,36 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Auth\Access\AuthorizationException;
-use Illuminate\Http\Request;
 use Spatie\Permission\Models\Permission;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Gate;
 use Illuminate\Http\JsonResponse;
 
 class PermissionsController extends Controller
 {
     public function __construct()
     {
+        // Ensure the user is authenticated
         $this->middleware('auth:api');
     }
 
     public function index(): JsonResponse
     {
-        Log::channel('custom')->info('Attempting to access permissions index', [
-            'user_id' => auth()->id(),
-        ]);
+        // Check if the authenticated user has the 'manage permissions' permission
+        $this->authorize('manage permissions');
 
-        if (Gate::denies('manage-permissions')) {
-            abort(403);
-        }
-
-        Log::channel('custom')->info('Admin accessing permissions index', [
-            'user_id' => auth()->id(),
-        ]);
+        Log::channel('custom')->info('Admin accessing permissions index', ['user_id' => auth()->id()]);
 
         $permissions = Permission::all();
 
-        Log::channel('custom')->info('Permissions data retrieved', [
-            'permissions' => $permissions->pluck('name')->toArray(),
-        ]);
+        Log::channel('custom')->info('Permissions data retrieved', ['permissions' => $permissions->pluck('name')->toArray()]);
 
-        return response()->json(['permissions' => $permissions]);
+        return response()->json(['permissions' => $permissions], 200);
     }
 
     public function store(Request $request): JsonResponse
     {
-        if (Gate::denies('manage-permissions')) {
-            abort(403);
-        }
+        $this->authorize('manage permissions');
 
         $validatedData = $request->validate([
             'name' => 'required|string|max:255|unique:permissions',
@@ -59,9 +47,7 @@ class PermissionsController extends Controller
 
     public function update(Request $request, Permission $permission): JsonResponse
     {
-        if (Gate::denies('manage-permissions')) {
-            abort(403);
-        }
+        $this->authorize('manage permissions');
 
         $validatedData = $request->validate([
             'name' => 'required|string|max:255|unique:permissions,name,' . $permission->id,
@@ -71,14 +57,12 @@ class PermissionsController extends Controller
 
         Log::channel('custom')->info('Permission updated', ['permission' => $permission]);
 
-        return response()->json(['permission' => $permission]);
+        return response()->json(['permission' => $permission], 200);
     }
 
     public function destroy(Permission $permission): JsonResponse
     {
-        if (Gate::denies('manage-permissions')) {
-            abort(403);
-        }
+        $this->authorize('manage permissions');
 
         Log::channel('custom')->info('Permission deleted', ['permission' => $permission]);
 

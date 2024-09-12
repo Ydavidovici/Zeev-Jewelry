@@ -7,14 +7,32 @@ use App\Models\User;
 use App\Models\Settings;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Spatie\Permission\Models\Role;
+use Spatie\Permission\Models\Permission;
 
 class SettingsControllerTest extends TestCase
 {
     use RefreshDatabase;
 
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        // Ensure 'admin' role is created and assign 'manage settings' permission
+        if (!Role::where('name', 'admin')->exists()) {
+            $adminRole = Role::create(['name' => 'admin']);
+        } else {
+            $adminRole = Role::where('name', 'admin')->first();
+        }
+
+        if (!Permission::where('name', 'manage settings')->exists()) {
+            $manageSettingsPermission = Permission::create(['name' => 'manage settings']);
+            $adminRole->givePermissionTo($manageSettingsPermission);
+        }
+    }
+
     public function test_anyone_can_view_settings()
     {
-        $response = $this->getJson(route('settings.getCurrentSettings'));
+        $response = $this->getJson(route('current.settings'));
 
         $response->assertStatus(200)
             ->assertJsonStructure([]);
@@ -22,13 +40,13 @@ class SettingsControllerTest extends TestCase
 
     public function test_admin_can_view_settings()
     {
-        $adminRole = Role::create(['name' => 'admin']);
+        // Create a user and assign the 'admin' role with 'manage settings' permission
         $admin = User::factory()->create();
-        $admin->assignRole($adminRole);
+        $admin->assignRole('admin');
 
         $this->actingAs($admin, 'api');
 
-        $response = $this->getJson(route('settings.index'));
+        $response = $this->getJson(route('admin.settings.index'));
 
         $response->assertStatus(200)
             ->assertJsonStructure([]);
@@ -40,20 +58,19 @@ class SettingsControllerTest extends TestCase
 
         $this->actingAs($user, 'api');
 
-        $response = $this->getJson(route('settings.index'));
+        $response = $this->getJson(route('admin.settings.index'));
 
-        $response->assertStatus(403); // Forbidden
+        $response->assertStatus(403);
     }
 
     public function test_admin_can_create_setting()
     {
-        $adminRole = Role::create(['name' => 'admin']);
         $admin = User::factory()->create();
-        $admin->assignRole($adminRole);
+        $admin->assignRole('admin');
 
         $this->actingAs($admin, 'api');
 
-        $response = $this->postJson(route('settings.store'), [
+        $response = $this->postJson(route('admin.settings.store'), [
             'key' => 'site_name',
             'value' => 'My Website',
         ]);
@@ -68,25 +85,24 @@ class SettingsControllerTest extends TestCase
 
         $this->actingAs($user, 'api');
 
-        $response = $this->postJson(route('settings.store'), [
+        $response = $this->postJson(route('admin.settings.store'), [
             'key' => 'site_name',
             'value' => 'My Website',
         ]);
 
-        $response->assertStatus(403); // Forbidden
+        $response->assertStatus(403);
     }
 
     public function test_admin_can_update_setting()
     {
-        $adminRole = Role::create(['name' => 'admin']);
         $admin = User::factory()->create();
-        $admin->assignRole($adminRole);
+        $admin->assignRole('admin');
 
         $setting = Settings::create(['key' => 'site_name', 'value' => 'My Website']);
 
         $this->actingAs($admin, 'api');
 
-        $response = $this->putJson(route('settings.update', $setting->key), [
+        $response = $this->putJson(route('admin.settings.update', $setting->key), [
             'value' => 'New Website Name',
         ]);
 
@@ -101,24 +117,23 @@ class SettingsControllerTest extends TestCase
 
         $this->actingAs($user, 'api');
 
-        $response = $this->putJson(route('settings.update', $setting->key), [
+        $response = $this->putJson(route('admin.settings.update', $setting->key), [
             'value' => 'New Website Name',
         ]);
 
-        $response->assertStatus(403); // Forbidden
+        $response->assertStatus(403);
     }
 
     public function test_admin_can_delete_setting()
     {
-        $adminRole = Role::create(['name' => 'admin']);
         $admin = User::factory()->create();
-        $admin->assignRole($adminRole);
+        $admin->assignRole('admin');
 
         $setting = Settings::create(['key' => 'site_name', 'value' => 'My Website']);
 
         $this->actingAs($admin, 'api');
 
-        $response = $this->deleteJson(route('settings.destroy', $setting->key));
+        $response = $this->deleteJson(route('admin.settings.destroy', $setting->key));
 
         $response->assertStatus(200)
             ->assertJsonStructure(['message']);
@@ -131,8 +146,8 @@ class SettingsControllerTest extends TestCase
 
         $this->actingAs($user, 'api');
 
-        $response = $this->deleteJson(route('settings.destroy', $setting->key));
+        $response = $this->deleteJson(route('admin.settings.destroy', $setting->key));
 
-        $response->assertStatus(403); // Forbidden
+        $response->assertStatus(403);
     }
 }

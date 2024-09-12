@@ -1,5 +1,6 @@
 <?php
 
+
 namespace Tests\Feature\Controllers\Auth;
 
 use Tests\TestCase;
@@ -17,7 +18,7 @@ class LoginControllerTest extends TestCase
             'password' => Hash::make('password123'),
         ]);
 
-        $response = $this->postJson(route('auth.login'), [
+        $response = $this->postJson(route('login'), [
             'email' => $user->email,
             'password' => 'password123',
         ]);
@@ -36,7 +37,7 @@ class LoginControllerTest extends TestCase
             'password' => Hash::make('password123'),
         ]);
 
-        $response = $this->postJson(route('auth.login'), [
+        $response = $this->postJson(route('login'), [
             'email' => $user->email,
             'password' => 'wrongpassword',
         ]);

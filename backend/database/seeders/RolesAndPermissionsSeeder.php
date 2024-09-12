@@ -34,40 +34,35 @@ class RolesAndPermissionsSeeder extends Seeder
             'manage-products', 'manage-orders', 'manage-inventory', 'manage-shipping',
             'manage-payments', 'manage-reports', 'upload-files',
             'manage-cart', 'view-orders', 'manage-profile', 'write-review',
-            'view-checkout', 'manage-checkout', 'view-payments'
+            'view-checkout', 'manage-checkout', 'view-payments',
+            'access-admin-dashboard'
         ];
 
         // Create all permissions with the guard 'api'
         foreach ($permissions as $permission) {
             Permission::firstOrCreate(['name' => $permission, 'guard_name' => 'api']);
-            Log::channel('custom')->info("Permission '{$permission}' created or exists already.");
+            Log::channel('custom')->info("Permission '{$permission}' created or already exists.");
         }
 
-        // Define roles
-        $roles = ['admin', 'seller', 'customer'];
+        // Define roles and their respective permissions
+        $roles = [
+            'admin' => $permissions, // Admin has all permissions
+            'seller' => [
+                'manage-products', 'manage-orders', 'manage-inventory', 'manage-shipping',
+                'manage-payments', 'manage-reports', 'upload-files'
+            ],
+            'customer' => [
+                'manage-cart', 'view-orders', 'manage-profile', 'write-review',
+                'view-checkout', 'manage-checkout', 'view-payments'
+            ],
+        ];
 
-        // Create roles with the guard 'api'
-        foreach ($roles as $role) {
-            Role::firstOrCreate(['name' => $role, 'guard_name' => 'api']);
-            Log::channel('custom')->info("Role '{$role}' created or exists already.");
+        // Create roles and assign permissions
+        foreach ($roles as $roleName => $rolePermissions) {
+            $role = Role::firstOrCreate(['name' => $roleName, 'guard_name' => 'api']);
+            $role->syncPermissions($rolePermissions);
+            Log::channel('custom')->info("Role '{$roleName}' created or already exists. Permissions assigned.");
         }
-
-        // Assign all permissions to admin role
-        $adminRole = Role::where('name', 'admin')->where('guard_name', 'api')->first();
-        $adminRole->syncPermissions(Permission::where('guard_name', 'api')->get());
-        Log::channel('custom')->info("All permissions assigned to 'admin' role.");
-
-        // Define specific permissions for seller and assign them
-        $sellerPermissions = ['manage-products', 'manage-orders', 'manage-inventory', 'manage-shipping', 'manage-payments', 'manage-reports', 'upload-files'];
-        $sellerRole = Role::where('name', 'seller')->where('guard_name', 'api')->first();
-        $sellerRole->syncPermissions(Permission::whereIn('name', $sellerPermissions)->where('guard_name', 'api')->get());
-        Log::channel('custom')->info("Permissions assigned to 'seller' role.");
-
-        // Define specific permissions for customer and assign them
-        $customerPermissions = ['manage-cart', 'view-orders', 'manage-profile', 'write-review', 'view-checkout', 'manage-checkout', 'view-payments'];
-        $customerRole = Role::where('name', 'customer')->where('guard_name', 'api')->first();
-        $customerRole->syncPermissions(Permission::whereIn('name', $customerPermissions)->where('guard_name', 'api')->get());
-        Log::channel('custom')->info("Permissions assigned to 'customer' role.");
 
         Log::channel('custom')->info('RolesAndPermissionsSeeder completed.');
     }

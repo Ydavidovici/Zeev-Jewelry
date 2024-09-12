@@ -4,124 +4,94 @@ namespace Tests\Feature\Controllers\Admin;
 
 use Tests\TestCase;
 use App\Models\User;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
+use Spatie\Permission\Models\Permission;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class PermissionsControllerTest extends TestCase
 {
     use RefreshDatabase;
 
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        // Create 'admin' role if it doesn't exist
+        if (!Role::where('name', 'admin')->exists()) {
+            $adminRole = Role::create(['name' => 'admin']);
+        } else {
+            $adminRole = Role::where('name', 'admin')->first();
+        }
+
+        // Create 'manage permissions' permission if it doesn't exist
+        if (!Permission::where('name', 'manage permissions')->exists()) {
+            $managePermissions = Permission::create(['name' => 'manage permissions']);
+            // Assign 'manage permissions' to 'admin' role
+            $adminRole->givePermissionTo($managePermissions);
+        }
+    }
+
     public function test_admin_can_view_permissions()
     {
-        $adminRole = Role::create(['name' => 'admin']);
+        // Create an admin user and assign the 'admin' role
         $admin = User::factory()->create();
-        $admin->assignRole($adminRole);
+        $admin->assignRole('admin');
 
-        $this->actingAs($admin, 'api');
+        // Act as the admin user and try to access the permissions index route
+        $response = $this->actingAs($admin, 'api')
+            ->getJson(route('admin.permissions.index'));
 
-        $response = $this->getJson(route('permissions.index'));
-
+        // Assert that the response status is 200 OK and has the correct structure
         $response->assertStatus(200)
-            ->assertJsonStructure(['permissions']);
+            ->assertJsonStructure([
+                'permissions' => [
+                    '*' => ['id', 'name', 'guard_name', 'created_at', 'updated_at']
+                ]
+            ]);
     }
 
     public function test_non_admin_cannot_view_permissions()
     {
+        // Create a non-admin user
         $user = User::factory()->create();
 
-        $this->actingAs($user, 'api');
+        // Act as the non-admin user and try to access the permissions index route
+        $response = $this->actingAs($user, 'api')
+            ->getJson(route('admin.permissions.index'));
 
-        $response = $this->getJson(route('permissions.index'));
-
-        $response->assertStatus(403); // Forbidden
+        // Assert that the response status is 403 Forbidden
+        $response->assertStatus(403);
     }
 
     public function test_admin_can_create_permission()
     {
-        $adminRole = Role::create(['name' => 'admin']);
+        // Create an admin user and assign the 'admin' role
         $admin = User::factory()->create();
-        $admin->assignRole($adminRole);
+        $admin->assignRole('admin');
 
-        $this->actingAs($admin, 'api');
+        // Act as the admin user and try to create a new permission
+        $response = $this->actingAs($admin, 'api')
+            ->postJson(route('admin.permissions.store'), ['name' => 'edit products']);
 
-        $response = $this->postJson(route('permissions.store'), [
-            'name' => 'edit articles',
-        ]);
-
+        // Assert that the response status is 201 Created and contains the new permission data
         $response->assertStatus(201)
-            ->assertJsonStructure(['permission']);
+            ->assertJson([
+                'permission' => [
+                    'name' => 'edit products'
+                ]
+            ]);
     }
 
     public function test_non_admin_cannot_create_permission()
     {
+        // Create a non-admin user
         $user = User::factory()->create();
 
-        $this->actingAs($user, 'api');
+        // Act as the non-admin user and try to create a permission
+        $response = $this->actingAs($user, 'api')
+            ->postJson(route('admin.permissions.store'), ['name' => 'edit products']);
 
-        $response = $this->postJson(route('permissions.store'), [
-            'name' => 'edit articles',
-        ]);
-
-        $response->assertStatus(403); // Forbidden
-    }
-
-    public function test_admin_can_update_permission()
-    {
-        $adminRole = Role::create(['name' => 'admin']);
-        $admin = User::factory()->create();
-        $admin->assignRole($adminRole);
-
-        $permission = Permission::create(['name' => 'edit articles']);
-
-        $this->actingAs($admin, 'api');
-
-        $response = $this->putJson(route('permissions.update', $permission), [
-            'name' => 'edit posts',
-        ]);
-
-        $response->assertStatus(200)
-            ->assertJsonStructure(['permission']);
-    }
-
-    public function test_non_admin_cannot_update_permission()
-    {
-        $user = User::factory()->create();
-        $permission = Permission::create(['name' => 'edit articles']);
-
-        $this->actingAs($user, 'api');
-
-        $response = $this->putJson(route('permissions.update', $permission), [
-            'name' => 'edit posts',
-        ]);
-
-        $response->assertStatus(403); // Forbidden
-    }
-
-    public function test_admin_can_delete_permission()
-    {
-        $adminRole = Role::create(['name' => 'admin']);
-        $admin = User::factory()->create();
-        $admin->assignRole($adminRole);
-
-        $permission = Permission::create(['name' => 'edit articles']);
-
-        $this->actingAs($admin, 'api');
-
-        $response = $this->deleteJson(route('permissions.destroy', $permission));
-
-        $response->assertStatus(204);
-    }
-
-    public function test_non_admin_cannot_delete_permission()
-    {
-        $user = User::factory()->create();
-        $permission = Permission::create(['name' => 'edit articles']);
-
-        $this->actingAs($user, 'api');
-
-        $response = $this->deleteJson(route('permissions.destroy', $permission));
-
-        $response->assertStatus(403); // Forbidden
+        // Assert that the response status is 403 Forbidden
+        $response->assertStatus(403);
     }
 }

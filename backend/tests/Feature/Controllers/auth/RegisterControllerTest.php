@@ -16,7 +16,7 @@ class RegisterControllerTest extends TestCase
     {
         Mail::fake();
 
-        $response = $this->postJson(route('auth.register'), [
+        $response = $this->postJson(route('register'), [
             'username' => 'johndoe',
             'name' => 'John Doe',
             'email' => 'john@example.com',
@@ -37,7 +37,7 @@ class RegisterControllerTest extends TestCase
     {
         User::factory()->create(['email' => 'john@example.com']);
 
-        $response = $this->postJson(route('auth.register'), [
+        $response = $this->postJson(route('register'), [
             'username' => 'johndoe',
             'name' => 'John Doe',
             'email' => 'john@example.com',

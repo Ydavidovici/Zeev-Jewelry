@@ -1,5 +1,6 @@
 <?php
 
+
 namespace Tests\Feature\Controllers\Auth;
 
 use Tests\TestCase;
@@ -18,7 +19,7 @@ class ForgotPasswordControllerTest extends TestCase
 
         $user = User::factory()->create();
 
-        $response = $this->postJson(route('auth.forgotPassword'), [
+        $response = $this->postJson(route('password.email'), [
             'email' => $user->email,
         ]);
 
@@ -32,7 +33,7 @@ class ForgotPasswordControllerTest extends TestCase
     {
         Mail::fake();
 
-        $response = $this->postJson(route('auth.forgotPassword'), [
+        $response = $this->postJson(route('password.email'), [
             'email' => 'nonexistent@example.com',
         ]);
 

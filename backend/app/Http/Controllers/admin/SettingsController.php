@@ -5,8 +5,8 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Settings;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Gate;
 use Illuminate\Http\JsonResponse;
+use Spatie\Permission\Exceptions\UnauthorizedException;
 
 class SettingsController extends Controller
 {
@@ -23,8 +23,8 @@ class SettingsController extends Controller
 
     public function index(): JsonResponse
     {
-        if (Gate::denies('manage-settings')) {
-            abort(403);
+        if (!auth()->user()->can('manage settings')) {
+            throw UnauthorizedException::forPermissions(['manage settings']);
         }
 
         $settings = Settings::all();
@@ -33,8 +33,8 @@ class SettingsController extends Controller
 
     public function store(Request $request): JsonResponse
     {
-        if (Gate::denies('manage-settings')) {
-            abort(403);
+        if (!auth()->user()->can('manage settings')) {
+            throw UnauthorizedException::forPermissions(['manage settings']);
         }
 
         $validated = $request->validate([
@@ -51,8 +51,8 @@ class SettingsController extends Controller
 
     public function update(Request $request, string $key): JsonResponse
     {
-        if (Gate::denies('manage-settings')) {
-            abort(403);
+        if (!auth()->user()->can('manage settings')) {
+            throw UnauthorizedException::forPermissions(['manage settings']);
         }
 
         $validated = $request->validate([
@@ -69,8 +69,8 @@ class SettingsController extends Controller
 
     public function destroy(string $key): JsonResponse
     {
-        if (Gate::denies('manage-settings')) {
-            abort(403);
+        if (!auth()->user()->can('manage settings')) {
+            throw UnauthorizedException::forPermissions(['manage settings']);
         }
 
         $setting = Settings::where('key', $key)->firstOrFail();

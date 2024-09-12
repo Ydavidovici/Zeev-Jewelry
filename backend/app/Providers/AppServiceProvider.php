@@ -17,8 +17,8 @@ class AppServiceProvider extends ServiceProvider
     public function register()
     {
         // Alias the Spatie Role model
-        $this->app->alias(SpatieRole::class, 'role');
-        $this->app->make(SettingsController::class);
+       // $this->app->alias(SpatieRole::class, 'role');
+       // $this->app->make(SettingsController::class);
     }
 
     /**

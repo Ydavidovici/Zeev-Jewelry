@@ -8,7 +8,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Facades\Gate;
 use Illuminate\Http\JsonResponse;
 
 class ChangePasswordController extends Controller
@@ -31,15 +30,9 @@ class ChangePasswordController extends Controller
             return response()->json(['message' => 'Your current password does not match our records.'], 400);
         }
 
-        if (!Gate::allows('change-password', $user)) {
-            return response()->json(['message' => 'Unauthorized'], 403);
-        }
-
-        // Update the user's password
         $user->password = Hash::make($request->new_password);
         $user->save();
 
-        // Send password change confirmation email
         Mail::to($user->email)->send(new PasswordChangeConfirmationMail($user));
 
         return response()->json(['message' => 'Password changed successfully.']);

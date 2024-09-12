@@ -3,13 +3,12 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Mail\PasswordResetMail;
 use Illuminate\Support\Facades\Password;
-use Illuminate\Support\Facades\Mail;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use App\Models\User;
-use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\PasswordResetMail;
 
 class ForgotPasswordController extends Controller
 {
@@ -19,7 +18,7 @@ class ForgotPasswordController extends Controller
 
         $user = User::where('email', $request->email)->first();
 
-        if ($user && Gate::allows('send-reset-link-email', $user)) {
+        if ($user) {
             $token = Password::createToken($user);
 
             // Send password reset email

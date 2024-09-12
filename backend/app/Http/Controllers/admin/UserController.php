@@ -6,9 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use Spatie\Permission\Models\Role;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Gate;
 use Illuminate\Http\JsonResponse;
+use Spatie\Permission\Exceptions\UnauthorizedException;
 
 class UserController extends Controller
 {
@@ -19,23 +18,18 @@ class UserController extends Controller
 
     public function index(): JsonResponse
     {
-        if (Gate::denies('manage-users')) {
-            abort(403);
+        if (!auth()->user()->can('manage users')) {
+            throw UnauthorizedException::forPermissions(['manage users']);
         }
 
-        Log::channel('custom')->info('Admin accessing users index');
-
         $users = User::all();
-
-        Log::channel('custom')->info('Users data retrieved', compact('users'));
-
         return response()->json(['users' => $users]);
     }
 
     public function store(Request $request): JsonResponse
     {
-        if (Gate::denies('manage-users')) {
-            abort(403);
+        if (!auth()->user()->can('manage users')) {
+            throw UnauthorizedException::forPermissions(['manage users']);
         }
 
         $validatedData = $request->validate([
@@ -51,21 +45,16 @@ class UserController extends Controller
             'email' => $validatedData['email'],
         ]);
 
-        $role = Role::where('name', $validatedData['role_name'])
-            ->where('guard_name', 'api')
-            ->firstOrFail();
-
+        $role = Role::where('name', $validatedData['role_name'])->firstOrFail();
         $user->assignRole($role);
-
-        Log::channel('custom')->info('User created', ['user' => $user]);
 
         return response()->json(['user' => $user], 201);
     }
 
     public function update(Request $request, User $user): JsonResponse
     {
-        if (Gate::denies('manage-users')) {
-            abort(403);
+        if (!auth()->user()->can('manage users')) {
+            throw UnauthorizedException::forPermissions(['manage users']);
         }
 
         $validatedData = $request->validate([
@@ -83,24 +72,17 @@ class UserController extends Controller
 
         $user->update($validatedData);
 
-        $role = Role::where('name', $validatedData['role_name'])
-            ->where('guard_name', 'api')
-            ->firstOrFail();
-
+        $role = Role::where('name', $validatedData['role_name'])->firstOrFail();
         $user->syncRoles([$role]);
-
-        Log::channel('custom')->info('User updated', ['user' => $user]);
 
         return response()->json(['user' => $user]);
     }
 
     public function destroy(User $user): JsonResponse
     {
-        if (Gate::denies('manage-users')) {
-            abort(403);
+        if (!auth()->user()->can('manage users')) {
+            throw UnauthorizedException::forPermissions(['manage users']);
         }
-
-        Log::channel('custom')->info('User deleted', ['user' => $user]);
 
         $user->delete();
 

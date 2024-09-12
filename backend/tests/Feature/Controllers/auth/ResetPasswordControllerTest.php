@@ -5,9 +5,8 @@ namespace Tests\Feature\Controllers\Auth;
 use Tests\TestCase;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Password;
+use Illuminate\Support\Facades\Mail;
 use App\Mail\PasswordChangeConfirmationMail;
 
 class ResetPasswordControllerTest extends TestCase
@@ -19,10 +18,9 @@ class ResetPasswordControllerTest extends TestCase
         Mail::fake();
 
         $user = User::factory()->create();
-
         $token = Password::createToken($user);
 
-        $response = $this->postJson(route('auth.resetPassword'), [
+        $response = $this->postJson(route('password.reset'), [
             'email' => $user->email,
             'token' => $token,
             'password' => 'newpassword',
@@ -39,7 +37,7 @@ class ResetPasswordControllerTest extends TestCase
     {
         $user = User::factory()->create();
 
-        $response = $this->postJson(route('auth.resetPassword'), [
+        $response = $this->postJson(route('password.reset'), [
             'email' => $user->email,
             'token' => 'invalidtoken',
             'password' => 'newpassword',

@@ -2,20 +2,29 @@
 
 namespace Tests\Feature\Controllers\Admin;
 
-use Tests\TestCase;
-use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Spatie\Permission\Models\Role;
+use Tests\TestCase;
+use App\Models\User;
 
 class AdminReportControllerTest extends TestCase
 {
     use RefreshDatabase;
 
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        // Ensure 'admin' role is created only once
+        if (Role::where('name', 'admin')->doesntExist()) {
+            Role::create(['name' => 'admin']);
+        }
+    }
+
     public function test_admin_can_access_dashboard_report()
     {
-        $adminRole = Role::create(['name' => 'admin']);
         $admin = User::factory()->create();
-        $admin->assignRole($adminRole);
+        $admin->assignRole('admin');
 
         $this->actingAs($admin, 'api');
 

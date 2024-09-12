@@ -3,11 +3,10 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\JsonResponse;
 use Tymon\JWTAuth\Facades\JWTAuth;
-use Illuminate\Support\Facades\Gate;
+use Illuminate\Http\Request;
 
 class LoginController extends Controller
 {
@@ -15,25 +14,16 @@ class LoginController extends Controller
     {
         $credentials = $request->only('email', 'password');
 
-        if (!Auth::guard('api')->attempt($credentials)) {
+        if (!$token = Auth::guard('api')->attempt($credentials)) {
             return response()->json(['error' => 'Unauthorized'], 401);
         }
-
-        $user = Auth::user();
-
-        if (!Gate::allows('login', $user)) {
-            return response()->json(['message' => 'Unauthorized'], 403);
-        }
-
-        $token = JWTAuth::fromUser($user);
 
         return $this->respondWithToken($token);
     }
 
-    public function logout(Request $request): JsonResponse
+    public function logout(): JsonResponse
     {
         Auth::guard('api')->logout();
-
         return response()->json(['message' => 'Successfully logged out']);
     }
 
@@ -42,7 +32,7 @@ class LoginController extends Controller
         return response()->json([
             'access_token' => $token,
             'token_type' => 'bearer',
-            'expires_in' => Auth::guard('api')->factory()->getTTL() * 60,
+            'expires_in' => Auth::guard('api')->factory()->getTTL() * 60
         ]);
     }
 }

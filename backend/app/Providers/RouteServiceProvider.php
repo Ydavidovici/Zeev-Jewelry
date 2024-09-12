@@ -12,6 +12,8 @@ class RouteServiceProvider extends ServiceProvider
     public function boot()
     {
         parent::boot();
+
+        Route::model('role', \Spatie\Permission\Models\Role::class);
     }
 
     public function map()
