@@ -6,7 +6,6 @@ use App\Models\Inventory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Facades\Gate;
 
 class InventoryController extends Controller
 {
@@ -17,20 +16,27 @@ class InventoryController extends Controller
 
     public function index(): JsonResponse
     {
-        if (!Gate::allows('view-any-inventory', auth()->user())) {
+        $user = Auth::user();
+
+        // Only sellers or admins can view inventory
+        if (!$user->hasRole('seller') && !$user->hasRole('admin')) {
             return response()->json(['message' => 'Unauthorized'], 403);
         }
 
-        $inventories = Auth::user()->hasRole('admin')
+        // Admins can view all inventories, sellers can view only their own
+        $inventories = $user->hasRole('admin')
             ? Inventory::all()
-            : Inventory::where('user_id', Auth::id())->get();
+            : Inventory::where('seller_id', $user->id)->get();
 
         return response()->json($inventories);
     }
 
     public function store(Request $request): JsonResponse
     {
-        if (!Gate::allows('create-inventory', auth()->user())) {
+        $user = Auth::user();
+
+        // Only sellers or admins can create inventory
+        if (!$user->hasRole('seller') && !$user->hasRole('admin')) {
             return response()->json(['message' => 'Unauthorized'], 403);
         }
 
@@ -41,7 +47,7 @@ class InventoryController extends Controller
         ]);
 
         $inventory = new Inventory($request->all());
-        $inventory->user_id = Auth::id();
+        $inventory->seller_id = $user->id;
         $inventory->save();
 
         return response()->json($inventory, 201);
@@ -49,7 +55,10 @@ class InventoryController extends Controller
 
     public function show(Inventory $inventory): JsonResponse
     {
-        if (!Gate::allows('view-inventory', $inventory)) {
+        $user = Auth::user();
+
+        // Only admins or the seller who owns the inventory can view it
+        if (!$user->hasRole('admin') && $user->id !== $inventory->seller_id) {
             return response()->json(['message' => 'Unauthorized'], 403);
         }
 
@@ -58,7 +67,10 @@ class InventoryController extends Controller
 
     public function update(Request $request, Inventory $inventory): JsonResponse
     {
-        if (!Gate::allows('update-inventory', $inventory)) {
+        $user = Auth::user();
+
+        // Only admins or the seller who owns the inventory can update it
+        if (!$user->hasRole('admin') && $user->id !== $inventory->seller_id) {
             return response()->json(['message' => 'Unauthorized'], 403);
         }
 
@@ -75,7 +87,10 @@ class InventoryController extends Controller
 
     public function destroy(Inventory $inventory): JsonResponse
     {
-        if (!Gate::allows('delete-inventory', $inventory)) {
+        $user = Auth::user();
+
+        // Only admins or the seller who owns the inventory can delete it
+        if (!$user->hasRole('admin') && $user->id !== $inventory->seller_id) {
             return response()->json(['message' => 'Unauthorized'], 403);
         }
 

@@ -34,6 +34,7 @@ class OrderTest extends TestCase
         }
     }
 
+    // Test the relationship between Order and Payment (1:n)
     public function test_order_has_many_payments()
     {
         $order = Order::factory()->create();
@@ -43,12 +44,24 @@ class OrderTest extends TestCase
         $this->assertInstanceOf(\Illuminate\Database\Eloquent\Collection::class, $order->payments);
     }
 
+    // Test the relationship between Order and User (customer)
     public function test_order_belongs_to_customer()
     {
         $user = User::factory()->create(); // Use User instead of Customer
         $order = Order::factory()->create(['customer_id' => $user->id]);
 
-        $this->assertInstanceOf(User::class, $order->customer); // Update assertion to use User class
-        $this->assertEquals($user->id, $order->customer->id); // Update to use User instance
+        $this->assertInstanceOf(User::class, $order->customer); // Assert that the customer is a User instance
+        $this->assertEquals($user->id, $order->customer->id); // Assert that the customer ID matches the user's ID
+    }
+
+    // Test the relationship between Order and Seller (seller_id field)
+    public function test_order_belongs_to_seller()
+    {
+        $seller = User::factory()->create();
+        $seller->assignRole('Seller'); // Assign the 'Seller' role to the user
+        $order = Order::factory()->create(['seller_id' => $seller->id]);
+
+        $this->assertInstanceOf(User::class, $order->seller); // Assert that the seller is a User instance
+        $this->assertEquals($seller->id, $order->seller->id); // Assert that the seller ID matches the user's ID
     }
 }

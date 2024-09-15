@@ -2,49 +2,51 @@
 
 namespace App\Http\Controllers;
 
-use App\Mail\OrderConfirmationMail;
-use App\Mail\ShippingConfirmationMail;
-use App\Mail\DeliveryConfirmationMail;
 use App\Models\Order;
 use Illuminate\Http\Request;
-use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Facades\Gate;
+use App\Mail\OrderConfirmationMail;
+use Illuminate\Http\JsonResponse;
 
 class OrderController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth:api');
-    }
-
     public function index(): JsonResponse
     {
-        if (!Gate::allows('view-any-order', auth()->user())) {
+        $user = Auth::user();
+
+        if (!$user->hasRole('admin') && !$user->hasRole('seller')) {
             return response()->json(['message' => 'Unauthorized'], 403);
         }
 
-        $orders = Order::all();
+        $orders = $user->hasRole('admin') ? Order::all() : Order::where('seller_id', $user->id)->get();
+
         return response()->json($orders);
     }
 
     public function store(Request $request): JsonResponse
     {
-        if (!Gate::allows('create-order', auth()->user())) {
+        $user = Auth::user();
+
+        // Customers and sellers can create orders
+        if (!$user->hasRole('customer') && !$user->hasRole('seller')) {
             return response()->json(['message' => 'Unauthorized'], 403);
         }
 
-        $request->validate([
-            'customer_id' => 'required|exists:customers,id',
+        $validatedData = $request->validate([
+            'customer_id' => 'required|exists:users,id',
             'order_date' => 'required|date',
             'total_amount' => 'required|numeric',
             'is_guest' => 'required|boolean',
-            'status' => 'required|string|max:255',
-            'payment_intent_id' => 'nullable|string|max:255',
+            'status' => 'required|string',
         ]);
 
-        $order = Order::create($request->all());
+        // Assign seller or customer based on the user's role
+        $validatedData['seller_id'] = $user->hasRole('seller') ? $user->id : null;
 
+        $order = Order::create($validatedData);
+
+        // Send order confirmation email
         Mail::to($order->customer->email)->send(new OrderConfirmationMail($order));
 
         return response()->json($order, 201);
@@ -52,7 +54,10 @@ class OrderController extends Controller
 
     public function show(Order $order): JsonResponse
     {
-        if (!Gate::allows('view-order', $order)) {
+        $user = Auth::user();
+
+        // Only allow access to sellers who created the order or admins
+        if (!$user->hasRole('admin') && $user->id !== $order->seller_id) {
             return response()->json(['message' => 'Unauthorized'], 403);
         }
 
@@ -61,33 +66,28 @@ class OrderController extends Controller
 
     public function update(Request $request, Order $order): JsonResponse
     {
-        if (!Gate::allows('update-order', $order)) {
+        $user = Auth::user();
+
+        // Only admins or the seller can update the order
+        if (!$user->hasRole('admin') && $user->id !== $order->seller_id) {
             return response()->json(['message' => 'Unauthorized'], 403);
         }
 
-        $request->validate([
-            'customer_id' => 'required|exists:customers,id',
-            'order_date' => 'required|date',
-            'total_amount' => 'required|numeric',
-            'is_guest' => 'required|boolean',
-            'status' => 'required|string|max:255',
-            'payment_intent_id' => 'nullable|string|max:255',
+        $validatedData = $request->validate([
+            'status' => 'required|string',
         ]);
 
-        $order->update($request->all());
-
-        if ($order->status === 'shipped') {
-            Mail::to($order->customer->email)->send(new ShippingConfirmationMail($order));
-        } elseif ($order->status === 'delivered') {
-            Mail::to($order->customer->email)->send(new DeliveryConfirmationMail($order));
-        }
+        $order->update($validatedData);
 
         return response()->json($order);
     }
 
     public function destroy(Order $order): JsonResponse
     {
-        if (!Gate::allows('delete-order', $order)) {
+        $user = Auth::user();
+
+        // Only admins or the seller can delete the order
+        if (!$user->hasRole('admin') && $user->id !== $order->seller_id) {
             return response()->json(['message' => 'Unauthorized'], 403);
         }
 

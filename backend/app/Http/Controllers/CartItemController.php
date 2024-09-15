@@ -6,7 +6,6 @@ use App\Models\CartItem;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Gate;
 
 class CartItemController extends Controller
 {
@@ -19,7 +18,7 @@ class CartItemController extends Controller
     {
         $user = Auth::user();
 
-        if (!Gate::allows('view-any-cart-item', $user)) {
+        if (!$user->hasRole('user')) {
             return response()->json(['message' => 'Unauthorized'], 403);
         }
 
@@ -34,7 +33,7 @@ class CartItemController extends Controller
     {
         $user = Auth::user();
 
-        if (!Gate::allows('create-cart-item', $user)) {
+        if (!$user->hasRole('user')) {
             return response()->json(['message' => 'Unauthorized'], 403);
         }
 
@@ -54,7 +53,7 @@ class CartItemController extends Controller
         $user = Auth::user();
         $cartItem = CartItem::findOrFail($id);
 
-        if (!Gate::allows('view-cart-item', $cartItem, $user)) {
+        if (!$user->hasRole('user')) {
             return response()->json(['message' => 'Unauthorized'], 403);
         }
 
@@ -66,7 +65,7 @@ class CartItemController extends Controller
         $user = Auth::user();
         $cartItem = CartItem::findOrFail($id);
 
-        if (!Gate::allows('update-cart-item', $cartItem, $user)) {
+        if (!$user->hasRole('user')) {
             return response()->json(['message' => 'Unauthorized'], 403);
         }
 
@@ -84,7 +83,7 @@ class CartItemController extends Controller
         $user = Auth::user();
         $cartItem = CartItem::findOrFail($id);
 
-        if (!Gate::allows('delete-cart-item', $cartItem, $user)) {
+        if (!$user->hasRole('user')) {
             return response()->json(['message' => 'Unauthorized'], 403);
         }
 

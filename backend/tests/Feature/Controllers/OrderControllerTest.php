@@ -5,64 +5,67 @@ namespace Tests\Feature\Controllers;
 use App\Models\Order;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Support\Facades\Gate;
+use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
 class OrderControllerTest extends TestCase
 {
     use RefreshDatabase;
 
-    protected function setUp(): void
-    {
-        parent::setUp();
-        $this->actingAs(User::factory()->create(), 'api');
-    }
-
-    /** @test */
+    #[Test]
     public function it_can_view_all_orders()
     {
-        Gate::define('viewAny', function ($user) {
-            return true;
-        });
+        $seller = User::factory()->create();
+        $seller->assignRole('seller'); // Assign the seller role
+        $this->actingAs($seller, 'api');
+
+        $customer = User::factory()->create();
+        $customer->assignRole('customer');
+
+        $order = Order::factory()->create([
+            'customer_id' => $customer->id,
+            'seller_id' => $seller->id,
+        ]);
 
         $response = $this->getJson(route('orders.index'));
 
         $response->assertStatus(200)
             ->assertJsonStructure(['*' => ['id', 'customer_id', 'order_date', 'total_amount']]);
     }
-
-    /** @test */
+    #[Test]
     public function it_can_create_an_order()
     {
-        Gate::define('create', function ($user) {
-            return true;
-        });
+        $seller = User::factory()->create();
+        $seller->assignRole('seller');
+        $this->actingAs($seller, 'api');
+
+        $customer = User::factory()->create();
+        $customer->assignRole('customer');
 
         $orderData = [
-            'customer_id' => 1,
-            'order_date' => now()->toDateString(),
-            'total_amount' => 100.00,
+            'customer_id' => $customer->id,
+            'order_date' => now()->format('Y-m-d'),
+            'total_amount' => 100.50,
             'is_guest' => false,
-            'status' => 'Pending',
-            'payment_intent_id' => 'test_intent_id',
+            'status' => 'processing',
         ];
 
         $response = $this->postJson(route('orders.store'), $orderData);
 
         $response->assertStatus(201)
-            ->assertJsonFragment(['status' => 'Pending']);
+            ->assertJsonFragment(['status' => 'processing']);
 
-        $this->assertDatabaseHas('orders', ['customer_id' => 1, 'total_amount' => 100.00]);
+        $this->assertDatabaseHas('orders', ['total_amount' => 100.50, 'status' => 'processing']);
     }
 
-    /** @test */
+    #[Test]
     public function it_can_show_an_order()
     {
-        Gate::define('view', function ($user, $order) {
-            return true;
-        });
+        $seller = User::factory()->create();
+        $seller->assignRole('seller');
+        $this->actingAs($seller, 'api');
 
-        $order = Order::factory()->create();
+        $order = Order::factory()->create(['seller_id' => $seller->id]);
 
         $response = $this->getJson(route('orders.show', $order->id));
 
@@ -70,31 +73,31 @@ class OrderControllerTest extends TestCase
             ->assertJson(['id' => $order->id]);
     }
 
-    /** @test */
+    #[Test]
     public function it_can_update_an_order()
     {
-        Gate::define('update', function ($user, $order) {
-            return true;
-        });
+        $seller = User::factory()->create();
+        $seller->assignRole('seller');
+        $this->actingAs($seller, 'api');
 
-        $order = Order::factory()->create();
+        $order = Order::factory()->create(['seller_id' => $seller->id]);
 
-        $response = $this->putJson(route('orders.update', $order->id), ['status' => 'Completed']);
+        $response = $this->putJson(route('orders.update', $order->id), ['status' => 'shipped']);
 
         $response->assertStatus(200)
-            ->assertJsonFragment(['status' => 'Completed']);
+            ->assertJsonFragment(['status' => 'shipped']);
 
-        $this->assertDatabaseHas('orders', ['id' => $order->id, 'status' => 'Completed']);
+        $this->assertDatabaseHas('orders', ['id' => $order->id, 'status' => 'shipped']);
     }
 
-    /** @test */
+    #[Test]
     public function it_can_delete_an_order()
     {
-        Gate::define('delete', function ($user, $order) {
-            return true;
-        });
+        $seller = User::factory()->create();
+        $seller->assignRole('seller');
+        $this->actingAs($seller, 'api');
 
-        $order = Order::factory()->create();
+        $order = Order::factory()->create(['seller_id' => $seller->id]);
 
         $response = $this->deleteJson(route('orders.destroy', $order->id));
 

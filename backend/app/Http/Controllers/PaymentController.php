@@ -5,21 +5,25 @@ namespace App\Http\Controllers;
 use App\Models\Payment;
 use App\Models\Order;
 use Illuminate\Http\Request;
-use Stripe\Stripe;
-use Stripe\PaymentIntent;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Facades\Gate;
+use Stripe\StripeClient;
 
 class PaymentController extends Controller
 {
-    public function __construct()
+    protected $stripe;
+
+    public function __construct(StripeClient $stripe)
     {
         $this->middleware('auth:api');
+        $this->stripe = $stripe;
     }
 
     public function index(): JsonResponse
     {
-        if (!Gate::allows('view-any-payment', auth()->user())) {
+        $user = auth()->user();
+
+        // Only admins can view all payments
+        if (!$user->hasRole('admin')) {
             return response()->json(['message' => 'Unauthorized'], 403);
         }
 
@@ -29,7 +33,10 @@ class PaymentController extends Controller
 
     public function store(Request $request): JsonResponse
     {
-        if (!Gate::allows('create-payment', auth()->user())) {
+        $user = auth()->user();
+
+        // Only admins can create payments
+        if (!$user->hasRole('admin')) {
             return response()->json(['message' => 'Unauthorized'], 403);
         }
 
@@ -38,10 +45,11 @@ class PaymentController extends Controller
             'amount' => 'required|numeric|min:1',
         ]);
 
-        Stripe::setApiKey(config('services.stripe.secret'));
+        // Retrieve the order to get the seller_id
+        $order = Order::find($request->order_id);
 
         try {
-            $paymentIntent = PaymentIntent::create([
+            $paymentIntent = $this->stripe->paymentIntents->create([
                 'amount' => $request->amount * 100, // Convert to cents
                 'currency' => 'usd',
                 'payment_method_types' => ['card'],
@@ -56,47 +64,23 @@ class PaymentController extends Controller
                 'payment_type' => 'stripe',
                 'payment_status' => 'pending',
                 'amount' => $request->amount,
+                'seller_id' => $order->seller_id, // Include seller_id here
             ]);
 
             return response()->json(['clientSecret' => $paymentIntent->client_secret]);
         } catch (\Exception $e) {
+            \Log::error('Error creating payment: ' . $e->getMessage());
             return response()->json(['error' => $e->getMessage()], 500);
         }
     }
 
-    public function confirm(Request $request): JsonResponse
-    {
-        $request->validate([
-            'payment_intent_id' => 'required|string',
-            'order_id' => 'required|exists:orders,id',
-        ]);
-
-        Stripe::setApiKey(config('services.stripe.secret'));
-
-        try {
-            $intent = PaymentIntent::retrieve($request->payment_intent_id);
-
-            if ($intent->status == 'succeeded') {
-                $order = Order::findOrFail($request->order_id);
-                $order->status = 'Paid';
-                $order->payment_intent_id = $intent->id;
-                $order->save();
-
-                $payment = Payment::where('payment_intent_id', $intent->id)->first();
-                $payment->update(['payment_status' => 'succeeded']);
-
-                return response()->json(['message' => 'Payment successful.']);
-            }
-
-            return response()->json(['message' => 'Payment failed.'], 400);
-        } catch (\Exception $e) {
-            return response()->json(['message' => 'Payment failed: ' . $e->getMessage()], 500);
-        }
-    }
 
     public function show(Payment $payment): JsonResponse
     {
-        if (!Gate::allows('view-payment', $payment)) {
+        $user = auth()->user();
+
+        // Only admins can view a payment
+        if (!$user->hasRole('admin')) {
             return response()->json(['message' => 'Unauthorized'], 403);
         }
 
@@ -105,7 +89,10 @@ class PaymentController extends Controller
 
     public function update(Request $request, Payment $payment): JsonResponse
     {
-        if (!Gate::allows('update-payment', $payment)) {
+        $user = auth()->user();
+
+        // Only admins can update a payment
+        if (!$user->hasRole('admin')) {
             return response()->json(['message' => 'Unauthorized'], 403);
         }
 
@@ -120,7 +107,10 @@ class PaymentController extends Controller
 
     public function destroy(Payment $payment): JsonResponse
     {
-        if (!Gate::allows('delete-payment', $payment)) {
+        $user = auth()->user();
+
+        // Only admins can delete a payment
+        if (!$user->hasRole('admin')) {
             return response()->json(['message' => 'Unauthorized'], 403);
         }
 

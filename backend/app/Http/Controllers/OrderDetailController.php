@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\OrderDetail;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Facades\Gate;
 
 class OrderDetailController extends Controller
 {
@@ -16,7 +15,10 @@ class OrderDetailController extends Controller
 
     public function index(): JsonResponse
     {
-        if (!Gate::allows('view-any-order-detail', auth()->user())) {
+        $user = auth()->user();
+
+        // Only admins can view all order details
+        if (!$user->hasRole('admin')) {
             return response()->json(['message' => 'Unauthorized'], 403);
         }
 
@@ -26,7 +28,10 @@ class OrderDetailController extends Controller
 
     public function store(Request $request): JsonResponse
     {
-        if (!Gate::allows('create-order-detail', auth()->user())) {
+        $user = auth()->user();
+
+        // Only admins can create order details
+        if (!$user->hasRole('admin')) {
             return response()->json(['message' => 'Unauthorized'], 403);
         }
 
@@ -44,7 +49,10 @@ class OrderDetailController extends Controller
 
     public function show(OrderDetail $orderDetail): JsonResponse
     {
-        if (!Gate::allows('view-order-detail', $orderDetail)) {
+        $user = auth()->user();
+
+        // Only admins can view an order detail
+        if (!$user->hasRole('admin')) {
             return response()->json(['message' => 'Unauthorized'], 403);
         }
 
@@ -53,7 +61,10 @@ class OrderDetailController extends Controller
 
     public function update(Request $request, OrderDetail $orderDetail): JsonResponse
     {
-        if (!Gate::allows('update-order-detail', $orderDetail)) {
+        $user = auth()->user();
+
+        // Only admins can update an order detail
+        if (!$user->hasRole('admin')) {
             return response()->json(['message' => 'Unauthorized'], 403);
         }
 
@@ -71,7 +82,10 @@ class OrderDetailController extends Controller
 
     public function destroy(OrderDetail $orderDetail): JsonResponse
     {
-        if (!Gate::allows('delete-order-detail', $orderDetail)) {
+        $user = auth()->user();
+
+        // Only admins can delete an order detail
+        if (!$user->hasRole('admin')) {
             return response()->json(['message' => 'Unauthorized'], 403);
         }
 

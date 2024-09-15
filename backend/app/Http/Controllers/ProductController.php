@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Facades\Gate;
 
 class ProductController extends Controller
 {
@@ -17,12 +16,13 @@ class ProductController extends Controller
     // Show a single product by ID
     public function show(Request $request, $id): JsonResponse
     {
-        if (!Gate::allows('view-product', auth()->user())) {
+        if (!auth()->user()->hasRole('seller')) {
             return response()->json(['message' => 'Unauthorized'], 403);
         }
 
         $product = Product::findOrFail($id);
 
+        // Logic for recently viewed products
         $viewedProducts = json_decode($request->cookie('viewed_products', '[]'), true);
 
         if (!in_array($id, $viewedProducts)) {
@@ -33,24 +33,10 @@ class ProductController extends Controller
         return response()->json(['product' => $product]);
     }
 
-    // Show recently viewed products
-    public function showRecentlyViewed(Request $request): JsonResponse
-    {
-        if (!Gate::allows('view-recently-viewed-products', auth()->user())) {
-            return response()->json(['message' => 'Unauthorized'], 403);
-        }
-
-        $viewedProducts = json_decode($request->cookie('viewed_products', '[]'), true);
-
-        $products = Product::whereIn('id', $viewedProducts)->get();
-
-        return response()->json(['recently_viewed' => $products]);
-    }
-
     // Create a new product
     public function store(Request $request): JsonResponse
     {
-        if (!Gate::allows('create-product', auth()->user())) {
+        if (!auth()->user()->hasRole('seller')) {
             return response()->json(['message' => 'Unauthorized'], 403);
         }
 
@@ -58,7 +44,7 @@ class ProductController extends Controller
             'name' => 'required|string|max:255',
             'description' => 'required|string',
             'price' => 'required|numeric|min:0',
-            'stock' => 'required|integer|min:0',
+            'stock_quantity' => 'required|integer|min:0', // Change from 'quantity' to 'stock_quantity'
             'is_featured' => 'boolean',
         ]);
 
@@ -67,10 +53,9 @@ class ProductController extends Controller
         return response()->json(['product' => $product], 201);
     }
 
-    // Update an existing product
     public function update(Request $request, Product $product): JsonResponse
     {
-        if (!Gate::allows('update-product', $product)) {
+        if (!auth()->user()->hasRole('seller')) {
             return response()->json(['message' => 'Unauthorized'], 403);
         }
 
@@ -78,7 +63,7 @@ class ProductController extends Controller
             'name' => 'sometimes|required|string|max:255',
             'description' => 'sometimes|required|string',
             'price' => 'sometimes|required|numeric|min:0',
-            'stock' => 'sometimes|required|integer|min:0',
+            'stock_quantity' => 'sometimes|required|integer|min:0', // Change from 'quantity' to 'stock_quantity'
             'is_featured' => 'sometimes|boolean',
         ]);
 
@@ -90,24 +75,12 @@ class ProductController extends Controller
     // Delete a product
     public function destroy(Product $product): JsonResponse
     {
-        if (!Gate::allows('delete-product', $product)) {
+        if (!auth()->user()->hasRole('seller')) {
             return response()->json(['message' => 'Unauthorized'], 403);
         }
 
         $product->delete();
 
         return response()->json(null, 204);
-    }
-
-    // List all products (optional, depending on your needs)
-    public function index(): JsonResponse
-    {
-        if (!Gate::allows('view-any-product', auth()->user())) {
-            return response()->json(['message' => 'Unauthorized'], 403);
-        }
-
-        $products = Product::all();
-
-        return response()->json(['products' => $products]);
     }
 }

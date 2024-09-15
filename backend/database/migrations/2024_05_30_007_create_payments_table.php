@@ -14,6 +14,7 @@ class CreatePaymentsTable extends Migration
             $table->unsignedBigInteger('order_id');
             $table->unsignedBigInteger('seller_id');
             $table->string('payment_intent_id')->nullable();
+            $table->string('stripe_payment_id')->nullable();
             $table->string('payment_type');
             $table->string('payment_status');
             $table->decimal('amount', 10, 2);

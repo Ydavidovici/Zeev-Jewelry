@@ -5,26 +5,27 @@ namespace Tests\Feature\Controllers;
 use App\Models\Product;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Support\Facades\Gate;
 use Tests\TestCase;
 
 class ProductControllerTest extends TestCase
 {
     use RefreshDatabase;
 
+    protected $seller;
+
     protected function setUp(): void
     {
         parent::setUp();
-        $this->actingAs(User::factory()->create(), 'api');
+
+        // Assume the roles and users are seeded via a seeder in the BaseTestCase
+        $this->seller = User::factory()->create();
+        $this->seller->assignRole('seller');
+
+        $this->actingAs($this->seller, 'api');
     }
 
-    /** @test */
-    public function it_can_view_a_product()
+    public function test_it_can_view_a_product()
     {
-        Gate::define('view-product', function ($user) {
-            return true;
-        });
-
         $product = Product::factory()->create();
 
         $response = $this->getJson(route('products.show', $product->id));
@@ -33,29 +34,34 @@ class ProductControllerTest extends TestCase
             ->assertJson(['product' => $product->toArray()]);
     }
 
-    /** @test */
-    public function it_can_store_a_product()
+    public function test_it_can_store_a_product()
     {
-        Gate::define('create-product', function ($user) {
-            return true;
-        });
-
         $productData = Product::factory()->make()->toArray();
+
+        // Set a default image URL in the test data
+        $productData['image_url'] = 'path/to/default-image.jpg';
 
         $response = $this->postJson(route('products.store'), $productData);
 
         $response->assertStatus(201)
-            ->assertJsonStructure(['product' => ['id', 'name', 'description', 'price', 'stock']]);
+            ->assertJsonStructure(['product' => ['id', 'name', 'description', 'price', 'stock_quantity', 'image_url']]);
 
-        $this->assertDatabaseHas('products', $productData);
+        $this->assertDatabaseHas('products', [
+            'seller_id' => $productData['seller_id'],
+            'name' => $productData['name'],
+            'description' => $productData['description'],
+            'price' => $productData['price'],
+            'category_id' => $productData['category_id'],
+            'stock_quantity' => $productData['stock_quantity'],
+            'image_url' => $productData['image_url'],  // Assert the image URL is correctly stored
+        ]);
     }
 
-    /** @test */
-    public function it_cannot_store_a_product_without_proper_permission()
+
+    public function test_non_seller_cannot_store_a_product()
     {
-        Gate::define('create-product', function ($user) {
-            return false;
-        });
+        $nonSeller = User::factory()->create(); // User without a seller role
+        $this->actingAs($nonSeller, 'api');
 
         $productData = Product::factory()->make()->toArray();
 
@@ -64,13 +70,8 @@ class ProductControllerTest extends TestCase
         $response->assertStatus(403);
     }
 
-    /** @test */
-    public function it_can_update_a_product()
+    public function test_it_can_update_a_product()
     {
-        Gate::define('update-product', function ($user) {
-            return true;
-        });
-
         $product = Product::factory()->create();
 
         $newData = ['name' => 'Updated Name'];
@@ -83,13 +84,8 @@ class ProductControllerTest extends TestCase
         $this->assertDatabaseHas('products', ['id' => $product->id, 'name' => 'Updated Name']);
     }
 
-    /** @test */
-    public function it_can_delete_a_product()
+    public function test_it_can_delete_a_product()
     {
-        Gate::define('delete-product', function ($user) {
-            return true;
-        });
-
         $product = Product::factory()->create();
 
         $response = $this->deleteJson(route('products.destroy', $product->id));
@@ -97,21 +93,5 @@ class ProductControllerTest extends TestCase
         $response->assertStatus(204);
 
         $this->assertDatabaseMissing('products', ['id' => $product->id]);
-    }
-
-    /** @test */
-    public function it_can_show_recently_viewed_products()
-    {
-        Gate::define('view-recently-viewed-products', function ($user) {
-            return true;
-        });
-
-        $product = Product::factory()->create();
-        $this->withCookie('viewed_products', json_encode([$product->id]));
-
-        $response = $this->getJson(route('products.recentlyViewed'));
-
-        $response->assertStatus(200)
-            ->assertJsonFragment(['id' => $product->id]);
     }
 }

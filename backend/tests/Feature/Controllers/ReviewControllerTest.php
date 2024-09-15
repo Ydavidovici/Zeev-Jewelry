@@ -5,7 +5,7 @@ namespace Tests\Feature\Controllers;
 use App\Models\Review;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Support\Facades\Gate;
+use Spatie\Permission\Models\Role;
 use Tests\TestCase;
 
 class ReviewControllerTest extends TestCase
@@ -15,29 +15,26 @@ class ReviewControllerTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->actingAs(User::factory()->create(), 'api');
+
+        // Assign roles to users
+        $admin = User::factory()->create();
+        $admin->assignRole('admin');
+
+        $this->actingAs($admin, 'api');
     }
 
-    /** @test */
+    #[Test]
     public function it_can_view_all_reviews()
     {
-        Gate::define('viewAny', function ($user) {
-            return true;
-        });
-
         $response = $this->getJson(route('reviews.index'));
 
         $response->assertStatus(200)
             ->assertJsonStructure(['*' => ['id', 'product_id', 'customer_id', 'review_text', 'rating']]);
     }
 
-    /** @test */
+    #[Test]
     public function it_can_create_a_review()
     {
-        Gate::define('create', function ($user) {
-            return true;
-        });
-
         $reviewData = [
             'product_id' => 1,
             'customer_id' => 1,
@@ -54,13 +51,9 @@ class ReviewControllerTest extends TestCase
         $this->assertDatabaseHas('reviews', ['product_id' => 1, 'review_text' => 'Great product!']);
     }
 
-    /** @test */
+    #[Test]
     public function it_can_show_a_review()
     {
-        Gate::define('view', function ($user, $review) {
-            return true;
-        });
-
         $review = Review::factory()->create();
 
         $response = $this->getJson(route('reviews.show', $review->id));
@@ -69,13 +62,9 @@ class ReviewControllerTest extends TestCase
             ->assertJson(['id' => $review->id]);
     }
 
-    /** @test */
+    #[Test]
     public function it_can_update_a_review()
     {
-        Gate::define('update', function ($user, $review) {
-            return true;
-        });
-
         $review = Review::factory()->create();
 
         $response = $this->putJson(route('reviews.update', $review->id), ['rating' => 4]);
@@ -86,13 +75,9 @@ class ReviewControllerTest extends TestCase
         $this->assertDatabaseHas('reviews', ['id' => $review->id, 'rating' => 4]);
     }
 
-    /** @test */
+    #[Test]
     public function it_can_delete_a_review()
     {
-        Gate::define('delete', function ($user, $review) {
-            return true;
-        });
-
         $review = Review::factory()->create();
 
         $response = $this->deleteJson(route('reviews.destroy', $review->id));

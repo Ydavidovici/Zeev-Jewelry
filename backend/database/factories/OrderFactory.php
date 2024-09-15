@@ -17,8 +17,8 @@ class OrderFactory extends Factory
         $seller->assignRole('seller');
 
         return [
-            'customer_id' => User::factory(),
-            'seller_id' => $seller->id,
+            'customer_id' => User::factory(),   // Create customer using factory
+            'seller_id' => $seller->id,         // Assign seller ID
             'order_date' => $this->faker->dateTime,
             'total_amount' => $this->faker->randomFloat(2, 1, 1000),
             'is_guest' => $this->faker->boolean,

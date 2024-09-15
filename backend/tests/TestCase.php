@@ -13,7 +13,6 @@ abstract class TestCase extends BaseTestCase
     {
         parent::setUp();
 
-        // Seed the database with roles and permissions
         Artisan::call('db:seed', ['--class' => 'RolesAndPermissionsSeeder']);
     }
 }

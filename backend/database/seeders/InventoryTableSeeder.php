@@ -12,8 +12,8 @@ class InventoryTableSeeder extends Seeder
 {
     public function run()
     {
-        $product1 = Product::where('product_name', 'Gold Necklace')->first();
-        $product2 = Product::where('product_name', 'Diamond Ring')->first();
+        $product1 = Product::where('name', 'Gold Necklace')->first();
+        $product2 = Product::where('name', 'Diamond Ring')->first();
 
         // Assuming 'seller1' is the seller you want to use for this inventory
         $seller = User::where('username', 'seller1')->first();

@@ -4,14 +4,15 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\User;  // Ensure User model is imported
+use App\Models\User;
 
 class Order extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'customer_id', // This assumes you're using 'customer_id' to reference a user
+        'customer_id', // this references in the migration the user's id its technichally a user id but we've named it customer_id for clarity
+        'seller_id',    // Add seller_id to the fillable array
         'order_date',
         'total_amount',
         'is_guest',
@@ -28,6 +29,12 @@ class Order extends Model
     // Relationship with User (formerly Customer)
     public function customer()
     {
-        return $this->belongsTo(User::class, 'customer_id'); // Updated to reference the User model
+        return $this->belongsTo(User::class, 'customer_id');
+    }
+
+    // Relationship with Seller
+    public function seller()
+    {
+        return $this->belongsTo(User::class, 'seller_id');
     }
 }

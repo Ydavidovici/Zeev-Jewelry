@@ -34,6 +34,7 @@ class ProductTest extends TestCase
         }
     }
 
+    // Test the relationship between Product and Category
     #[Test]
     public function product_belongs_to_category()
     {
@@ -44,6 +45,7 @@ class ProductTest extends TestCase
         $this->assertEquals($category->id, $product->category->id);
     }
 
+    // Test the relationship between Product and Review (1:n)
     #[Test]
     public function product_has_many_reviews()
     {
@@ -56,5 +58,17 @@ class ProductTest extends TestCase
 
         $this->assertTrue($product->reviews->contains($review));
         $this->assertInstanceOf(\Illuminate\Database\Eloquent\Collection::class, $product->reviews);
+    }
+
+    // Test the relationship between Product and Seller (seller_id field)
+    #[Test]
+    public function product_belongs_to_seller()
+    {
+        $seller = User::factory()->create();
+        $seller->assignRole('Seller'); // Assign the 'Seller' role to the user
+        $product = Product::factory()->create(['seller_id' => $seller->id]);
+
+        $this->assertInstanceOf(User::class, $product->seller); // Assert that the seller is a User instance
+        $this->assertEquals($seller->id, $product->seller->id); // Assert that the seller ID matches the user's ID
     }
 }

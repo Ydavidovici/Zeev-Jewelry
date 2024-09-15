@@ -2,10 +2,10 @@
 
 namespace Tests\Feature\Controllers;
 
+use App\Models\Order;
 use App\Models\Shipping;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Support\Facades\Gate;
 use Tests\TestCase;
 
 class ShippingControllerTest extends TestCase
@@ -15,32 +15,37 @@ class ShippingControllerTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->actingAs(User::factory()->create(), 'api');
+
+        // Create a user with the role 'seller'
+        $this->seller = User::factory()->create();
+        $this->seller->assignRole('seller');
+
+        // Create a user with the role 'admin'
+        $this->admin = User::factory()->create();
+        $this->admin->assignRole('admin');
+
+        // Authenticate as a seller by default
+        $this->actingAs($this->seller, 'api');
     }
 
     /** @test */
-    public function it_can_view_all_shipping_details()
+    public function it_can_view_all_shipping_details_as_seller()
     {
-        Gate::define('viewAny', function ($user) {
-            return true;
-        });
-
-        $response = $this->getJson(route('shipping.index'));
+        $response = $this->actingAs($this->seller, 'api')->getJson(route('shipping.index'));
 
         $response->assertStatus(200)
             ->assertJsonStructure(['*' => ['id', 'order_id', 'shipping_type', 'shipping_cost', 'shipping_status']]);
     }
 
     /** @test */
-    public function it_can_create_shipping_details()
+    public function it_can_create_shipping_details_as_seller()
     {
-        Gate::define('create', function ($user) {
-            return true;
-        });
+        // Dynamically create an order for the seller
+        $order = Order::factory()->create(['seller_id' => $this->seller->id]);
 
         $shippingData = [
-            'order_id' => 1,
-            'seller_id' => 1,
+            'order_id' => $order->id,
+            'seller_id' => $this->seller->id,
             'shipping_type' => 'Standard',
             'shipping_cost' => 10.00,
             'shipping_status' => 'Pending',
@@ -48,62 +53,75 @@ class ShippingControllerTest extends TestCase
             'shipping_address' => '123 Main St',
             'shipping_carrier' => 'DHL',
             'recipient_name' => 'John Doe',
+            'city' => 'New York',
+            'state' => 'NY',
+            'postal_code' => '01234',
+            'country' => 'US',
+            'shipping_method' => 'Ground',  // Add this line
             'estimated_delivery_date' => now()->addWeek()->toDateString(),
         ];
 
-        $response = $this->postJson(route('shipping.store'), $shippingData);
+
+        $response = $this->actingAs($this->seller, 'api')->postJson(route('shipping.store'), $shippingData);
 
         $response->assertStatus(201)
             ->assertJsonFragment(['shipping_status' => 'Pending']);
 
-        $this->assertDatabaseHas('shipping', ['order_id' => 1, 'shipping_status' => 'Pending']);
+        $this->assertDatabaseHas('shipping', ['order_id' => $order->id, 'shipping_status' => 'Pending']);
     }
 
     /** @test */
-    public function it_can_show_shipping_details()
+    public function it_can_show_shipping_details_as_seller()
     {
-        Gate::define('view', function ($user, $shipping) {
-            return true;
-        });
+        $shipping = Shipping::factory()->create(['seller_id' => $this->seller->id]);
 
-        $shipping = Shipping::factory()->create();
-
-        $response = $this->getJson(route('shipping.show', $shipping->id));
+        $response = $this->actingAs($this->seller, 'api')->getJson(route('shipping.show', $shipping->id));
 
         $response->assertStatus(200)
             ->assertJson(['id' => $shipping->id]);
     }
 
     /** @test */
-    public function it_can_update_shipping_details()
+    public function it_can_update_shipping_details_as_seller()
     {
-        Gate::define('update', function ($user, $shipping) {
-            return true;
-        });
+        // Create an initial shipping record with a pending status
+        $shipping = Shipping::factory()->create([
+            'shipping_status' => 'pending',
+            'seller_id' => $this->seller->id,
+        ]);
 
-        $shipping = Shipping::factory()->create();
+        // Perform the update request
+        $response = $this->actingAs($this->seller, 'api')
+            ->putJson(route('shipping.update', $shipping->id), ['shipping_status' => 'Shipped']);
 
-        $response = $this->putJson(route('shipping.update', $shipping->id), ['shipping_status' => 'Shipped']);
-
+        // Assert the update was successful
         $response->assertStatus(200)
             ->assertJsonFragment(['shipping_status' => 'Shipped']);
 
+        // Check the database for the updated status
         $this->assertDatabaseHas('shipping', ['id' => $shipping->id, 'shipping_status' => 'Shipped']);
     }
 
     /** @test */
-    public function it_can_delete_shipping_details()
+    public function it_can_delete_shipping_details_as_seller()
     {
-        Gate::define('delete', function ($user, $shipping) {
-            return true;
-        });
+        $shipping = Shipping::factory()->create(['seller_id' => $this->seller->id]);
 
-        $shipping = Shipping::factory()->create();
-
-        $response = $this->deleteJson(route('shipping.destroy', $shipping->id));
+        $response = $this->actingAs($this->seller, 'api')->deleteJson(route('shipping.destroy', $shipping->id));
 
         $response->assertStatus(204);
 
         $this->assertDatabaseMissing('shipping', ['id' => $shipping->id]);
+    }
+
+    /** @test */
+    public function admin_can_view_shipping_details()
+    {
+        $shipping = Shipping::factory()->create(['seller_id' => $this->seller->id]);
+
+        $response = $this->actingAs($this->admin, 'api')->getJson(route('shipping.show', $shipping->id));
+
+        $response->assertStatus(200)
+            ->assertJson(['id' => $shipping->id]);
     }
 }

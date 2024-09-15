@@ -3,58 +3,50 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Stripe\Webhook;
 use Stripe\Exception\SignatureVerificationException;
-use Illuminate\Support\Facades\Log;
-use App\Models\Order;
-use App\Models\Payment;
-use Illuminate\Http\JsonResponse;
 
 class WebhookController extends Controller
 {
-    public function __construct()
+    public function handle(Request $request)
     {
-        // Webhooks are typically not authenticated, so you may not need middleware here.
-    }
-
-    public function handle(Request $request): JsonResponse
-    {
-        $endpoint_secret = env('STRIPE_WEBHOOK_SECRET');
-
         $payload = $request->getContent();
         $sig_header = $request->header('Stripe-Signature');
-        $event = null;
+        $secret = config('services.stripe.webhook_secret'); // Fetch webhook secret from config
 
         try {
-            $event = Webhook::constructEvent($payload, $sig_header, $endpoint_secret);
-        } catch (\UnexpectedValueException $e) {
-            return response()->json(['error' => 'Invalid payload'], 400);
+            // Verify the event by checking the signature
+            $event = Webhook::constructEvent($payload, $sig_header, $secret);
         } catch (SignatureVerificationException $e) {
-            return response()->json(['error' => 'Invalid signature'], 400);
+            // Invalid signature
+            Log::error('Invalid Stripe signature', ['error' => $e->getMessage()]);
+            return response()->json(['status' => 'failure', 'message' => 'Invalid signature'], 400);
         }
 
-        switch ($event->type) {
-            case 'payment_intent.succeeded':
-                $paymentIntent = $event->data->object;
+        // Handle specific event types
+        if ($event['type'] == 'payment_intent.succeeded') {
+            $paymentIntent = $event['data']['object']; // Stripe payment intent details
+            Log::info('Payment succeeded for payment intent: ' . $paymentIntent['id']);
 
-                Log::info('PaymentIntent was successful!');
+            // Find the payment record in the database and update its status
+            $payment = \App\Models\Payment::where('stripe_payment_id', $paymentIntent['id'])->first();
 
-                $order = Order::where('payment_intent_id', $paymentIntent->id)->first();
-                if ($order) {
-                    $order->status = 'Paid';
-                    $order->save();
+            if ($payment) {
+                // Update payment status
+                $payment->update([
+                    'payment_status' => 'succeeded'
+                ]);
 
-                    $payment = Payment::where('payment_intent_id', $paymentIntent->id)->first();
-                    if ($payment) {
-                        $payment->update(['payment_status' => 'succeeded']);
-                    }
-                }
-                break;
-
-            default:
-                Log::warning('Received unknown event type ' . $event->type);
+                // Update related order status to 'Paid'
+                $order = \App\Models\Order::find($payment->order_id);
+                $order->update([
+                    'status' => 'Paid'
+                ]);
+            }
         }
 
-        return response()->json(['status' => 'success'], 200);
+        return response()->json(['status' => 'success']);
     }
+
 }

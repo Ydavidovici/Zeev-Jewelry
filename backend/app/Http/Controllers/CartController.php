@@ -2,13 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Models\Product;
 use App\Models\Cart;
 use App\Models\CartItem;
+use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Gate;
 
 class CartController extends Controller
 {
@@ -21,10 +19,7 @@ class CartController extends Controller
     {
         $user = Auth::user();
 
-        if (!Gate::allows('view-any-cart', $user)) {
-            return response()->json(['message' => 'Unauthorized'], 403);
-        }
-
+        // Fetch or create a cart for the user
         $cart = Cart::with('items.product')->where('user_id', $user->id)->firstOrCreate([
             'user_id' => $user->id,
         ]);
@@ -36,22 +31,18 @@ class CartController extends Controller
     {
         $user = Auth::user();
 
-        if (!Gate::allows('create-cart', $user)) {
-            return response()->json(['message' => 'Unauthorized'], 403);
-        }
-
         $request->validate([
             'product_id' => 'required|exists:products,id',
             'quantity' => 'required|integer|min:1',
         ]);
 
         $cart = Cart::firstOrCreate(['user_id' => $user->id]);
-        $product = Product::findOrFail($request->input('product_id'));
+        $product = $request->input('product_id');
         $quantity = $request->input('quantity');
 
         $cartItem = CartItem::firstOrCreate([
             'cart_id' => $cart->id,
-            'product_id' => $product->id,
+            'product_id' => $product,
         ], [
             'quantity' => $quantity,
         ]);
@@ -64,30 +55,41 @@ class CartController extends Controller
         return response()->json(['message' => 'Product added to cart.', 'cart' => $cart->load('items.product')]);
     }
 
-    public function update(Request $request, CartItem $cartItem): JsonResponse
+    public function update(Request $request, $cartItemId): JsonResponse
     {
         $user = Auth::user();
 
-        if (!Gate::allows('update-cart', $cartItem->cart, $user)) {
-            return response()->json(['message' => 'Unauthorized'], 403);
+        // Fetch the cart item by ID
+        $cartItem = CartItem::find($cartItemId);
+
+        // Check if the CartItem exists and belongs to the user
+        if (!$cartItem || $cartItem->cart->user_id !== $user->id) {
+            return response()->json(['message' => 'Unauthorized or Cart Item not found'], 403);
         }
 
+        // Validate the incoming request
         $request->validate([
             'quantity' => 'required|integer|min:1',
         ]);
 
+        // Update the cart item quantity
         $cartItem->update([
             'quantity' => $request->input('quantity'),
         ]);
 
-        return response()->json(['message' => 'Cart updated.', 'cart' => $cartItem->cart->load('items.product')]);
+        // Reload the cart and its items
+        $cart = $cartItem->cart->load('items.product');
+
+        return response()->json(['message' => 'Cart updated.', 'cart' => $cart]);
     }
+
 
     public function destroy(CartItem $cartItem): JsonResponse
     {
         $user = Auth::user();
 
-        if (!Gate::allows('delete-cart', $cartItem->cart, $user)) {
+        // Ensure the cart item belongs to the user's cart
+        if ($cartItem->cart->user_id !== $user->id) {
             return response()->json(['message' => 'Unauthorized'], 403);
         }
 

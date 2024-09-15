@@ -12,16 +12,6 @@ class UserTest extends TestCase
 {
     use RefreshDatabase;
 
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        // Create roles in the database
-        Role::create(['name' => 'admin', 'guard_name' => 'api']);
-        Role::create(['name' => 'customer', 'guard_name' => 'api']);
-        Role::create(['name' => 'Seller', 'guard_name' => 'api']);
-    }
-
     #[Test]
     public function user_has_fillable_attributes()
     {

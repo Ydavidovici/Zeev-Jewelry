@@ -9,7 +9,6 @@ use App\Models\Inventory;
 use App\Models\Shipping;
 use App\Models\Payment;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Facades\Gate;
 
 class SellerController extends Controller
 {
@@ -22,7 +21,7 @@ class SellerController extends Controller
     {
         $user = auth()->user();
 
-        if (!Gate::allows('view-dashboard-seller', $user)) {
+        if (!$user->hasRole('seller')) {
             return response()->json(['message' => 'Unauthorized'], 403);
         }
 

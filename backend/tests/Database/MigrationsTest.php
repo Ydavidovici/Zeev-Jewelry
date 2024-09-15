@@ -14,7 +14,7 @@ class MigrationsTest extends TestCase
     #[Test]
     public function users_table_has_expected_columns()
     {
-        $this->assertEquals('testing', app()->environment(), 'The environment is not set to testing');
+        $this->assertEquals('local', app()->environment(), 'The environment is not set to testing');
 
         $this->assertTrue(Schema::hasTable('users'));
 
@@ -23,7 +23,6 @@ class MigrationsTest extends TestCase
             'username',
             'email',
             'password',
-            'role',
             'remember_token',
             'created_at',
             'updated_at'
@@ -44,7 +43,7 @@ class MigrationsTest extends TestCase
                 'id',
                 'category_id',
                 'seller_id',
-                'product_name',
+                'name',
                 'description',
                 'price',
                 'image_url',

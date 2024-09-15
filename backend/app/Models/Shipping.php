@@ -15,18 +15,20 @@ class Shipping extends Model
     protected $fillable = [
         'order_id',
         'seller_id',
+        'shipping_address',
+        'city',
+        'state',
+        'postal_code',
+        'country',
         'shipping_type',
         'shipping_cost',
-        'shipping_status',
-        'tracking_number',
-        'shipping_address',
         'shipping_carrier',
+        'shipping_method',
+        'shipping_status',
         'recipient_name',
         'estimated_delivery_date',
-        'additional_notes',
-        'created_at',
-        'updated_at'
     ];
+
 
     public function order()
     {

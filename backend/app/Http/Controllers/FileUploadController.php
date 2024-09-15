@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Facades\Gate;
 
 class FileUploadController extends Controller
 {
@@ -16,7 +15,7 @@ class FileUploadController extends Controller
 
     public function store(Request $request): JsonResponse
     {
-        if (!Gate::allows('create-file', auth()->user())) {
+        if (!auth()->user()->hasRole('admin')) {
             return response()->json(['message' => 'Unauthorized'], 403);
         }
 
@@ -24,24 +23,22 @@ class FileUploadController extends Controller
             'file' => 'required|file|mimes:jpg,png,jpeg,gif|max:2048',
         ]);
 
-        $originalName = $request->file('file')->getClientOriginalName();
-        $safeName = pathinfo($originalName, PATHINFO_FILENAME);
-        $safeName = preg_replace('/[^a-zA-Z0-9-_\.]/', '_', $safeName);
-        $extension = $request->file('file')->getClientOriginalExtension();
-        $fileName = $safeName . '_' . time() . '.' . $extension;
+        $file = $request->file('file');
+        $fileName = $file->hashName();
 
-        $path = $request->file('file')->storeAs('public/uploads', $fileName);
+        // Store the file in the 'public/uploads' directory
+        $path = $file->storeAs('uploads', $fileName, 'public');
 
         return response()->json(['path' => Storage::url($path)], 200);
     }
 
     public function index(): JsonResponse
     {
-        if (!Gate::allows('view-any-file', auth()->user())) {
+        if (!auth()->user()->hasRole('admin')) {
             return response()->json(['message' => 'Unauthorized'], 403);
         }
 
-        $files = Storage::files('public/uploads');
+        $files = Storage::disk('public')->files('uploads');
         $fileUrls = array_map(function ($file) {
             return Storage::url($file);
         }, $files);
@@ -51,14 +48,14 @@ class FileUploadController extends Controller
 
     public function destroy($filename): JsonResponse
     {
-        if (!Gate::allows('delete-file', auth()->user())) {
+        if (!auth()->user()->hasRole('admin')) {
             return response()->json(['message' => 'Unauthorized'], 403);
         }
 
         $safeName = preg_replace('/[^a-zA-Z0-9-_\.]/', '_', $filename);
 
-        if (Storage::exists('public/uploads/' . $safeName)) {
-            Storage::delete('public/uploads/' . $safeName);
+        if (Storage::disk('public')->exists('uploads/' . $safeName)) {
+            Storage::disk('public')->delete('uploads/' . $safeName);
             return response()->json(['message' => 'File deleted successfully.']);
         }
 

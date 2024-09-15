@@ -14,8 +14,8 @@ class CreateShippingTable extends Migration
             $table->unsignedBigInteger('seller_id');
             $table->string('shipping_type');
             $table->decimal('shipping_cost', 8, 2);
-            $table->string('shipping_status');
-            $table->string('tracking_number');
+            $table->string('shipping_status')->default('Pending');
+            $table->string('tracking_number')->nullable();
             $table->string('shipping_address');
             $table->string('city');
             $table->string('state');

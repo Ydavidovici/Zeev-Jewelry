@@ -13,10 +13,11 @@ class CreateProductsTable extends Migration
             $table->id();
             $table->unsignedBigInteger('category_id');
             $table->unsignedBigInteger('seller_id');
-            $table->string('product_name');
+            $table->string('name');
             $table->text('description');
             $table->decimal('price', 8, 2);
-            $table->string('image_url');
+            $table->string('image_url')->default('path/to/default-image.jpg');
+            $table->integer('stock_quantity')->default(0);
             $table->timestamps();
 
             $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');

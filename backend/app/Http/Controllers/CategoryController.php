@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Auth;
 
 class CategoryController extends Controller
 {
@@ -16,7 +16,9 @@ class CategoryController extends Controller
 
     public function index(): JsonResponse
     {
-        if (!Gate::allows('view-any-category', auth()->user())) {
+        $user = Auth::user();
+
+        if (!$user->hasRole('admin')) {
             return response()->json(['message' => 'Unauthorized'], 403);
         }
 
@@ -26,7 +28,9 @@ class CategoryController extends Controller
 
     public function store(Request $request): JsonResponse
     {
-        if (!Gate::allows('create-category', auth()->user())) {
+        $user = Auth::user();
+
+        if (!$user->hasRole('admin')) {
             return response()->json(['message' => 'Unauthorized'], 403);
         }
 
@@ -41,7 +45,9 @@ class CategoryController extends Controller
 
     public function show(Category $category): JsonResponse
     {
-        if (!Gate::allows('view-category', $category, auth()->user())) {
+        $user = Auth::user();
+
+        if (!$user->hasRole('admin')) {
             return response()->json(['message' => 'Unauthorized'], 403);
         }
 
@@ -50,7 +56,9 @@ class CategoryController extends Controller
 
     public function update(Request $request, Category $category): JsonResponse
     {
-        if (!Gate::allows('update-category', $category, auth()->user())) {
+        $user = Auth::user();
+
+        if (!$user->hasRole('admin')) {
             return response()->json(['message' => 'Unauthorized'], 403);
         }
 
@@ -65,7 +73,9 @@ class CategoryController extends Controller
 
     public function destroy(Category $category): JsonResponse
     {
-        if (!Gate::allows('delete-category', $category, auth()->user())) {
+        $user = Auth::user();
+
+        if (!$user->hasRole('admin')) {
             return response()->json(['message' => 'Unauthorized'], 403);
         }
 

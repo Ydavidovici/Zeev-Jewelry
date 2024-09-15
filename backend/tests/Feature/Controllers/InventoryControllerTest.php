@@ -4,8 +4,8 @@ namespace Tests\Feature\Controllers;
 
 use App\Models\Inventory;
 use App\Models\User;
+use App\Models\Product;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Support\Facades\Gate;
 use Tests\TestCase;
 
 class InventoryControllerTest extends TestCase
@@ -15,88 +15,115 @@ class InventoryControllerTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->actingAs(User::factory()->create(), 'api');
     }
 
     /** @test */
-    public function it_can_view_all_inventories()
+    public function it_can_view_all_inventories_as_seller()
     {
-        Gate::define('viewAny', function ($user) {
-            return true;
-        });
+        $seller = User::factory()->create();
+        $seller->assignRole('seller'); // Assign the seller role
+        $this->actingAs($seller, 'api');
 
-        $response = $this->getJson(route('inventories.index'));
+        $inventory = Inventory::factory()->create(['seller_id' => $seller->id]);
+
+        $response = $this->getJson(route('inventory.index'));
 
         $response->assertStatus(200)
             ->assertJsonStructure(['*' => ['id', 'product_id', 'quantity', 'location']]);
     }
 
     /** @test */
-    public function it_can_create_inventory()
+    public function it_can_create_inventory_as_seller()
     {
-        Gate::define('create', function ($user) {
-            return true;
-        });
+        $seller = User::factory()->create();
+        $seller->assignRole('seller'); // Assign the seller role
+        $this->actingAs($seller, 'api');
+
+        // Ensure a valid product exists before creating inventory
+        $product = Product::factory()->create();
 
         $inventoryData = [
-            'product_id' => 1,
+            'product_id' => $product->id,
             'quantity' => 10,
             'location' => 'Warehouse A'
         ];
 
-        $response = $this->postJson(route('inventories.store'), $inventoryData);
+        $response = $this->postJson(route('inventory.store'), $inventoryData);
 
         $response->assertStatus(201)
             ->assertJsonFragment(['location' => 'Warehouse A']);
 
-        $this->assertDatabaseHas('inventories', ['product_id' => 1, 'location' => 'Warehouse A']);
+        $this->assertDatabaseHas('inventory', ['product_id' => $product->id, 'location' => 'Warehouse A']);
     }
 
     /** @test */
-    public function it_can_show_inventory()
+    public function it_can_show_inventory_as_seller()
     {
-        Gate::define('view', function ($user, $inventory) {
-            return true;
-        });
+        $seller = User::factory()->create();
+        $seller->assignRole('seller'); // Assign the seller role
+        $this->actingAs($seller, 'api');
 
-        $inventory = Inventory::factory()->create();
+        $inventory = Inventory::factory()->create(['seller_id' => $seller->id]);
 
-        $response = $this->getJson(route('inventories.show', $inventory->id));
+        $response = $this->getJson(route('inventory.show', $inventory->id));
 
         $response->assertStatus(200)
             ->assertJson(['id' => $inventory->id]);
     }
 
     /** @test */
-    public function it_can_update_inventory()
+    public function it_can_update_inventory_as_seller()
     {
-        Gate::define('update', function ($user, $inventory) {
-            return true;
-        });
+        $seller = User::factory()->create();
+        $seller->assignRole('seller'); // Assign the seller role
+        $this->actingAs($seller, 'api');
 
-        $inventory = Inventory::factory()->create();
+        // Ensure a valid product exists
+        $product = Product::factory()->create();
 
-        $response = $this->putJson(route('inventories.update', $inventory->id), ['quantity' => 15]);
+        $inventory = Inventory::factory()->create([
+            'seller_id' => $seller->id,
+            'product_id' => $product->id,
+            'location' => 'Warehouse A'
+        ]);
+
+        // Include product_id and location, which are required
+        $response = $this->putJson(route('inventory.update', $inventory->id), [
+            'product_id' => $product->id,
+            'quantity' => 15,
+            'location' => 'Warehouse A'
+        ]);
 
         $response->assertStatus(200)
             ->assertJsonFragment(['quantity' => 15]);
 
-        $this->assertDatabaseHas('inventories', ['id' => $inventory->id, 'quantity' => 15]);
+        $this->assertDatabaseHas('inventory', ['id' => $inventory->id, 'quantity' => 15]);
     }
 
     /** @test */
-    public function it_can_delete_inventory()
+    public function it_can_delete_inventory_as_seller()
     {
-        Gate::define('delete', function ($user, $inventory) {
-            return true;
-        });
+        $seller = User::factory()->create();
+        $seller->assignRole('seller'); // Assign the seller role
+        $this->actingAs($seller, 'api');
 
-        $inventory = Inventory::factory()->create();
+        $inventory = Inventory::factory()->create(['seller_id' => $seller->id]);
 
-        $response = $this->deleteJson(route('inventories.destroy', $inventory->id));
+        $response = $this->deleteJson(route('inventory.destroy', $inventory->id));
 
         $response->assertStatus(204);
 
-        $this->assertDatabaseMissing('inventories', ['id' => $inventory->id]);
+        $this->assertDatabaseMissing('inventory', ['id' => $inventory->id]);
+    }
+
+    /** @test */
+    public function non_sellers_or_non_admins_cannot_view_inventories()
+    {
+        $user = User::factory()->create();  // Not a seller or admin
+        $this->actingAs($user, 'api');
+
+        $response = $this->getJson(route('inventory.index'));
+
+        $response->assertStatus(403); // Forbidden
     }
 }

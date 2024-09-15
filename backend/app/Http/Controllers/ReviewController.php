@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Review;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Auth;
 
 class ReviewController extends Controller
 {
@@ -16,7 +16,7 @@ class ReviewController extends Controller
 
     public function index(): JsonResponse
     {
-        if (!Gate::allows('view-any-review', auth()->user())) {
+        if (!Auth::user()->can('view reviews')) {
             return response()->json(['message' => 'Unauthorized'], 403);
         }
 
@@ -26,7 +26,7 @@ class ReviewController extends Controller
 
     public function store(Request $request): JsonResponse
     {
-        if (!Gate::allows('create-review', auth()->user())) {
+        if (!Auth::user()->can('create reviews')) {
             return response()->json(['message' => 'Unauthorized'], 403);
         }
 
@@ -45,7 +45,7 @@ class ReviewController extends Controller
 
     public function show(Review $review): JsonResponse
     {
-        if (!Gate::allows('view-review', $review)) {
+        if (!Auth::user()->can('view reviews')) {
             return response()->json(['message' => 'Unauthorized'], 403);
         }
 
@@ -54,7 +54,7 @@ class ReviewController extends Controller
 
     public function update(Request $request, Review $review): JsonResponse
     {
-        if (!Gate::allows('update-review', $review)) {
+        if (!Auth::user()->can('update reviews')) {
             return response()->json(['message' => 'Unauthorized'], 403);
         }
 
@@ -73,7 +73,7 @@ class ReviewController extends Controller
 
     public function destroy(Review $review): JsonResponse
     {
-        if (!Gate::allows('delete-review', $review)) {
+        if (!Auth::user()->can('delete reviews')) {
             return response()->json(['message' => 'Unauthorized'], 403);
         }
 

@@ -16,8 +16,8 @@ class ProductsTableSeeder extends Seeder
 
         if ($seller) {
             Product::insert([
-                ['category_id' => 1, 'seller_id' => $seller->id, 'product_name' => 'Gold Necklace', 'description' => 'A beautiful gold necklace', 'price' => 499.99, 'image_url' => 'path/to/gold-necklace.jpg'],
-                ['category_id' => 2, 'seller_id' => $seller->id, 'product_name' => 'Diamond Ring', 'description' => 'A stunning diamond ring', 'price' => 799.99, 'image_url' => 'path/to/diamond-ring.jpg'],
+                ['category_id' => 1, 'seller_id' => $seller->id, 'name' => 'Gold Necklace', 'description' => 'A beautiful gold necklace', 'price' => 499.99, 'image_url' => 'path/to/gold-necklace.jpg'],
+                ['category_id' => 2, 'seller_id' => $seller->id, 'name' => 'Diamond Ring', 'description' => 'A stunning diamond ring', 'price' => 799.99, 'image_url' => 'path/to/diamond-ring.jpg'],
             ]);
         }
     }
