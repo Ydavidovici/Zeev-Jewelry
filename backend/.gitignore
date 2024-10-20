@@ -5,7 +5,7 @@
 /public/storage
 /storage/*.key
 /vendor
-backend/.env
+.env
 .env.backup
 .env.production
 .phpactor.json
@@ -19,7 +19,7 @@ yarn-error.log
 /.idea
 /.vscode
 .DS_Store
-*.xml
-.env
-/storage/logs/laravel.log
-/storage/logs/logs.txt
+/storage/logs/*
+phpcs.xml
+phpunit.xml
+database/*.sqlite
