@@ -26,11 +26,11 @@ const DeveloperDashboardPage = lazy(
   () => import('../pages/Developer/DeveloperDashboardPage')
 );
 
-const ProductsPage = lazy(() => import('../pages/ProductsPage'));
-const CartPage = lazy(() => import('../pages/CartPage'));
-const CheckoutPage = lazy(() => import('../pages/CheckoutPage'));
-const OrdersPage = lazy(() => import('../pages/OrdersPage'));
-const ReviewsPage = lazy(() => import('../pages/ReviewsPage'));
+const ProductsPage = lazy(() => import('../pages/Products/ProductsPage.js'));
+const CartPage = lazy(() => import('../pages/Cart/CartPage.js'));
+const CheckoutPage = lazy(() => import('../pages/Checkout/CheckoutPage.js'));
+const OrdersPage = lazy(() => import('../pages/Orders/OrdersPage.js'));
+const ReviewsPage = lazy(() => import('../pages/Reviews/ReviewsPage.js'));
 
 const About = lazy(() => import('../pages/About'));
 
