@@ -7,6 +7,7 @@ use App\Models\Shipping;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
+use Illuminate\Support\Facades\Mail;
 
 class ShippingControllerTest extends TestCase
 {
@@ -15,6 +16,7 @@ class ShippingControllerTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
+        Mail::fake();
 
         // Create a user with the role 'seller'
         $this->seller = User::factory()->create();

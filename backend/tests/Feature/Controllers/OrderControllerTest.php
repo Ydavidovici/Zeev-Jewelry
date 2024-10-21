@@ -7,10 +7,17 @@ use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
+use Illuminate\Support\Facades\Mail;
 
 class OrderControllerTest extends TestCase
 {
     use RefreshDatabase;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+        Mail::fake();
+    }
 
     #[Test]
     public function it_can_view_all_orders()

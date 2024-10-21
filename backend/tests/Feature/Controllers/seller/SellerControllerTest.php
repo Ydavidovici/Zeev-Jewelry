@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature\Controllers\Seller;
+namespace Tests\Feature\Controllers\seller;
 
 use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
